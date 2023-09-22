@@ -1,0 +1,9 @@
+App.xbf
+Controls\FireBrowserTabView.xbf
+Controls\FireBrowserTabViewItem.xbf
+MainWindow.xbf
+Pages\NewTab.xbf
+Styles\Buttons.xbf
+Styles\IconSource.xbf
+Styles\TabView.xbf
+Styles\TextBox.xbf

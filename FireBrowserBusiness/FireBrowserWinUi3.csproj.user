@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Source>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</Source>
+    <SmallTileSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</SmallTileSource>
+    <MediumTileSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</MediumTileSource>
+    <WideTileSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</WideTileSource>
+    <LargeTileSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</LargeTileSource>
+    <AppIconSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</AppIconSource>
+    <SplashScreenSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</SplashScreenSource>
+    <PackageLogoSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</PackageLogoSource>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="App.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <Page Update="Styles\Buttons.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\TextBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\IconSource.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\NewTab.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\FireBrowserTabViewItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\FireBrowserTabView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <None Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <Page Update="Styles\TabView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

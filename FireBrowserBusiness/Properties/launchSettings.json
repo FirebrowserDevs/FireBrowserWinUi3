@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FireBrowserBusiness (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "FireBrowserBusiness (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
