@@ -1375,11 +1375,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj",
+      "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\Browser\\FireBrowserWinUi3\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj",
       "projectName": "FireBrowserWinUi3Core",
-      "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj",
+      "projectPath": "C:\\Users\\JPJM-\\source\\repos\\Browser\\FireBrowserWinUi3\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj",
       "packagesPath": "C:\\Users\\JPJM-\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusinessCore\\obj\\",
+      "outputPath": "C:\\Users\\JPJM-\\source\\repos\\Browser\\FireBrowserWinUi3\\FireBrowserBusinessCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

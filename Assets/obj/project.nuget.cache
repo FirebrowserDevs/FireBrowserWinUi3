@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+sAIfbgzLB+oFzOVSLqYgM7Pu7lwdxnIc5OnasrOQcdqZWNbNXxOrqaBynLhBnpOj1Ju79D3NaJ+cHInIM1uhg==",
+  "dgSpecHash": "adJ6gq1xFwWtvGM2V4Hv6AWnRGfc/j4KzVRr4XwG2Bnzr9yHfd6Zi9EoNMPXV6hMfPdSjGlS3x4t+u1hJ1RUjw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\Assets\\Assets.csproj",
+  "projectFilePath": "C:\\Users\\JPJM-\\source\\repos\\Browser\\FireBrowserWinUi3\\Assets\\Assets.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\JPJM-\\.nuget\\packages\\microsoft.windows.sdk.buildtools\\10.0.22621.755\\microsoft.windows.sdk.buildtools.10.0.22621.755.nupkg.sha512",
     "C:\\Users\\JPJM-\\.nuget\\packages\\microsoft.windowsappsdk\\1.3.230602002\\microsoft.windowsappsdk.1.3.230602002.nupkg.sha512",

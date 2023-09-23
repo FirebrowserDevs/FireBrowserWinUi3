@@ -16,6 +16,8 @@
         FireBrowser
     </Window.Title>
     <!-- todo add buttons click and functions-->
+
+  
     <Grid Background="Transparent">
         <Grid.Resources>
             <Flyout x:ConnectionId='2' x:Name="MoreFlyout" ShouldConstrainToRootBounds="False" Placement="Bottom">
@@ -240,6 +242,7 @@
             </Flyout>
         </Grid.Resources>
         <firebrowser:FireBrowserTabView x:ConnectionId='30' x:Name="Tabs"
+               Visibility="Visible"
                x:FieldModifier="public"
                Padding="0"
                VerticalAlignment="Stretch"

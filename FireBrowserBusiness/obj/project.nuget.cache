@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "k4ClzFybbB4AXr5pca535/gk2A6Idf3xYxSkjT4t+V0CbuP8NehduBdwRB6py5cWHKacTs28YVNhPWMNmMwsJg==",
+  "dgSpecHash": "19znskR6JLvmynvMkchQ/cXdC+vb/9NBm9M2ndMbabDvguRGgR9i7XCwf6CpUpwXQWjT1HFhriHYoHc8fguU3g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusiness\\FireBrowserWinUi3.csproj",
+  "projectFilePath": "C:\\Users\\JPJM-\\source\\repos\\Browser\\FireBrowserWinUi3\\FireBrowserBusiness\\FireBrowserWinUi3.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\JPJM-\\.nuget\\packages\\communitytoolkit.common\\7.1.2\\communitytoolkit.common.7.1.2.nupkg.sha512",
     "C:\\Users\\JPJM-\\.nuget\\packages\\communitytoolkit.mvvm\\8.2.1\\communitytoolkit.mvvm.8.2.1.nupkg.sha512",

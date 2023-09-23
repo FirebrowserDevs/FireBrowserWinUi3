@@ -1,4 +1,5 @@
 ﻿using FireBrowserMultiCore;
+using FireBrowserWinUi3;
 using FireBrowserWinUi3.Setup;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -41,30 +42,9 @@ namespace FireBrowserBusiness
         public App()
         {
             this.InitializeComponent();
-            CreateUserOnStartup();
+          
         }
 
-
-        private void CreateUserOnStartup()
-        {
-            // Create a new user object with a unique username.
-            User newUser = new User
-            {
-                Username = "NewUser" + "." // Generate a unique username.                                                              // Add other user properties as needed.
-            };
-
-            // Create a list of users and add the new user to it.
-            List<User> users = new List<User>();
-            users.Add(newUser);
-
-            // Create the user folders.
-            UserFolderManager.CreateUserFolders(newUser);
-
-            // Save the list of users to the JSON file.
-            UserDataManager.SaveUsers(users);
-            // Authenticate the new user (if needed).
-            AuthService.Authenticate(newUser.Username);
-        }
 
         /// <summary>
         /// Invoked when the application is launched.
@@ -74,7 +54,9 @@ namespace FireBrowserBusiness
         {
             if (!Directory.Exists(UserDataManager.CoreFolderPath))
             {
-               
+                // The "FireBrowserUserCore" folder exists, so proceed with your application's normal behavior.
+                m_window = new SetupWindow();
+                m_window.Activate();
             }
             else
             {
@@ -82,7 +64,6 @@ namespace FireBrowserBusiness
                 m_window = new MainWindow();
                 m_window.Activate();
             }
-
         }
 
 

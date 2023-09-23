@@ -14,12 +14,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\clippy.png" />
+    <Content Remove="Assets\Logo.png" />
+    <Content Remove="Assets\LogoSetup.ico" />
     <Content Remove="Assets\Segoe Fluent Icons.ttf" />
+    <Content Remove="Assets\setup_image.png" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Controls\FireBrowserTabView.xaml" />
     <None Remove="Controls\FireBrowserTabViewItem.xaml" />
     <None Remove="Pages\NewTab.xaml" />
+    <None Remove="SetupWindow.xaml" />
     <None Remove="Setup\SetupInit.xaml" />
     <None Remove="Styles\Buttons.xaml" />
     <None Remove="Styles\IconSource.xaml" />
@@ -58,6 +62,22 @@
     <ProjectReference Include="..\FireBrowserBusinessCore\FireBrowserWinUi3Core.csproj" />
     <ProjectReference Include="..\FireBrowserMultiCore\FireBrowserMultiCore.csproj" />
     <ProjectReference Include="..\FireBrowserSecureConnect\FireBrowserWinUi3SecureConnect.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\setup_image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LogoSetup.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="SetupWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Styles\Buttons.xaml">

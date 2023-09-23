@@ -10,34 +10,43 @@
     <PackageArchitecture>x64</PackageArchitecture>
     <PackageIdentityName>daed96a7-ae7d-4b39-8636-8a70abaf13e6</PackageIdentityName>
     <PackageIdentityPublisher>CN=JPJM-</PackageIdentityPublisher>
-    <IntermediateOutputPath>C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\</IntermediateOutputPath>
     <RemoteDeploymentType>CopyToDevice</RemoteDeploymentType>
     <PackageRegistrationPath></PackageRegistrationPath>
     <RemoveNonLayoutFiles>false</RemoveNonLayoutFiles>
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
-    <LayoutDir>C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\AppX</LayoutDir>
+    <LayoutDir>C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\AppX</LayoutDir>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\AppxManifest.xml">
+    <AppXManifest Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\resources.pri">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\resources.pri">
       <PackagePath>resources.pri</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\FireBrowserWinUi3.runtimeconfig.json">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\FireBrowserWinUi3.runtimeconfig.json">
       <PackagePath>FireBrowserWinUi3.runtimeconfig.json</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\FireBrowserWinUi3.dll">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\FireBrowserWinUi3.dll">
       <PackagePath>FireBrowserWinUi3.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\apphost.exe">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Logo.png">
+      <PackagePath>Assets\Logo.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\setup_image.png">
+      <PackagePath>Assets\setup_image.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\LogoSetup.ico">
+      <PackagePath>LogoSetup.ico</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\apphost.exe">
       <PackagePath>FireBrowserWinUi3.exe</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\FireBrowserWinUi3.deps.json">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\FireBrowserWinUi3.deps.json">
       <PackagePath>FireBrowserWinUi3.deps.json</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\microsoft.netcore.app.runtime.win-x64\6.0.22\runtimes\win-x64\lib\net6.0\Microsoft.CSharp.dll">
@@ -787,46 +796,46 @@
     <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\sqlitepclraw.lib.e_sqlite3\2.1.6\runtimes\win-x64\native\e_sqlite3.dll">
       <PackagePath>e_sqlite3.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\Assets\bin\Debug\net6.0-windows10.0.19041.0\Assets.dll">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\Assets\bin\Debug\net6.0-windows10.0.19041.0\Assets.dll">
       <PackagePath>Assets.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserMultiCore\bin\Debug\net6.0-windows10.0.19041.0\FireBrowserMultiCore.dll">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserMultiCore\bin\Debug\net6.0-windows10.0.19041.0\FireBrowserMultiCore.dll">
       <PackagePath>FireBrowserMultiCore.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusinessCore\bin\Debug\net6.0-windows10.0.19041.0\FireBrowserWinUi3Core.dll">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusinessCore\bin\Debug\net6.0-windows10.0.19041.0\FireBrowserWinUi3Core.dll">
       <PackagePath>FireBrowserWinUi3Core.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserSecureConnect\bin\Debug\net6.0-windows10.0.19041.0\FireBrowserWinUi3SecureConnect.dll">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserSecureConnect\bin\Debug\net6.0-windows10.0.19041.0\FireBrowserWinUi3SecureConnect.dll">
       <PackagePath>FireBrowserWinUi3SecureConnect.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\Assets\bin\Debug\net6.0-windows10.0.19041.0\Assets.pri">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\Assets\bin\Debug\net6.0-windows10.0.19041.0\Assets.pri">
       <PackagePath>Assets.pri</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusinessCore\bin\Debug\net6.0-windows10.0.19041.0\FireBrowserWinUi3Core.pri">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusinessCore\bin\Debug\net6.0-windows10.0.19041.0\FireBrowserWinUi3Core.pri">
       <PackagePath>FireBrowserWinUi3Core.pri</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserMultiCore\bin\Debug\net6.0-windows10.0.19041.0\FireBrowserMultiCore.pri">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserMultiCore\bin\Debug\net6.0-windows10.0.19041.0\FireBrowserMultiCore.pri">
       <PackagePath>FireBrowserMultiCore.pri</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserSecureConnect\bin\Debug\net6.0-windows10.0.19041.0\FireBrowserWinUi3SecureConnect.pri">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserSecureConnect\bin\Debug\net6.0-windows10.0.19041.0\FireBrowserWinUi3SecureConnect.pri">
       <PackagePath>FireBrowserWinUi3SecureConnect.pri</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\Assets\Assets\BackgroundBing.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\Assets\Assets\BackgroundBing.png">
       <PackagePath>Assets\Assets\BackgroundBing.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\Assets\Assets\BackgroundCostum.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\Assets\Assets\BackgroundCostum.png">
       <PackagePath>Assets\Assets\BackgroundCostum.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\Assets\Assets\BackgroundNone.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\Assets\Assets\BackgroundNone.png">
       <PackagePath>Assets\Assets\BackgroundNone.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\Assets\Assets\clippy.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\Assets\Assets\clippy.png">
       <PackagePath>Assets\Assets\clippy.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\Assets\Assets\IncognetoDark.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\Assets\Assets\IncognetoDark.png">
       <PackagePath>Assets\Assets\IncognetoDark.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\Assets\Assets\IncognetoLight.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\Assets\Assets\IncognetoLight.png">
       <PackagePath>Assets\Assets\IncognetoLight.png</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\communitytoolkit.winui\7.1.2\lib\net5.0-windows10.0.18362\CommunityToolkit.WinUI.pri">
@@ -835,163 +844,163 @@
     <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\communitytoolkit.winui.ui\7.1.2\lib\net5.0-windows10.0.18362\CommunityToolkit.WinUI.UI.pri">
       <PackagePath>CommunityToolkit.WinUI.UI.pri</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\LargeTile.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\LargeTile.scale-100.png">
       <PackagePath>Assets\LargeTile.scale-100.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\LargeTile.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\LargeTile.scale-125.png">
       <PackagePath>Assets\LargeTile.scale-125.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\LargeTile.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\LargeTile.scale-150.png">
       <PackagePath>Assets\LargeTile.scale-150.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\LargeTile.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\LargeTile.scale-200.png">
       <PackagePath>Assets\LargeTile.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\LargeTile.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\LargeTile.scale-400.png">
       <PackagePath>Assets\LargeTile.scale-400.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\LockScreenLogo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\SmallTile.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\SmallTile.scale-100.png">
       <PackagePath>Assets\SmallTile.scale-100.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\SmallTile.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\SmallTile.scale-125.png">
       <PackagePath>Assets\SmallTile.scale-125.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\SmallTile.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\SmallTile.scale-150.png">
       <PackagePath>Assets\SmallTile.scale-150.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\SmallTile.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\SmallTile.scale-200.png">
       <PackagePath>Assets\SmallTile.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\SmallTile.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\SmallTile.scale-400.png">
       <PackagePath>Assets\SmallTile.scale-400.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\SplashScreen.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\SplashScreen.scale-100.png">
       <PackagePath>Assets\SplashScreen.scale-100.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\SplashScreen.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\SplashScreen.scale-125.png">
       <PackagePath>Assets\SplashScreen.scale-125.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\SplashScreen.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\SplashScreen.scale-150.png">
       <PackagePath>Assets\SplashScreen.scale-150.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\SplashScreen.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\SplashScreen.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\SplashScreen.scale-400.png">
       <PackagePath>Assets\SplashScreen.scale-400.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square150x150Logo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square150x150Logo.scale-100.png">
       <PackagePath>Assets\Square150x150Logo.scale-100.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square150x150Logo.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square150x150Logo.scale-125.png">
       <PackagePath>Assets\Square150x150Logo.scale-125.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square150x150Logo.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square150x150Logo.scale-150.png">
       <PackagePath>Assets\Square150x150Logo.scale-150.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square150x150Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square150x150Logo.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square150x150Logo.scale-400.png">
       <PackagePath>Assets\Square150x150Logo.scale-400.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png">
       <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png">
       <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png">
       <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-lightunplated_targetsize-32.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-lightunplated_targetsize-32.png">
       <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-32.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png">
       <PackagePath>Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-unplated_targetsize-16.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-unplated_targetsize-16.png">
       <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-16.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-unplated_targetsize-256.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-unplated_targetsize-256.png">
       <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-256.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-unplated_targetsize-32.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-unplated_targetsize-32.png">
       <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-32.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-unplated_targetsize-48.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.altform-unplated_targetsize-48.png">
       <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-48.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.scale-100.png">
       <PackagePath>Assets\Square44x44Logo.scale-100.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.scale-125.png">
       <PackagePath>Assets\Square44x44Logo.scale-125.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.scale-150.png">
       <PackagePath>Assets\Square44x44Logo.scale-150.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.scale-400.png">
       <PackagePath>Assets\Square44x44Logo.scale-400.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.targetsize-16.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.targetsize-16.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-16.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.targetsize-24.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.targetsize-24.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.targetsize-256.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.targetsize-256.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-256.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.targetsize-32.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.targetsize-32.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-32.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.targetsize-48.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Square44x44Logo.targetsize-48.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-48.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\StoreLogo.backup.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\StoreLogo.backup.png">
       <PackagePath>Assets\StoreLogo.backup.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\StoreLogo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\StoreLogo.scale-100.png">
       <PackagePath>Assets\StoreLogo.scale-100.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\StoreLogo.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\StoreLogo.scale-125.png">
       <PackagePath>Assets\StoreLogo.scale-125.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\StoreLogo.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\StoreLogo.scale-150.png">
       <PackagePath>Assets\StoreLogo.scale-150.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\StoreLogo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\StoreLogo.scale-200.png">
       <PackagePath>Assets\StoreLogo.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\StoreLogo.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\StoreLogo.scale-400.png">
       <PackagePath>Assets\StoreLogo.scale-400.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Wide310x150Logo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Wide310x150Logo.scale-100.png">
       <PackagePath>Assets\Wide310x150Logo.scale-100.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Wide310x150Logo.scale-125.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Wide310x150Logo.scale-125.png">
       <PackagePath>Assets\Wide310x150Logo.scale-125.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Wide310x150Logo.scale-150.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Wide310x150Logo.scale-150.png">
       <PackagePath>Assets\Wide310x150Logo.scale-150.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Wide310x150Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Assets\Wide310x150Logo.scale-400.png">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Wide310x150Logo.scale-400.png">
       <PackagePath>Assets\Wide310x150Logo.scale-400.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\Logo.ico">
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Logo.ico">
       <PackagePath>Logo.ico</PackagePath>
     </AppxPackagedFile>
   </ItemGroup>

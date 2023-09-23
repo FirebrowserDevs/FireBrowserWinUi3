@@ -1,6 +1,7 @@
 using FireBrowserBusiness.Controls;
 using FireBrowserBusiness.Pages;
 using FireBrowserMultiCore;
+using FireBrowserWinUi3.Setup;
 using Microsoft.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
@@ -70,8 +71,9 @@ namespace FireBrowserBusiness
                 titleBar.InactiveBackgroundColor = btnColor;
                 titleBar.ButtonInactiveBackgroundColor = btnColor;
             }
-
+          
             LoadUserDataAndSettings();
+                  
             Launch();
         }
 

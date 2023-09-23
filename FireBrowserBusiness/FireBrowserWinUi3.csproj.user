@@ -9,11 +9,18 @@
     <AppIconSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</AppIconSource>
     <SplashScreenSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</SplashScreenSource>
     <PackageLogoSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</PackageLogoSource>
+    <ActiveDebugProfile>FireBrowserBusiness (Package)</ActiveDebugProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="SetupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Setup\SetupInit.xaml">
       <SubType>Designer</SubType>
     </Page>
