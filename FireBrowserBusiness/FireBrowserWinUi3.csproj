@@ -20,6 +20,7 @@
     <None Remove="Controls\FireBrowserTabView.xaml" />
     <None Remove="Controls\FireBrowserTabViewItem.xaml" />
     <None Remove="Pages\NewTab.xaml" />
+    <None Remove="Setup\SetupInit.xaml" />
     <None Remove="Styles\Buttons.xaml" />
     <None Remove="Styles\IconSource.xaml" />
     <None Remove="Styles\TabView.xaml" />
@@ -90,6 +91,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\NewTab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Setup\SetupInit.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

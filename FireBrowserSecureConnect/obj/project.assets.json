@@ -1202,11 +1202,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj",
+      "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj",
       "projectName": "FireBrowserWinUi3SecureConnect",
-      "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj",
+      "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj",
       "packagesPath": "C:\\Users\\JPJM-\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserSecureConnect\\obj\\",
+      "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserSecureConnect\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

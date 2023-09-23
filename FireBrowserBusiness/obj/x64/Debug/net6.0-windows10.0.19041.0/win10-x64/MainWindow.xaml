@@ -25,7 +25,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <PersonPicture ProfilePicture="{dllimg:ImageLoader ImageName=clippy.png}" Width="45"/>
                                 <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
-                                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" />
+                                    <TextBlock x:ConnectionId='29' x:Name="UserName" Text="{Binding Username}" Style="{ThemeResource SubtitleTextBlockStyle}"  FontSize="15"/>
                                     <TextBlock Text="Local Account" FontSize="12"/>
                                 </StackPanel>
                             </StackPanel>
@@ -239,7 +239,7 @@
                 </StackPanel>
             </Flyout>
         </Grid.Resources>
-        <firebrowser:FireBrowserTabView x:ConnectionId='29' x:Name="Tabs"
+        <firebrowser:FireBrowserTabView x:ConnectionId='30' x:Name="Tabs"
                x:FieldModifier="public"
                Padding="0"
                VerticalAlignment="Stretch"
@@ -249,7 +249,7 @@
                                    
                                                             >
             <firebrowser:FireBrowserTabView.TabStripHeader>
-                <PersonPicture x:ConnectionId='49'  x:Name="Profile"   Width="32" Height="32"  Margin="5,0,0,0">
+                <PersonPicture x:ConnectionId='50'  x:Name="Profile"   Width="32" Height="32"  Margin="5,0,0,0">
                     <PersonPicture.ContextFlyout>
                         <Flyout Placement="BottomEdgeAlignedLeft" AreOpenCloseAnimationsEnabled="True">
                             <Button IsEnabled="True" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" BorderBrush="Transparent" Background="Transparent" Margin="0,0,0,10">
@@ -257,8 +257,8 @@
                                     <StackPanel Orientation="Horizontal">
                                         <PersonPicture ProfilePicture="{dllimg:ImageLoader ImageName=clippy.png}" Width="45"/>
                                         <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
-                                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" Text="FireBrowser Business"/>
-                                            <TextBlock Text="Local Account" FontSize="12"/>
+                                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" Text="FireBrowser"/>
+                                            <TextBlock x:ConnectionId='51' x:Name="Prof" Text="{Binding Username}"  FontSize="12"/>
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Margin="0,10,0,0" Orientation="Vertical">
@@ -276,13 +276,13 @@
                 </PersonPicture>
             </firebrowser:FireBrowserTabView.TabStripHeader>
             <firebrowser:FireBrowserTabView.TabStripFooter>
-                <Grid x:ConnectionId='50' x:Name="Apptitlebar"
+                <Grid x:ConnectionId='52' x:Name="Apptitlebar"
                       IsHitTestVisible="False" 
                       MinWidth="175"
                                                                />
             </firebrowser:FireBrowserTabView.TabStripFooter>
         </firebrowser:FireBrowserTabView>
-        <Grid x:ConnectionId='30'
+        <Grid x:ConnectionId='31'
             x:Name="ClassicToolbar"
             Height="37"
             Margin="0,40,0,0"       
@@ -294,7 +294,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                <Button x:ConnectionId='45'                 
+                <Button x:ConnectionId='46'                 
                     Tag="Back"
                     Style="{StaticResource QuietButtonStyle}"
                     x:FieldModifier="Public"
@@ -302,7 +302,7 @@
                     Content="{firebrowser:FluentIcon Glyph=&#xE72B;}"               
                     >
                 </Button>
-                <Button x:ConnectionId='46'                 
+                <Button x:ConnectionId='47'                 
                      Style="{StaticResource QuietButtonStyle}"
                       Tag="Forward"
                       x:FieldModifier="Public"
@@ -310,7 +310,7 @@
                       Content="{firebrowser:FluentIcon Glyph=&#xE72A;}"               
                     >
                 </Button>
-                <Button x:ConnectionId='47'                 
+                <Button x:ConnectionId='48'                 
                       Style="{StaticResource QuietButtonStyle}"
                       Tag="Refresh"
                       x:FieldModifier="Public"
@@ -318,7 +318,7 @@
                       Content="{firebrowser:FluentIcon Glyph=&#xE72C;}"               
                     >
                 </Button>
-                <Button x:ConnectionId='48'
+                <Button x:ConnectionId='49'
                     Tag="Home"
                     Style="{StaticResource QuietButtonStyle}"
                     x:FieldModifier="Public"
@@ -328,33 +328,33 @@
                 </Button>
             </StackPanel>
             <Grid  Grid.Column="1" Height="32" Margin="4,0,4,0" VerticalAlignment="Center">
-                <AutoSuggestBox x:ConnectionId='43'  Padding="32,5,5,0" x:Name="UrlBox" x:Uid="SearchBar" x:FieldModifier="Public" CornerRadius="5" Style="{ThemeResource PortalBarStyle}"/>
-                <Button x:ConnectionId='44' x:Name="Secure"  Style="{StaticResource QuietButtonStyle}"  Foreground="{ThemeResource TextFillColorDisabledBrush}" x:FieldModifier="Public">
+                <AutoSuggestBox x:ConnectionId='44'  Padding="32,5,5,0" x:Name="UrlBox" x:Uid="SearchBar" x:FieldModifier="Public" CornerRadius="5" Style="{ThemeResource PortalBarStyle}"/>
+                <Button x:ConnectionId='45' x:Name="Secure"  Style="{StaticResource QuietButtonStyle}"  Foreground="{ThemeResource TextFillColorDisabledBrush}" x:FieldModifier="Public">
                     <FontIcon d:Glyph="&#xE72E;" FontFamily="{StaticResource FluentIcons}"/>
                 </Button>
             </Grid>
 
             <StackPanel Grid.Column="2" Orientation="Horizontal">
-                <Button x:ConnectionId='31' x:Name="ToolBoxMore"  Style="{StaticResource QuietButtonStyle}"  Content="{firebrowser:FluentIcon Glyph=&#xE70F;}">
+                <Button x:ConnectionId='32' x:Name="ToolBoxMore"  Style="{StaticResource QuietButtonStyle}"  Content="{firebrowser:FluentIcon Glyph=&#xE70F;}">
                     <Button.Flyout>
                         <Flyout Placement="Bottom">
                             <StackPanel Orientation="Horizontal">
-                                <Button x:ConnectionId='39'  Style="{StaticResource QuietButtonStyle}" x:Name="ReadBtn" Tag="ReadingMode" Width="32" ToolTipService.ToolTip="Reading Mode">
+                                <Button x:ConnectionId='40'  Style="{StaticResource QuietButtonStyle}" x:Name="ReadBtn" Tag="ReadingMode" Width="32" ToolTipService.ToolTip="Reading Mode">
                                     <Button.Content>
                                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE736;" />
                                     </Button.Content>
                                 </Button>
-                                <Button x:ConnectionId='40'  Style="{StaticResource QuietButtonStyle}" x:Name="AdBlock"  Tag="AdBlock" Width="32" ToolTipService.ToolTip="Basic AdBlock">
+                                <Button x:ConnectionId='41'  Style="{StaticResource QuietButtonStyle}" x:Name="AdBlock"  Tag="AdBlock" Width="32" ToolTipService.ToolTip="Basic AdBlock">
                                     <Button.Content>
                                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEA18;" />
                                     </Button.Content>
                                 </Button>
-                                <Button x:ConnectionId='41'  Style="{StaticResource QuietButtonStyle}" x:Name="BtnTrans"  Tag="Translate" Width="32" ToolTipService.ToolTip="Translate">
+                                <Button x:ConnectionId='42'  Style="{StaticResource QuietButtonStyle}" x:Name="BtnTrans"  Tag="Translate" Width="32" ToolTipService.ToolTip="Translate">
                                     <Button.Content>
                                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE87E;" />
                                     </Button.Content>
                                 </Button>
-                                <Button x:ConnectionId='42'  Style="{StaticResource QuietButtonStyle}" x:Name="BtnDark"  Tag="DarkMode" Width="32" ToolTipService.ToolTip="DarkMode Website">
+                                <Button x:ConnectionId='43'  Style="{StaticResource QuietButtonStyle}" x:Name="BtnDark"  Tag="DarkMode" Width="32" ToolTipService.ToolTip="DarkMode Website">
                                     <Button.Content>
                                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE790;" />
                                     </Button.Content>
@@ -363,7 +363,7 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <Button x:ConnectionId='32' x:Name="AddFav"  Style="{StaticResource QuietButtonStyle}" Tag="AddFavoriteFlyout" Visibility="Visible" Content="{firebrowser:FluentIcon Glyph=&#xE734;}">
+                <Button x:ConnectionId='33' x:Name="AddFav"  Style="{StaticResource QuietButtonStyle}" Tag="AddFavoriteFlyout" Visibility="Visible" Content="{firebrowser:FluentIcon Glyph=&#xE734;}">
                     <Button.Flyout>
                         <Flyout>
                             <Grid MaxWidth="325">
@@ -379,20 +379,20 @@
                                 <TextBlock Grid.Row="0" MinWidth="300" FontSize="20" Text="Add favorite" />
 
                                 <TextBlock Grid.Row="1" Text="Name" />
-                                <TextBox x:ConnectionId='37' Grid.Row="2" x:Name="FavoriteTitle" />
+                                <TextBox x:ConnectionId='38' Grid.Row="2" x:Name="FavoriteTitle" />
 
                                 <TextBlock Grid.Row="3" Text="URL - Website" />
-                                <TextBox x:ConnectionId='38' Grid.Row="4" x:Name="FavoriteUrl" />
+                                <TextBox x:ConnectionId='39' Grid.Row="4" x:Name="FavoriteUrl" />
 
                                 <Button Grid.Row="5" Width="Auto" Tag="AddFavorite"   Margin="0,8,0,0" Content="Add Favorite" />
                             </Grid>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <Button x:ConnectionId='33' x:Name="FavoritesButton"                                 Tag="Favorites"  Content="{firebrowser:FluentIcon Glyph=&#xE728;}" Style="{StaticResource QuietButtonStyle}"/>
-                <Button x:ConnectionId='34' x:Name="DownBtn" Style="{ThemeResource QuietButtonStyle}" Content="{firebrowser:FluentIcon Glyph=&#xE896;}"/>
-                <Button x:ConnectionId='35' x:Name="History"                                      IsEnabled="True" Style="{ThemeResource QuietButtonStyle}" Content="{firebrowser:FluentIcon Glyph=&#xE81C;}"/>
-                <Button x:ConnectionId='36' x:Name="QrBtn"                                 Style="{ThemeResource QuietButtonStyle}" Tag="QRCode" Content="{firebrowser:FluentIcon Glyph=&#xED14;}"/>
+                <Button x:ConnectionId='34' x:Name="FavoritesButton"                                 Tag="Favorites"  Content="{firebrowser:FluentIcon Glyph=&#xE728;}" Style="{StaticResource QuietButtonStyle}"/>
+                <Button x:ConnectionId='35' x:Name="DownBtn" Style="{ThemeResource QuietButtonStyle}" Content="{firebrowser:FluentIcon Glyph=&#xE896;}"/>
+                <Button x:ConnectionId='36' x:Name="History"                                      IsEnabled="True" Style="{ThemeResource QuietButtonStyle}" Content="{firebrowser:FluentIcon Glyph=&#xE81C;}"/>
+                <Button x:ConnectionId='37' x:Name="QrBtn"                                 Style="{ThemeResource QuietButtonStyle}" Tag="QRCode" Content="{firebrowser:FluentIcon Glyph=&#xED14;}"/>
                 <Button x:Uid="ToolbarMoreButton"  Flyout="{StaticResource MoreFlyout}"  VerticalAlignment="Center" Content="{firebrowser:FluentIcon Glyph=&#xE712;}"  Style="{ThemeResource QuietButtonStyle}" />
             </StackPanel>
         </Grid>

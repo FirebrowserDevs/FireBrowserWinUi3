@@ -1,4 +1,5 @@
 ﻿using FireBrowserMultiCore;
+using FireBrowserWinUi3.Setup;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -9,6 +10,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -30,7 +32,6 @@ namespace FireBrowserBusiness
     /// </summary>
     public partial class App : Application
     {
-        public User CurrentUser { get; set; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -40,60 +41,51 @@ namespace FireBrowserBusiness
         public App()
         {
             this.InitializeComponent();
-
+            CreateUserOnStartup();
         }
 
-        public async Task<string> LoadUserAsync()
+
+        private void CreateUserOnStartup()
         {
-            try
+            // Create a new user object with a unique username.
+            User newUser = new User
             {
-                // Simulate a delay for loading users (replace this with your actual loading code)
-                await Task.Delay(1000);
+                Username = "NewUser" + "." // Generate a unique username.                                                              // Add other user properties as needed.
+            };
 
-                // Load user information from users.json
-                Sys multiuserSystem = new Sys();
-                multiuserSystem.LoadUsers();
+            // Create a list of users and add the new user to it.
+            List<User> users = new List<User>();
+            users.Add(newUser);
 
-                // Define the username to use as the current user
-                string desiredUsername = "Test";
+            // Create the user folders.
+            UserFolderManager.CreateUserFolders(newUser);
 
-                // Find the user with the desired username
-                User user = multiuserSystem.Users.FirstOrDefault(u => u.Username == desiredUsername);
-
-                if (user != null)
-                {
-                    // Set the current user based on the desiredUsername
-                    CurrentUser = user;
-
-                    // Return the username
-                    return CurrentUser.Username;
-                }
-                else
-                {
-                    return "no user";
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading user: {ex.Message}");
-                return "Error loading user";
-            }
+            // Save the list of users to the JSON file.
+            UserDataManager.SaveUsers(users);
+            // Authenticate the new user (if needed).
+            AuthService.Authenticate(newUser.Username);
         }
 
-
-     
         /// <summary>
         /// Invoked when the application is launched.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
         protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-         
-            m_window = new MainWindow();
-            m_window.Activate();
+            if (!Directory.Exists(UserDataManager.CoreFolderPath))
+            {
+               
+            }
+            else
+            {
+                // The "FireBrowserUserCore" folder exists, so proceed with your application's normal behavior.
+                m_window = new MainWindow();
+                m_window.Activate();
+            }
+
         }
 
-       
+
         private Window m_window;
     }
 }

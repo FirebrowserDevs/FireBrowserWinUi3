@@ -1717,11 +1717,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj",
+      "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj",
       "projectName": "FireBrowserMultiCore",
-      "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj",
+      "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj",
       "packagesPath": "C:\\Users\\JPJM-\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserMultiCore\\obj\\",
+      "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserMultiCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

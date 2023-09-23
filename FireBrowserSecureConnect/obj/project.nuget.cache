@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YCcXrviGazxY9tzupOqmDfzlfS1vwnLXJtJburi1TqzyfpzeSWBPUw8iLGVq/6Ak4bti0WsQ/+4zhKCQf0kQRQ==",
+  "dgSpecHash": "3lCELOmZlJUNtuvTn0UiMMaPgT4R/PGgoxqb8+gl9wM+DgySK5wyiLUUc2MZLLfgS2N6MAtJLOuHeArquJ7xfQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj",
+  "projectFilePath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\JPJM-\\.nuget\\packages\\microsoft.windows.sdk.buildtools\\10.0.22621.755\\microsoft.windows.sdk.buildtools.10.0.22621.755.nupkg.sha512",
     "C:\\Users\\JPJM-\\.nuget\\packages\\microsoft.windowsappsdk\\1.3.230602002\\microsoft.windowsappsdk.1.3.230602002.nupkg.sha512",

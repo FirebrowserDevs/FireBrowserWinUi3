@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5he+ZoZCAPHJAogLff1l/uLvNhKWnFcdrTmGBI0LkXIggD1PuXc5HtivPNp6d0aEhcvvED8/05owX0kQUNUybw==",
+  "dgSpecHash": "w5nLOcEsVzo89520BCvcd3qX471werSK/fzrCdPFgpnWqRpCf9Qxso7/Hbz75S0NGcar/cq7RrDDu7RyhWjpUg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj",
+  "projectFilePath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\JPJM-\\.nuget\\packages\\communitytoolkit.mvvm\\8.2.1\\communitytoolkit.mvvm.8.2.1.nupkg.sha512",
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages\\microsoft.windows.sdk.buildtools\\10.0.22621.756\\microsoft.windows.sdk.buildtools.10.0.22621.756.nupkg.sha512",

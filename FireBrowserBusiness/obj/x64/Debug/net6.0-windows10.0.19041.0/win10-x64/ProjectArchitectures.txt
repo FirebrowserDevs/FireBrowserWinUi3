@@ -1,1 +1,1 @@
-C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserBusiness\FireBrowserWinUi3.csproj;x64
+C:\Users\JPJM-\source\repos\FireBrowserBusiness\FireBrowserWinUi3\FireBrowserBusiness\FireBrowserWinUi3.csproj;x64

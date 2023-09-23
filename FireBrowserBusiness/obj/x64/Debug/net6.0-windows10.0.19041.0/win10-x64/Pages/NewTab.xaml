@@ -30,17 +30,18 @@
             <Button.Flyout>
                 <Flyout Placement="Bottom">
                     <StackPanel>
-                        <ToggleSwitch x:ConnectionId='12' x:Name="Type"                       >
+                        <ToggleSwitch x:ConnectionId='13' x:Name="Type"                       >
                             Enable Auto Fill TextBox
                         </ToggleSwitch>
-                        <ToggleSwitch x:ConnectionId='13' x:Name="Mode"                       >
+                        <ToggleSwitch x:ConnectionId='14' x:Name="Mode"                       >
                             Enable Light Mode
                         </ToggleSwitch>
                     </StackPanel>
                 </Flyout>
             </Button.Flyout>
         </Button>
-        <Button x:ConnectionId='4' x:Uid="NewTabSettingsButton"
+        <Button x:ConnectionId='4'                     >Settings</Button>
+        <Button x:ConnectionId='5' x:Uid="NewTabSettingsButton"
              Style="{ThemeResource QuietButtonStyle}"
              Padding="6" Margin="0,31,32,0"
              VerticalAlignment="Top" HorizontalAlignment="Right"
@@ -49,8 +50,8 @@
             <Button.Flyout>
                 <Flyout Placement="Bottom">
                     <StackPanel Background="Transparent">
-                        <GridView x:ConnectionId='7'  x:Name="GridSelect"                                                 Background="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}">
-                            <GridViewItem x:ConnectionId='9' x:Name="NoneGrid" Padding="12" Tag="None" x:FieldModifier="Public">
+                        <GridView x:ConnectionId='8'  x:Name="GridSelect"                                                 Background="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}">
+                            <GridViewItem x:ConnectionId='10' x:Name="NoneGrid" Padding="12" Tag="None" x:FieldModifier="Public">
                                 <StackPanel>
                                     <Image Width="100" Source="{dllimg:ImageLoader ImageName=BackgroundNone.png}"/>
                                     <TextBlock x:Uid="NewTabBackgroundNone" d:Text="None"
@@ -58,7 +59,7 @@
                                 Margin="0,8,0,0"/>
                                 </StackPanel>
                             </GridViewItem>
-                            <GridViewItem x:ConnectionId='10' x:Name="FsGrid" Padding="12" Tag="Featured" x:FieldModifier="Public">
+                            <GridViewItem x:ConnectionId='11' x:Name="FsGrid" Padding="12" Tag="Featured" x:FieldModifier="Public">
                                 <StackPanel>
                                     <Image Width="100" Source="{dllimg:ImageLoader ImageName=BackgroundBing.png}"/>
                                     <TextBlock x:Uid="NewTabBackgroundBing"
@@ -68,7 +69,7 @@
                                     </TextBlock>
                                 </StackPanel>
                             </GridViewItem>
-                            <GridViewItem x:ConnectionId='11' x:Name="CsGrid" Padding="12" Tag="Custom" x:FieldModifier="Public">
+                            <GridViewItem x:ConnectionId='12' x:Name="CsGrid" Padding="12" Tag="Custom" x:FieldModifier="Public">
                                 <StackPanel>
                                     <Image Width="100" Source="{dllimg:ImageLoader ImageName=BackgroundCostum.png}"/>
                                     <TextBlock x:Uid="NewTabBackgroundCostum"
@@ -80,17 +81,17 @@
                             </GridViewItem>
                         </GridView>
                         <TextBlock FontWeight="Bold" Text="New-Tab Background Color ( ReOpen Or Apply To Change )"/>
-                        <TextBox x:ConnectionId='8' IsEnabled="True" x:FieldModifier="Public" Margin="0,5,0,0" x:Name="NewColor"                                   />
+                        <TextBox x:ConnectionId='9' IsEnabled="True" x:FieldModifier="Public" Margin="0,5,0,0" x:Name="NewColor"                                   />
                     </StackPanel>
                 </Flyout>
             </Button.Flyout>
         </Button>
-        <Grid x:ConnectionId='5' HorizontalAlignment="Center" VerticalAlignment="Center" RowSpacing="4" x:Name="BigGrid">
+        <Grid x:ConnectionId='6' HorizontalAlignment="Center" VerticalAlignment="Center" RowSpacing="4" x:Name="BigGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <AutoSuggestBox x:ConnectionId='6' x:Name="NewTabSearchBox"
+            <AutoSuggestBox x:ConnectionId='7' x:Name="NewTabSearchBox"
                          x:Uid="SearchBar"
                          Grid.Row="0"
                          Height="40" 

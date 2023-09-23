@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "co9B0ZdibjsOSuBgGI7GwEHQHpFmszBaU9waS3iYAFRrgDnrx9SH87oSvqieV9IvBYSJnMxinPb9t5ISdaRS9w==",
+  "dgSpecHash": "k4ClzFybbB4AXr5pca535/gk2A6Idf3xYxSkjT4t+V0CbuP8NehduBdwRB6py5cWHKacTs28YVNhPWMNmMwsJg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserBusiness\\FireBrowserWinUi3.csproj",
+  "projectFilePath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusiness\\FireBrowserWinUi3.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\JPJM-\\.nuget\\packages\\communitytoolkit.common\\7.1.2\\communitytoolkit.common.7.1.2.nupkg.sha512",
     "C:\\Users\\JPJM-\\.nuget\\packages\\communitytoolkit.mvvm\\8.2.1\\communitytoolkit.mvvm.8.2.1.nupkg.sha512",
@@ -18,7 +18,6 @@
     "C:\\Users\\JPJM-\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.6\\sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg.sha512",
     "C:\\Users\\JPJM-\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
     "C:\\Users\\JPJM-\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x86\\6.0.22\\microsoft.netcore.app.runtime.win-x86.6.0.22.nupkg.sha512",
-    "C:\\Users\\JPJM-\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\6.0.22\\microsoft.netcore.app.crossgen2.win-x64.6.0.22.nupkg.sha512",
     "C:\\Users\\JPJM-\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.19041.29\\microsoft.windows.sdk.net.ref.10.0.19041.29.nupkg.sha512",
     "C:\\Users\\JPJM-\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x86\\6.0.22\\microsoft.aspnetcore.app.runtime.win-x86.6.0.22.nupkg.sha512",
     "C:\\Users\\JPJM-\\.nuget\\packages\\microsoft.netcore.app.runtime.win-arm64\\6.0.22\\microsoft.netcore.app.runtime.win-arm64.6.0.22.nupkg.sha512",

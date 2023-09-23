@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -27,6 +28,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics;
 using Windows.Media.Core;
+using Windows.System;
 using Windows.UI.ViewManagement;
 using WinRT.Interop;
 
@@ -42,6 +44,7 @@ namespace FireBrowserBusiness
     {
         private AppWindow appWindow;
         private AppWindowTitleBar titleBar;
+      
         public MainWindow()
         {
             InitializeComponent();
@@ -68,16 +71,59 @@ namespace FireBrowserBusiness
                 titleBar.ButtonInactiveBackgroundColor = btnColor;
             }
 
-            InitializeUsername();
-
+            LoadUserDataAndSettings();
             Launch();
         }
 
-        public async void InitializeUsername()
+        private void LoadUserDataAndSettings()
         {
-            string username = await ((App)Application.Current).LoadUserAsync();
-            UserName.Text = username;
+            FireBrowserMultiCore.User currentUser = GetUser();
+
+            if (currentUser != null)
+            {
+                if (!AuthService.IsUserAuthenticated)
+                {
+                    bool isAuthenticated = AuthService.Authenticate(currentUser.Username);
+
+                    if (!isAuthenticated)
+                    {
+                     
+                        return;
+                    }
+                }
+
+                Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+
+                // Update the TextBlock with the username.
+                UserName.Text = AuthService.CurrentUser.Username;
+                Prof.Text = AuthService.CurrentUser.Username;
+                // You can also update other UI elements with user-specific data/settings.
+                // For example:
+                // someOtherTextBlock.Text = userSettings.SomeProperty;
+            }
+            else
+            {
+                // No user selected or authenticated, use a default username.
+                UserName.Text = "DefaultUser";
+                Prof.Text = "DefaultUser";
+            }
         }
+
+
+        private FireBrowserMultiCore.User GetUser()
+        {
+            // Check if the user is authenticated.
+            if (AuthService.IsUserAuthenticated)
+            {
+                // Return the authenticated user.
+                return AuthService.CurrentUser;
+            }
+
+            // If no user is authenticated, return null or handle as needed.
+            return null;
+        }
+
+
         private void Launch()
         {
             Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));

@@ -3,6 +3,7 @@ Controls\FireBrowserTabView.xbf
 Controls\FireBrowserTabViewItem.xbf
 MainWindow.xbf
 Pages\NewTab.xbf
+Setup\SetupInit.xbf
 Styles\Buttons.xbf
 Styles\IconSource.xbf
 Styles\TabView.xbf

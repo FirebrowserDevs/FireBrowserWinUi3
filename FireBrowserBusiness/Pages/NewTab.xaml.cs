@@ -112,6 +112,7 @@ public sealed partial class NewTab : Page
 
     public static Brush GetGridBackgroundAsync(Settings.NewTabBackground backgroundType)
     {
+        FireBrowserBusinessCore.Helpers.SettingsHelper.SetSetting("ColorBackground", "#000000");
         string colorString = FireBrowserBusinessCore.Helpers.SettingsHelper.GetSetting("ColorBackground");
    
         switch (backgroundType)
@@ -129,7 +130,7 @@ public sealed partial class NewTab : Page
                 {                        
                     var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), colorString);
 
-                    return new SolidColorBrush(color);
+                    return new SolidColorBrush();
                 }
 
             case Settings.NewTabBackground.Featured:
@@ -193,7 +194,6 @@ public sealed partial class NewTab : Page
 
     private void Button_Click(object sender, RoutedEventArgs e)
     {
-        FireBrowserMultiCore.Sys sys = new FireBrowserMultiCore.Sys();
-        sys.CreateUser("Test");
+      
     }
 }

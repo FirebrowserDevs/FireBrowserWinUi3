@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserBusiness\\FireBrowserWinUi3.csproj": {}
+    "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusiness\\FireBrowserWinUi3.csproj": {}
   },
   "projects": {
-    "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\Assets\\Assets.csproj": {
+    "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\Assets\\Assets.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\Assets\\Assets.csproj",
+        "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\Assets\\Assets.csproj",
         "projectName": "Assets",
-        "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\Assets\\Assets.csproj",
+        "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\Assets\\Assets.csproj",
         "packagesPath": "C:\\Users\\JPJM-\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\Assets\\obj\\",
+        "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\Assets\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -129,14 +129,14 @@
         }
       }
     },
-    "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj": {
+    "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj",
+        "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj",
         "projectName": "FireBrowserWinUi3Core",
-        "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj",
+        "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj",
         "packagesPath": "C:\\Users\\JPJM-\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserBusinessCore\\obj\\",
+        "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusinessCore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -262,14 +262,14 @@
         }
       }
     },
-    "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserBusiness\\FireBrowserWinUi3.csproj": {
+    "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusiness\\FireBrowserWinUi3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserBusiness\\FireBrowserWinUi3.csproj",
+        "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusiness\\FireBrowserWinUi3.csproj",
         "projectName": "FireBrowserWinUi3",
-        "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserBusiness\\FireBrowserWinUi3.csproj",
+        "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusiness\\FireBrowserWinUi3.csproj",
         "packagesPath": "C:\\Users\\JPJM-\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserBusiness\\obj\\",
+        "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusiness\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -290,17 +290,17 @@
           "net6.0-windows10.0.19041": {
             "targetAlias": "net6.0-windows10.0.19041.0",
             "projectReferences": {
-              "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\Assets\\Assets.csproj": {
-                "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\Assets\\Assets.csproj"
+              "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\Assets\\Assets.csproj": {
+                "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\Assets\\Assets.csproj"
               },
-              "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj": {
-                "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj"
+              "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj": {
+                "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserBusinessCore\\FireBrowserWinUi3Core.csproj"
               },
-              "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj": {
-                "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj"
+              "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj": {
+                "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj"
               },
-              "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj": {
-                "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj"
+              "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj": {
+                "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj"
               }
             }
           }
@@ -357,10 +357,6 @@
               "version": "[6.0.22, 6.0.22]"
             },
             {
-              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
-              "version": "[6.0.22, 6.0.22]"
-            },
-            {
               "name": "Microsoft.NETCore.App.Runtime.win-arm64",
               "version": "[6.0.22, 6.0.22]"
             },
@@ -412,14 +408,14 @@
         }
       }
     },
-    "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj": {
+    "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj",
+        "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj",
         "projectName": "FireBrowserMultiCore",
-        "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj",
+        "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj",
         "packagesPath": "C:\\Users\\JPJM-\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserMultiCore\\obj\\",
+        "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserMultiCore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -545,14 +541,14 @@
         }
       }
     },
-    "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj": {
+    "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj",
+        "projectUniqueName": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj",
         "projectName": "FireBrowserWinUi3SecureConnect",
-        "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj",
+        "projectPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserSecureConnect\\FireBrowserWinUi3SecureConnect.csproj",
         "packagesPath": "C:\\Users\\JPJM-\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserSecureConnect\\obj\\",
+        "outputPath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserSecureConnect\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

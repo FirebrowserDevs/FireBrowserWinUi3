@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireBrowserWinUi3Core", "Fi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assets", "Assets\Assets.csproj", "{FDD3198A-6044-4443-97BC-741BD449A4E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireBrowserMultiCore", "FireBrowserMultiCore\FireBrowserMultiCore.csproj", "{6CB7825A-CF1A-4B36-8F01-4A240269919F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireBrowserMultiCore", "FireBrowserMultiCore\FireBrowserMultiCore.csproj", "{6CB7825A-CF1A-4B36-8F01-4A240269919F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "iQ3JsnnZcfT4xw46w/hcpT8e9JrvoDZdEUmhEsOZ4FlF/pH65HPYBkZ2NfYJNpz59nhNLd8EdycF76bfLG2RVA==",
+  "dgSpecHash": "m6K/Ndh3Lh7nZKHs7U2N1czSmkUthwg8HR2NUj7pUdwSO1QwVnTQxu0lCuPQm6Z63Q7Cq1Z5llcOMfhskwRgng==",
   "success": true,
-  "projectFilePath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj",
+  "projectFilePath": "C:\\Users\\JPJM-\\source\\repos\\FireBrowserBusiness\\FireBrowserWinUi3\\FireBrowserMultiCore\\FireBrowserMultiCore.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\JPJM-\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.11\\microsoft.data.sqlite.core.7.0.11.nupkg.sha512",
     "C:\\Users\\JPJM-\\.nuget\\packages\\microsoft.windows.sdk.buildtools\\10.0.22621.755\\microsoft.windows.sdk.buildtools.10.0.22621.755.nupkg.sha512",
