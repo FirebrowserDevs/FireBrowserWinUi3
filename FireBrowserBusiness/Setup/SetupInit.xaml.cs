@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using static System.Net.Mime.MediaTypeNames;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -29,27 +30,6 @@ namespace FireBrowserWinUi3.Setup
             this.InitializeComponent();
         }
 
-        private void CreateUserOnStartup()
-        {
-            // Create a new user object with a unique username.
-            User newUser = new User
-            {
-                Username = "NewUser" + "." // Generate a unique username.                                                              // Add other user properties as needed.
-            };
-
-            // Create a list of users and add the new user to it.
-            List<User> users = new List<User>();
-            users.Add(newUser);
-
-            // Create the user folders.
-            UserFolderManager.CreateUserFolders(newUser);
-
-            // Save the list of users to the JSON file.
-            UserDataManager.SaveUsers(users);
-            // Authenticate the new user (if needed).
-            AuthService.Authenticate(newUser.Username);
-        }
-
         private string _introMessage = @"
 • Seamless browsing experience.
 
@@ -61,5 +41,10 @@ namespace FireBrowserWinUi3.Setup
 
 • Caters to users seeking a user-friendly web browser with advanced features.
 ";
+
+        private void Setup_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SetupUser));
+        }
     }
 }

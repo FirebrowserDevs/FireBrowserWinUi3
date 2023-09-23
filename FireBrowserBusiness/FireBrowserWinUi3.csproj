@@ -13,18 +13,28 @@
     <ApplicationIcon>Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\algemeen.png" />
     <Content Remove="Assets\clippy.png" />
+    <Content Remove="Assets\done.png" />
     <Content Remove="Assets\Logo.png" />
     <Content Remove="Assets\LogoSetup.ico" />
     <Content Remove="Assets\Segoe Fluent Icons.ttf" />
     <Content Remove="Assets\setup_image.png" />
+    <Content Remove="Assets\Ui.png" />
+    <Content Remove="Assets\user.png" />
+    <Content Remove="Assets\Webset.svg" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Controls\FireBrowserTabView.xaml" />
     <None Remove="Controls\FireBrowserTabViewItem.xaml" />
     <None Remove="Pages\NewTab.xaml" />
     <None Remove="SetupWindow.xaml" />
+    <None Remove="Setup\SetupAlgemeen.xaml" />
+    <None Remove="Setup\SetupFinish.xaml" />
     <None Remove="Setup\SetupInit.xaml" />
+    <None Remove="Setup\SetupUi.xaml" />
+    <None Remove="Setup\SetupUser.xaml" />
+    <None Remove="Setup\SetupWebView.xaml" />
     <None Remove="Styles\Buttons.xaml" />
     <None Remove="Styles\IconSource.xaml" />
     <None Remove="Styles\TabView.xaml" />
@@ -64,15 +74,45 @@
     <ProjectReference Include="..\FireBrowserSecureConnect\FireBrowserWinUi3SecureConnect.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Assets\algemeen.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\done.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\setup_image.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\Ui.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\user.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Webset.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="LogoSetup.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Setup\SetupFinish.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Setup\SetupWebView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Setup\SetupAlgemeen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Setup\SetupUi.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Setup\SetupUser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="SetupWindow.xaml">

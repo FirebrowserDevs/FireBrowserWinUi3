@@ -72,9 +72,10 @@
                                                   
                      TextWrapping="Wrap" />
 
-                    <Button
+                    <Button x:ConnectionId='4'
                      Margin="0,20,0,0"
-                    
+                     x:Name="Setup"
+                                        
                      Content="Setup your browser"
                      Style="{ThemeResource AccentButtonStyle}" />
 

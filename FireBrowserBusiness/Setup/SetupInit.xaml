@@ -74,7 +74,8 @@
 
                     <Button
                      Margin="0,20,0,0"
-                    
+                     x:Name="Setup"
+                     Click="Setup_Click"
                      Content="Setup your browser"
                      Style="{ThemeResource AccentButtonStyle}" />
 

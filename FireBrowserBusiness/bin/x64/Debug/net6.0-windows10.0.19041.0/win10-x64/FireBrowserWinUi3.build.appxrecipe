@@ -34,11 +34,26 @@
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\FireBrowserWinUi3.dll">
       <PackagePath>FireBrowserWinUi3.dll</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\algemeen.png">
+      <PackagePath>Assets\algemeen.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\done.png">
+      <PackagePath>Assets\done.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Logo.png">
       <PackagePath>Assets\Logo.png</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\setup_image.png">
       <PackagePath>Assets\setup_image.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Ui.png">
+      <PackagePath>Assets\Ui.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\user.png">
+      <PackagePath>Assets\user.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\Webset.svg">
+      <PackagePath>Assets\Webset.svg</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\LogoSetup.ico">
       <PackagePath>LogoSetup.ico</PackagePath>

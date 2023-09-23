@@ -42,9 +42,44 @@ namespace FireBrowserBusiness
         public App()
         {
             this.InitializeComponent();
-          
+
+
+            string coreFolderPath = UserDataManager.CoreFolderPath;
+            string username = GetUsernameFromCoreFolderPath(coreFolderPath);
+
+            AuthService.Authenticate(username);
         }
 
+        public static string GetUsernameFromCoreFolderPath(string coreFolderPath)
+        {
+            try
+            {
+                string usrCoreFilePath = Path.Combine(coreFolderPath, "UsrCore.json");
+
+                // Check if UsrCore.json exists
+                if (File.Exists(usrCoreFilePath))
+                {
+                    // Read the JSON content from UsrCore.json
+                    string jsonContent = File.ReadAllText(usrCoreFilePath);
+
+                    // Deserialize the JSON content into a list of user objects
+                    var users = JsonSerializer.Deserialize<List<User>>(jsonContent);
+
+                    if (users != null && users.Count > 0 && !string.IsNullOrWhiteSpace(users[0].Username))
+                    {
+                        return users[0].Username; // Assuming you want the first user's username
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that may occur during file reading or deserialization
+                Console.WriteLine("Error reading UsrCore.json: " + ex.Message);
+            }
+
+            // Return null or an empty string if the username couldn't be retrieved
+            return null;
+        }
 
         /// <summary>
         /// Invoked when the application is launched.

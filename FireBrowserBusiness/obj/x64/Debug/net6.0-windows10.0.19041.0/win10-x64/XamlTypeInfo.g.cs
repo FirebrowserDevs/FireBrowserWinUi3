@@ -224,7 +224,7 @@ namespace FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo
 
         private void InitTypeTables()
         {
-            _typeNameTable = new string[64];
+            _typeNameTable = new string[72];
             _typeNameTable[0] = "Microsoft.UI.Xaml.Controls.XamlControlsResources";
             _typeNameTable[1] = "Microsoft.UI.Xaml.ResourceDictionary";
             _typeNameTable[2] = "Object";
@@ -277,20 +277,28 @@ namespace FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo
             _typeNameTable[49] = "Microsoft.UI.Xaml.Controls.UserControl";
             _typeNameTable[50] = "FireBrowserCore.ViewModel.HomeViewModel";
             _typeNameTable[51] = "FireBrowserWinUi3.SetupWindow";
-            _typeNameTable[52] = "FireBrowserWinUi3.Setup.SetupInit";
-            _typeNameTable[53] = "Microsoft.UI.Xaml.Controls.Button";
-            _typeNameTable[54] = "Microsoft.UI.Xaml.Controls.AnimatedIcon";
-            _typeNameTable[55] = "Microsoft.UI.Xaml.Controls.IconElement";
-            _typeNameTable[56] = "Microsoft.UI.Xaml.Controls.IAnimatedVisualSource2";
-            _typeNameTable[57] = "Microsoft.UI.Xaml.Thickness";
-            _typeNameTable[58] = "Microsoft.UI.Xaml.Controls.ProgressRing";
-            _typeNameTable[59] = "Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings";
-            _typeNameTable[60] = "Microsoft.UI.Xaml.Controls.Primitives.AutoSuggestBoxHelper";
-            _typeNameTable[61] = "Microsoft.UI.Xaml.Controls.AutoSuggestBox";
-            _typeNameTable[62] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
-            _typeNameTable[63] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
+            _typeNameTable[52] = "FireBrowserWinUi3.Setup.SetupAlgemeen";
+            _typeNameTable[53] = "Microsoft.UI.Xaml.Controls.ProgressBar";
+            _typeNameTable[54] = "Microsoft.UI.Xaml.Controls.Primitives.RangeBase";
+            _typeNameTable[55] = "Microsoft.UI.Xaml.Controls.ProgressBarTemplateSettings";
+            _typeNameTable[56] = "FireBrowserWinUi3.Setup.SetupFinish";
+            _typeNameTable[57] = "FireBrowserWinUi3.Setup.SetupInit";
+            _typeNameTable[58] = "FireBrowserWinUi3.Setup.SetupUi";
+            _typeNameTable[59] = "FireBrowserWinUi3.Setup.SetupUser";
+            _typeNameTable[60] = "FireBrowserWinUi3.Setup.SetupWebView";
+            _typeNameTable[61] = "Microsoft.UI.Xaml.Controls.Button";
+            _typeNameTable[62] = "Microsoft.UI.Xaml.Controls.AnimatedIcon";
+            _typeNameTable[63] = "Microsoft.UI.Xaml.Controls.IconElement";
+            _typeNameTable[64] = "Microsoft.UI.Xaml.Controls.IAnimatedVisualSource2";
+            _typeNameTable[65] = "Microsoft.UI.Xaml.Thickness";
+            _typeNameTable[66] = "Microsoft.UI.Xaml.Controls.ProgressRing";
+            _typeNameTable[67] = "Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings";
+            _typeNameTable[68] = "Microsoft.UI.Xaml.Controls.Primitives.AutoSuggestBoxHelper";
+            _typeNameTable[69] = "Microsoft.UI.Xaml.Controls.AutoSuggestBox";
+            _typeNameTable[70] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
+            _typeNameTable[71] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
 
-            _typeTable = new global::System.Type[64];
+            _typeTable = new global::System.Type[72];
             _typeTable[0] = typeof(global::Microsoft.UI.Xaml.Controls.XamlControlsResources);
             _typeTable[1] = typeof(global::Microsoft.UI.Xaml.ResourceDictionary);
             _typeTable[2] = typeof(global::System.Object);
@@ -343,18 +351,26 @@ namespace FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo
             _typeTable[49] = typeof(global::Microsoft.UI.Xaml.Controls.UserControl);
             _typeTable[50] = typeof(global::FireBrowserCore.ViewModel.HomeViewModel);
             _typeTable[51] = typeof(global::FireBrowserWinUi3.SetupWindow);
-            _typeTable[52] = typeof(global::FireBrowserWinUi3.Setup.SetupInit);
-            _typeTable[53] = typeof(global::Microsoft.UI.Xaml.Controls.Button);
-            _typeTable[54] = typeof(global::Microsoft.UI.Xaml.Controls.AnimatedIcon);
-            _typeTable[55] = typeof(global::Microsoft.UI.Xaml.Controls.IconElement);
-            _typeTable[56] = typeof(global::Microsoft.UI.Xaml.Controls.IAnimatedVisualSource2);
-            _typeTable[57] = typeof(global::Microsoft.UI.Xaml.Thickness);
-            _typeTable[58] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressRing);
-            _typeTable[59] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings);
-            _typeTable[60] = typeof(global::Microsoft.UI.Xaml.Controls.Primitives.AutoSuggestBoxHelper);
-            _typeTable[61] = typeof(global::Microsoft.UI.Xaml.Controls.AutoSuggestBox);
-            _typeTable[62] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
-            _typeTable[63] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
+            _typeTable[52] = typeof(global::FireBrowserWinUi3.Setup.SetupAlgemeen);
+            _typeTable[53] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressBar);
+            _typeTable[54] = typeof(global::Microsoft.UI.Xaml.Controls.Primitives.RangeBase);
+            _typeTable[55] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressBarTemplateSettings);
+            _typeTable[56] = typeof(global::FireBrowserWinUi3.Setup.SetupFinish);
+            _typeTable[57] = typeof(global::FireBrowserWinUi3.Setup.SetupInit);
+            _typeTable[58] = typeof(global::FireBrowserWinUi3.Setup.SetupUi);
+            _typeTable[59] = typeof(global::FireBrowserWinUi3.Setup.SetupUser);
+            _typeTable[60] = typeof(global::FireBrowserWinUi3.Setup.SetupWebView);
+            _typeTable[61] = typeof(global::Microsoft.UI.Xaml.Controls.Button);
+            _typeTable[62] = typeof(global::Microsoft.UI.Xaml.Controls.AnimatedIcon);
+            _typeTable[63] = typeof(global::Microsoft.UI.Xaml.Controls.IconElement);
+            _typeTable[64] = typeof(global::Microsoft.UI.Xaml.Controls.IAnimatedVisualSource2);
+            _typeTable[65] = typeof(global::Microsoft.UI.Xaml.Thickness);
+            _typeTable[66] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressRing);
+            _typeTable[67] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings);
+            _typeTable[68] = typeof(global::Microsoft.UI.Xaml.Controls.Primitives.AutoSuggestBoxHelper);
+            _typeTable[69] = typeof(global::Microsoft.UI.Xaml.Controls.AutoSuggestBox);
+            _typeTable[70] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
+            _typeTable[71] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
         }
 
         private int LookupTypeIndexByName(string typeName)
@@ -405,10 +421,16 @@ namespace FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo
         private object Activate_47_NewTab() { return new global::FireBrowserBusiness.Pages.NewTab(); }
         private object Activate_50_HomeViewModel() { return new global::FireBrowserCore.ViewModel.HomeViewModel(); }
         private object Activate_51_SetupWindow() { return new global::FireBrowserWinUi3.SetupWindow(); }
-        private object Activate_52_SetupInit() { return new global::FireBrowserWinUi3.Setup.SetupInit(); }
-        private object Activate_54_AnimatedIcon() { return new global::Microsoft.UI.Xaml.Controls.AnimatedIcon(); }
-        private object Activate_58_ProgressRing() { return new global::Microsoft.UI.Xaml.Controls.ProgressRing(); }
-        private object Activate_62_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
+        private object Activate_52_SetupAlgemeen() { return new global::FireBrowserWinUi3.Setup.SetupAlgemeen(); }
+        private object Activate_53_ProgressBar() { return new global::Microsoft.UI.Xaml.Controls.ProgressBar(); }
+        private object Activate_56_SetupFinish() { return new global::FireBrowserWinUi3.Setup.SetupFinish(); }
+        private object Activate_57_SetupInit() { return new global::FireBrowserWinUi3.Setup.SetupInit(); }
+        private object Activate_58_SetupUi() { return new global::FireBrowserWinUi3.Setup.SetupUi(); }
+        private object Activate_59_SetupUser() { return new global::FireBrowserWinUi3.Setup.SetupUser(); }
+        private object Activate_60_SetupWebView() { return new global::FireBrowserWinUi3.Setup.SetupWebView(); }
+        private object Activate_62_AnimatedIcon() { return new global::Microsoft.UI.Xaml.Controls.AnimatedIcon(); }
+        private object Activate_66_ProgressRing() { return new global::Microsoft.UI.Xaml.Controls.ProgressRing(); }
+        private object Activate_70_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
         private void MapAdd_0_XamlControlsResources(object instance, object key, object item)
         {
             var collection = (global::System.Collections.Generic.IDictionary<global::System.Object, global::System.Object>)instance;
@@ -422,7 +444,7 @@ namespace FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo
             var newItem = (global::System.Object)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_63_IList(object instance, object item)
+        private void VectorAdd_71_IList(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Microsoft.UI.Xaml.Controls.TreeViewNode>)instance;
             var newItem = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)item;
@@ -776,20 +798,75 @@ namespace FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 52:   //  FireBrowserWinUi3.Setup.SetupInit
+            case 52:   //  FireBrowserWinUi3.Setup.SetupAlgemeen
                 userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_52_SetupInit;
+                userType.Activator = Activate_52_SetupAlgemeen;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 53:   //  Microsoft.UI.Xaml.Controls.Button
+            case 53:   //  Microsoft.UI.Xaml.Controls.ProgressBar
+                userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Primitives.RangeBase"));
+                userType.Activator = Activate_53_ProgressBar;
+                userType.AddMemberName("IsIndeterminate");
+                userType.AddMemberName("ShowPaused");
+                userType.AddMemberName("ShowError");
+                userType.AddMemberName("TemplateSettings");
+                xamlType = userType;
+                break;
+
+            case 54:   //  Microsoft.UI.Xaml.Controls.Primitives.RangeBase
                 xamlType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 54:   //  Microsoft.UI.Xaml.Controls.AnimatedIcon
+            case 55:   //  Microsoft.UI.Xaml.Controls.ProgressBarTemplateSettings
+                userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
+                userType.SetIsReturnTypeStub();
+                xamlType = userType;
+                break;
+
+            case 56:   //  FireBrowserWinUi3.Setup.SetupFinish
+                userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_56_SetupFinish;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 57:   //  FireBrowserWinUi3.Setup.SetupInit
+                userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_57_SetupInit;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 58:   //  FireBrowserWinUi3.Setup.SetupUi
+                userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_58_SetupUi;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 59:   //  FireBrowserWinUi3.Setup.SetupUser
+                userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_59_SetupUser;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 60:   //  FireBrowserWinUi3.Setup.SetupWebView
+                userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_60_SetupWebView;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 61:   //  Microsoft.UI.Xaml.Controls.Button
+                xamlType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 62:   //  Microsoft.UI.Xaml.Controls.AnimatedIcon
                 userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.IconElement"));
-                userType.Activator = Activate_54_AnimatedIcon;
+                userType.Activator = Activate_62_AnimatedIcon;
                 userType.SetContentPropertyName("Microsoft.UI.Xaml.Controls.AnimatedIcon.Source");
                 userType.AddMemberName("Source");
                 userType.AddMemberName("FallbackIconSource");
@@ -798,17 +875,17 @@ namespace FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 55:   //  Microsoft.UI.Xaml.Controls.IconElement
+            case 63:   //  Microsoft.UI.Xaml.Controls.IconElement
                 xamlType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 56:   //  Microsoft.UI.Xaml.Controls.IAnimatedVisualSource2
+            case 64:   //  Microsoft.UI.Xaml.Controls.IAnimatedVisualSource2
                 userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, null);
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 57:   //  Microsoft.UI.Xaml.Thickness
+            case 65:   //  Microsoft.UI.Xaml.Thickness
                 userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.ValueType"));
                 userType.AddMemberName("Left");
                 userType.AddMemberName("Top");
@@ -817,9 +894,9 @@ namespace FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 58:   //  Microsoft.UI.Xaml.Controls.ProgressRing
+            case 66:   //  Microsoft.UI.Xaml.Controls.ProgressRing
                 userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Control"));
-                userType.Activator = Activate_58_ProgressRing;
+                userType.Activator = Activate_66_ProgressRing;
                 userType.AddMemberName("IsIndeterminate");
                 userType.AddMemberName("IsActive");
                 userType.AddMemberName("Maximum");
@@ -829,25 +906,25 @@ namespace FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 59:   //  Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings
+            case 67:   //  Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings
                 userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 60:   //  Microsoft.UI.Xaml.Controls.Primitives.AutoSuggestBoxHelper
+            case 68:   //  Microsoft.UI.Xaml.Controls.Primitives.AutoSuggestBoxHelper
                 userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.AddMemberName("KeepInteriorCornersSquare");
                 xamlType = userType;
                 break;
 
-            case 61:   //  Microsoft.UI.Xaml.Controls.AutoSuggestBox
+            case 69:   //  Microsoft.UI.Xaml.Controls.AutoSuggestBox
                 xamlType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 62:   //  Microsoft.UI.Xaml.Controls.TreeViewNode
+            case 70:   //  Microsoft.UI.Xaml.Controls.TreeViewNode
                 userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
-                userType.Activator = Activate_62_TreeViewNode;
+                userType.Activator = Activate_70_TreeViewNode;
                 userType.AddMemberName("Children");
                 userType.AddMemberName("Content");
                 userType.AddMemberName("Depth");
@@ -859,9 +936,9 @@ namespace FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 63:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
+            case 71:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
                 userType = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType(this, typeName, type, null);
-                userType.CollectionAdd = VectorAdd_63_IList;
+                userType.CollectionAdd = VectorAdd_71_IList;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
@@ -1404,193 +1481,228 @@ namespace FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo
             var that = (global::FireBrowserBusiness.Pages.NewTab)instance;
             that.ViewModel = (global::FireBrowserCore.ViewModel.HomeViewModel)Value;
         }
-        private object get_50_AnimatedIcon_Source(object instance)
+        private object get_50_ProgressBar_IsIndeterminate(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressBar)instance;
+            return that.IsIndeterminate;
+        }
+        private void set_50_ProgressBar_IsIndeterminate(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressBar)instance;
+            that.IsIndeterminate = (global::System.Boolean)Value;
+        }
+        private object get_51_ProgressBar_ShowPaused(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressBar)instance;
+            return that.ShowPaused;
+        }
+        private void set_51_ProgressBar_ShowPaused(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressBar)instance;
+            that.ShowPaused = (global::System.Boolean)Value;
+        }
+        private object get_52_ProgressBar_ShowError(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressBar)instance;
+            return that.ShowError;
+        }
+        private void set_52_ProgressBar_ShowError(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressBar)instance;
+            that.ShowError = (global::System.Boolean)Value;
+        }
+        private object get_53_ProgressBar_TemplateSettings(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressBar)instance;
+            return that.TemplateSettings;
+        }
+        private object get_54_AnimatedIcon_Source(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.AnimatedIcon)instance;
             return that.Source;
         }
-        private void set_50_AnimatedIcon_Source(object instance, object Value)
+        private void set_54_AnimatedIcon_Source(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.AnimatedIcon)instance;
             that.Source = (global::Microsoft.UI.Xaml.Controls.IAnimatedVisualSource2)Value;
         }
-        private object get_51_AnimatedIcon_FallbackIconSource(object instance)
+        private object get_55_AnimatedIcon_FallbackIconSource(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.AnimatedIcon)instance;
             return that.FallbackIconSource;
         }
-        private void set_51_AnimatedIcon_FallbackIconSource(object instance, object Value)
+        private void set_55_AnimatedIcon_FallbackIconSource(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.AnimatedIcon)instance;
             that.FallbackIconSource = (global::Microsoft.UI.Xaml.Controls.IconSource)Value;
         }
-        private object get_52_AnimatedIcon_MirroredWhenRightToLeft(object instance)
+        private object get_56_AnimatedIcon_MirroredWhenRightToLeft(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.AnimatedIcon)instance;
             return that.MirroredWhenRightToLeft;
         }
-        private void set_52_AnimatedIcon_MirroredWhenRightToLeft(object instance, object Value)
+        private void set_56_AnimatedIcon_MirroredWhenRightToLeft(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.AnimatedIcon)instance;
             that.MirroredWhenRightToLeft = (global::System.Boolean)Value;
         }
-        private object get_53_AnimatedIcon_State(object instance)
+        private object get_57_AnimatedIcon_State(object instance)
         {
             return global::Microsoft.UI.Xaml.Controls.AnimatedIcon.GetState((global::Microsoft.UI.Xaml.DependencyObject)instance);
         }
-        private void set_53_AnimatedIcon_State(object instance, object Value)
+        private void set_57_AnimatedIcon_State(object instance, object Value)
         {
             global::Microsoft.UI.Xaml.Controls.AnimatedIcon.SetState((global::Microsoft.UI.Xaml.DependencyObject)instance, (global::System.String)Value);
         }
-        private object get_54_Thickness_Left(object instance)
+        private object get_58_Thickness_Left(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Thickness)instance;
             return that.Left;
         }
-        private void set_54_Thickness_Left(object instance, object Value)
+        private void set_58_Thickness_Left(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Thickness)instance;
             that.Left = (global::System.Double)Value;
         }
-        private object get_55_Thickness_Top(object instance)
+        private object get_59_Thickness_Top(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Thickness)instance;
             return that.Top;
         }
-        private void set_55_Thickness_Top(object instance, object Value)
+        private void set_59_Thickness_Top(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Thickness)instance;
             that.Top = (global::System.Double)Value;
         }
-        private object get_56_Thickness_Right(object instance)
+        private object get_60_Thickness_Right(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Thickness)instance;
             return that.Right;
         }
-        private void set_56_Thickness_Right(object instance, object Value)
+        private void set_60_Thickness_Right(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Thickness)instance;
             that.Right = (global::System.Double)Value;
         }
-        private object get_57_Thickness_Bottom(object instance)
+        private object get_61_Thickness_Bottom(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Thickness)instance;
             return that.Bottom;
         }
-        private void set_57_Thickness_Bottom(object instance, object Value)
+        private void set_61_Thickness_Bottom(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Thickness)instance;
             that.Bottom = (global::System.Double)Value;
         }
-        private object get_58_ProgressRing_IsIndeterminate(object instance)
+        private object get_62_ProgressRing_IsIndeterminate(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
             return that.IsIndeterminate;
         }
-        private void set_58_ProgressRing_IsIndeterminate(object instance, object Value)
+        private void set_62_ProgressRing_IsIndeterminate(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
             that.IsIndeterminate = (global::System.Boolean)Value;
         }
-        private object get_59_ProgressRing_IsActive(object instance)
+        private object get_63_ProgressRing_IsActive(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
             return that.IsActive;
         }
-        private void set_59_ProgressRing_IsActive(object instance, object Value)
+        private void set_63_ProgressRing_IsActive(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
             that.IsActive = (global::System.Boolean)Value;
         }
-        private object get_60_ProgressRing_Maximum(object instance)
+        private object get_64_ProgressRing_Maximum(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
             return that.Maximum;
         }
-        private void set_60_ProgressRing_Maximum(object instance, object Value)
+        private void set_64_ProgressRing_Maximum(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
             that.Maximum = (global::System.Double)Value;
         }
-        private object get_61_ProgressRing_Minimum(object instance)
+        private object get_65_ProgressRing_Minimum(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
             return that.Minimum;
         }
-        private void set_61_ProgressRing_Minimum(object instance, object Value)
+        private void set_65_ProgressRing_Minimum(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
             that.Minimum = (global::System.Double)Value;
         }
-        private object get_62_ProgressRing_TemplateSettings(object instance)
+        private object get_66_ProgressRing_TemplateSettings(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
             return that.TemplateSettings;
         }
-        private object get_63_ProgressRing_Value(object instance)
+        private object get_67_ProgressRing_Value(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
             return that.Value;
         }
-        private void set_63_ProgressRing_Value(object instance, object Value)
+        private void set_67_ProgressRing_Value(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
             that.Value = (global::System.Double)Value;
         }
-        private object get_64_AutoSuggestBoxHelper_KeepInteriorCornersSquare(object instance)
+        private object get_68_AutoSuggestBoxHelper_KeepInteriorCornersSquare(object instance)
         {
             return global::Microsoft.UI.Xaml.Controls.Primitives.AutoSuggestBoxHelper.GetKeepInteriorCornersSquare((global::Microsoft.UI.Xaml.Controls.AutoSuggestBox)instance);
         }
-        private void set_64_AutoSuggestBoxHelper_KeepInteriorCornersSquare(object instance, object Value)
+        private void set_68_AutoSuggestBoxHelper_KeepInteriorCornersSquare(object instance, object Value)
         {
             global::Microsoft.UI.Xaml.Controls.Primitives.AutoSuggestBoxHelper.SetKeepInteriorCornersSquare((global::Microsoft.UI.Xaml.Controls.AutoSuggestBox)instance, (global::System.Boolean)Value);
         }
-        private object get_65_TreeViewNode_Children(object instance)
+        private object get_69_TreeViewNode_Children(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Children;
         }
-        private object get_66_TreeViewNode_Content(object instance)
+        private object get_70_TreeViewNode_Content(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Content;
         }
-        private void set_66_TreeViewNode_Content(object instance, object Value)
+        private void set_70_TreeViewNode_Content(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.Content = (global::System.Object)Value;
         }
-        private object get_67_TreeViewNode_Depth(object instance)
+        private object get_71_TreeViewNode_Depth(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Depth;
         }
-        private object get_68_TreeViewNode_HasChildren(object instance)
+        private object get_72_TreeViewNode_HasChildren(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.HasChildren;
         }
-        private object get_69_TreeViewNode_HasUnrealizedChildren(object instance)
+        private object get_73_TreeViewNode_HasUnrealizedChildren(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.HasUnrealizedChildren;
         }
-        private void set_69_TreeViewNode_HasUnrealizedChildren(object instance, object Value)
+        private void set_73_TreeViewNode_HasUnrealizedChildren(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.HasUnrealizedChildren = (global::System.Boolean)Value;
         }
-        private object get_70_TreeViewNode_IsExpanded(object instance)
+        private object get_74_TreeViewNode_IsExpanded(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.IsExpanded;
         }
-        private void set_70_TreeViewNode_IsExpanded(object instance, object Value)
+        private void set_74_TreeViewNode_IsExpanded(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.IsExpanded = (global::System.Boolean)Value;
         }
-        private object get_71_TreeViewNode_Parent(object instance)
+        private object get_75_TreeViewNode_Parent(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Parent;
@@ -1940,26 +2052,53 @@ namespace FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo
                 xamlMember.Getter = get_49_NewTab_ViewModel;
                 xamlMember.Setter = set_49_NewTab_ViewModel;
                 break;
+            case "Microsoft.UI.Xaml.Controls.ProgressBar.IsIndeterminate":
+                userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressBar");
+                xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "IsIndeterminate", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_50_ProgressBar_IsIndeterminate;
+                xamlMember.Setter = set_50_ProgressBar_IsIndeterminate;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressBar.ShowPaused":
+                userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressBar");
+                xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "ShowPaused", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_51_ProgressBar_ShowPaused;
+                xamlMember.Setter = set_51_ProgressBar_ShowPaused;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressBar.ShowError":
+                userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressBar");
+                xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "ShowError", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_52_ProgressBar_ShowError;
+                xamlMember.Setter = set_52_ProgressBar_ShowError;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressBar.TemplateSettings":
+                userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressBar");
+                xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "TemplateSettings", "Microsoft.UI.Xaml.Controls.ProgressBarTemplateSettings");
+                xamlMember.Getter = get_53_ProgressBar_TemplateSettings;
+                xamlMember.SetIsReadOnly();
+                break;
             case "Microsoft.UI.Xaml.Controls.AnimatedIcon.Source":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.AnimatedIcon");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "Source", "Microsoft.UI.Xaml.Controls.IAnimatedVisualSource2");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_50_AnimatedIcon_Source;
-                xamlMember.Setter = set_50_AnimatedIcon_Source;
+                xamlMember.Getter = get_54_AnimatedIcon_Source;
+                xamlMember.Setter = set_54_AnimatedIcon_Source;
                 break;
             case "Microsoft.UI.Xaml.Controls.AnimatedIcon.FallbackIconSource":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.AnimatedIcon");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "FallbackIconSource", "Microsoft.UI.Xaml.Controls.IconSource");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_51_AnimatedIcon_FallbackIconSource;
-                xamlMember.Setter = set_51_AnimatedIcon_FallbackIconSource;
+                xamlMember.Getter = get_55_AnimatedIcon_FallbackIconSource;
+                xamlMember.Setter = set_55_AnimatedIcon_FallbackIconSource;
                 break;
             case "Microsoft.UI.Xaml.Controls.AnimatedIcon.MirroredWhenRightToLeft":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.AnimatedIcon");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "MirroredWhenRightToLeft", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_52_AnimatedIcon_MirroredWhenRightToLeft;
-                xamlMember.Setter = set_52_AnimatedIcon_MirroredWhenRightToLeft;
+                xamlMember.Getter = get_56_AnimatedIcon_MirroredWhenRightToLeft;
+                xamlMember.Setter = set_56_AnimatedIcon_MirroredWhenRightToLeft;
                 break;
             case "Microsoft.UI.Xaml.Controls.AnimatedIcon.State":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.AnimatedIcon");
@@ -1967,126 +2106,126 @@ namespace FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo
                 xamlMember.SetTargetTypeName("Microsoft.UI.Xaml.DependencyObject");
                 xamlMember.SetIsDependencyProperty();
                 xamlMember.SetIsAttachable();
-                xamlMember.Getter = get_53_AnimatedIcon_State;
-                xamlMember.Setter = set_53_AnimatedIcon_State;
+                xamlMember.Getter = get_57_AnimatedIcon_State;
+                xamlMember.Setter = set_57_AnimatedIcon_State;
                 break;
             case "Microsoft.UI.Xaml.Thickness.Left":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Thickness");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "Left", "Double");
-                xamlMember.Getter = get_54_Thickness_Left;
-                xamlMember.Setter = set_54_Thickness_Left;
+                xamlMember.Getter = get_58_Thickness_Left;
+                xamlMember.Setter = set_58_Thickness_Left;
                 break;
             case "Microsoft.UI.Xaml.Thickness.Top":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Thickness");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "Top", "Double");
-                xamlMember.Getter = get_55_Thickness_Top;
-                xamlMember.Setter = set_55_Thickness_Top;
+                xamlMember.Getter = get_59_Thickness_Top;
+                xamlMember.Setter = set_59_Thickness_Top;
                 break;
             case "Microsoft.UI.Xaml.Thickness.Right":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Thickness");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "Right", "Double");
-                xamlMember.Getter = get_56_Thickness_Right;
-                xamlMember.Setter = set_56_Thickness_Right;
+                xamlMember.Getter = get_60_Thickness_Right;
+                xamlMember.Setter = set_60_Thickness_Right;
                 break;
             case "Microsoft.UI.Xaml.Thickness.Bottom":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Thickness");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "Bottom", "Double");
-                xamlMember.Getter = get_57_Thickness_Bottom;
-                xamlMember.Setter = set_57_Thickness_Bottom;
+                xamlMember.Getter = get_61_Thickness_Bottom;
+                xamlMember.Setter = set_61_Thickness_Bottom;
                 break;
             case "Microsoft.UI.Xaml.Controls.ProgressRing.IsIndeterminate":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "IsIndeterminate", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_58_ProgressRing_IsIndeterminate;
-                xamlMember.Setter = set_58_ProgressRing_IsIndeterminate;
+                xamlMember.Getter = get_62_ProgressRing_IsIndeterminate;
+                xamlMember.Setter = set_62_ProgressRing_IsIndeterminate;
                 break;
             case "Microsoft.UI.Xaml.Controls.ProgressRing.IsActive":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "IsActive", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_59_ProgressRing_IsActive;
-                xamlMember.Setter = set_59_ProgressRing_IsActive;
+                xamlMember.Getter = get_63_ProgressRing_IsActive;
+                xamlMember.Setter = set_63_ProgressRing_IsActive;
                 break;
             case "Microsoft.UI.Xaml.Controls.ProgressRing.Maximum":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "Maximum", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_60_ProgressRing_Maximum;
-                xamlMember.Setter = set_60_ProgressRing_Maximum;
+                xamlMember.Getter = get_64_ProgressRing_Maximum;
+                xamlMember.Setter = set_64_ProgressRing_Maximum;
                 break;
             case "Microsoft.UI.Xaml.Controls.ProgressRing.Minimum":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "Minimum", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_61_ProgressRing_Minimum;
-                xamlMember.Setter = set_61_ProgressRing_Minimum;
+                xamlMember.Getter = get_65_ProgressRing_Minimum;
+                xamlMember.Setter = set_65_ProgressRing_Minimum;
                 break;
             case "Microsoft.UI.Xaml.Controls.ProgressRing.TemplateSettings":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "TemplateSettings", "Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings");
-                xamlMember.Getter = get_62_ProgressRing_TemplateSettings;
+                xamlMember.Getter = get_66_ProgressRing_TemplateSettings;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.ProgressRing.Value":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "Value", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_63_ProgressRing_Value;
-                xamlMember.Setter = set_63_ProgressRing_Value;
+                xamlMember.Getter = get_67_ProgressRing_Value;
+                xamlMember.Setter = set_67_ProgressRing_Value;
                 break;
             case "Microsoft.UI.Xaml.Controls.Primitives.AutoSuggestBoxHelper.KeepInteriorCornersSquare":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Primitives.AutoSuggestBoxHelper");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "KeepInteriorCornersSquare", "Boolean");
                 xamlMember.SetTargetTypeName("Microsoft.UI.Xaml.Controls.AutoSuggestBox");
                 xamlMember.SetIsAttachable();
-                xamlMember.Getter = get_64_AutoSuggestBoxHelper_KeepInteriorCornersSquare;
-                xamlMember.Setter = set_64_AutoSuggestBoxHelper_KeepInteriorCornersSquare;
+                xamlMember.Getter = get_68_AutoSuggestBoxHelper_KeepInteriorCornersSquare;
+                xamlMember.Setter = set_68_AutoSuggestBoxHelper_KeepInteriorCornersSquare;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Children":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "Children", "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>");
-                xamlMember.Getter = get_65_TreeViewNode_Children;
+                xamlMember.Getter = get_69_TreeViewNode_Children;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Content":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "Content", "Object");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_66_TreeViewNode_Content;
-                xamlMember.Setter = set_66_TreeViewNode_Content;
+                xamlMember.Getter = get_70_TreeViewNode_Content;
+                xamlMember.Setter = set_70_TreeViewNode_Content;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Depth":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "Depth", "Int32");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_67_TreeViewNode_Depth;
+                xamlMember.Getter = get_71_TreeViewNode_Depth;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.HasChildren":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "HasChildren", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_68_TreeViewNode_HasChildren;
+                xamlMember.Getter = get_72_TreeViewNode_HasChildren;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.HasUnrealizedChildren":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "HasUnrealizedChildren", "Boolean");
-                xamlMember.Getter = get_69_TreeViewNode_HasUnrealizedChildren;
-                xamlMember.Setter = set_69_TreeViewNode_HasUnrealizedChildren;
+                xamlMember.Getter = get_73_TreeViewNode_HasUnrealizedChildren;
+                xamlMember.Setter = set_73_TreeViewNode_HasUnrealizedChildren;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.IsExpanded":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "IsExpanded", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_70_TreeViewNode_IsExpanded;
-                xamlMember.Setter = set_70_TreeViewNode_IsExpanded;
+                xamlMember.Getter = get_74_TreeViewNode_IsExpanded;
+                xamlMember.Setter = set_74_TreeViewNode_IsExpanded;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Parent":
                 userType = (global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::FireBrowserWinUi3.FireBrowserWinUi3_XamlTypeInfo.XamlMember(this, "Parent", "Microsoft.UI.Xaml.Controls.TreeViewNode");
-                xamlMember.Getter = get_71_TreeViewNode_Parent;
+                xamlMember.Getter = get_75_TreeViewNode_Parent;
                 xamlMember.SetIsReadOnly();
                 break;
             }
