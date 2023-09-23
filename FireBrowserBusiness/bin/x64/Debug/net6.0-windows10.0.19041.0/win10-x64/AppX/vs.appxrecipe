@@ -29,7 +29,7 @@
     <AppXManifest Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2023-09-23T19:02:13.580</Modified>
+      <Modified>2023-09-23T19:12:02.366</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
@@ -43,7 +43,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\FireBrowserWinUi3.dll">
       <PackagePath>FireBrowserWinUi3.dll</PackagePath>
-      <Modified>2023-09-23T19:02:12.716</Modified>
+      <Modified>2023-09-23T19:12:01.986</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\algemeen.png">
       <PackagePath>Assets\algemeen.png</PackagePath>
@@ -79,7 +79,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\apphost.exe">
       <PackagePath>FireBrowserWinUi3.exe</PackagePath>
-      <Modified>2023-09-23T19:02:12.736</Modified>
+      <Modified>2023-09-23T19:12:01.995</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\FireBrowserWinUi3.deps.json">
       <PackagePath>FireBrowserWinUi3.deps.json</PackagePath>
@@ -1091,7 +1091,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusinessCore\bin\Debug\net6.0-windows10.0.19041.0\FireBrowserWinUi3Core.dll">
       <PackagePath>FireBrowserWinUi3Core.dll</PackagePath>
-      <Modified>2023-09-23T15:52:24.823</Modified>
+      <Modified>2023-09-23T19:11:55.318</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserSecureConnect\bin\Debug\net6.0-windows10.0.19041.0\FireBrowserWinUi3SecureConnect.dll">
       <PackagePath>FireBrowserWinUi3SecureConnect.dll</PackagePath>
