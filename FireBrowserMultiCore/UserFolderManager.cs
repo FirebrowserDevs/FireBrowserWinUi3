@@ -3,6 +3,7 @@ using System.IO;
 using System.Xml;
 using System.Text.Json;
 using Microsoft.Data.Sqlite;
+using System.Diagnostics;
 
 namespace FireBrowserMultiCore
 {
@@ -112,10 +113,19 @@ namespace FireBrowserMultiCore
 
         public static void SaveUserSettings(User user, Settings settings)
         {
-            string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username, "Settings", "settings.json");
-            string settingsJson = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
+            try
+            {
+                string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username, "Settings", "settings.json");
+                string settingsJson = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
 
-            File.WriteAllText(settingsFilePath, settingsJson);
+                File.WriteAllText(settingsFilePath, settingsJson);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error saving user settings: " + ex.Message);
+                // You can handle the error or log it as needed.
+            }
         }
+
     }
 }

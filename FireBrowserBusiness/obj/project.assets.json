@@ -2,15 +2,15 @@
   "version": 3,
   "targets": {
     "net6.0-windows10.0.19041": {
-      "CommunityToolkit.Common/7.1.2": {
+      "CommunityToolkit.Common/8.2.1": {
         "type": "package",
         "compile": {
-          "lib/net5.0/CommunityToolkit.Common.dll": {
+          "lib/net6.0/CommunityToolkit.Common.dll": {
             "related": ".pdb;.xml"
           }
         },
         "runtime": {
-          "lib/net5.0/CommunityToolkit.Common.dll": {
+          "lib/net6.0/CommunityToolkit.Common.dll": {
             "related": ".pdb;.xml"
           }
         }
@@ -45,6 +45,78 @@
         "runtime": {
           "lib/net5.0-windows10.0.18362/CommunityToolkit.WinUI.dll": {
             "related": ".pdb;.pri;.xml"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Controls.SettingsControls/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.WinUI.Triggers": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.dll": {
+            "related": ".pdb;.pri"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Extensions/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Common": "8.2.1",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.dll": {
+            "related": ".pdb;.pri"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Helpers/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.WinUI.Extensions": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.dll": {
+            "related": ".pdb;.pri"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Triggers/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.WinUI.Helpers": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.dll": {
+            "related": ".pdb;.pri"
           }
         }
       },
@@ -387,15 +459,15 @@
       }
     },
     "net6.0-windows10.0.19041/win10-arm64": {
-      "CommunityToolkit.Common/7.1.2": {
+      "CommunityToolkit.Common/8.2.1": {
         "type": "package",
         "compile": {
-          "lib/net5.0/CommunityToolkit.Common.dll": {
+          "lib/net6.0/CommunityToolkit.Common.dll": {
             "related": ".pdb;.xml"
           }
         },
         "runtime": {
-          "lib/net5.0/CommunityToolkit.Common.dll": {
+          "lib/net6.0/CommunityToolkit.Common.dll": {
             "related": ".pdb;.xml"
           }
         }
@@ -430,6 +502,78 @@
         "runtime": {
           "lib/net5.0-windows10.0.18362/CommunityToolkit.WinUI.dll": {
             "related": ".pdb;.pri;.xml"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Controls.SettingsControls/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.WinUI.Triggers": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.dll": {
+            "related": ".pdb;.pri"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Extensions/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Common": "8.2.1",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.dll": {
+            "related": ".pdb;.pri"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Helpers/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.WinUI.Extensions": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.dll": {
+            "related": ".pdb;.pri"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Triggers/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.WinUI.Helpers": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.dll": {
+            "related": ".pdb;.pri"
           }
         }
       },
@@ -682,15 +826,15 @@
       }
     },
     "net6.0-windows10.0.19041/win10-x64": {
-      "CommunityToolkit.Common/7.1.2": {
+      "CommunityToolkit.Common/8.2.1": {
         "type": "package",
         "compile": {
-          "lib/net5.0/CommunityToolkit.Common.dll": {
+          "lib/net6.0/CommunityToolkit.Common.dll": {
             "related": ".pdb;.xml"
           }
         },
         "runtime": {
-          "lib/net5.0/CommunityToolkit.Common.dll": {
+          "lib/net6.0/CommunityToolkit.Common.dll": {
             "related": ".pdb;.xml"
           }
         }
@@ -725,6 +869,78 @@
         "runtime": {
           "lib/net5.0-windows10.0.18362/CommunityToolkit.WinUI.dll": {
             "related": ".pdb;.pri;.xml"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Controls.SettingsControls/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.WinUI.Triggers": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.dll": {
+            "related": ".pdb;.pri"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Extensions/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Common": "8.2.1",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.dll": {
+            "related": ".pdb;.pri"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Helpers/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.WinUI.Extensions": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.dll": {
+            "related": ".pdb;.pri"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Triggers/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.WinUI.Helpers": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.dll": {
+            "related": ".pdb;.pri"
           }
         }
       },
@@ -977,15 +1193,15 @@
       }
     },
     "net6.0-windows10.0.19041/win10-x86": {
-      "CommunityToolkit.Common/7.1.2": {
+      "CommunityToolkit.Common/8.2.1": {
         "type": "package",
         "compile": {
-          "lib/net5.0/CommunityToolkit.Common.dll": {
+          "lib/net6.0/CommunityToolkit.Common.dll": {
             "related": ".pdb;.xml"
           }
         },
         "runtime": {
-          "lib/net5.0/CommunityToolkit.Common.dll": {
+          "lib/net6.0/CommunityToolkit.Common.dll": {
             "related": ".pdb;.xml"
           }
         }
@@ -1020,6 +1236,78 @@
         "runtime": {
           "lib/net5.0-windows10.0.18362/CommunityToolkit.WinUI.dll": {
             "related": ".pdb;.pri;.xml"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Controls.SettingsControls/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.WinUI.Triggers": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.dll": {
+            "related": ".pdb;.pri"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Extensions/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Common": "8.2.1",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.dll": {
+            "related": ".pdb;.pri"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Helpers/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.WinUI.Extensions": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.dll": {
+            "related": ".pdb;.pri"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Triggers/8.0.230907": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.WinUI.Helpers": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.3.230331000"
+        },
+        "compile": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.dll": {
+            "related": ".pdb;.pri"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.dll": {
+            "related": ".pdb;.pri"
           }
         }
       },
@@ -1273,24 +1561,21 @@
     }
   },
   "libraries": {
-    "CommunityToolkit.Common/7.1.2": {
-      "sha512": "KnHnukN+Sc26YT98OWYTp8mvaYlLc61lzDh0RrVRNQXm01hZ+iXAjCgKM59vAojqxNVrlbcXj22LYOyXWDItgg==",
+    "CommunityToolkit.Common/8.2.1": {
+      "sha512": "LWuhy8cQKJ/MYcy3XafJ916U3gPH/YDvYoNGWyQWN11aiEKCZszzPOTJAOvBjP9yG8vHmIcCyPUt4L82OK47Iw==",
       "type": "package",
-      "path": "communitytoolkit.common/7.1.2",
+      "path": "communitytoolkit.common/8.2.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "License.md",
         "ThirdPartyNotices.txt",
-        "communitytoolkit.common.7.1.2.nupkg.sha512",
+        "communitytoolkit.common.8.2.1.nupkg.sha512",
         "communitytoolkit.common.nuspec",
-        "lib/net5.0/CommunityToolkit.Common.dll",
-        "lib/net5.0/CommunityToolkit.Common.pdb",
-        "lib/net5.0/CommunityToolkit.Common.xml",
-        "lib/netstandard1.4/CommunityToolkit.Common.dll",
-        "lib/netstandard1.4/CommunityToolkit.Common.pdb",
-        "lib/netstandard1.4/CommunityToolkit.Common.xml",
+        "lib/net6.0/CommunityToolkit.Common.dll",
+        "lib/net6.0/CommunityToolkit.Common.pdb",
+        "lib/net6.0/CommunityToolkit.Common.xml",
         "lib/netstandard2.0/CommunityToolkit.Common.dll",
         "lib/netstandard2.0/CommunityToolkit.Common.pdb",
         "lib/netstandard2.0/CommunityToolkit.Common.xml",
@@ -1346,6 +1631,126 @@
         "lib/net5.0-windows10.0.18362/CommunityToolkit.WinUI.pdb",
         "lib/net5.0-windows10.0.18362/CommunityToolkit.WinUI.pri",
         "lib/net5.0-windows10.0.18362/CommunityToolkit.WinUI.xml"
+      ]
+    },
+    "CommunityToolkit.WinUI.Controls.SettingsControls/8.0.230907": {
+      "sha512": "OZMJfD6mn8SlFnoFPqil59Qz3VVsBtBZKcB4VYcf42+IGU1gzkCnyboy589vyrF3ym9OJKg8Fayd/GH+hTe5Vg==",
+      "type": "package",
+      "path": "communitytoolkit.winui.controls.settingscontrols/8.0.230907",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "License.md",
+        "ReadMe.md",
+        "communitytoolkit.winui.controls.settingscontrols.8.0.230907.nupkg.sha512",
+        "communitytoolkit.winui.controls.settingscontrols.nuspec",
+        "icon.png",
+        "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.dll",
+        "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.pdb",
+        "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.pri",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Controls.SettingsControls.aar",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Controls.SettingsControls.dll",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Controls.SettingsControls.pdb",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Controls.SettingsControls.xml",
+        "lib/net7.0-ios16.1/CommunityToolkit.WinUI.Controls.SettingsControls.dll",
+        "lib/net7.0-ios16.1/CommunityToolkit.WinUI.Controls.SettingsControls.pdb",
+        "lib/net7.0-maccatalyst16.1/CommunityToolkit.WinUI.Controls.SettingsControls.dll",
+        "lib/net7.0-maccatalyst16.1/CommunityToolkit.WinUI.Controls.SettingsControls.pdb",
+        "lib/net7.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.dll",
+        "lib/net7.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.pdb",
+        "lib/net7.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.pri",
+        "lib/net7.0/CommunityToolkit.WinUI.Controls.SettingsControls.dll",
+        "lib/net7.0/CommunityToolkit.WinUI.Controls.SettingsControls.pdb"
+      ]
+    },
+    "CommunityToolkit.WinUI.Extensions/8.0.230907": {
+      "sha512": "fNbNqyfzuq+o1j6pSifa8wL288XqW0UTI+XwCpf702LCZpIr3xvGbmAjg0BTBEOs3Um/VWTVj21Cm9tRZaY8qw==",
+      "type": "package",
+      "path": "communitytoolkit.winui.extensions/8.0.230907",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "License.md",
+        "ReadMe.md",
+        "communitytoolkit.winui.extensions.8.0.230907.nupkg.sha512",
+        "communitytoolkit.winui.extensions.nuspec",
+        "icon.png",
+        "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.dll",
+        "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.pdb",
+        "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.pri",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Extensions.aar",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Extensions.dll",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Extensions.pdb",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Extensions.xml",
+        "lib/net7.0-ios16.1/CommunityToolkit.WinUI.Extensions.dll",
+        "lib/net7.0-ios16.1/CommunityToolkit.WinUI.Extensions.pdb",
+        "lib/net7.0-maccatalyst16.1/CommunityToolkit.WinUI.Extensions.dll",
+        "lib/net7.0-maccatalyst16.1/CommunityToolkit.WinUI.Extensions.pdb",
+        "lib/net7.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.dll",
+        "lib/net7.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.pdb",
+        "lib/net7.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.pri",
+        "lib/net7.0/CommunityToolkit.WinUI.Extensions.dll",
+        "lib/net7.0/CommunityToolkit.WinUI.Extensions.pdb"
+      ]
+    },
+    "CommunityToolkit.WinUI.Helpers/8.0.230907": {
+      "sha512": "ja7+sExmi2VxYbuBe+w0mC533dEb249TXUM7xGkSUpTAPMJ9JF6x/OyoDGRxlfj5sVggQr8VuITbGOe7Rhhk0g==",
+      "type": "package",
+      "path": "communitytoolkit.winui.helpers/8.0.230907",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "License.md",
+        "ReadMe.md",
+        "communitytoolkit.winui.helpers.8.0.230907.nupkg.sha512",
+        "communitytoolkit.winui.helpers.nuspec",
+        "icon.png",
+        "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.dll",
+        "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.pdb",
+        "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.pri",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Helpers.aar",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Helpers.dll",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Helpers.pdb",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Helpers.xml",
+        "lib/net7.0-ios16.1/CommunityToolkit.WinUI.Helpers.dll",
+        "lib/net7.0-ios16.1/CommunityToolkit.WinUI.Helpers.pdb",
+        "lib/net7.0-maccatalyst16.1/CommunityToolkit.WinUI.Helpers.dll",
+        "lib/net7.0-maccatalyst16.1/CommunityToolkit.WinUI.Helpers.pdb",
+        "lib/net7.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.dll",
+        "lib/net7.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.pdb",
+        "lib/net7.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.pri",
+        "lib/net7.0/CommunityToolkit.WinUI.Helpers.dll",
+        "lib/net7.0/CommunityToolkit.WinUI.Helpers.pdb"
+      ]
+    },
+    "CommunityToolkit.WinUI.Triggers/8.0.230907": {
+      "sha512": "H5X3x5P67OoI3yTF89mebnGqW7O6YnEs88lYBUYnrVu6kal7uAAPYmLIcAQgj0S+o9cvBRsb6N++AqTxGWMF9Q==",
+      "type": "package",
+      "path": "communitytoolkit.winui.triggers/8.0.230907",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "License.md",
+        "ReadMe.md",
+        "communitytoolkit.winui.triggers.8.0.230907.nupkg.sha512",
+        "communitytoolkit.winui.triggers.nuspec",
+        "icon.png",
+        "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.dll",
+        "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.pdb",
+        "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.pri",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Triggers.aar",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Triggers.dll",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Triggers.pdb",
+        "lib/net7.0-android33.0/CommunityToolkit.WinUI.Triggers.xml",
+        "lib/net7.0-ios16.1/CommunityToolkit.WinUI.Triggers.dll",
+        "lib/net7.0-ios16.1/CommunityToolkit.WinUI.Triggers.pdb",
+        "lib/net7.0-maccatalyst16.1/CommunityToolkit.WinUI.Triggers.dll",
+        "lib/net7.0-maccatalyst16.1/CommunityToolkit.WinUI.Triggers.pdb",
+        "lib/net7.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.dll",
+        "lib/net7.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.pdb",
+        "lib/net7.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.pri",
+        "lib/net7.0/CommunityToolkit.WinUI.Triggers.dll",
+        "lib/net7.0/CommunityToolkit.WinUI.Triggers.pdb"
       ]
     },
     "CommunityToolkit.WinUI.UI/7.1.2": {
@@ -2387,6 +2792,7 @@
     "net6.0-windows10.0.19041": [
       "Assets >= 1.0.0",
       "CommunityToolkit.Mvvm >= 8.2.1",
+      "CommunityToolkit.WinUI.Controls.SettingsControls >= 8.0.230907",
       "CommunityToolkit.WinUI.UI >= 7.1.2",
       "FireBrowserMultiCore >= 1.0.0",
       "FireBrowserWinUi3Core >= 1.0.0",
@@ -2456,6 +2862,10 @@
             "target": "Package",
             "version": "[8.2.1, )"
           },
+          "CommunityToolkit.WinUI.Controls.SettingsControls": {
+            "target": "Package",
+            "version": "[8.0.230907, )"
+          },
           "CommunityToolkit.WinUI.UI": {
             "target": "Package",
             "version": "[7.1.2, )"
@@ -2491,10 +2901,6 @@
           },
           {
             "name": "Microsoft.AspNetCore.App.Runtime.win-x86",
-            "version": "[6.0.22, 6.0.22]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
             "version": "[6.0.22, 6.0.22]"
           },
           {

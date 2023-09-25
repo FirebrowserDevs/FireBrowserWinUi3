@@ -319,6 +319,10 @@
               "target": "Package",
               "version": "[8.2.1, )"
             },
+            "CommunityToolkit.WinUI.Controls.SettingsControls": {
+              "target": "Package",
+              "version": "[8.0.230907, )"
+            },
             "CommunityToolkit.WinUI.UI": {
               "target": "Package",
               "version": "[7.1.2, )"
@@ -354,10 +358,6 @@
             },
             {
               "name": "Microsoft.AspNetCore.App.Runtime.win-x86",
-              "version": "[6.0.22, 6.0.22]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
               "version": "[6.0.22, 6.0.22]"
             },
             {

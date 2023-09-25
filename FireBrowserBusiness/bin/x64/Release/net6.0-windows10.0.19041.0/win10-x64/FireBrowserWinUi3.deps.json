@@ -11,6 +11,7 @@
         "dependencies": {
           "Assets": "1.0.0",
           "CommunityToolkit.Mvvm": "8.2.1",
+          "CommunityToolkit.WinUI.Controls.SettingsControls": "8.0.230907",
           "CommunityToolkit.WinUI.UI": "7.1.2",
           "FireBrowserMultiCore": "1.0.0",
           "FireBrowserWinUi3Core": "1.0.0",
@@ -873,11 +874,11 @@
           }
         }
       },
-      "CommunityToolkit.Common/7.1.2": {
+      "CommunityToolkit.Common/8.2.1": {
         "runtime": {
-          "lib/net5.0/CommunityToolkit.Common.dll": {
-            "assemblyVersion": "7.1.0.0",
-            "fileVersion": "7.1.2.1"
+          "lib/net6.0/CommunityToolkit.Common.dll": {
+            "assemblyVersion": "8.2.0.0",
+            "fileVersion": "8.2.1.1"
           }
         }
       },
@@ -891,13 +892,65 @@
       },
       "CommunityToolkit.WinUI/7.1.2": {
         "dependencies": {
-          "CommunityToolkit.Common": "7.1.2",
+          "CommunityToolkit.Common": "8.2.1",
           "Microsoft.WindowsAppSDK": "1.4.230913002"
         },
         "runtime": {
           "lib/net5.0-windows10.0.18362/CommunityToolkit.WinUI.dll": {
             "assemblyVersion": "7.1.0.0",
             "fileVersion": "7.1.2.1"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Controls.SettingsControls/8.0.230907": {
+        "dependencies": {
+          "CommunityToolkit.WinUI.Triggers": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.4.230913002"
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Controls.SettingsControls.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.0.0"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Extensions/8.0.230907": {
+        "dependencies": {
+          "CommunityToolkit.Common": "8.2.1",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.4.230913002"
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Extensions.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.0.0"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Helpers/8.0.230907": {
+        "dependencies": {
+          "CommunityToolkit.WinUI.Extensions": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.4.230913002"
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Helpers.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.0.0"
+          }
+        }
+      },
+      "CommunityToolkit.WinUI.Triggers/8.0.230907": {
+        "dependencies": {
+          "CommunityToolkit.WinUI.Helpers": "8.0.230907",
+          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756",
+          "Microsoft.WindowsAppSDK": "1.4.230913002"
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/CommunityToolkit.WinUI.Triggers.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.0.0"
           }
         }
       },
@@ -1101,12 +1154,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "CommunityToolkit.Common/7.1.2": {
+    "CommunityToolkit.Common/8.2.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-KnHnukN+Sc26YT98OWYTp8mvaYlLc61lzDh0RrVRNQXm01hZ+iXAjCgKM59vAojqxNVrlbcXj22LYOyXWDItgg==",
-      "path": "communitytoolkit.common/7.1.2",
-      "hashPath": "communitytoolkit.common.7.1.2.nupkg.sha512"
+      "sha512": "sha512-LWuhy8cQKJ/MYcy3XafJ916U3gPH/YDvYoNGWyQWN11aiEKCZszzPOTJAOvBjP9yG8vHmIcCyPUt4L82OK47Iw==",
+      "path": "communitytoolkit.common/8.2.1",
+      "hashPath": "communitytoolkit.common.8.2.1.nupkg.sha512"
     },
     "CommunityToolkit.Mvvm/8.2.1": {
       "type": "package",
@@ -1121,6 +1174,34 @@
       "sha512": "sha512-0O6hCHy+/adJygcROD3r3yA41gRq972i/r6uGUfo8lfEbr/I1YGePTClAh1P9JYT7DdoI2IqeUhX05lq+rwrHg==",
       "path": "communitytoolkit.winui/7.1.2",
       "hashPath": "communitytoolkit.winui.7.1.2.nupkg.sha512"
+    },
+    "CommunityToolkit.WinUI.Controls.SettingsControls/8.0.230907": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OZMJfD6mn8SlFnoFPqil59Qz3VVsBtBZKcB4VYcf42+IGU1gzkCnyboy589vyrF3ym9OJKg8Fayd/GH+hTe5Vg==",
+      "path": "communitytoolkit.winui.controls.settingscontrols/8.0.230907",
+      "hashPath": "communitytoolkit.winui.controls.settingscontrols.8.0.230907.nupkg.sha512"
+    },
+    "CommunityToolkit.WinUI.Extensions/8.0.230907": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fNbNqyfzuq+o1j6pSifa8wL288XqW0UTI+XwCpf702LCZpIr3xvGbmAjg0BTBEOs3Um/VWTVj21Cm9tRZaY8qw==",
+      "path": "communitytoolkit.winui.extensions/8.0.230907",
+      "hashPath": "communitytoolkit.winui.extensions.8.0.230907.nupkg.sha512"
+    },
+    "CommunityToolkit.WinUI.Helpers/8.0.230907": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ja7+sExmi2VxYbuBe+w0mC533dEb249TXUM7xGkSUpTAPMJ9JF6x/OyoDGRxlfj5sVggQr8VuITbGOe7Rhhk0g==",
+      "path": "communitytoolkit.winui.helpers/8.0.230907",
+      "hashPath": "communitytoolkit.winui.helpers.8.0.230907.nupkg.sha512"
+    },
+    "CommunityToolkit.WinUI.Triggers/8.0.230907": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-H5X3x5P67OoI3yTF89mebnGqW7O6YnEs88lYBUYnrVu6kal7uAAPYmLIcAQgj0S+o9cvBRsb6N++AqTxGWMF9Q==",
+      "path": "communitytoolkit.winui.triggers/8.0.230907",
+      "hashPath": "communitytoolkit.winui.triggers.8.0.230907.nupkg.sha512"
     },
     "CommunityToolkit.WinUI.UI/7.1.2": {
       "type": "package",

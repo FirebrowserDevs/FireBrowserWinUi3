@@ -29,17 +29,17 @@
     <AppXManifest Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Release\net6.0-windows10.0.19041.0\win10-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2023-09-23T19:13:18.053</Modified>
+      <Modified>2023-09-23T19:49:47.697</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Release\net6.0-windows10.0.19041.0\win10-x64\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2023-09-23T19:12:53.412</Modified>
+      <Modified>2023-09-23T19:38:59.960</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Release\net6.0-windows10.0.19041.0\win10-x64\FireBrowserWinUi3.runtimeconfig.json">
       <PackagePath>FireBrowserWinUi3.runtimeconfig.json</PackagePath>
-      <Modified>2023-09-23T19:12:53.288</Modified>
+      <Modified>2023-09-23T19:38:59.880</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\Assets\algemeen.png">
       <PackagePath>Assets\algemeen.png</PackagePath>
@@ -75,11 +75,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\apphost.exe">
       <PackagePath>FireBrowserWinUi3.exe</PackagePath>
-      <Modified>2023-09-23T19:12:53.008</Modified>
+      <Modified>2023-09-23T19:47:23.111</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Release\net6.0-windows10.0.19041.0\win10-x64\FireBrowserWinUi3.deps.json">
       <PackagePath>FireBrowserWinUi3.deps.json</PackagePath>
-      <Modified>2023-09-23T19:12:53.250</Modified>
+      <Modified>2023-09-23T19:38:59.844</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\microsoft.netcore.app.runtime.win-x64\6.0.22\runtimes\win-x64\native\Microsoft.DiaSymReader.Native.amd64.dll">
       <PackagePath>Microsoft.DiaSymReader.Native.amd64.dll</PackagePath>
@@ -995,123 +995,139 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\CommunityToolkit.Common.dll">
       <PackagePath>CommunityToolkit.Common.dll</PackagePath>
-      <Modified>2023-09-23T19:12:57.408</Modified>
+      <Modified>2023-09-23T19:39:00.419</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\CommunityToolkit.Mvvm.dll">
       <PackagePath>CommunityToolkit.Mvvm.dll</PackagePath>
-      <Modified>2023-09-23T19:12:57.709</Modified>
+      <Modified>2023-09-23T19:39:00.721</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\CommunityToolkit.WinUI.dll">
       <PackagePath>CommunityToolkit.WinUI.dll</PackagePath>
-      <Modified>2023-09-23T19:12:58.191</Modified>
+      <Modified>2023-09-23T19:39:01.167</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\CommunityToolkit.WinUI.Controls.SettingsControls.dll">
+      <PackagePath>CommunityToolkit.WinUI.Controls.SettingsControls.dll</PackagePath>
+      <Modified>2023-09-23T19:39:01.486</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\CommunityToolkit.WinUI.Extensions.dll">
+      <PackagePath>CommunityToolkit.WinUI.Extensions.dll</PackagePath>
+      <Modified>2023-09-23T19:39:01.905</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\CommunityToolkit.WinUI.Helpers.dll">
+      <PackagePath>CommunityToolkit.WinUI.Helpers.dll</PackagePath>
+      <Modified>2023-09-23T19:39:02.265</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\CommunityToolkit.WinUI.Triggers.dll">
+      <PackagePath>CommunityToolkit.WinUI.Triggers.dll</PackagePath>
+      <Modified>2023-09-23T19:39:02.583</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\CommunityToolkit.WinUI.UI.dll">
       <PackagePath>CommunityToolkit.WinUI.UI.dll</PackagePath>
-      <Modified>2023-09-23T19:12:58.599</Modified>
+      <Modified>2023-09-23T19:39:02.980</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.Data.Sqlite.dll">
       <PackagePath>Microsoft.Data.Sqlite.dll</PackagePath>
-      <Modified>2023-09-23T19:12:58.922</Modified>
+      <Modified>2023-09-23T19:39:03.301</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.InteractiveExperiences.Projection.dll">
       <PackagePath>Microsoft.InteractiveExperiences.Projection.dll</PackagePath>
-      <Modified>2023-09-23T19:12:59.679</Modified>
+      <Modified>2023-09-23T19:39:04.099</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.WinUI.dll">
       <PackagePath>Microsoft.WinUI.dll</PackagePath>
-      <Modified>2023-09-23T19:13:02.747</Modified>
+      <Modified>2023-09-23T19:39:07.218</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.Windows.AppLifecycle.Projection.dll">
       <PackagePath>Microsoft.Windows.AppLifecycle.Projection.dll</PackagePath>
-      <Modified>2023-09-23T19:13:03.062</Modified>
+      <Modified>2023-09-23T19:39:07.516</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.Windows.AppNotifications.Builder.Projection.dll">
       <PackagePath>Microsoft.Windows.AppNotifications.Builder.Projection.dll</PackagePath>
-      <Modified>2023-09-23T19:13:03.329</Modified>
+      <Modified>2023-09-23T19:39:07.793</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.Windows.AppNotifications.Projection.dll">
       <PackagePath>Microsoft.Windows.AppNotifications.Projection.dll</PackagePath>
-      <Modified>2023-09-23T19:13:03.602</Modified>
+      <Modified>2023-09-23T19:39:08.077</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.Windows.ApplicationModel.DynamicDependency.Projection.dll">
       <PackagePath>Microsoft.Windows.ApplicationModel.DynamicDependency.Projection.dll</PackagePath>
-      <Modified>2023-09-23T19:13:03.883</Modified>
+      <Modified>2023-09-23T19:39:08.360</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.Windows.ApplicationModel.Resources.Projection.dll">
       <PackagePath>Microsoft.Windows.ApplicationModel.Resources.Projection.dll</PackagePath>
-      <Modified>2023-09-23T19:13:04.166</Modified>
+      <Modified>2023-09-23T19:39:08.680</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.Windows.ApplicationModel.WindowsAppRuntime.Projection.dll">
       <PackagePath>Microsoft.Windows.ApplicationModel.WindowsAppRuntime.Projection.dll</PackagePath>
-      <Modified>2023-09-23T19:13:04.424</Modified>
+      <Modified>2023-09-23T19:39:08.932</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.Windows.PushNotifications.Projection.dll">
       <PackagePath>Microsoft.Windows.PushNotifications.Projection.dll</PackagePath>
-      <Modified>2023-09-23T19:13:04.715</Modified>
+      <Modified>2023-09-23T19:39:09.219</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.Windows.Security.AccessControl.Projection.dll">
       <PackagePath>Microsoft.Windows.Security.AccessControl.Projection.dll</PackagePath>
-      <Modified>2023-09-23T19:13:04.962</Modified>
+      <Modified>2023-09-23T19:39:09.464</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.Windows.System.Power.Projection.dll">
       <PackagePath>Microsoft.Windows.System.Power.Projection.dll</PackagePath>
-      <Modified>2023-09-23T19:13:05.218</Modified>
+      <Modified>2023-09-23T19:39:09.739</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.Windows.System.Projection.dll">
       <PackagePath>Microsoft.Windows.System.Projection.dll</PackagePath>
-      <Modified>2023-09-23T19:13:05.461</Modified>
+      <Modified>2023-09-23T19:39:09.986</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.Windows.Widgets.Providers.Projection.dll">
       <PackagePath>Microsoft.Windows.Widgets.Providers.Projection.dll</PackagePath>
-      <Modified>2023-09-23T19:13:05.737</Modified>
+      <Modified>2023-09-23T19:39:10.258</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.WindowsAppRuntime.Bootstrap.Net.dll">
       <PackagePath>Microsoft.WindowsAppRuntime.Bootstrap.Net.dll</PackagePath>
-      <Modified>2023-09-23T19:13:05.966</Modified>
+      <Modified>2023-09-23T19:39:10.488</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Newtonsoft.Json.dll">
       <PackagePath>Newtonsoft.Json.dll</PackagePath>
-      <Modified>2023-09-23T19:13:06.495</Modified>
+      <Modified>2023-09-23T19:39:11.036</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\SQLitePCLRaw.batteries_v2.dll">
       <PackagePath>SQLitePCLRaw.batteries_v2.dll</PackagePath>
-      <Modified>2023-09-23T19:13:06.721</Modified>
+      <Modified>2023-09-23T19:39:11.267</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\SQLitePCLRaw.core.dll">
       <PackagePath>SQLitePCLRaw.core.dll</PackagePath>
-      <Modified>2023-09-23T19:13:06.960</Modified>
+      <Modified>2023-09-23T19:39:11.510</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\SQLitePCLRaw.provider.e_sqlite3.dll">
       <PackagePath>SQLitePCLRaw.provider.e_sqlite3.dll</PackagePath>
-      <Modified>2023-09-23T19:13:07.202</Modified>
+      <Modified>2023-09-23T19:39:11.757</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Assets.dll">
       <PackagePath>Assets.dll</PackagePath>
-      <Modified>2023-09-23T19:13:07.453</Modified>
+      <Modified>2023-09-23T19:39:11.999</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\FireBrowserMultiCore.dll">
       <PackagePath>FireBrowserMultiCore.dll</PackagePath>
-      <Modified>2023-09-23T19:13:07.682</Modified>
+      <Modified>2023-09-23T19:49:47.604</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\FireBrowserWinUi3Core.dll">
       <PackagePath>FireBrowserWinUi3Core.dll</PackagePath>
-      <Modified>2023-09-23T19:13:07.927</Modified>
+      <Modified>2023-09-23T19:39:12.480</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\FireBrowserWinUi3SecureConnect.dll">
       <PackagePath>FireBrowserWinUi3SecureConnect.dll</PackagePath>
-      <Modified>2023-09-23T19:13:08.159</Modified>
+      <Modified>2023-09-23T19:39:12.715</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\FireBrowserWinUi3.dll">
       <PackagePath>FireBrowserWinUi3.dll</PackagePath>
-      <Modified>2023-09-23T19:13:08.509</Modified>
+      <Modified>2023-09-23T19:47:23.735</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\Microsoft.Windows.SDK.NET.dll">
       <PackagePath>Microsoft.Windows.SDK.NET.dll</PackagePath>
-      <Modified>2023-09-23T19:13:17.245</Modified>
+      <Modified>2023-09-23T19:39:21.972</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\WinRT.Runtime.dll">
       <PackagePath>WinRT.Runtime.dll</PackagePath>
-      <Modified>2023-09-23T19:13:17.927</Modified>
+      <Modified>2023-09-23T19:39:22.664</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\Assets\Assets\BackgroundBing.png">
       <PackagePath>Assets\Assets\BackgroundBing.png</PackagePath>
@@ -1140,6 +1156,22 @@
     <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\communitytoolkit.winui\7.1.2\lib\net5.0-windows10.0.18362\CommunityToolkit.WinUI.pri">
       <PackagePath>CommunityToolkit.WinUI.pri</PackagePath>
       <Modified>2021-11-18T21:50:16.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\communitytoolkit.winui.controls.settingscontrols\8.0.230907\lib\net6.0-windows10.0.19041\CommunityToolkit.WinUI.Controls.SettingsControls.pri">
+      <PackagePath>CommunityToolkit.WinUI.Controls.SettingsControls.pri</PackagePath>
+      <Modified>2023-09-07T17:25:36.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\communitytoolkit.winui.extensions\8.0.230907\lib\net6.0-windows10.0.19041\CommunityToolkit.WinUI.Extensions.pri">
+      <PackagePath>CommunityToolkit.WinUI.Extensions.pri</PackagePath>
+      <Modified>2023-09-07T17:04:24.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\communitytoolkit.winui.helpers\8.0.230907\lib\net6.0-windows10.0.19041\CommunityToolkit.WinUI.Helpers.pri">
+      <PackagePath>CommunityToolkit.WinUI.Helpers.pri</PackagePath>
+      <Modified>2023-09-07T17:05:02.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\communitytoolkit.winui.triggers\8.0.230907\lib\net6.0-windows10.0.19041\CommunityToolkit.WinUI.Triggers.pri">
+      <PackagePath>CommunityToolkit.WinUI.Triggers.pri</PackagePath>
+      <Modified>2023-09-07T17:05:50.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\communitytoolkit.winui.ui\7.1.2\lib\net5.0-windows10.0.18362\CommunityToolkit.WinUI.UI.pri">
       <PackagePath>CommunityToolkit.WinUI.UI.pri</PackagePath>

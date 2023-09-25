@@ -721,3 +721,7 @@ C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x6
 C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\qualifiers.txt.intermediate
 C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\MultipleQualifiersPerDimensionFound.txt
 C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\ProjectArchitectures.txt
+C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Release\net6.0-windows10.0.19041.0\win10-x64\CommunityToolkit.WinUI.Controls.SettingsControls.dll
+C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Release\net6.0-windows10.0.19041.0\win10-x64\CommunityToolkit.WinUI.Extensions.dll
+C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Release\net6.0-windows10.0.19041.0\win10-x64\CommunityToolkit.WinUI.Helpers.dll
+C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\bin\x64\Release\net6.0-windows10.0.19041.0\win10-x64\CommunityToolkit.WinUI.Triggers.dll

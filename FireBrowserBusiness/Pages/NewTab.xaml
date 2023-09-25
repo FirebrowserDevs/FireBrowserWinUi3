@@ -40,7 +40,6 @@
                 </Flyout>
             </Button.Flyout>
         </Button>
-        <Button Click="Button_Click">Settings</Button>
         <Button x:Uid="NewTabSettingsButton"
              Style="{ThemeResource QuietButtonStyle}"
              Padding="6" Margin="0,31,32,0"

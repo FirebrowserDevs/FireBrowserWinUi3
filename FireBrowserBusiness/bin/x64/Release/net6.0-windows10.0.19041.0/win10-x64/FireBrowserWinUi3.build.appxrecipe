@@ -754,6 +754,18 @@
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\CommunityToolkit.WinUI.dll">
       <PackagePath>CommunityToolkit.WinUI.dll</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\CommunityToolkit.WinUI.Controls.SettingsControls.dll">
+      <PackagePath>CommunityToolkit.WinUI.Controls.SettingsControls.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\CommunityToolkit.WinUI.Extensions.dll">
+      <PackagePath>CommunityToolkit.WinUI.Extensions.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\CommunityToolkit.WinUI.Helpers.dll">
+      <PackagePath>CommunityToolkit.WinUI.Helpers.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\CommunityToolkit.WinUI.Triggers.dll">
+      <PackagePath>CommunityToolkit.WinUI.Triggers.dll</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\source\repos\Browser\FireBrowserWinUi3\FireBrowserBusiness\obj\x64\Release\net6.0-windows10.0.19041.0\win10-x64\R2R\CommunityToolkit.WinUI.UI.dll">
       <PackagePath>CommunityToolkit.WinUI.UI.dll</PackagePath>
     </AppxPackagedFile>
@@ -855,6 +867,18 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\communitytoolkit.winui\7.1.2\lib\net5.0-windows10.0.18362\CommunityToolkit.WinUI.pri">
       <PackagePath>CommunityToolkit.WinUI.pri</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\communitytoolkit.winui.controls.settingscontrols\8.0.230907\lib\net6.0-windows10.0.19041\CommunityToolkit.WinUI.Controls.SettingsControls.pri">
+      <PackagePath>CommunityToolkit.WinUI.Controls.SettingsControls.pri</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\communitytoolkit.winui.extensions\8.0.230907\lib\net6.0-windows10.0.19041\CommunityToolkit.WinUI.Extensions.pri">
+      <PackagePath>CommunityToolkit.WinUI.Extensions.pri</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\communitytoolkit.winui.helpers\8.0.230907\lib\net6.0-windows10.0.19041\CommunityToolkit.WinUI.Helpers.pri">
+      <PackagePath>CommunityToolkit.WinUI.Helpers.pri</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\communitytoolkit.winui.triggers\8.0.230907\lib\net6.0-windows10.0.19041\CommunityToolkit.WinUI.Triggers.pri">
+      <PackagePath>CommunityToolkit.WinUI.Triggers.pri</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\JPJM-\.nuget\packages\communitytoolkit.winui.ui\7.1.2\lib\net5.0-windows10.0.18362\CommunityToolkit.WinUI.UI.pri">
       <PackagePath>CommunityToolkit.WinUI.UI.pri</PackagePath>
