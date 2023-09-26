@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Navigation;
 using FireBrowserMultiCore;
 using System.Text.Json;
 using System.Threading;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -31,9 +32,9 @@ namespace FireBrowserWinUi3.Setup
             this.InitializeComponent();
         }
 
-        private void Create_Click(object sender, RoutedEventArgs e)
+        private async void Create_Click(object sender, RoutedEventArgs e)
         {
-            CreateUserOnStartup();
+            await CreateUserOnStartup();
             Thread.Sleep(500);
             Frame.Navigate(typeof(SetupUi));
         }
@@ -66,12 +67,13 @@ namespace FireBrowserWinUi3.Setup
             // Return a default UserSettings object or handle the error as needed
             return new Settings();
         }
-        private void CreateUserOnStartup()
+
+        private async Task CreateUserOnStartup()
         {
             // Create a new user object with a unique username.
             User newUser = new User
             {
-                Username = UserName.Text.ToString(), // Generate a unique username.                                                              // Add other user properties as needed.
+                Username = UserName.Text, // Generate a unique username.                                                              // Add other user properties as needed.
             };
 
             // Create a list of users and add the new user to it.
@@ -83,6 +85,7 @@ namespace FireBrowserWinUi3.Setup
 
             // Save the list of users to the JSON file.
             UserDataManager.SaveUsers(users);
+            //AuthService.InitAuthService();
             // Authenticate the new user (if needed).
             AuthService.Authenticate(newUser.Username);
         }

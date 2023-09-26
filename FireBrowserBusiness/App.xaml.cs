@@ -43,11 +43,11 @@ namespace FireBrowserBusiness
         {
             this.InitializeComponent();
 
-
             string coreFolderPath = UserDataManager.CoreFolderPath;
             string username = GetUsernameFromCoreFolderPath(coreFolderPath);
 
-            AuthService.Authenticate(username);
+            if (username != null)
+                AuthService.Authenticate(username);
         }
 
         public static string GetUsernameFromCoreFolderPath(string coreFolderPath)
