@@ -13,11 +13,13 @@
     <ApplicationIcon>Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\access.png" />
     <Content Remove="Assets\algemeen.png" />
     <Content Remove="Assets\clippy.png" />
     <Content Remove="Assets\done.png" />
     <Content Remove="Assets\Logo.png" />
     <Content Remove="Assets\LogoSetup.ico" />
+    <Content Remove="Assets\privacy.png" />
     <Content Remove="Assets\Segoe Fluent Icons.ttf" />
     <Content Remove="Assets\setup_image.png" />
     <Content Remove="Assets\Ui.png" />
@@ -29,9 +31,11 @@
     <None Remove="Controls\FireBrowserTabViewItem.xaml" />
     <None Remove="Pages\NewTab.xaml" />
     <None Remove="SetupWindow.xaml" />
+    <None Remove="Setup\SetupAccess.xaml" />
     <None Remove="Setup\SetupAlgemeen.xaml" />
     <None Remove="Setup\SetupFinish.xaml" />
     <None Remove="Setup\SetupInit.xaml" />
+    <None Remove="Setup\SetupPrivacy.xaml" />
     <None Remove="Setup\SetupUi.xaml" />
     <None Remove="Setup\SetupUser.xaml" />
     <None Remove="Setup\SetupWebView.xaml" />
@@ -75,6 +79,9 @@
     <ProjectReference Include="..\FireBrowserSecureConnect\FireBrowserWinUi3SecureConnect.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Assets\access.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\algemeen.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -82,6 +89,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\privacy.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\setup_image.png">
@@ -99,6 +109,12 @@
     <None Update="LogoSetup.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Setup\SetupAccess.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Setup\SetupPrivacy.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Setup\SetupFinish.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

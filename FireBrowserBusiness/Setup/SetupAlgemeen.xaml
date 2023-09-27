@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:ctr="using:CommunityToolkit.WinUI.Controls"
     >
 
     <Grid>
@@ -59,15 +60,147 @@
                     </Border.Background>
                 </Border>
 
-                <StackPanel
-            Grid.Column="1"
-            VerticalAlignment="Center"
-            Orientation="Vertical"
-            Spacing="10">
-                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="Algemeen" 
-                       TextWrapping="Wrap"/>
-
-
+                <StackPanel Width="525" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <ctr:SettingsCard VerticalAlignment="Top" Margin="0,10,0,0">
+                        <ctr:SettingsCard.Header>
+                            Search Engine
+                        </ctr:SettingsCard.Header>
+                        <ctr:SettingsCard.HeaderIcon>
+                            <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE721;"/>
+                        </ctr:SettingsCard.HeaderIcon>
+                        <ComboBox  x:Name="SearchengineSelection"  SelectionChanged="SearchengineSelection_SelectionChanged" SelectedItem="Google">
+                            <x:String>Google</x:String>
+                            <x:String>Ask</x:String>
+                            <x:String>Baidu</x:String>
+                            <x:String>Bing</x:String>
+                            <x:String>DuckDuckGo</x:String>
+                            <x:String>Ecosia</x:String>
+                            <x:String>Startpage</x:String>
+                            <x:String>Qwant</x:String>
+                            <x:String>Qwant Lite</x:String>
+                            <x:String>Yahoo!</x:String>
+                            <x:String>Presearch</x:String>
+                        </ComboBox>
+                    </ctr:SettingsCard>
+                    <ctr:SettingsExpander VerticalAlignment="Top" Margin="0,2,0,0">
+                        <ctr:SettingsExpander.Header>
+                            Toolbar icons
+                        </ctr:SettingsExpander.Header>
+                        <ctr:SettingsExpander.HeaderIcon>
+                            <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE737;"/>
+                        </ctr:SettingsExpander.HeaderIcon>
+                        <ctr:SettingsExpander.Items>
+                            <ctr:SettingsCard>
+                                <ToggleSwitch x:Name="Dwbl" Toggled="Dwbl_Toggled" IsOn="True"/>
+                                <ctr:SettingsCard.Header>
+                                    Downloads
+                                </ctr:SettingsCard.Header>
+                                <ctr:SettingsCard.HeaderIcon>
+                                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE896;"/>
+                                </ctr:SettingsCard.HeaderIcon>
+                            </ctr:SettingsCard>
+                            <ctr:SettingsCard>
+                                <ToggleSwitch x:Name="Frbl" Toggled="Frbl_Toggled" IsOn="True"/>
+                                <ctr:SettingsCard.Header>
+                                    Favorites List
+                                </ctr:SettingsCard.Header>
+                                <ctr:SettingsCard.HeaderIcon>
+                                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE728;"/>
+                                </ctr:SettingsCard.HeaderIcon>
+                            </ctr:SettingsCard>
+                            <ctr:SettingsCard>
+                                <ToggleSwitch x:Name="FlAd" Toggled="FlAd_Toggled" IsOn="True"/>
+                                <ctr:SettingsCard.Header>
+                                    Favorites
+                                </ctr:SettingsCard.Header>
+                                <ctr:SettingsCard.HeaderIcon>
+                                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE734;"/>
+                                </ctr:SettingsCard.HeaderIcon>
+                            </ctr:SettingsCard>
+                            <ctr:SettingsCard>
+                                <ToggleSwitch x:Name="Hsbl" Toggled="Hsbl_Toggled" IsOn="True"/>
+                                <ctr:SettingsCard.Header>
+                                    History
+                                </ctr:SettingsCard.Header>
+                                <ctr:SettingsCard.HeaderIcon>
+                                    <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xE81C;"/>
+                                </ctr:SettingsCard.HeaderIcon>
+                            </ctr:SettingsCard>
+                            <ctr:SettingsCard>
+                                <ToggleSwitch x:Name="Qrbl" Toggled="Qrbl_Toggled" IsOn="True"/>
+                                <ctr:SettingsCard.Header>
+                                    Qr
+                                </ctr:SettingsCard.Header>
+                                <ctr:SettingsCard.HeaderIcon>
+                                    <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xED14;"/>
+                                </ctr:SettingsCard.HeaderIcon>
+                            </ctr:SettingsCard>
+                            <ctr:SettingsCard>
+                                <ToggleSwitch x:Name="Tlbl" Toggled="Tlbl_Toggled" IsOn="True"/>
+                                <ctr:SettingsCard.Header>
+                                    Web Tools
+                                </ctr:SettingsCard.Header>
+                                <ctr:SettingsCard.HeaderIcon>
+                                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE70F;"/>
+                                </ctr:SettingsCard.HeaderIcon>
+                            </ctr:SettingsCard>
+                        </ctr:SettingsExpander.Items>
+                    </ctr:SettingsExpander>
+                    <ctr:SettingsExpander VerticalAlignment="Top" Margin="0,2,0,0">
+                        <ctr:SettingsExpander.Header>
+                            Tools Menu icons
+                        </ctr:SettingsExpander.Header>
+                        <ctr:SettingsExpander.HeaderIcon>
+                            <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE70F;"/>
+                        </ctr:SettingsExpander.HeaderIcon>
+                        <ctr:SettingsExpander.Items>
+                            <ctr:SettingsCard>
+                                <ToggleSwitch x:Name="Drbl" Toggled="Drbl_Toggled" IsOn="True"/>
+                                <ctr:SettingsCard.Header>
+                                    Force Dark Mode
+                                </ctr:SettingsCard.Header>
+                                <ctr:SettingsCard.HeaderIcon>
+                                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE790;"/>
+                                </ctr:SettingsCard.HeaderIcon>
+                            </ctr:SettingsCard>
+                            <ctr:SettingsCard>
+                                <ToggleSwitch x:Name="Trbl" Toggled="Trbl_Toggled" IsOn="True"/>
+                                <ctr:SettingsCard.Header>
+                                    Translation
+                                </ctr:SettingsCard.Header>
+                                <ctr:SettingsCard.HeaderIcon>
+                                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE87E;"/>
+                                </ctr:SettingsCard.HeaderIcon>
+                            </ctr:SettingsCard>
+                            <ctr:SettingsCard>
+                                <ToggleSwitch x:Name="Read" Toggled="Read_Toggled" IsOn="True"/>
+                                <ctr:SettingsCard.Header>
+                                    Reading Mode
+                                </ctr:SettingsCard.Header>
+                                <ctr:SettingsCard.HeaderIcon>
+                                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE736;"/>
+                                </ctr:SettingsCard.HeaderIcon>
+                            </ctr:SettingsCard>
+                            <ctr:SettingsCard>
+                                <ToggleSwitch x:Name="Adbl" Toggled="Adbl_Toggled" IsOn="True"/>
+                                <ctr:SettingsCard.Header>
+                                    Basic Adblock
+                                </ctr:SettingsCard.Header>
+                                <ctr:SettingsCard.HeaderIcon>
+                                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEA18;"/>
+                                </ctr:SettingsCard.HeaderIcon>
+                            </ctr:SettingsCard>
+                        </ctr:SettingsExpander.Items>
+                    </ctr:SettingsExpander>
+                    <ctr:SettingsCard VerticalAlignment="Top" Margin="0,2,0,0">
+                        <ctr:SettingsCard.Header>
+                            Handler Open In New Tab
+                        </ctr:SettingsCard.Header>
+                        <ctr:SettingsCard.HeaderIcon>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEC6C;"/>
+                        </ctr:SettingsCard.HeaderIcon>
+                        <ToggleSwitch x:Name="OpenNew" Toggled="OpenNew_Toggled"/>
+                    </ctr:SettingsCard>
                     <Button
                 Margin="0,20,0,0"
                 x:Name="SetupAlgemeenBtn"

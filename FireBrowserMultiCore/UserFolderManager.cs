@@ -62,6 +62,7 @@ namespace FireBrowserMultiCore
                 FavoritesL = "1",
                 ToolIcon = "1",
                 DarkIcon = "1",
+                OpenTabHandel = "0",
                 // Add other settings properties here
             };
 

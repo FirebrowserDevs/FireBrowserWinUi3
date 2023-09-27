@@ -16,60 +16,81 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid
-     x:Name="TitleBar"
-     Grid.Row="0"
-     VerticalAlignment="Stretch"
-     Canvas.ZIndex="1"
-     ColumnSpacing="5">
+   x:Name="TitleBar"
+   Grid.Row="0"
+   VerticalAlignment="Stretch"
+   Canvas.ZIndex="1"
+   ColumnSpacing="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Image Margin="5,5,0,5" Source="ms-appx:///Assets/Ui.png"/>
+            <Image Margin="5,5,0,5" Height="32" Width="32" Source="ms-appx:///Assets/Ui.png" />
             <TextBlock Grid.Column="1" VerticalAlignment="Center">
-         <Run Text="Ui" />
-         <Run
-             CharacterSpacing="2"
-             FontWeight="Light"
-             Text="SETTINGS" />
+       <Run Text="UI" />
+       <Run  CharacterSpacing="2"  FontWeight="Light" Text="Settings"/>
             </TextBlock>
         </Grid>
-        <Grid Grid.Row="1" Margin="20" Height="500" Width="950">
+
+        <Grid Grid.Row="1" Margin="20" Height="500" Width="1050">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="500" />
+                <ColumnDefinition Width="595" />
             </Grid.ColumnDefinitions>
 
             <Border  Grid.Column="0"  CornerRadius="10" Width="450" Height="350">
                 <Border.Background>
-                    <ImageBrush ImageSource="ms-appx:///Assets/webview.png" />
+                    <ImageBrush ImageSource="ms-appx:///Assets/setup_image.png" />
                 </Border.Background>
             </Border>
 
-            <StackPanel Width="480" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                <ctr:SettingsCard VerticalAlignment="Top" Margin="0,25,0,0" Width="600">
-                    <ctr:SettingsCard.Header>
-                        Search Engine
-                    </ctr:SettingsCard.Header>
+            <StackPanel Width="525" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <ctr:SettingsCard Header="Auto Fill TextBox" Description="This Will Auto Fill The Address Bar From The MiniBar" Margin="0,10,0,0">
                     <ctr:SettingsCard.HeaderIcon>
-                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE721;"/>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEDA8;" />
                     </ctr:SettingsCard.HeaderIcon>
-                    <ComboBox  x:Name="SearchengineSelection" SelectionChanged="SearchengineSelection_SelectionChanged" SelectedItem="Google">
-                        <x:String>Google</x:String>
-                        <x:String>Ask</x:String>
-                        <x:String>Baidu</x:String>
-                        <x:String>Bing</x:String>
-                        <x:String>DuckDuckGo</x:String>
-                        <x:String>Ecosia</x:String>
-                        <x:String>Startpage</x:String>
-                        <x:String>Qwant</x:String>
-                        <x:String>Qwant Lite</x:String>
-                        <x:String>Yahoo!</x:String>
-                        <x:String>Presearch</x:String>
-                    </ComboBox>
+                    <ToggleSwitch x:Name="AutoTog" Toggled="AutoTog_Toggled"/>
                 </ctr:SettingsCard>
-
-                <Button x:Name="Finish" Click="SetupUiBtn_Click" Margin="190,10,0,10"  Content="Finish Setup"  Style="{ThemeResource AccentButtonStyle}" />
+                <ctr:SettingsCard Header="Color ToolBar" Description="Change The Color Of The ToolBar" Margin="0,1,0,0">
+                    <ctr:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE790;" />
+                    </ctr:SettingsCard.HeaderIcon>
+                    <TextBox x:Name="ColorTB" Text="#000000" TextChanged="ColorTB_TextChanged"/>
+                </ctr:SettingsCard>
+                <ctr:SettingsCard Header="Color TabView Background" Description="Change The Color Of The TabViewBackground" Margin="0,1,0,0">
+                    <ctr:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE790;" />
+                    </ctr:SettingsCard.HeaderIcon>
+                    <TextBox x:Name="ColorTV" Text="#000000" TextChanged="ColorTV_TextChanged"/>
+                </ctr:SettingsCard>
+                <ctr:SettingsExpander Header="Tabs Layout Model" Description="Change Here Tab Mode" Margin="0,1,0,0">
+                    <ctr:SettingsExpander.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC6C;" />
+                    </ctr:SettingsExpander.HeaderIcon>
+                    <ctr:SettingsExpander.Items>
+                        <ctr:SettingsCard>
+                            <ctr:SettingsCard.Header>
+                                Change Color
+                            </ctr:SettingsCard.Header>
+                            <ctr:SettingsCard.HeaderIcon>
+                                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE790;"/>
+                            </ctr:SettingsCard.HeaderIcon>
+                            <TextBox x:Name="Color" Text="#000000" TextChanged="Color_TextChanged"/>
+                        </ctr:SettingsCard>
+                    </ctr:SettingsExpander.Items>
+                    <ComboBox x:Name="Type" SelectedItem="Default" SelectionChanged="Type_SelectionChanged">
+                        <x:String>
+                            Default
+                        </x:String>
+                        <x:String>
+                            Featured
+                        </x:String>
+                        <x:String>
+                            Custom
+                        </x:String>
+                    </ComboBox>
+                </ctr:SettingsExpander>
+                <Button x:Name="SetupUiBtn" Click="SetupUiBtn_Click"     Margin="0,20,0,0"  Content="Ui Setup"  Style="{ThemeResource AccentButtonStyle}" />
             </StackPanel>
         </Grid>
     </Grid>

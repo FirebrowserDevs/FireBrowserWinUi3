@@ -18,6 +18,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Setup\SetupAccess.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Setup\SetupPrivacy.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Setup\SetupFinish.xaml">
       <SubType>Designer</SubType>
     </Page>

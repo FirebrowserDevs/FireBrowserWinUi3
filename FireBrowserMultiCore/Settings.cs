@@ -30,5 +30,6 @@ public class Settings
     public string QrCode { get; set; }
     public string FavoritesL { get; set; }
     public string ToolIcon { get; set; }
+    public string OpenTabHandel { get; set; }
     public string DarkIcon { get; set; }
 }

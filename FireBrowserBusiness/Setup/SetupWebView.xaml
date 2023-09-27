@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+      xmlns:ctr="using:CommunityToolkit.WinUI.Controls"
   >
 
     <Grid>
@@ -63,11 +64,47 @@
             Grid.Column="1"
             VerticalAlignment="Center"
             Orientation="Vertical"
-            Spacing="10">
-                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="WebView" 
-                       TextWrapping="Wrap"/>
+                    Width="500"
+            >
 
-
+                    <ctr:SettingsCard Header="WebView2 StatusBar" Description="turn on or off - statusbar" >
+                        <ctr:SettingsCard.HeaderIcon>
+                            <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xF168;" />
+                        </ctr:SettingsCard.HeaderIcon>
+                        <ToggleSwitch  x:Name="StatusTog" Toggled="StatusTog_Toggled" IsOn="True"/>
+                    </ctr:SettingsCard>
+                    <ctr:SettingsCard Header="WebView2 Browser Accelerator Keys" Description="turn on or off - BrowserAcceleratorKeys" >
+                        <ctr:SettingsCard.HeaderIcon>
+                            <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE9A9;" />
+                        </ctr:SettingsCard.HeaderIcon>
+                        <ToggleSwitch  x:Name="BrowserKeys" Toggled="BrowserKeys_Toggled" IsOn="True"/>
+                    </ctr:SettingsCard>
+                    <ctr:SettingsCard Header="WebView2 Script Dialogs" Description="turn on or off - Scripts Dialogs" >
+                        <ctr:SettingsCard.HeaderIcon>
+                            <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xED0E;" />
+                        </ctr:SettingsCard.HeaderIcon>
+                        <ToggleSwitch  x:Name="BrowserScripts" Toggled="BrowserScripts_Toggled" IsOn="True"/>
+                    </ctr:SettingsCard>
+                    <ctr:SettingsExpander>
+                        <ctr:SettingsExpander.Header>
+                            Prefrenses
+                        </ctr:SettingsExpander.Header>
+                        <ctr:SettingsExpander.HeaderIcon>
+                            <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
+                        </ctr:SettingsExpander.HeaderIcon>
+                        <ctr:SettingsExpander.Items>
+                            <ctr:SettingsCard>
+                                <TextBox x:Name="userag" Text="FireBrowserWebView" TextChanged="userag_TextChanged"/>
+                                <ctr:SettingsCard.Header>
+                                  Useragent
+                                </ctr:SettingsCard.Header>
+                                <ctr:SettingsCard.HeaderIcon>
+                                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE736;"/>
+                                </ctr:SettingsCard.HeaderIcon>
+                            </ctr:SettingsCard>
+                        </ctr:SettingsExpander.Items>
+                    </ctr:SettingsExpander>
+                    
                     <Button
                 Margin="0,20,0,0"
                 x:Name="SetupWebViewBtn"
