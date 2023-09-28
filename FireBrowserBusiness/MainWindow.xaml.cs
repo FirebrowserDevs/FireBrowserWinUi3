@@ -49,6 +49,8 @@ namespace FireBrowserBusiness
         public MainWindow()
         {
             InitializeComponent();
+
+            // Make this maybe threaded class for faster handeling
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
 
             WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
