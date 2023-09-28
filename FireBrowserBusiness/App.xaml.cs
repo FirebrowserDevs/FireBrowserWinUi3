@@ -89,7 +89,7 @@ namespace FireBrowserBusiness
         {
             if (!Directory.Exists(UserDataManager.CoreFolderPath))
             {
-                // The "FireBrowserUserCore" folder exists, so proceed with your application's normal behavior.
+                // The "FireBrowserUserCore" folder does not exist, so proceed with  application's setup behavior.
                 m_window = new SetupWindow();
                 m_window.Activate();
             }
