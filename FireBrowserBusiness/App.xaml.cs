@@ -1,14 +1,6 @@
 ﻿using FireBrowserMultiCore;
 using FireBrowserWinUi3;
-using FireBrowserWinUi3.Setup;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,10 +9,6 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Path = System.IO.Path;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -80,6 +68,7 @@ namespace FireBrowserBusiness
             // Return null or an empty string if the username couldn't be retrieved
             return null;
         }
+
 
         /// <summary>
         /// Invoked when the application is launched.

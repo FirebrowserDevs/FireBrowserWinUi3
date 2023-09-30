@@ -1,37 +1,17 @@
 using FireBrowserBusiness.Controls;
 using FireBrowserBusiness.Pages;
 using FireBrowserMultiCore;
-using FireBrowserWinUi3.Setup;
 using Microsoft.UI;
-using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Numerics;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.Graphics;
-using Windows.Media.Core;
-using Windows.System;
-using Windows.UI.ViewManagement;
 using WinRT.Interop;
+using Windowing = FireBrowserBusinessCore.Helpers.Windowing;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -50,6 +30,13 @@ namespace FireBrowserBusiness
         {
             InitializeComponent();
 
+            Title();
+            LoadUserDataAndSettings();              
+            Launch();
+        }
+
+        public void Title()
+        {
             // Make this maybe threaded class for faster handeling
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
 
@@ -72,45 +59,46 @@ namespace FireBrowserBusiness
                 titleBar.ButtonBackgroundColor = btnColor;
                 titleBar.InactiveBackgroundColor = btnColor;
                 titleBar.ButtonInactiveBackgroundColor = btnColor;
+                titleBar.ButtonHoverBackgroundColor = btnColor;
             }
-          
-            LoadUserDataAndSettings();
-                  
-            Launch();
+
+            buttons();
         }
 
+        Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
         private void LoadUserDataAndSettings()
         {
-            FireBrowserMultiCore.User currentUser = GetUser();
-
-            if (currentUser != null)
+            if (GetUser() is not { } currentUser)
             {
-                if (!AuthService.IsUserAuthenticated)
-                {
-                    bool isAuthenticated = AuthService.Authenticate(currentUser.Username);
-
-                    if (!isAuthenticated)
-                    {
-                     
-                        return;
-                    }
-                }
-
-                Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
-
-                // Update the TextBlock with the username.
-                UserName.Text = AuthService.CurrentUser.Username;
-                Prof.Text = AuthService.CurrentUser.Username;
-                // You can also update other UI elements with user-specific data/settings.
-                // For example:
-                // someOtherTextBlock.Text = userSettings.SomeProperty;
+                UserName.Text = Prof.Text = "DefaultUser";
+                return;
             }
-            else
+
+            if (!AuthService.IsUserAuthenticated && !AuthService.Authenticate(currentUser.Username))
             {
-                // No user selected or authenticated, use a default username.
-                UserName.Text = "DefaultUser";
-                Prof.Text = "DefaultUser";
+                return;
             }
+
+            UserName.Text = Prof.Text = AuthService.CurrentUser?.Username ?? "DefaultUser";
+        }
+
+        public void buttons()
+        {
+            SetVisibility(AdBlock, userSettings.AdblockBtn != "0");
+            SetVisibility(ReadBtn, userSettings.ReadButton != "0");
+            SetVisibility(BtnTrans, userSettings.Translate != "0");
+            SetVisibility(BtnDark, userSettings.DarkIcon != "0");
+            SetVisibility(ToolBoxMore, userSettings.ToolIcon != "0");
+            SetVisibility(AddFav, userSettings.FavoritesL != "0");
+            SetVisibility(FavoritesButton, userSettings.Favorites != "0");
+            SetVisibility(DownBtn, userSettings.Downloads != "0");
+            SetVisibility(History, userSettings.Historybtn != "0");
+            SetVisibility(QrBtn, userSettings.QrCode != "0");
+        }
+
+        private void SetVisibility(UIElement element, bool isVisible)
+        {
+            element.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
         }
 
 
@@ -215,7 +203,25 @@ namespace FireBrowserBusiness
             }
         }
 
-       
+
+        [DllImport("Shcore.dll", SetLastError = true)]
+        public static extern int GetDpiForMonitor(IntPtr hmonitor, Windowing.Monitor_DPI_Type dpiType, out uint dpiX, out uint dpiY);
+
+
+        private double GetScaleAdjustment()
+        {
+            IntPtr hWnd = WindowNative.GetWindowHandle(this);
+            WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
+            DisplayArea displayArea = DisplayArea.GetFromWindowId(wndId, DisplayAreaFallback.Primary);
+            IntPtr hMonitor = Win32Interop.GetMonitorFromDisplayId(displayArea.DisplayId);
+            int result = GetDpiForMonitor(hMonitor, Windowing.Monitor_DPI_Type.MDT_Default_DPI, out uint dpiX, out uint _);
+            if (result != 0)
+            {
+                throw new Exception("Could Not Get Dpi");
+            }
+            uint scaleFactorProcent = (uint)(((long)dpiX * 100 + (96 >> 1)) / 96);
+            return scaleFactorProcent / 100.0;
+        }
 
 
         private void Tabs_Loaded(object sender, RoutedEventArgs e)
@@ -243,32 +249,6 @@ namespace FireBrowserBusiness
             }
 
             appWindow.TitleBar?.SetDragRectangles(dragRects);
-        }
-
-        [DllImport("Shcore.dll", SetLastError = true)]
-        internal static extern int GetDpiForMonitor(IntPtr hmonitor, Monitor_DPI_Type dpiType, out uint dpiX, out uint dpiY);
-
-        internal enum Monitor_DPI_Type : int
-        {
-            MDT_Effective_DPI = 0,
-            MDT_Angular_DPI = 1,
-            MDT_Raw_DPI = 2,
-            MDT_Default_DPI = MDT_Effective_DPI,
-        }
-
-        private double GetScaleAdjustment()
-        {
-            IntPtr hWnd = WindowNative.GetWindowHandle(this);
-            WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
-            DisplayArea displayArea = DisplayArea.GetFromWindowId(wndId, DisplayAreaFallback.Primary);
-            IntPtr hMonitor = Win32Interop.GetMonitorFromDisplayId(displayArea.DisplayId);
-            int result = GetDpiForMonitor(hMonitor, Monitor_DPI_Type.MDT_Default_DPI, out uint dpiX, out uint _);
-            if(result != 0)
-            {
-                throw new Exception("Could Not Get Dpi");
-            }
-            uint scaleFactorProcent = (uint)(((long)dpiX * 100 + (96 >> 1)) / 96);
-            return scaleFactorProcent / 100.0;
         }
 
         private void Apptitlebar_LayoutUpdated(object sender, object e)
@@ -309,8 +289,6 @@ namespace FireBrowserBusiness
             }
             else
             {
-                // Disable the button or show a message indicating the limit is reached.
-                // For example, if you have a button named AddTabItemButton:
                 Tabs.IsAddTabButtonVisible = false;
             }
         }

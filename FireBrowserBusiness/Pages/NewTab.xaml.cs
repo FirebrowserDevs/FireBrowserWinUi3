@@ -1,6 +1,7 @@
 using FireBrowserBusinessCore.Models;
 using FireBrowserCore.Models;
 using FireBrowserCore.ViewModel;
+using FireBrowserMultiCore;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -15,6 +16,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Text.Json;
 using static FireBrowserBusiness.MainWindow;
+using Settings = FireBrowserBusinessCore.Models.Settings;
 
 namespace FireBrowserBusiness.Pages;
 public sealed partial class NewTab : Page
@@ -28,16 +30,19 @@ public sealed partial class NewTab : Page
         HomeSync();
     }
 
+    FireBrowserMultiCore.Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
     public void HomeSync()
     {
-        isAuto = FireBrowserBusinessCore.Helpers.SettingsHelper.GetSetting("Auto") == "1";
+        bool isAuto = userSettings.Auto == "1";
         Type.IsOn = isAuto;
 
-        isMode = FireBrowserBusinessCore.Helpers.SettingsHelper.GetSetting("LightMode") == "1";
+        // Update the LightMode setting
+        bool isMode = userSettings.LightMode == "1";
         Mode.IsOn = isMode;
 
-        var backgroundSetting = FireBrowserBusinessCore.Helpers.SettingsHelper.GetSetting("Background");
-        var colorBackgroundSetting = FireBrowserBusinessCore.Helpers.SettingsHelper.GetSetting("ColorBackground");
+        // Get Background and ColorBackground settings
+        string backgroundSetting = userSettings.Background;
+        string colorBackgroundSetting = userSettings.ColorBackground;
 
         // ViewModel setup
         ViewModel = new HomeViewModel
@@ -77,24 +82,27 @@ public sealed partial class NewTab : Page
         switch (selection.Tag)
         {
             case "None":
-                FireBrowserBusinessCore.Helpers.SettingsHelper.SetSetting("Background", "0");
+                userSettings.Background = "0";
                 ViewModel.BackgroundType = Settings.NewTabBackground.None;
                 NewColor.IsEnabled = false;
                 break;
             case "Featured":
-                FireBrowserBusinessCore.Helpers.SettingsHelper.SetSetting("Background", "1");
+                userSettings.Background = "1";
                 ViewModel.BackgroundType = Settings.NewTabBackground.Featured;
                 NewColor.IsEnabled = false;
                 break;
             case "Custom":
-                FireBrowserBusinessCore.Helpers.SettingsHelper.SetSetting("Background", "2");
+                userSettings.Background = "2";
                 ViewModel.BackgroundType = Settings.NewTabBackground.Costum;
                 NewColor.IsEnabled = true;
                 break;
             default:
-
+                // Handle the case when selection doesn't match any of the predefined options.
                 break;
         }
+
+        // Save the modified settings back to the user's settings file
+        UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
     }
 
     Passer param;
@@ -110,31 +118,29 @@ public sealed partial class NewTab : Page
     }
 
 
-    public static Brush GetGridBackgroundAsync(Settings.NewTabBackground backgroundType)
+
+    public static Brush GetGridBackgroundAsync(Settings.NewTabBackground backgroundType, FireBrowserMultiCore.Settings usersettings)
     {
-        FireBrowserBusinessCore.Helpers.SettingsHelper.SetSetting("ColorBackground", "#000000");
-        string colorString = FireBrowserBusinessCore.Helpers.SettingsHelper.GetSetting("ColorBackground");
-   
+        string colorString = usersettings.ColorBackground.ToString();
+
         switch (backgroundType)
         {
             case Settings.NewTabBackground.None:
                 return new SolidColorBrush(Colors.Transparent);
 
             case Settings.NewTabBackground.Costum:
-
-                if (colorString == "")
+              
+                if (colorString == "#000000")
                 {
                     return new SolidColorBrush(Colors.Transparent);
                 }
                 else
-                {                        
+                {
                     var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), colorString);
-
-                    return new SolidColorBrush();
+                    return new SolidColorBrush(color);
                 }
 
             case Settings.NewTabBackground.Featured:
-
                 var client = new HttpClient();
                 try
                 {
@@ -142,12 +148,8 @@ public sealed partial class NewTab : Page
                     try
                     {
                         var images = System.Text.Json.JsonSerializer.Deserialize<ImageRoot>(request);
+                        BitmapImage btpImg = new BitmapImage(new Uri("https://bing.com" + images.images[0].url));
 
-
-                        BitmapImage btpImg = new()
-                        {
-                            UriSource = new Uri("https://bing.com" + images.images[0].url)
-                        };
                         return new ImageBrush()
                         {
                             ImageSource = btpImg,
@@ -165,8 +167,10 @@ public sealed partial class NewTab : Page
                 }
 
         }
+
         return new SolidColorBrush();
     }
+
 
     private void Type_Toggled(object sender, RoutedEventArgs e)
     {
@@ -174,22 +178,65 @@ public sealed partial class NewTab : Page
         {
             isAuto = toggleSwitch.IsOn;
             string autoValue = isAuto ? "1" : "0";
-            FireBrowserBusinessCore.Helpers.SettingsHelper.SetSetting("Auto", autoValue);
+
+        
+            if (AuthService.CurrentUser != null)
+            {
+                // Update the "Auto" setting for the current user
+                userSettings.Auto = autoValue;
+
+                // Save the modified settings back to the user's settings file
+                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            }
+            else
+            {
+                // Handle the case when there is no authenticated user.
+            }
         }
+
     }
 
     private void Mode_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string lightModeValue = toggleSwitch.IsOn ? "1" : "0";
-            FireBrowserBusinessCore.Helpers.SettingsHelper.SetSetting("LightMode", lightModeValue);
+            isMode = toggleSwitch.IsOn;
+            string autoValue = isMode ? "1" : "0";
+
+
+            if (AuthService.CurrentUser != null)
+            {
+                // Update the "Auto" setting for the current user
+                userSettings.LightMode = autoValue;
+
+                // Save the modified settings back to the user's settings file
+                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            }
+            else
+            {
+                // Handle the case when there is no authenticated user.
+            }
         }
     }
 
     private void NewColor_TextChanged(object sender, TextChangedEventArgs e)
     {
-        FireBrowserBusinessCore.Helpers.SettingsHelper.SetSetting("ColorBackground", $"{NewColor.Text.ToString()}");
+        // Get the current user
+       
+
+        if (AuthService.CurrentUser != null)
+        {
+            // Update the "ColorBackground" setting for the current user
+            userSettings.ColorBackground = NewColor.Text.ToString();
+
+            // Save the modified settings back to the user's settings file
+            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+        }
+        else
+        {
+            // Handle the case when there is no authenticated user.
+        }
+
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)
