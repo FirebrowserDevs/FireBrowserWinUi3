@@ -1,8 +1,8 @@
-﻿using FireBrowserBusiness.Pages;
+﻿using FireBrowserBusiness;
+using FireBrowserBusiness.Pages;
 using FireBrowserWinUi3.Pages;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml;
-using FireBrowserBusiness;
+using Microsoft.UI.Xaml.Controls;
 
 namespace FireBrowserWinUi3.Controls
 {

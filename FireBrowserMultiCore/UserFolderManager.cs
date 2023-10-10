@@ -1,9 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Xml;
-using System.Text.Json;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
+using System;
 using System.Diagnostics;
+using System.IO;
+using System.Text.Json;
 
 namespace FireBrowserMultiCore
 {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace FireBrowserMultiCore;
+﻿namespace FireBrowserMultiCore;
 public class Settings
 {
     public string DisableJavaScript { get; set; } // Use "0" for false, "1" for true

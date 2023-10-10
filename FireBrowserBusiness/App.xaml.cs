@@ -3,16 +3,9 @@ using FireBrowserWinUi3;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
-using System.Threading.Tasks;
-using Windows.System;
 using Path = System.IO.Path;
-using static FireBrowserBusiness.MainWindow;
-using UrlHelperWinUi3;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -43,7 +36,7 @@ namespace FireBrowserBusiness
             UrlHelperWinUi3.TLD.LoadKnownDomainsAsync();
         }
 
-      
+
         public static string GetUsernameFromCoreFolderPath(string coreFolderPath)
         {
             try
@@ -91,12 +84,12 @@ namespace FireBrowserBusiness
             else
             {
                 // The "FireBrowserUserCore" folder exists, so proceed with your application's normal behavior.
-                m_window = new MainWindow();             
+                m_window = new MainWindow();
                 m_window.Activate();
             }
         }
 
-    
+
         private Window m_window;
     }
 }

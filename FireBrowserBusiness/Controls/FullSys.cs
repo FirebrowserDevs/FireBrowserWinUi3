@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using Windows.UI.ViewManagement;
 
@@ -29,7 +28,7 @@ namespace FireBrowserWinUi3.Controls
                     }
                     catch (Exception ex)
                     {
-                        
+
                     }
                 }
                 else
@@ -44,7 +43,7 @@ namespace FireBrowserWinUi3.Controls
                     }
                     catch (Exception ex)
                     {
-                       
+
                     }
                 }
                 fullScreen = value;

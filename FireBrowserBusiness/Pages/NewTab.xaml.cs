@@ -1,8 +1,6 @@
-using FireBrowserBusinessCore.Models;
 using FireBrowserCore.Models;
 using FireBrowserCore.ViewModel;
 using FireBrowserMultiCore;
-using FireBrowserWinUi3.Controls;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -10,20 +8,10 @@ using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Windows.Foundation.Collections;
-using Windows.Storage.Streams;
-using Windows.System;
 using static FireBrowserBusiness.MainWindow;
 using Settings = FireBrowserBusinessCore.Models.Settings;
-using User = Windows.System.User;
 
 namespace FireBrowserBusiness.Pages;
 public sealed partial class NewTab : Page
@@ -136,7 +124,7 @@ public sealed partial class NewTab : Page
                 return new SolidColorBrush(Colors.Transparent);
 
             case Settings.NewTabBackground.Costum:
-              
+
                 if (colorString == "#000000")
                 {
                     return new SolidColorBrush(Colors.Transparent);
@@ -186,7 +174,7 @@ public sealed partial class NewTab : Page
             isAuto = toggleSwitch.IsOn;
             string autoValue = isAuto ? "1" : "0";
 
-        
+
             if (AuthService.CurrentUser != null)
             {
                 // Update the "Auto" setting for the current user
@@ -229,7 +217,7 @@ public sealed partial class NewTab : Page
     private void NewColor_TextChanged(object sender, TextChangedEventArgs e)
     {
         // Get the current user
-       
+
 
         if (AuthService.CurrentUser != null)
         {
@@ -247,5 +235,5 @@ public sealed partial class NewTab : Page
     }
 
 
-  
+
 }

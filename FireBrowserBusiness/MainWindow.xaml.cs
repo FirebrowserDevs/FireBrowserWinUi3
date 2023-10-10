@@ -3,27 +3,20 @@ using FireBrowserBusiness.Controls;
 using FireBrowserBusiness.Pages;
 using FireBrowserMultiCore;
 using FireBrowserQr;
-using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UrlHelperWinUi3;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Appointments.DataProvider;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.Storage;
 using Windows.Storage.Streams;
 using WinRT.Interop;
-using static System.Net.Mime.MediaTypeNames;
 using Windowing = FireBrowserBusinessCore.Helpers.Windowing;
 
 namespace FireBrowserBusiness;
@@ -31,18 +24,18 @@ public sealed partial class MainWindow : Window
 {
     private AppWindow appWindow;
     private AppWindowTitleBar titleBar;
-  
+
     public MainWindow()
     {
         InitializeComponent();
 
-  
+
         Title();
-        LoadUserDataAndSettings();              
+        LoadUserDataAndSettings();
         Launch();
     }
 
-  
+
     public void SmallUpdates()
     {
         UrlBox.Text = TabWebView.CoreWebView2.Source.ToString();
@@ -84,13 +77,13 @@ public sealed partial class MainWindow : Window
 
         ViewModel = new ToolbarViewModel
         {
-           currentAddress = "",     
+            currentAddress = "",
         };
 
         buttons();
     }
 
-  
+
     public static string launchurl { get; set; }
     public static string SearchUrl { get; set; }
 
@@ -121,7 +114,7 @@ public sealed partial class MainWindow : Window
     }
 
 
- 
+
 
     public void buttons()
     {
@@ -159,7 +152,7 @@ public sealed partial class MainWindow : Window
 
     private async void Launch()
     {
-        Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));     
+        Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
     }
 
 
@@ -454,7 +447,7 @@ public sealed partial class MainWindow : Window
         }
 
 
-       
+
     }
 
     #region cangochecks
@@ -521,7 +514,7 @@ public sealed partial class MainWindow : Window
                 if (TabContent.Content is WebContent) TabWebView.CoreWebView2.Reload();
                 break;
             case "Home":
-                if (TabContent.Content is WebContent) 
+                if (TabContent.Content is WebContent)
                 {
                     TabContent.Navigate(typeof(NewTab));
                     UrlBox.Text = "";
@@ -586,10 +579,10 @@ public sealed partial class MainWindow : Window
                 }
                 break;
             case "ReadingMode":
-               
+
                 break;
             case "AdBlock":
-               
+
                 break;
             case "AddFavoriteFlyout":
                 if (TabContent.Content is WebContent)
@@ -599,13 +592,13 @@ public sealed partial class MainWindow : Window
                 }
                 break;
             case "AddFavorite":
-              
+
                 break;
             case "Favorites":
-               
+
                 break;
             case "DarkMode":
-               
+
                 break;
         }
     }
@@ -635,7 +628,7 @@ public sealed partial class MainWindow : Window
 
     }
 
-  
+
 
     private void TabMenuClick(object sender, RoutedEventArgs e)
     {
@@ -650,7 +643,7 @@ public sealed partial class MainWindow : Window
                 newWindow.Activate();
                 break;
             case "Share":
-                
+
                 break;
             case "DevTools":
                 if (TabContent.Content is WebContent) (TabContent.Content as WebContent).WebViewElement.CoreWebView2.OpenDevToolsWindow();
@@ -660,16 +653,16 @@ public sealed partial class MainWindow : Window
                 SelectNewTab();
                 break;
             case "FullScreen":
-              
+
                 break;
             case "History":
-                
+
                 break;
             case "InPrivate":
-             
+
                 break;
             case "Favorites":
-               
+
                 break;
         }
     }

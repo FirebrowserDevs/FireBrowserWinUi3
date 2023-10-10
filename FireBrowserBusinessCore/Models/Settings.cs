@@ -2,7 +2,7 @@
 
 public class Settings
 {
-  
+
     public enum UILayout
     {
         Modern,

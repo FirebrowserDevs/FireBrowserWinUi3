@@ -1,28 +1,15 @@
 using CommunityToolkit.WinUI.Helpers;
-using FireBrowserBusiness;
 using FireBrowserBusinessCore.Helpers;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.WebUI;
-using WinRT;
 using static FireBrowserBusiness.MainWindow;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -84,9 +71,9 @@ namespace FireBrowserWinUi3.Pages
             };
             s.CoreWebView2.DocumentTitleChanged += (sender, args) =>
             {
-               
-                    param.Tab.Header = WebViewElement.CoreWebView2.DocumentTitle;
-                
+
+                param.Tab.Header = WebViewElement.CoreWebView2.DocumentTitle;
+
             };
             s.CoreWebView2.PermissionRequested += (sender, args) =>
             {
@@ -96,41 +83,41 @@ namespace FireBrowserWinUi3.Pages
                 }
                 catch (Exception ex)
                 {
-                   
+
                 }
             };
             s.CoreWebView2.FaviconChanged += async (sender, args) =>
             {
-               
-                
-                    try
+
+
+                try
+                {
+                    var bitmapImage = new BitmapImage();
+                    var stream = await sender.GetFaviconAsync(0);
+                    if (stream != null)
                     {
-                        var bitmapImage = new BitmapImage();
-                        var stream = await sender.GetFaviconAsync(0);
-                        if (stream != null)
-                        {
-                            await bitmapImage.SetSourceAsync(stream);
-                            param.Tab.IconSource = new ImageIconSource { ImageSource = bitmapImage };
-                        }
-                        else
-                        {
-                            var bitmapImage2 = new BitmapImage();
-                            await bitmapImage2.SetSourceAsync(await sender.GetFaviconAsync(CoreWebView2FaviconImageFormat.Jpeg));
-                            param.Tab.IconSource = new ImageIconSource { ImageSource = bitmapImage2 };
-                        }
+                        await bitmapImage.SetSourceAsync(stream);
+                        param.Tab.IconSource = new ImageIconSource { ImageSource = bitmapImage };
                     }
-                    catch
+                    else
                     {
-                      
+                        var bitmapImage2 = new BitmapImage();
+                        await bitmapImage2.SetSourceAsync(await sender.GetFaviconAsync(CoreWebView2FaviconImageFormat.Jpeg));
+                        param.Tab.IconSource = new ImageIconSource { ImageSource = bitmapImage2 };
                     }
-                
+                }
+                catch
+                {
+
+                }
+
             };
             s.CoreWebView2.NavigationStarting += (sender, args) =>
             {
-             
+
                 Progress.IsIndeterminate = true;
                 Progress.Visibility = Visibility.Visible;
-        
+
 
                 CheckNetworkStatus();
             };
@@ -138,12 +125,12 @@ namespace FireBrowserWinUi3.Pages
             {
                 Progress.IsIndeterminate = false;
                 Progress.Visibility = Visibility.Collapsed;
-               
+
 
                 s.CoreWebView2.ContainsFullScreenElementChanged += (sender, args) =>
                 {
-                  FullSys sys = new();
-                  sys.FullScreen = s.CoreWebView2.ContainsFullScreenElement;
+                    FullSys sys = new();
+                    sys.FullScreen = s.CoreWebView2.ContainsFullScreenElement;
                 };
 
                 CheckNetworkStatus();
@@ -158,7 +145,7 @@ namespace FireBrowserWinUi3.Pages
             };
             s.CoreWebView2.NewWindowRequested += (sender, args) =>
             {
-              
+
             };
         }
 
@@ -225,7 +212,7 @@ namespace FireBrowserWinUi3.Pages
 
                         break;
                     case "Share":
-                      
+
                         break;
                     case "Print":
                         WebViewElement.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
@@ -247,13 +234,13 @@ namespace FireBrowserWinUi3.Pages
                 switch ((sender as MenuFlyoutItem).Tag)
                 {
                     case "Read":
-                      
+
                         break;
                     case "WebApp":
 
                         break;
                     case "OpenInTab":
-                      
+
                         break;
                     case "OpenInWindow":
                         OpenNewWindow(new Uri(SelectionText));
@@ -277,7 +264,7 @@ namespace FireBrowserWinUi3.Pages
                         Grid.Visibility = Visibility.Visible;
                         offlinePage.Visibility = Visibility.Collapsed;
                         isOffline = false;
-                    
+
                     }
                 }
                 else
