@@ -71,9 +71,7 @@ namespace FireBrowserWinUi3.Pages
             };
             s.CoreWebView2.DocumentTitleChanged += (sender, args) =>
             {
-
                 param.Tab.Header = WebViewElement.CoreWebView2.DocumentTitle;
-
             };
             s.CoreWebView2.PermissionRequested += (sender, args) =>
             {

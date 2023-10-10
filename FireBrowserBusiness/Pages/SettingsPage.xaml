@@ -20,37 +20,37 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem Tag="SettingsHome" Content="Home">
                     <NavigationViewItem.Icon>
-                        <ImageIcon />
+                        <ImageIcon Source="ms-appx:///Assets/Icons/Home.svg"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="Design" Content="Design and Themes (New)">
                     <NavigationViewItem.Icon>
-                        <ImageIcon />
+                        <ImageIcon Source="ms-appx:///Assets/Icons/Style.svg"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="Privacy" Content="Privacy">
                     <NavigationViewItem.Icon>
-                        <ImageIcon />
+                        <ImageIcon Source="ms-appx:///Assets/Icons/Privacy.svg"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="WebView"  Content="WebView">
                     <NavigationViewItem.Icon>
-                        <ImageIcon />
+                        <ImageIcon Source="ms-appx:///Assets/Icons/Webset.svg"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="NewTab"  Content="New Tab">
                     <NavigationViewItem.Icon>
-                        <ImageIcon />
+                        <ImageIcon Source="ms-appx:///Assets/Icons/Tabs.svg"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="Accessibility"  Content="Accessibility">
                     <NavigationViewItem.Icon>
-                        <ImageIcon />
+                        <ImageIcon Source="ms-appx:///Assets/Icons/Accessibility.svg"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="About"  Content="About">
                     <NavigationViewItem.Icon>
-                        <ImageIcon />
+                        <ImageIcon Source="ms-appx:///Assets/Icons/About.svg"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

@@ -23,6 +23,14 @@
     <Content Remove="Assets\algemeen.png" />
     <Content Remove="Assets\clippy.png" />
     <Content Remove="Assets\done.png" />
+    <Content Remove="Assets\Icons\About.svg" />
+    <Content Remove="Assets\Icons\Accessibility.svg" />
+    <Content Remove="Assets\Icons\Home.svg" />
+    <Content Remove="Assets\Icons\More.svg" />
+    <Content Remove="Assets\Icons\Privacy.svg" />
+    <Content Remove="Assets\Icons\Style.svg" />
+    <Content Remove="Assets\Icons\Tabs.svg" />
+    <Content Remove="Assets\Icons\Webset.svg" />
     <Content Remove="Assets\Logo.png" />
     <Content Remove="Assets\LogoSetup.ico" />
     <Content Remove="Assets\privacy.png" />
