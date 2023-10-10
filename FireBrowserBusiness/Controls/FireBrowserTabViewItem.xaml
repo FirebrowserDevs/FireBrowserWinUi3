@@ -1,6 +1,5 @@
- <muxc:TabViewItem
+ <TabViewItem
     x:Class="FireBrowserBusiness.Controls.FireBrowserTabViewItem"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-</muxc:TabViewItem>
+</TabViewItem>

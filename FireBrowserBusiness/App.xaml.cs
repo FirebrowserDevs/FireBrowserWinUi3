@@ -9,7 +9,10 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Windows.System;
 using Path = System.IO.Path;
+using static FireBrowserBusiness.MainWindow;
+using UrlHelperWinUi3;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -36,8 +39,11 @@ namespace FireBrowserBusiness
 
             if (username != null)
                 AuthService.Authenticate(username);
+
+            UrlHelperWinUi3.TLD.LoadKnownDomainsAsync();
         }
 
+      
         public static string GetUsernameFromCoreFolderPath(string coreFolderPath)
         {
             try
@@ -51,7 +57,7 @@ namespace FireBrowserBusiness
                     string jsonContent = File.ReadAllText(usrCoreFilePath);
 
                     // Deserialize the JSON content into a list of user objects
-                    var users = JsonSerializer.Deserialize<List<User>>(jsonContent);
+                    var users = JsonSerializer.Deserialize<List<FireBrowserMultiCore.User>>(jsonContent);
 
                     if (users != null && users.Count > 0 && !string.IsNullOrWhiteSpace(users[0].Username))
                     {
@@ -85,12 +91,12 @@ namespace FireBrowserBusiness
             else
             {
                 // The "FireBrowserUserCore" folder exists, so proceed with your application's normal behavior.
-                m_window = new MainWindow();
+                m_window = new MainWindow();             
                 m_window.Activate();
             }
         }
 
-
+    
         private Window m_window;
     }
 }

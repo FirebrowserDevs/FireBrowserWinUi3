@@ -13,6 +13,12 @@
     <ApplicationIcon>Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="FakesAssemblies\**" />
+    <EmbeddedResource Remove="FakesAssemblies\**" />
+    <None Remove="FakesAssemblies\**" />
+    <Page Remove="FakesAssemblies\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Remove="Assets\access.png" />
     <Content Remove="Assets\algemeen.png" />
     <Content Remove="Assets\clippy.png" />
@@ -27,9 +33,13 @@
     <Content Remove="Assets\Webset.svg" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Controls\FireBrowserTabView.xaml" />
+    <None Remove="Controls\FireBrowserTabViewContainer.xaml" />
     <None Remove="Controls\FireBrowserTabViewItem.xaml" />
+    <None Remove="Pages\InPrivate.xaml" />
     <None Remove="Pages\NewTab.xaml" />
+    <None Remove="Pages\SettingsPage.xaml" />
+    <None Remove="Pages\SettingsPages\SettingsHome.xaml" />
+    <None Remove="Pages\WebContent.xaml" />
     <None Remove="SetupWindow.xaml" />
     <None Remove="Setup\SetupAccess.xaml" />
     <None Remove="Setup\SetupAlgemeen.xaml" />
@@ -59,6 +69,7 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
+    <PackageReference Include="Microsoft.QualityTools.Testing.Fakes" Version="16.11.230815" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
     <Manifest Include="$(ApplicationManifest)" />
@@ -77,6 +88,7 @@
     <ProjectReference Include="..\FireBrowserBusinessCore\FireBrowserWinUi3Core.csproj" />
     <ProjectReference Include="..\FireBrowserMultiCore\FireBrowserMultiCore.csproj" />
     <ProjectReference Include="..\FireBrowserSecureConnect\FireBrowserWinUi3SecureConnect.csproj" />
+    <ProjectReference Include="..\UrlHelperWinUi3\UrlHelperWinUi3.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\access.png">
@@ -109,6 +121,18 @@
     <None Update="LogoSetup.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Pages\InPrivate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\SettingsPages\SettingsHome.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\WebContent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Setup\SetupAccess.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -162,7 +186,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\FireBrowserTabView.xaml">
+    <Page Update="Controls\FireBrowserTabViewContainer.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -176,6 +200,11 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FireBrowserQr">
+      <HintPath>..\..\..\..\..\OneDrive\Bureaublad\Code\FireBrowser\FireBrowser-Uwp\src\FireBrowserQr\bin\x64\Release\FireBrowserQr.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
   <!-- 
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
@@ -185,4 +214,10 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+  <ItemGroup>
+    <PRIResource Remove="FakesAssemblies\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalDesignTimeBuildInput Remove="FakesAssemblies\**" />
+  </ItemGroup>
 </Project>

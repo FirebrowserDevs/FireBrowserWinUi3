@@ -18,6 +18,18 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Pages\InPrivate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SettingsPages\SettingsHome.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\WebContent.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Setup\SetupAccess.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -60,7 +72,7 @@
     <Page Update="Controls\FireBrowserTabViewItem.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\FireBrowserTabView.xaml">
+    <Page Update="Controls\FireBrowserTabViewContainer.xaml">
       <SubType>Designer</SubType>
     </Page>
     <None Update="MainWindow.xaml">

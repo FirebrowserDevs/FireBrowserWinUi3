@@ -55,8 +55,10 @@
                                     <Image Width="100" Source="{dllimg:ImageLoader ImageName=BackgroundNone.png}"/>
                                     <TextBlock x:Uid="NewTabBackgroundNone" d:Text="None"
                                 HorizontalAlignment="Center"
-                                Margin="0,8,0,0"/>
-                                </StackPanel>
+                                Margin="0,8,0,0">
+                                               None
+                                    </TextBlock>
+                             </StackPanel>
                             </GridViewItem>
                             <GridViewItem x:Name="FsGrid" Padding="12" Tag="Featured" x:FieldModifier="Public">
                                 <StackPanel>

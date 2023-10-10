@@ -2,6 +2,7 @@ using FireBrowserBusinessCore.Models;
 using FireBrowserCore.Models;
 using FireBrowserCore.ViewModel;
 using FireBrowserMultiCore;
+using FireBrowserWinUi3.Controls;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -13,10 +14,16 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
+using Windows.Foundation.Collections;
+using Windows.Storage.Streams;
+using Windows.System;
 using static FireBrowserBusiness.MainWindow;
 using Settings = FireBrowserBusinessCore.Models.Settings;
+using User = Windows.System.User;
 
 namespace FireBrowserBusiness.Pages;
 public sealed partial class NewTab : Page
@@ -239,8 +246,6 @@ public sealed partial class NewTab : Page
 
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-      
-    }
+
+  
 }
