@@ -74,7 +74,7 @@ public sealed partial class MainWindow : Window
         titleBar.InactiveBackgroundColor = btnColor;
         titleBar.ButtonInactiveBackgroundColor = btnColor;
         titleBar.ButtonHoverBackgroundColor = btnColor;
-
+         
         ViewModel = new ToolbarViewModel
         {
             currentAddress = "",
