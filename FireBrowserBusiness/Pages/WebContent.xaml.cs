@@ -1,5 +1,7 @@
 using CommunityToolkit.WinUI.Helpers;
+using FireBrowserAdBlockCore;
 using FireBrowserBusinessCore.Helpers;
+using FireBrowserDatabase;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3.Controls;
 using Microsoft.UI.Xaml;
@@ -9,6 +11,8 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using System;
+using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using static FireBrowserBusiness.MainWindow;
 
@@ -23,9 +27,75 @@ namespace FireBrowserWinUi3.Pages
     public sealed partial class WebContent : Page
     {
         Passer param;
+        public Blocker Blocker { get; set; }
+
+        private FireBrowserMultiCore.User GetUser()
+        {
+            // Check if the user is authenticated.
+            if (AuthService.IsUserAuthenticated)
+            {
+                // Return the authenticated user.
+                return AuthService.CurrentUser;
+            }
+
+            // If no user is authenticated, return null or handle as needed.
+            return null;
+        }
         public WebContent()
         {
             this.InitializeComponent();
+            Init();     
+        }
+
+        public async void Init()
+        {
+            var currentUser = GetUser();
+
+            if (currentUser == null)
+            {
+                return;
+            }
+
+            // Check if the user is authenticated
+            if (!AuthService.IsUserAuthenticated && !AuthService.Authenticate(currentUser.Username))
+            {
+                return;
+            }
+
+            // Get the path to the browser folder
+            string browserFolderPath = Path.Combine(UserDataManager.CoreFolderPath, "Users", currentUser.Username, "Browser");
+
+            Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", browserFolderPath);
+            Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--enable-features=msSingleSignOnOSForPrimaryAccountIsShared");
+         
+        }
+
+        public void AfterComplete()
+        {
+            if (WebViewElement.CoreWebView2.Source.Contains("https"))
+            {
+                param.ViewModel.SecurityIcon = "\uE72E";
+                param.ViewModel.SecurityIcontext = "Https Secured Website";
+            }
+            else if (WebViewElement.CoreWebView2.Source.Contains("http"))
+            {
+                param.ViewModel.SecurityIcon = "\uE785";
+                param.ViewModel.SecurityIcontext = "Http UnSecured Website";
+            }
+        }
+
+        public void LoadSettings()
+        {
+            //webview
+            WebViewElement.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = (userSettings.BrowserKeys == "1") ? true : false;
+            WebViewElement.CoreWebView2.Settings.IsStatusBarEnabled = (userSettings.StatusBar == "1") ? true : false;
+            WebViewElement.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = (userSettings.BrowserScripts == "1") ? true : false;
+
+            //privacy 
+            WebViewElement.CoreWebView2.Settings.IsScriptEnabled = (userSettings.DisableJavaScript == "1") ? false : true;
+            WebViewElement.CoreWebView2.Settings.IsPasswordAutosaveEnabled = (userSettings.DisablePassSave == "1") ? false : true;
+            WebViewElement.CoreWebView2.Settings.IsGeneralAutofillEnabled = (userSettings.DisableGenAutoFill == "1") ? false : true;
+            WebViewElement.CoreWebView2.Settings.IsWebMessageEnabled = (userSettings.DisableWebMess == "1") ? false : true;
         }
 
         Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
@@ -36,6 +106,7 @@ namespace FireBrowserWinUi3.Pages
             param = e.Parameter as Passer;
             await WebViewElement.EnsureCoreWebView2Async();
 
+            LoadSettings();
             //LoadSettings();
             WebView2 s = WebViewElement;
 
@@ -62,6 +133,7 @@ namespace FireBrowserWinUi3.Pages
                 }
             }
 
+            s.CoreWebView2.ContainsFullScreenElementChanged += CoreWebView2_ContainsFullScreenElementChanged;
             s.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
             s.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
             s.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
@@ -86,8 +158,6 @@ namespace FireBrowserWinUi3.Pages
             };
             s.CoreWebView2.FaviconChanged += async (sender, args) =>
             {
-
-
                 try
                 {
                     var bitmapImage = new BitmapImage();
@@ -108,14 +178,11 @@ namespace FireBrowserWinUi3.Pages
                 {
 
                 }
-
             };
             s.CoreWebView2.NavigationStarting += (sender, args) =>
             {
-
                 Progress.IsIndeterminate = true;
                 Progress.Visibility = Visibility.Visible;
-
 
                 CheckNetworkStatus();
             };
@@ -124,13 +191,13 @@ namespace FireBrowserWinUi3.Pages
                 Progress.IsIndeterminate = false;
                 Progress.Visibility = Visibility.Collapsed;
 
+                var username = AuthService.CurrentUser;
+                var url = WebViewElement.CoreWebView2.Source.ToString();
+                var title = WebViewElement.CoreWebView2.DocumentTitle.ToString();
 
-                s.CoreWebView2.ContainsFullScreenElementChanged += (sender, args) =>
-                {
-                    FullSys sys = new();
-                    sys.FullScreen = s.CoreWebView2.ContainsFullScreenElement;
-                };
+                SaveDb.InsertHistoryItem(username, url, title, visitCount: 0, typedCount: 0, hidden: 0);
 
+                AfterComplete();
                 CheckNetworkStatus();
             };
             s.CoreWebView2.SourceChanged += (sender, args) =>
@@ -139,12 +206,16 @@ namespace FireBrowserWinUi3.Pages
                 {
                     param.ViewModel.CurrentAddress = sender.Source;
                 }
-
             };
             s.CoreWebView2.NewWindowRequested += (sender, args) =>
             {
-
+                args.Handled = true;
             };
+        }
+
+        private void CoreWebView2_ContainsFullScreenElementChanged(CoreWebView2 sender, object args)
+        {
+
         }
 
         string SelectionText;
@@ -238,16 +309,21 @@ namespace FireBrowserWinUi3.Pages
 
                         break;
                     case "OpenInTab":
-
+                       
+                         UseContent.MainPageContent.Tabs.TabItems.Add(UseContent.MainPageContent.CreateNewTab(typeof(WebContent), new Uri(SelectionText)));
+                        
                         break;
                     case "OpenInWindow":
                         OpenNewWindow(new Uri(SelectionText));
                         break;
                 }
+
             }
             Ctx.Hide();
         }
 
+     
+        
         private bool isOffline = false;
         private async void CheckNetworkStatus()
         {

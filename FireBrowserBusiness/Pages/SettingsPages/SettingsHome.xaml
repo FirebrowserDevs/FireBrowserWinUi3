@@ -7,8 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-       xmlns:labs="using:CommunityToolkit.WinUI.Controls"
-   xmlns:dllimg="using:Assets"
+    xmlns:labs="using:CommunityToolkit.WinUI.Controls"
+    xmlns:dllimg="using:Assets"
     >
 
     <Grid>
@@ -62,7 +62,7 @@
         </StackPanel>
         <TextBlock VerticalAlignment="Bottom">
           ALPHA V2 RELEASE EXPECT BUGS 
-          V0.0.8.00331ap Build: 101.2345 FrameWork: WinUi3
+          V0.0.8.00334ap Build: 101.2346 FrameWork: WinUi3
           Contact: firebrowserdevs@gmail.com
         </TextBlock>
         <TextBlock VerticalAlignment="Bottom" x:Name="SysInfoBox" Margin="0,0,0,20">

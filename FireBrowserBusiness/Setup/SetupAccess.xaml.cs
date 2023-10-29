@@ -15,6 +15,8 @@ namespace FireBrowserWinUi3.Setup
         public SetupAccess()
         {
             this.InitializeComponent();
+            Langue.SelectedItem = "en-US"; 
+            Langue.Text = "en-US";
         }
 
         private FireBrowserMultiCore.User GetUser()

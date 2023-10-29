@@ -11,6 +11,15 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <ApplicationIcon>Logo.ico</ApplicationIcon>
+    <PackageCertificateKeyFile>FireBrowserWinUi3_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Never</AppxBundle>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="FakesAssemblies\**" />
@@ -36,17 +45,24 @@
     <Content Remove="Assets\privacy.png" />
     <Content Remove="Assets\Segoe Fluent Icons.ttf" />
     <Content Remove="Assets\setup_image.png" />
+    <Content Remove="Assets\Strings\Resources.resw" />
     <Content Remove="Assets\Ui.png" />
     <Content Remove="Assets\user.png" />
-    <Content Remove="Assets\Webset.svg" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Controls\FireBrowserTabViewContainer.xaml" />
     <None Remove="Controls\FireBrowserTabViewItem.xaml" />
     <None Remove="Pages\InPrivate.xaml" />
+    <None Remove="Pages\ModulesInstaller.xaml" />
     <None Remove="Pages\NewTab.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
+    <None Remove="Pages\SettingsPages\SettingsAbout.xaml" />
+    <None Remove="Pages\SettingsPages\SettingsAccess.xaml" />
+    <None Remove="Pages\SettingsPages\SettingsDesign.xaml" />
     <None Remove="Pages\SettingsPages\SettingsHome.xaml" />
+    <None Remove="Pages\SettingsPages\SettingsNewTab.xaml" />
+    <None Remove="Pages\SettingsPages\SettingsPrivacy.xaml" />
+    <None Remove="Pages\SettingsPages\SettingsWebView.xaml" />
     <None Remove="Pages\WebContent.xaml" />
     <None Remove="SetupWindow.xaml" />
     <None Remove="Setup\SetupAccess.xaml" />
@@ -74,11 +90,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
     <PackageReference Include="Microsoft.QualityTools.Testing.Fakes" Version="16.11.230815" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
@@ -93,7 +109,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assets\Assets.csproj" />
+    <ProjectReference Include="..\FireBrowserAdBlockCore\FireBrowserAdBlockCore.csproj" />
     <ProjectReference Include="..\FireBrowserBusinessCore\FireBrowserWinUi3Core.csproj" />
+    <ProjectReference Include="..\FireBrowserDatabase\FireBrowserDatabase.csproj" />
+    <ProjectReference Include="..\FireBrowserFavorites\FireBrowserFavorites.csproj" />
     <ProjectReference Include="..\FireBrowserMultiCore\FireBrowserMultiCore.csproj" />
     <ProjectReference Include="..\FireBrowserSecureConnect\FireBrowserWinUi3SecureConnect.csproj" />
     <ProjectReference Include="..\UrlHelperWinUi3\UrlHelperWinUi3.csproj" />
@@ -123,12 +142,30 @@
     <None Update="Assets\user.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\Webset.svg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="LogoSetup.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Pages\ModulesInstaller.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\SettingsPages\SettingsAbout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\SettingsPages\SettingsAccess.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\SettingsPages\SettingsNewTab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\SettingsPages\SettingsWebView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\SettingsPages\SettingsPrivacy.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\SettingsPages\SettingsDesign.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Pages\InPrivate.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

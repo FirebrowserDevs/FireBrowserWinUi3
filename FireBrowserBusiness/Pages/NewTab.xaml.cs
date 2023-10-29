@@ -80,16 +80,20 @@ public sealed partial class NewTab : Page
                 userSettings.Background = "0";
                 ViewModel.BackgroundType = Settings.NewTabBackground.None;
                 NewColor.IsEnabled = false;
+
                 break;
             case "Featured":
                 userSettings.Background = "1";
                 ViewModel.BackgroundType = Settings.NewTabBackground.Featured;
                 NewColor.IsEnabled = false;
+
+
                 break;
             case "Custom":
                 userSettings.Background = "2";
                 ViewModel.BackgroundType = Settings.NewTabBackground.Costum;
                 NewColor.IsEnabled = true;
+
                 break;
             default:
                 // Handle the case when selection doesn't match any of the predefined options.
@@ -121,7 +125,9 @@ public sealed partial class NewTab : Page
         switch (backgroundType)
         {
             case Settings.NewTabBackground.None:
+
                 return new SolidColorBrush(Colors.Transparent);
+
 
             case Settings.NewTabBackground.Costum:
 
@@ -137,6 +143,7 @@ public sealed partial class NewTab : Page
 
             case Settings.NewTabBackground.Featured:
                 var client = new HttpClient();
+
                 try
                 {
                     var request = client.GetStringAsync(new Uri("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1")).Result;
@@ -145,6 +152,12 @@ public sealed partial class NewTab : Page
                         var images = System.Text.Json.JsonSerializer.Deserialize<ImageRoot>(request);
                         BitmapImage btpImg = new BitmapImage(new Uri("https://bing.com" + images.images[0].url));
 
+                        // Extract copyright information from the response
+                        string copyright = images.images[0].copyright;
+
+
+
+                        // Now, you can use the 'copyright' string on your page
                         return new ImageBrush()
                         {
                             ImageSource = btpImg,
@@ -155,6 +168,7 @@ public sealed partial class NewTab : Page
                     {
                         return null;
                     }
+
                 }
                 catch
                 {
@@ -162,6 +176,7 @@ public sealed partial class NewTab : Page
                 }
 
         }
+
 
         return new SolidColorBrush();
     }

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace FireBrowserMultiCore
+namespace FireBrowserMultiCore;
+
+public class UserDataResult
 {
-    public class UserDataResult
-    {
-        public List<User> Users { get; set; }
-        public string CurrentUsername { get; set; }
-    }
+    public List<User> Users { get; set; }
+    public string CurrentUsername { get; set; }
 }

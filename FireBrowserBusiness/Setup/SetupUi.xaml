@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ctr="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d"
+    xmlns:asset="using:Assets"
     >
 
     <Grid>
@@ -25,7 +26,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Image Margin="5,5,0,5" Height="32" Width="32" Source="ms-appx:///Assets/Ui.png" />
+            <Image Margin="5,5,0,5" Height="32" Width="32" Source="{asset:ImageLoader ImageName=Ui.png}" />
             <TextBlock Grid.Column="1" VerticalAlignment="Center">
        <Run Text="UI" />
        <Run  CharacterSpacing="2"  FontWeight="Light" Text="Settings"/>

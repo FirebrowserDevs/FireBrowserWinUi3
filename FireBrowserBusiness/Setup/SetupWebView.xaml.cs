@@ -1,3 +1,4 @@
+using FireBrowserAdBlockCore;
 using FireBrowserMultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -12,6 +13,7 @@ namespace FireBrowserWinUi3.Setup
     /// </summary>
     public sealed partial class SetupWebView : Page
     {
+     
         public SetupWebView()
         {
             this.InitializeComponent();

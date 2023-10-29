@@ -1,10 +1,15 @@
 ﻿using FireBrowserMultiCore;
 using FireBrowserWinUi3;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
+using Windows.Foundation;
+using Windows.UI.ViewManagement;
 using Path = System.IO.Path;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -69,12 +74,16 @@ namespace FireBrowserBusiness
         }
 
 
+
+
+        public static string Args { get; set; }
         /// <summary>
         /// Invoked when the application is launched.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
         protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+
             if (!Directory.Exists(UserDataManager.CoreFolderPath))
             {
                 // The "FireBrowserUserCore" folder does not exist, so proceed with  application's setup behavior.
@@ -83,6 +92,20 @@ namespace FireBrowserBusiness
             }
             else
             {
+                var evt = AppInstance.GetActivatedEventArgs();
+                ProtocolActivatedEventArgs protocolArgs = evt as ProtocolActivatedEventArgs;
+
+                if (protocolArgs != null)
+                {
+                    try
+                    {
+                        Args = protocolArgs.Uri.ToString();
+                    }
+                    catch { }
+                }
+
+            
+
                 // The "FireBrowserUserCore" folder exists, so proceed with your application's normal behavior.
                 m_window = new MainWindow();
                 m_window.Activate();
@@ -90,6 +113,6 @@ namespace FireBrowserBusiness
         }
 
 
-        private Window m_window;
+        internal Window m_window;
     }
 }

@@ -33,12 +33,12 @@ namespace FireBrowserWinUi3.Pages
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
         {
             ("SettingsHome", typeof(Pages.SettingsPages.SettingsHome)),
-            ("Privacy",  typeof(Pages.WebContent)),
-            ("WebView", typeof(Pages.WebContent)),
-            ("NewTab",  typeof(Pages.WebContent)),
-            ("Design",  typeof(Pages.WebContent)),
-            ("Accessibility",  typeof(Pages.WebContent)),
-            ("About",  typeof(Pages.WebContent))
+            ("Privacy",  typeof(Pages.SettingsPages.SettingsPrivacy)),
+            ("WebView", typeof(Pages.SettingsPages.SettingsWebView)),
+            ("NewTab",  typeof(Pages.SettingsPages.SettingsNewTab)),
+            ("Design",  typeof(Pages.SettingsPages.SettingsDesign)),
+            ("Accessibility",  typeof(Pages.SettingsPages.SettingsAccess)),
+            ("About",  typeof(Pages.SettingsPages.SettingsAbout))
         };
 
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)

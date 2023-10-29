@@ -1,8 +1,11 @@
 ﻿using Microsoft.Data.Sqlite;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
+using System.Xml;
 
 namespace FireBrowserMultiCore
 {
@@ -16,6 +19,7 @@ namespace FireBrowserMultiCore
             Directory.CreateDirectory(Path.Combine(userFolderPath, "Settings"));
             Directory.CreateDirectory(Path.Combine(userFolderPath, "Database"));
             Directory.CreateDirectory(Path.Combine(userFolderPath, "Browser"));
+            Directory.CreateDirectory(Path.Combine(userFolderPath, "Modules"));
 
             CreateSettingsFile(user.Username);
             CreateDatabaseFile(user.Username);
@@ -66,7 +70,7 @@ namespace FireBrowserMultiCore
             };
 
             // Serialize the settings object to JSON and save it to the file
-            string jsonString = JsonSerializer.Serialize(settings);
+            string jsonString = System.Text.Json.JsonSerializer.Serialize(settings);
             File.WriteAllText(settingsFilePath, jsonString);
         }
 
@@ -83,19 +87,29 @@ namespace FireBrowserMultiCore
             using (var connection = new SqliteConnection($"Data Source={databaseFilePath}"))
             {
                 connection.Open();
-                // You can create tables and perform other database operations as needed here
-                // For example: Create tables if they don't exist
-                using (var command = connection.CreateCommand())
+
+                using (var transaction = connection.BeginTransaction())
                 {
-                    command.CommandText = "CREATE TABLE IF NOT EXISTS urlsDb (Url NVARCHAR(2583) PRIMARY KEY NOT NULL, " +
-                                     "Title NVARCHAR(2548), " +
-                                     "Visit_Count INTEGER, " +
-                                     "Last_Visit_Time DATETIME)";
-                    command.ExecuteNonQuery();
+                    var createTableCommand = connection.CreateCommand();
+                    createTableCommand.CommandText = "CREATE TABLE IF NOT EXISTS urls (" +
+                        "id INTEGER PRIMARY KEY," +
+                        "url TEXT," +
+                        "title TEXT," +
+                        "visit_count INTEGER NOT NULL DEFAULT 0," +
+                        "typed_count INTEGER NOT NULL DEFAULT 0," +
+                        "hidden INTEGER NOT NULL DEFAULT 0" +
+                        ")";
+
+                    createTableCommand.ExecuteNonQuery();
+
+                    transaction.Commit();
                 }
+
+                Console.WriteLine("SQLite database and 'urls' table created successfully.");
             }
         }
 
+      
 
         public static Settings LoadUserSettings(User user)
         {
@@ -104,7 +118,7 @@ namespace FireBrowserMultiCore
             if (File.Exists(settingsFilePath))
             {
                 string settingsJson = File.ReadAllText(settingsFilePath);
-                return JsonSerializer.Deserialize<Settings>(settingsJson);
+                return System.Text.Json.JsonSerializer.Deserialize<Settings>(settingsJson);
             }
 
             // Return default settings if the file doesn't exist.
@@ -116,7 +130,7 @@ namespace FireBrowserMultiCore
             try
             {
                 string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username, "Settings", "settings.json");
-                string settingsJson = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
+                string settingsJson = System.Text.Json.JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
 
                 File.WriteAllText(settingsFilePath, settingsJson);
             }

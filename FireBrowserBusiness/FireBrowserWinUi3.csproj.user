@@ -10,6 +10,10 @@
     <SplashScreenSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</SplashScreenSource>
     <PackageLogoSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</PackageLogoSource>
     <ActiveDebugProfile>FireBrowserBusiness (Package)</ActiveDebugProfile>
+    <UapAppxPackageBuildMode>SideloadOnly</UapAppxPackageBuildMode>
+    <AppxShowAllApps>False</AppxShowAllApps>
+    <AppxBuildConfigurationSelection>x64</AppxBuildConfigurationSelection>
+    <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
@@ -18,6 +22,27 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Pages\ModulesInstaller.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SettingsPages\SettingsAbout.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SettingsPages\SettingsAccess.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SettingsPages\SettingsNewTab.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SettingsPages\SettingsWebView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SettingsPages\SettingsPrivacy.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SettingsPages\SettingsDesign.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\InPrivate.xaml">
       <SubType>Designer</SubType>
     </Page>

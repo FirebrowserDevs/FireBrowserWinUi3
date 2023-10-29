@@ -1,27 +1,65 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using FireBrowserBusiness.Controls;
 using FireBrowserBusiness.Pages;
+using FireBrowserDatabase;
+using FireBrowserFavorites;
 using FireBrowserMultiCore;
 using FireBrowserQr;
 using FireBrowserWinUi3.Pages;
+using Microsoft.Data.Sqlite;
 using Microsoft.UI;
+using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
+using SQLitePCL;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using UrlHelperWinUi3;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Globalization.NumberFormatting;
+using Windows.Media.Capture;
+using Windows.Services.Maps;
 using Windows.Storage.Streams;
+using Windows.System;
 using WinRT.Interop;
 using Windowing = FireBrowserBusinessCore.Helpers.Windowing;
 
 namespace FireBrowserBusiness;
 public sealed partial class MainWindow : Window
 {
+    public class StringOrIntTemplateSelector : DataTemplateSelector
+    {
+        public DataTemplate StringTemplate { get; set; }
+        public DataTemplate IntTemplate { get; set; }
+        public DataTemplate DefaultTemplate { get; set; }
+
+        protected override DataTemplate SelectTemplateCore(object item)
+        {
+            if (item is string)
+            {
+                return StringTemplate;
+            }
+            else if (item is int)
+            {
+                return IntTemplate;
+            }
+            else
+            {
+                return DefaultTemplate;
+            }
+        }
+    }
+
     private AppWindow appWindow;
     private AppWindowTitleBar titleBar;
 
@@ -29,13 +67,26 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
 
+        if (App.Args == string.Empty | App.Args == null) // Main view
+        {
+            Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
+        }
+        else if (App.Args.Contains("firebrowserwinui://")) // PWA/Pinned websites view
+        {
+            Tabs.TabItems.Add(CreateNewTab(typeof(InPrivate)));
+        }
+        else if (App.Args.Contains("firebrowserwinui://private"))
+        {
+            Tabs.TabItems.Add(CreateNewIncog(typeof(InPrivate)));
+        }
+
+        MoreFlyout.SystemBackdrop = new MicaBackdrop() { Kind = MicaKind.BaseAlt };
 
         Title();
         LoadUserDataAndSettings();
-        Launch();
     }
 
-
+  
     public void SmallUpdates()
     {
         UrlBox.Text = TabWebView.CoreWebView2.Source.ToString();
@@ -74,10 +125,14 @@ public sealed partial class MainWindow : Window
         titleBar.InactiveBackgroundColor = btnColor;
         titleBar.ButtonInactiveBackgroundColor = btnColor;
         titleBar.ButtonHoverBackgroundColor = btnColor;
-         
+
         ViewModel = new ToolbarViewModel
         {
             currentAddress = "",
+            SecurityIcon = "\uE946",
+            SecurityIcontext = "FireBrowser Home Page",
+            Securitytext = "This The Default Home Page Of Firebrowser Internal Pages Secure",
+            Securitytype = "Link - FireBrowser://NewTab"
         };
 
 
@@ -91,7 +146,7 @@ public sealed partial class MainWindow : Window
     public void HideToolbar(bool hide)
     {
         var visibility = hide ? Visibility.Collapsed : Visibility.Visible;
-        var margin = hide ? new Thickness(0, -40, 0, 0) : new Thickness(0, 35, 0, 0);
+        var margin = hide ? new Thickness(0, -40, 0, 0) : new Thickness(0, 37, 0, 0);
 
         ClassicToolbar.Visibility = visibility;
         TabContent.Margin = margin;
@@ -151,13 +206,6 @@ public sealed partial class MainWindow : Window
     }
 
 
-    private async void Launch()
-    {
-        Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
-    }
-
-
-
     private void TabView_AddTabButtonClick(TabView sender, object args)
     {
         sender.TabItems.Add(CreateNewTab(typeof(NewTab)));
@@ -212,7 +260,7 @@ public sealed partial class MainWindow : Window
 
     #endregion
 
-    private FireBrowserTabViewItem CreateNewTab(Type page = null, object param = null, int index = -1)
+    public FireBrowserTabViewItem CreateNewTab(Type page = null, object param = null, int index = -1)
     {
         if (index == -1) index = Tabs.TabItems.Count;
 
@@ -286,6 +334,7 @@ public sealed partial class MainWindow : Window
         }
     }
 
+ 
 
     private double GetScaleAdjustment()
     {
@@ -361,9 +410,23 @@ public sealed partial class MainWindow : Window
     }
 
     private int maxTabItems = 20;
-    private void Tabs_TabItemsChanged(TabView sender, IVectorChangedEventArgs args)
+    private async void Tabs_TabItemsChanged(TabView sender, IVectorChangedEventArgs args)
     {
-        Tabs.IsAddTabButtonVisible = Tabs.TabItems.Count < maxTabItems;
+        if (sender.TabItems.Count == 0)
+        {
+            Application.Current.Exit();
+        }
+        // If there is only one tab left, disable dragging and reordering of Tabs.
+        else if (sender.TabItems.Count == 1)
+        {
+            sender.CanReorderTabs = false;
+            sender.CanDragTabs = false;
+        }
+        else
+        {
+            sender.CanReorderTabs = true;
+            sender.CanDragTabs = true;
+        }
     }
 
     private Passer CreatePasser(object parameter = null)
@@ -414,6 +477,10 @@ public sealed partial class MainWindow : Window
                 {
                     case "firebrowser://newtab":
                         Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
+                        SelectNewTab();
+                        break;
+                    case "firebrowser://modules":
+                        Tabs.TabItems.Add(CreateNewTab(typeof(ModulesInstaller)));
                         SelectNewTab();
                         break;
                     default:
@@ -583,8 +650,14 @@ public sealed partial class MainWindow : Window
 
                 break;
             case "AdBlock":
+                // bool isEnabled = WebContent.Current.Blocker.IsEnabled;
 
-                break;
+               // if (!isEnabled)
+                 //   WebContent.Current.Blocker.Enable();
+                //else WebContent.Current.Blocker.Disable();
+
+                //TabWebView.Reload();
+                break; 
             case "AddFavoriteFlyout":
                 if (TabContent.Content is WebContent)
                 {
@@ -593,16 +666,28 @@ public sealed partial class MainWindow : Window
                 }
                 break;
             case "AddFavorite":
-
+                FireBrowserMultiCore.User auth = AuthService.CurrentUser;
+                FavManager fv = new FavManager();
+                fv.SaveFav(auth, FavoriteTitle.Text.ToString(), FavoriteUrl.Text.ToString());
                 break;
             case "Favorites":
+                FireBrowserMultiCore.User user = AuthService.CurrentUser;
+                FavManager fs = new FavManager();
+                List<FavItem> favorites = fs.LoadFav(user);
 
+                FavoritesListView.ItemsSource = favorites;
                 break;
             case "DarkMode":
 
                 break;
+
+            case "History":
+                FetchBrowserHistory();
+                break;
         }
     }
+
+  
 
     #endregion
 
@@ -657,16 +742,102 @@ public sealed partial class MainWindow : Window
 
                 break;
             case "History":
-
+                FetchBrowserHistory();
                 break;
             case "InPrivate":
-
+                Tabs.TabItems.Add(CreateNewIncog(typeof(InPrivate)));
                 break;
             case "Favorites":
 
                 break;
+        
         }
     }
+
+    #region database
+
+   private async void ClearDb()
+    {
+        FireBrowserMultiCore.User user = AuthService.CurrentUser;
+        string username = user.Username;
+        string databasePath = Path.Combine(
+            UserDataManager.CoreFolderPath,
+            UserDataManager.UsersFolderPath,
+            username,
+            "Database",
+            "History.db"
+        );
+
+        HistoryTemp.ItemsSource = null;
+        DbClear.ClearTable(databasePath, "urls");
+    }
+
+    private ObservableCollection<HistoryItem> browserHistory;
+
+    private async void FetchBrowserHistory()
+    {
+        FireBrowserMultiCore.User user = AuthService.CurrentUser;
+
+        Batteries.Init();
+        try
+        {
+            string username = user.Username;
+            string databasePath = Path.Combine(
+                UserDataManager.CoreFolderPath,
+                UserDataManager.UsersFolderPath,
+                username,
+                "Database",
+                "History.db"
+            );
+
+            if (File.Exists(databasePath))
+            {
+                using (var connection = new SqliteConnection($"Data Source={databasePath};"))
+                {
+                    await connection.OpenAsync();
+
+                    string sql = "SELECT url, title, visit_count, typed_count, hidden FROM urls ORDER BY id DESC";
+
+                    using (SqliteCommand command = new SqliteCommand(sql, connection))
+                    {
+                        using (SqliteDataReader reader = command.ExecuteReader())
+                        {
+                            browserHistory = new ObservableCollection<HistoryItem>();
+
+                            while (reader.Read())
+                            {
+                                HistoryItem historyItem = new HistoryItem
+                                {
+                                    Url = reader.GetString(0),
+                                    Title = reader.IsDBNull(1) ? null : reader.GetString(1),
+                                    VisitCount = reader.GetInt32(2),
+                                    TypedCount = reader.GetInt32(3),
+                                    Hidden = reader.GetInt32(4)
+                                };
+
+                                // Fetch the image source here
+                                historyItem.ImageSource = new BitmapImage(new Uri("https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=" + historyItem.Url + "&size=32"));
+
+                                browserHistory.Add(historyItem);
+                            }
+
+                            // Bind the browser history items to the ListView
+                            HistoryTemp.ItemsSource = browserHistory;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Database file does not exist at the specified path.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error: {ex.Message}");
+        }
+    }
+    #endregion
 
     public FireBrowserTabViewItem CreateNewIncog(Type page = null, object param = null, int index = -1)
     {
@@ -731,5 +902,101 @@ public sealed partial class MainWindow : Window
 
         var tabItems = (sender as TabView)?.TabItems;
         tabItems?.Remove(args.Tab);
+    }
+
+    private string selectedHistoryItem;
+    private void Grid_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+    {
+        // Get the selected HistoryItem object
+        HistoryItem historyItem = ((FrameworkElement)sender).DataContext as HistoryItem;
+        selectedHistoryItem = historyItem.Url;
+
+        // Create a context menu flyout
+        var flyout = new MenuFlyout();
+
+        // Add a menu item for "Delete This Record" button
+        var deleteMenuItem = new MenuFlyoutItem
+        {
+            Text = "Delete This Record",
+        };
+
+        // Set the icon for the menu item using the Unicode escape sequence
+        deleteMenuItem.Icon = new FontIcon
+        {
+            Glyph = "\uE74D" // Replace this with the Unicode escape sequence for your desired icon
+        };
+
+        // Handle the click event directly within the right-tapped event handler
+        deleteMenuItem.Click += (s, args) =>
+        {
+            FireBrowserMultiCore.User user = AuthService.CurrentUser;
+            string username = user.Username;
+            string databasePath = Path.Combine(
+                UserDataManager.CoreFolderPath,
+                UserDataManager.UsersFolderPath,
+                username,
+                "Database",
+                "History.db"
+            );
+            // Perform the deletion logic here
+            // Example: Delete data from the 'History' table where the 'Url' matches the selectedHistoryItem
+            DbClearTableData db = new();
+            db.DeleteTableData(databasePath, "urls", $"Url = '{selectedHistoryItem}'");
+            if (HistoryTemp.ItemsSource is ObservableCollection<HistoryItem> historyItems)
+            {
+                var itemToRemove = historyItems.FirstOrDefault(item => item.Url == selectedHistoryItem);
+                if (itemToRemove != null)
+                {
+                    historyItems.Remove(itemToRemove);
+                }
+            }
+            // After deletion, you may want to update the UI or any other actions
+        };
+
+        flyout.Items.Add(deleteMenuItem);
+
+        // Show the context menu flyout
+        flyout.ShowAt((FrameworkElement)sender, e.GetPosition((FrameworkElement)sender));
+    }
+
+    private void ClearHistoryDataMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        ClearDb();
+    }
+
+    private void SearchHistoryMenuFlyout_Click(object sender, RoutedEventArgs e)
+    {
+        if (HistorySearchMenuItem.Visibility == Visibility.Collapsed)
+        {
+            HistorySearchMenuItem.Visibility = Visibility.Visible;
+            HistorySmallTitle.Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            HistorySearchMenuItem.Visibility = Visibility.Collapsed;
+            HistorySmallTitle.Visibility = Visibility.Visible;
+        }
+    }
+
+    private void FilterBrowserHistory(string searchText)
+    {
+        if (browserHistory == null) return;
+
+        // Clear the collection to start fresh with filtered items
+        HistoryTemp.ItemsSource = null;
+
+        // Filter the browser history based on the search text
+        var filteredHistory = new ObservableCollection<HistoryItem>(browserHistory
+            .Where(item => item.Url.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                           item.Title?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true));
+
+        // Bind the filtered browser history items to the ListView
+        HistoryTemp.ItemsSource = filteredHistory;
+    }
+
+    private void HistorySearchMenuItem_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        string searchText = HistorySearchMenuItem.Text;
+        FilterBrowserHistory(searchText);
     }
 }
