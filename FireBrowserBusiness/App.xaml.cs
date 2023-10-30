@@ -113,6 +113,6 @@ namespace FireBrowserBusiness
         }
 
 
-        internal Window m_window;
+        public Window m_window;
     }
 }

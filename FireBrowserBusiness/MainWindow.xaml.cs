@@ -5,6 +5,7 @@ using FireBrowserDatabase;
 using FireBrowserFavorites;
 using FireBrowserMultiCore;
 using FireBrowserQr;
+using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
 using Microsoft.Data.Sqlite;
 using Microsoft.UI;
@@ -12,6 +13,7 @@ using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -29,8 +31,11 @@ using Windows.Foundation.Collections;
 using Windows.Globalization.NumberFormatting;
 using Windows.Media.Capture;
 using Windows.Services.Maps;
+using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
+using Windows.UI;
+using Windows.UI.WebUI;
 using WinRT.Interop;
 using Windowing = FireBrowserBusinessCore.Helpers.Windowing;
 
@@ -63,6 +68,9 @@ public sealed partial class MainWindow : Window
     private AppWindow appWindow;
     private AppWindowTitleBar titleBar;
 
+    public DownloadFlyout DownloadFlyout { get; set; } = new DownloadFlyout();
+    
+
     public MainWindow()
     {
         InitializeComponent();
@@ -79,8 +87,6 @@ public sealed partial class MainWindow : Window
         {
             Tabs.TabItems.Add(CreateNewIncog(typeof(InPrivate)));
         }
-
-        MoreFlyout.SystemBackdrop = new MicaBackdrop() { Kind = MicaKind.BaseAlt };
 
         Title();
         LoadUserDataAndSettings();
@@ -105,12 +111,14 @@ public sealed partial class MainWindow : Window
             ViewModel.Securitytext = "This Page Is Unsecured By A Un-Valid SSL Certificate, Please Be Careful";
         }
     }
+
     public void Title()
     {
         var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-        WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
+        Microsoft.UI.WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
         appWindow = AppWindow.GetFromWindowId(windowId);
         appWindow.SetIcon("Logo.ico");
+      
 
         if (!AppWindowTitleBar.IsCustomizationSupported())
         {
@@ -143,14 +151,51 @@ public sealed partial class MainWindow : Window
     public static string launchurl { get; set; }
     public static string SearchUrl { get; set; }
 
-    public void HideToolbar(bool hide)
-    {
-        var visibility = hide ? Visibility.Collapsed : Visibility.Visible;
-        var margin = hide ? new Thickness(0, -40, 0, 0) : new Thickness(0, 37, 0, 0);
+    public bool isFull = false;
 
-        ClassicToolbar.Visibility = visibility;
-        TabContent.Margin = margin;
+    public void GoFullScreenWeb(bool fullscreen)
+    {
+        IntPtr hWnd = WindowNative.GetWindowHandle(this);
+        Microsoft.UI.WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
+        var view = AppWindow.GetFromWindowId(wndId);
+        var margin = fullscreen ? new Thickness(0, -40, 0, 0) : new Thickness(0, 35, 0, 0);
+
+        if (fullscreen)
+        {
+            view.SetPresenter(AppWindowPresenterKind.FullScreen);
+           
+            ClassicToolbar.Height = 0;
+
+            TabContent.Margin = margin;
+        }
+        else
+        {
+            view.SetPresenter(AppWindowPresenterKind.Default);
+       
+            ClassicToolbar.Height = 40;
+
+            TabContent.Margin = margin;
+        }
     }
+
+    public void GoFullScreen(bool fullscreen)
+    {
+        IntPtr hWnd = WindowNative.GetWindowHandle(this);
+        Microsoft.UI.WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
+        var view = AppWindow.GetFromWindowId(wndId);
+
+        if (isFull)
+        {
+            view.SetPresenter(AppWindowPresenterKind.FullScreen);
+           
+        }
+        else
+        {
+            view.SetPresenter(AppWindowPresenterKind.Default);
+          
+        }
+    }
+
 
     Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
     private void LoadUserDataAndSettings()
@@ -271,6 +316,7 @@ public sealed partial class MainWindow : Window
             Style = (Style)Microsoft.UI.Xaml.Application.Current.Resources["FloatingTabViewItemStyle"]
         };
 
+
         Passer passer = new()
         {
             Tab = newItem,
@@ -339,7 +385,7 @@ public sealed partial class MainWindow : Window
     private double GetScaleAdjustment()
     {
         IntPtr hWnd = WindowNative.GetWindowHandle(this);
-        WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
+        Microsoft.UI.WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
         DisplayArea displayArea = DisplayArea.GetFromWindowId(wndId, DisplayAreaFallback.Primary);
         IntPtr hMonitor = Win32Interop.GetMonitorFromDisplayId(displayArea.DisplayId);
 
@@ -588,19 +634,6 @@ public sealed partial class MainWindow : Window
                     UrlBox.Text = "";
                 }
                 break;
-            case "DownloadFlyout":
-                if (TabContent.Content is WebContent)
-                {
-                    if (TabWebView.CoreWebView2.IsDefaultDownloadDialogOpen == true)
-                    {
-                        (TabContent.Content as WebContent).WebViewElement.CoreWebView2.CloseDefaultDownloadDialog();
-                    }
-                    else
-                    {
-                        (TabContent.Content as WebContent).WebViewElement.CoreWebView2.OpenDefaultDownloadDialog();
-                    }
-                }
-                break;
             case "Translate":
                 if (TabContent.Content is WebContent)
                 {
@@ -650,13 +683,7 @@ public sealed partial class MainWindow : Window
 
                 break;
             case "AdBlock":
-                // bool isEnabled = WebContent.Current.Blocker.IsEnabled;
-
-               // if (!isEnabled)
-                 //   WebContent.Current.Blocker.Enable();
-                //else WebContent.Current.Blocker.Disable();
-
-                //TabWebView.Reload();
+             
                 break; 
             case "AddFavoriteFlyout":
                 if (TabContent.Content is WebContent)
@@ -678,7 +705,10 @@ public sealed partial class MainWindow : Window
                 FavoritesListView.ItemsSource = favorites;
                 break;
             case "DarkMode":
-
+                if (TabContent.Content is WebContent)
+                {
+                    
+                }
                 break;
 
             case "History":
@@ -739,7 +769,19 @@ public sealed partial class MainWindow : Window
                 SelectNewTab();
                 break;
             case "FullScreen":
-
+                if(isFull == true)
+                {
+                    GoFullScreen(false);
+                    isFull = false;
+                    TextFull.Text = "Exit FullScreen";
+                }
+                else
+                {
+                    GoFullScreen(true);
+                    isFull = true;
+                    TextFull.Text = "Full Screen";
+                }
+           
                 break;
             case "History":
                 FetchBrowserHistory();
@@ -999,4 +1041,55 @@ public sealed partial class MainWindow : Window
         string searchText = HistorySearchMenuItem.Text;
         FilterBrowserHistory(searchText);
     }
+
+    private void FavoritesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        ListView listView = sender as ListView;
+        if (listView.ItemsSource != null)
+        {
+            // Get selected item
+            FavItem item = (FavItem)listView.SelectedItem;
+            string launchurlfav = item.Url;
+            if (TabContent.Content is WebContent)
+            {
+                (TabContent.Content as WebContent).WebViewElement.CoreWebView2.Navigate(launchurlfav);
+            }
+            else
+            {
+                TabContent.Navigate(typeof(WebContent), CreatePasser(launchurlfav));
+            }
+
+        }
+        listView.ItemsSource = null;
+        FavoritesFly.Hide();
+    }
+
+    private void HistoryTemp_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        ListView listView = sender as ListView;
+        if (listView.ItemsSource != null)
+        {
+            // Get selected item
+            HistoryItem item = (HistoryItem)listView.SelectedItem;
+            string launchurlfav = item.Url;
+            if (TabContent.Content is WebContent)
+            {
+                (TabContent.Content as WebContent).WebViewElement.CoreWebView2.Navigate(launchurlfav);
+            }
+            else
+            {
+                TabContent.Navigate(typeof(WebContent), CreatePasser(launchurlfav));
+            }
+        }
+        listView.ItemsSource = null;
+        HistoryFlyoutMenu.Hide();
+    }
+
+    private void DownBtn_Click(object sender, RoutedEventArgs e)
+    {
+        FlyoutShowOptions options = new FlyoutShowOptions() { Placement = FlyoutPlacementMode.Bottom };
+        DownloadFlyout.ShowAt(DownBtn, options);
+    }
+
+  
 }

@@ -1,5 +1,6 @@
 using CommunityToolkit.WinUI.Helpers;
 using FireBrowserAdBlockCore;
+using FireBrowserBusiness;
 using FireBrowserBusinessCore.Helpers;
 using FireBrowserDatabase;
 using FireBrowserMultiCore;
@@ -11,9 +12,12 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
+using Windows.UI.WebUI;
 using static FireBrowserBusiness.MainWindow;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -107,7 +111,6 @@ namespace FireBrowserWinUi3.Pages
             await WebViewElement.EnsureCoreWebView2Async();
 
             LoadSettings();
-            //LoadSettings();
             WebView2 s = WebViewElement;
 
             if (param?.Param != null)
@@ -133,8 +136,14 @@ namespace FireBrowserWinUi3.Pages
                 }
             }
 
-            s.CoreWebView2.ContainsFullScreenElementChanged += CoreWebView2_ContainsFullScreenElementChanged;
+            s.CoreWebView2.ContainsFullScreenElementChanged += (sender, args) =>
+            {
+                var window = (Application.Current as App)?.m_window as MainWindow;
+                window.GoFullScreenWeb(s.CoreWebView2.ContainsFullScreenElement);
+            };
             s.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
+            s.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
+   
             s.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
             s.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
             s.CoreWebView2.ScriptDialogOpening += async (sender, args) =>
@@ -209,13 +218,24 @@ namespace FireBrowserWinUi3.Pages
             };
             s.CoreWebView2.NewWindowRequested += (sender, args) =>
             {
+                var window = (Application.Current as App)?.m_window as MainWindow;
+                param?.TabView.TabItems.Add(window.CreateNewTab(typeof(WebContent), args.Uri));
                 args.Handled = true;
             };
         }
 
-        private void CoreWebView2_ContainsFullScreenElementChanged(CoreWebView2 sender, object args)
+        private void CoreWebView2_DownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
         {
+            var downloadOperation = args.DownloadOperation;
 
+            var window = (Application.Current as App)?.m_window as MainWindow;
+
+            DownloadItem downloadItem = new(args.DownloadOperation);
+            window.DownloadFlyout.DownloadItemsListView.Items.Insert(0, downloadItem);
+
+            window.DownloadFlyout.ShowAt(window.DownBtn);
+
+            args.Handled = true;
         }
 
         string SelectionText;
@@ -309,8 +329,8 @@ namespace FireBrowserWinUi3.Pages
 
                         break;
                     case "OpenInTab":
-                       
-                         UseContent.MainPageContent.Tabs.TabItems.Add(UseContent.MainPageContent.CreateNewTab(typeof(WebContent), new Uri(SelectionText)));
+                        var window = (Application.Current as App)?.m_window as MainWindow;
+                        window.Tabs.TabItems.Add(window.CreateNewTab(typeof(WebContent), new Uri(SelectionText)));
                         
                         break;
                     case "OpenInWindow":

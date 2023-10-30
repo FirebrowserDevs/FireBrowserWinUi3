@@ -409,6 +409,9 @@
   <data name="NotesShareButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Share</value>
   </data>
+  <data name="OpenFile" xml:space="preserve">
+    <value>Open this file</value>
+  </data>
   <data name="PermissionDialogTitleSingle" xml:space="preserve">
     <value>{0} wants to access your {1}</value>
     <comment>0 is the website and 1 is the item (for example camera)</comment>

@@ -18,6 +18,7 @@
 
     <Grid Background="Transparent">
         <Grid.Resources>
+          
             <DataTemplate x:Key="DefaultDataTemplate">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -67,6 +68,7 @@
             Text="{x:Bind}" />
                 </Grid>
             </DataTemplate>
+         
             <Flyout x:Name="MoreFlyout" ShouldConstrainToRootBounds="False" Placement="Bottom">
                 <StackPanel Width="250">
                     <StackPanel Name="menuheader">
@@ -134,7 +136,7 @@
                             </StackPanel>
                         </Button>
                         <Border BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}" Opacity="0.3" Margin="10,10" BorderThickness="1"/>
-                        <Button Tag="FullScreen" Click="TabMenuClick"  Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                        <Button  x:FieldModifier="Public" Tag="FullScreen" Click="TabMenuClick"  Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon x:Name="Icon" FontFamily="{StaticResource FluentIcons}" Glyph="&#xE740;" FontSize="18"/>
                                 <TextBlock x:Name="TextFull" Margin="10,0,0,0" Text="Full Screen"/>
@@ -208,7 +210,7 @@
                                         </Viewbox>
                                     </Button>
                                 </StackPanel>
-                                <ListView x:Name="HistoryTemp" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" CanReorderItems="True" CanDragItems="True">
+                                <ListView x:Name="HistoryTemp" SelectionChanged="HistoryTemp_SelectionChanged" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" CanReorderItems="True" CanDragItems="True">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" RightTapped="Grid_RightTapped">
@@ -255,7 +257,7 @@
                             <SymbolIcon Symbol="More" />
                         </Viewbox>
                     </Button>
-                    <ListView x:Name="FavoritesListView" Margin="0,7,0,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                    <ListView x:Name="FavoritesListView" SelectionChanged="FavoritesListView_SelectionChanged" Margin="0,7,0,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock FontSize="20" Text="{Binding Title}" ToolTipService.ToolTip="{Binding Url}" />
@@ -331,10 +333,10 @@
         </firebrowser:FireBrowserTabViewContainer>
         <Grid
             x:Name="ClassicToolbar"
-            Height="37"
-            x:FieldModifier="public"
-            Margin="0,40,0,0"       
-            VerticalAlignment="Top"
+  Height="37"
+  x:FieldModifier="public"
+  Margin="0,40,0,0"   
+VerticalAlignment="Top"
             Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -442,7 +444,7 @@
                     </Button.Flyout>
                 </Button>
                 <Button x:Name="FavoritesButton" x:Load="True" Click="ToolbarButtonClick" Flyout="{x:Bind FavoritesFly}"   Tag="Favorites"  Content="{firebrowser:FluentIcon Glyph=&#xE728;}" Style="{StaticResource QuietButtonStyle}"/>
-                <Button x:Name="DownBtn" Click="ToolbarButtonClick" Style="{ThemeResource QuietButtonStyle}"  Content="{firebrowser:FluentIcon Glyph=&#xE896;}"/>
+                <Button x:Name="DownBtn" x:FieldModifier="Public" Click="DownBtn_Click" Style="{ThemeResource QuietButtonStyle}"  Content="{firebrowser:FluentIcon Glyph=&#xE896;}"/>
                 <Button x:Name="History" Tag="History"  Click="ToolbarButtonClick"  Flyout="{x:Bind HistoryFlyoutMenu}"  IsEnabled="True" Style="{ThemeResource QuietButtonStyle}" Content="{firebrowser:FluentIcon Glyph=&#xE81C;}"/>
                 <Button x:Name="QrBtn" Click="ToolbarButtonClick"  Flyout="{x:Bind QRCodeFlyout}"  Style="{ThemeResource QuietButtonStyle}" Tag="QRCode" Content="{firebrowser:FluentIcon Glyph=&#xED14;}"/>
                 <Button x:Uid="ToolbarMoreButton"   Flyout="{StaticResource MoreFlyout}"  VerticalAlignment="Center" Content="{firebrowser:FluentIcon Glyph=&#xE712;}"  Style="{ThemeResource QuietButtonStyle}" />
