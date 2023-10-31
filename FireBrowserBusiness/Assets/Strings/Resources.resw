@@ -168,6 +168,9 @@
   <data name="DefaultUserName" xml:space="preserve">
     <value>User</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete File</value>
+  </data>
   <data name="DontAskAgainCheckbox.Content" xml:space="preserve">
     <value>Don't ask again</value>
   </data>
@@ -613,6 +616,9 @@
   <data name="SettingsStyleWebsiteAccent" xml:space="preserve">
     <value>Make browser theme match website color</value>
   </data>
+  <data name="ShowInFolder" xml:space="preserve">
+    <value>Show Folder File</value>
+  </data>
   <data name="SpecialThanksNote.Text" xml:space="preserve">
     <value>Special thanks to Ahmed Walid, Nero Cui, Leah Lundqvist, FireCube and you.</value>
   </data>
@@ -630,6 +636,9 @@ You can use the dividers shown between the views to manage and resize them as ne
   </data>
   <data name="SplitBrowsingTutorialTitle.Text" xml:space="preserve">
     <value>Split your screen for effortless multitasking</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
   </data>
   <data name="TabMenuClose.Text" xml:space="preserve">
     <value>Close</value>

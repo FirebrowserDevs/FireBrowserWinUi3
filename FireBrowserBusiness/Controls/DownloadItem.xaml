@@ -14,21 +14,15 @@
 
     <ListViewItem.Resources>
         <MenuFlyout x:Name="contextMenu">
-            <MenuFlyoutItem Click="MenuFlyoutItem_Click">
+            <MenuFlyoutItem Click="DeleteMenuFlyoutItem_Click" Text="{helpers:ResourceString Name=Delete}">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE74D;" />
                 </MenuFlyoutItem.Icon>
-                <MenuFlyoutItem.Text>
-                    Delete
-                </MenuFlyoutItem.Text>
             </MenuFlyoutItem>
-            <MenuFlyoutItem Click="MenuFlyoutItem_Click_1">
+            <MenuFlyoutItem Click="ShowMenuFlyoutItem_Click" Text="{helpers:ResourceString Name=ShowInFolder}">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8B7;" />
                 </MenuFlyoutItem.Icon>
-                <MenuFlyoutItem.Text>
-                    Open Folder
-                </MenuFlyoutItem.Text>
             </MenuFlyoutItem>
         </MenuFlyout>
     </ListViewItem.Resources>

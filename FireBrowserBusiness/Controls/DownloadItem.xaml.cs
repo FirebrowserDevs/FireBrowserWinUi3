@@ -88,6 +88,8 @@ namespace FireBrowserWinUi3.Controls
                     break;
 
                 case CoreWebView2DownloadState.InProgress:
+                    progressRing.Visibility = Visibility.Visible;
+                    SetIcon();
                     break;
 
 
@@ -100,8 +102,9 @@ namespace FireBrowserWinUi3.Controls
             try
             {
                 long progress = 100 * sender.BytesReceived / sender.TotalBytesToReceive;
-                subtitle.Text = ((int)progress).ToString() + "% - " + EstimatedEnd;
+                subtitle.Text = ((int)progress).ToString() + "% - Downloading...";
                 progressRing.Value = (int)progress;
+                Progress = (int)progress;
             }
             catch { }
         }

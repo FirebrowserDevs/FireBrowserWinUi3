@@ -47,7 +47,7 @@ namespace FireBrowserWinUi3.Controls
                 {
                     connection.Open();
 
-                    SqliteCommand selectCommand = new SqliteCommand("SELECT target_path FROM downloads", connection);
+                    SqliteCommand selectCommand = new SqliteCommand("SELECT current_path FROM downloads", connection);
                     SqliteDataReader query = selectCommand.ExecuteReader();
 
                     while (query.Read())
