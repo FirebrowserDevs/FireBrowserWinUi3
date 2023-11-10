@@ -41,7 +41,8 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
                     url = "https://github.com/FirebrowserDevs/FireBrowser-Uwp/TEXT/main/LICENSE";
                     break;
             }
-            MainWindow mp = new();
+            var window = (Application.Current as App)?.m_window as MainWindow;
+            window.NavigateToUrl(url);
         }
     }
 }

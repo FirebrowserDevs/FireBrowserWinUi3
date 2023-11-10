@@ -143,5 +143,39 @@ namespace FireBrowserWinUi3.Setup
                 UserFolderManager.SaveUserSettings(GetUser(), userSettings);
             }
         }
+
+        private void DateTime_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                // Assuming 'url' and 'selection' have been defined earlier
+                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+
+                // Load the user's settings
+                Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
+
+
+                // Set the 'Auto' setting
+                userSettings.NtpDateTime = autoSettingValue;
+
+                // Save the modified settings back to the user's settings file
+                UserFolderManager.SaveUserSettings(GetUser(), userSettings);
+            }
+        }
+
+        private void NtpColorText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string color = NtpColorText.Text.ToString();
+            if (!string.IsNullOrEmpty(color))
+            {
+                // Load the user's settings
+                Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
+
+                userSettings.NtpTextColor = color;
+
+                // Save the modified settings back to the user's settings file
+                UserFolderManager.SaveUserSettings(GetUser(), userSettings);
+            }
+        }
     }
 }

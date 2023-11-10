@@ -52,18 +52,44 @@
                     </ctr:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="AutoTog" Toggled="AutoTog_Toggled"/>
                 </ctr:SettingsCard>
-                <ctr:SettingsCard Header="Color ToolBar" Description="Change The Color Of The ToolBar" Margin="0,1,0,0">
-                    <ctr:SettingsCard.HeaderIcon>
+                <ctr:SettingsExpander Header="Color Tools" Description="Change Some Colors" Margin="0,1,0,0">
+                    <ctr:SettingsExpander.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE790;" />
-                    </ctr:SettingsCard.HeaderIcon>
-                    <TextBox x:Name="ColorTB" Text="#000000" TextChanged="ColorTB_TextChanged"/>
-                </ctr:SettingsCard>
-                <ctr:SettingsCard Header="Color TabView Background" Description="Change The Color Of The TabViewBackground" Margin="0,1,0,0">
-                    <ctr:SettingsCard.HeaderIcon>
-                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE790;" />
-                    </ctr:SettingsCard.HeaderIcon>
-                    <TextBox x:Name="ColorTV" Text="#000000" TextChanged="ColorTV_TextChanged"/>
-                </ctr:SettingsCard>
+                    </ctr:SettingsExpander.HeaderIcon>
+                    <ctr:SettingsExpander.Items>
+                        <ctr:SettingsCard Header="Color ToolBar" Description="Change The Color Of The ToolBar" Margin="0,1,0,0">
+                            <ctr:SettingsCard.HeaderIcon>
+                                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE790;" />
+                            </ctr:SettingsCard.HeaderIcon>
+                            <TextBox x:Name="ColorTB" Text="#000000" TextChanged="ColorTB_TextChanged"/>
+                        </ctr:SettingsCard>
+                        <ctr:SettingsCard Header="Color TabView Background" Description="Change The Color Of The TabViewBackground" Margin="0,1,0,0">
+                            <ctr:SettingsCard.HeaderIcon>
+                                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE790;" />
+                            </ctr:SettingsCard.HeaderIcon>
+                            <TextBox x:Name="ColorTV" Text="#000000" TextChanged="ColorTV_TextChanged"/>
+                        </ctr:SettingsCard>
+                    </ctr:SettingsExpander.Items>
+                </ctr:SettingsExpander>
+                <ctr:SettingsExpander Header="Ntp Settings" Description="Change Ntp Settings" Margin="0,1,0,0">
+                    <ctr:SettingsExpander.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC92;" />
+                    </ctr:SettingsExpander.HeaderIcon>
+                    <ctr:SettingsExpander.Items>
+                        <ctr:SettingsCard Header="Ntp Time And Date" Description="Enable Ntp Time And Date HomePage" Margin="0,1,0,0">
+                            <ctr:SettingsCard.HeaderIcon>
+                                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC92;" />
+                            </ctr:SettingsCard.HeaderIcon>
+                            <ToggleSwitch x:Name="DateTime" Toggled="DateTime_Toggled" IsOn="True"/>
+                        </ctr:SettingsCard>
+                        <ctr:SettingsCard Header="Ntp Text Color" Description="Change Color Text Ntp" Margin="0,1,0,0">
+                            <ctr:SettingsCard.HeaderIcon>
+                                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE790;" />
+                            </ctr:SettingsCard.HeaderIcon>
+                            <TextBox x:Name="NtpColorText" Text="#000000" TextChanged="NtpColorText_TextChanged"/>
+                        </ctr:SettingsCard>
+                    </ctr:SettingsExpander.Items>
+                </ctr:SettingsExpander>
                 <ctr:SettingsExpander Header="Tabs Layout Model" Description="Change Here Tab Mode" Margin="0,1,0,0">
                     <ctr:SettingsExpander.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC6C;" />

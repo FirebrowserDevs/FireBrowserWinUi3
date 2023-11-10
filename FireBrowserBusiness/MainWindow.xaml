@@ -18,7 +18,7 @@
 
     <Grid Background="Transparent">
         <Grid.Resources>
-          
+
             <DataTemplate x:Key="DefaultDataTemplate">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -68,7 +68,7 @@
             Text="{x:Bind}" />
                 </Grid>
             </DataTemplate>
-         
+
             <Flyout x:Name="MoreFlyout" ShouldConstrainToRootBounds="False" Placement="Bottom">
                 <StackPanel Width="250">
                     <StackPanel Name="menuheader">

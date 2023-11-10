@@ -9,6 +9,8 @@ using System.Text.Json;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
+using Windows.UI.Core.Preview;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Path = System.IO.Path;
 
@@ -32,6 +34,8 @@ namespace FireBrowserBusiness
         {
             this.InitializeComponent();
 
+          
+
             string coreFolderPath = UserDataManager.CoreFolderPath;
             string username = GetUsernameFromCoreFolderPath(coreFolderPath);
 
@@ -39,8 +43,11 @@ namespace FireBrowserBusiness
                 AuthService.Authenticate(username);
 
             UrlHelperWinUi3.TLD.LoadKnownDomainsAsync();
+
+            System.Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
         }
 
+    
 
         public static string GetUsernameFromCoreFolderPath(string coreFolderPath)
         {

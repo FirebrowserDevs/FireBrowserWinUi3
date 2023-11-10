@@ -66,6 +66,9 @@ namespace FireBrowserMultiCore
                 ToolIcon = "1",
                 DarkIcon = "1",
                 OpenTabHandel = "0",
+                NtpDateTime = "0",
+                ExitDialog = "0",
+                NtpTextColor = "#000000",
                 // Add other settings properties here
             };
 

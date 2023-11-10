@@ -142,7 +142,7 @@ namespace FireBrowserWinUi3.Pages
                 window.GoFullScreenWeb(s.CoreWebView2.ContainsFullScreenElement);
             };
             s.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
-            s.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
+            //s.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
    
             s.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
             s.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
@@ -162,7 +162,7 @@ namespace FireBrowserWinUi3.Pages
                 }
                 catch (Exception ex)
                 {
-
+                    Debug.WriteLine(ex);
                 }
             };
             s.CoreWebView2.FaviconChanged += async (sender, args) =>

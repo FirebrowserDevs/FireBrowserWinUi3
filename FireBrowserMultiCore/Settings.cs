@@ -30,4 +30,7 @@ public class Settings
     public string ToolIcon { get; set; }
     public string OpenTabHandel { get; set; }
     public string DarkIcon { get; set; }
+    public string NtpDateTime { get; set; }
+    public string ExitDialog { get; set; }
+    public string NtpTextColor { get; set; }
 }

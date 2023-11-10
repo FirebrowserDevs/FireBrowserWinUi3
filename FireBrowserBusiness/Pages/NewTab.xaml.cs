@@ -1,6 +1,8 @@
+using BingWallpaper.Installer;
 using FireBrowserCore.Models;
 using FireBrowserCore.ViewModel;
 using FireBrowserMultiCore;
+using FireBrowserWinUi3.Controls;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -10,6 +12,11 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Net.Http;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using Windows.Graphics.Imaging;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using static FireBrowserBusiness.MainWindow;
 using Settings = FireBrowserBusinessCore.Models.Settings;
 
@@ -18,11 +25,20 @@ public sealed partial class NewTab : Page
 {
     bool isAuto;
     bool isMode;
+    bool isNtp;
     public HomeViewModel ViewModel { get; set; }
     public NewTab()
     {
         this.InitializeComponent();
         HomeSync();
+        this.Loaded += NewTab_Loaded;
+    }
+
+    private void NewTab_Loaded(object sender, RoutedEventArgs e)
+    {
+        bool isNtp = userSettings.NtpDateTime == "1";
+        DateTimeToggle.IsOn = isNtp;
+        NtpEnabled(isNtp);
     }
 
     FireBrowserMultiCore.Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
@@ -35,9 +51,11 @@ public sealed partial class NewTab : Page
         bool isMode = userSettings.LightMode == "1";
         Mode.IsOn = isMode;
 
+
         // Get Background and ColorBackground settings
         string backgroundSetting = userSettings.Background;
         string colorBackgroundSetting = userSettings.ColorBackground;
+        string NtpColor = userSettings.NtpTextColor;
 
         // ViewModel setup
         ViewModel = new HomeViewModel
@@ -47,11 +65,15 @@ public sealed partial class NewTab : Page
 
         NewColor.IsEnabled = backgroundSetting == "2";
         NewColor.Text = colorBackgroundSetting;
+        NtpColorBox.Text = NtpColor;
+
         GridSelect.SelectedValue = ViewModel.BackgroundType.ToString();
 
+       
         // Visibility setup based on LightMode setting
         SetVisibilityBasedOnLightMode(isMode);
     }
+
 
     private Settings.NewTabBackground GetBackgroundType(string setting)
     {
@@ -63,8 +85,31 @@ public sealed partial class NewTab : Page
         };
     }
 
+    private async void NtpEnabled(bool isNtp)
+    {
+        if (isNtp == true)
+        {     
+            while (isNtp == true)
+            {
+
+                NtpTime.Visibility = Visibility.Visible;
+                NtpDate.Visibility = Visibility.Visible;
+                NtpTime.Text = System.DateTime.Now.ToString("H:mm");
+                NtpDate.Text = System.DateTime.Today.DayOfWeek.ToString() + ", " + System.DateTime.Today.ToString("MMMM d"); 
+                await Task.Delay(1000);           
+            }         
+        }
+        else
+        {
+            NtpTime.Visibility = Visibility.Collapsed;
+            NtpDate.Visibility = Visibility.Collapsed;
+            return;
+        }
+    }
+
     private void SetVisibilityBasedOnLightMode(bool isLightMode)
     {
+        NtpGrid.Visibility = isLightMode ? Visibility.Collapsed : Visibility.Visible;
         Edit.Visibility = isLightMode ? Visibility.Collapsed : Visibility.Visible;
         SetTab.Visibility = isLightMode ? Visibility.Collapsed : Visibility.Visible;
         BigGrid.Visibility = isLightMode ? Visibility.Collapsed : Visibility.Visible;
@@ -115,7 +160,6 @@ public sealed partial class NewTab : Page
     {
         public ImageTab[] images { get; set; }
     }
-
 
 
     public static Brush GetGridBackgroundAsync(Settings.NewTabBackground backgroundType, FireBrowserMultiCore.Settings usersettings)
@@ -180,6 +224,7 @@ public sealed partial class NewTab : Page
 
         return new SolidColorBrush();
     }
+
 
 
     private void Type_Toggled(object sender, RoutedEventArgs e)
@@ -249,6 +294,60 @@ public sealed partial class NewTab : Page
 
     }
 
+    private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            isNtp = toggleSwitch.IsOn;
+            string autoValue = isNtp ? "1" : "0";
 
 
+            if (AuthService.CurrentUser != null)
+            {
+                // Update the "Auto" setting for the current user
+                userSettings.NtpDateTime = autoValue;
+
+                // Save the modified settings back to the user's settings file
+                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            }
+            else
+            {
+                // Handle the case when there is no authenticated user.
+            }
+        }
+    }
+
+    private void NewTabSearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    {
+        if (isAuto)
+        {
+            var window = (Application.Current as App)?.m_window as MainWindow;
+            window.FocusUrlBox((NewTabSearchBox.Text));
+        }
+    }
+
+    private void NewTabSearchBox_PreviewKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+    {
+        if (!isAuto && e.Key is Windows.System.VirtualKey.Enter)
+        {
+            var window = (Application.Current as App)?.m_window as MainWindow;
+            window.FocusUrlBox((NewTabSearchBox.Text));
+        }
+    }
+
+    private void NtpColorBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (AuthService.CurrentUser != null)
+        {
+            // Update the "ColorBackground" setting for the current user
+            userSettings.NtpTextColor = NtpColorBox.Text.ToString();
+
+            // Save the modified settings back to the user's settings file
+            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+        }
+        else
+        {
+            // Handle the case when there is no authenticated user.
+        }
+    }
 }

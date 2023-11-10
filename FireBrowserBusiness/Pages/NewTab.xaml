@@ -9,6 +9,7 @@
     mc:Ignorable="d"
     xmlns:firebrowser="using:FireBrowserBusiness.Controls"
     xmlns:dllimg="using:Assets"
+    xmlns:settings="using:CommunityToolkit.WinUI.Controls"
     NavigationCacheMode="Enabled"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid  x:Name="Grid" Background="{x:Bind local:NewTab.GetGridBackgroundAsync(ViewModel.BackgroundType, userSettings), Mode=OneWay}">
@@ -35,6 +36,9 @@
                         </ToggleSwitch>
                         <ToggleSwitch x:Name="Mode" Toggled="Mode_Toggled">
                             Enable Light Mode
+                        </ToggleSwitch>
+                        <ToggleSwitch x:Name="DateTimeToggle" Toggled="ToggleSwitch_Toggled">
+                            Enable Ntp
                         </ToggleSwitch>
                     </StackPanel>
                 </Flyout>
@@ -83,10 +87,21 @@
                         </GridView>
                         <TextBlock FontWeight="Bold" Text="New-Tab Background Color ( ReOpen Or Apply To Change )"/>
                         <TextBox IsEnabled="True" x:FieldModifier="Public" Margin="0,5,0,0" x:Name="NewColor" TextChanged="NewColor_TextChanged"/>
+
+                        <TextBlock FontWeight="Bold" Text="Ntp Text Color"/>
+                        <TextBox x:Name="NtpColorBox" TextChanged="NtpColorBox_TextChanged" IsEnabled="False" x:FieldModifier="Public" Margin="0,5,0,0"  />
                     </StackPanel>
                 </Flyout>
             </Button.Flyout>
         </Button>
+        <Grid x:Name="NtpGrid" HorizontalAlignment="Center" VerticalAlignment="Top" RowSpacing="3" Margin="0,75,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="NtpTime" Grid.Row="0" FontWeight="Medium" TextAlignment="Center" FontSize="68">Time</TextBlock>
+            <TextBlock x:Name="NtpDate" Grid.Row="1">Date</TextBlock>
+        </Grid>
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" RowSpacing="4" x:Name="BigGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -96,12 +111,14 @@
                          x:Uid="SearchBar"
                          Grid.Row="0"
                          Height="40" 
-                         MinWidth="150"
+                         MinWidth="250"
                          BorderThickness="1,1,1,1"
                          CornerRadius="5"
                          BorderBrush="{ThemeResource SystemAltHighColor}"
                          Background="Transparent"
                          Width="Auto"
+                            TextChanged="NewTabSearchBox_TextChanged"
+                            PreviewKeyDown="NewTabSearchBox_PreviewKeyDown"
                          VerticalContentAlignment="Center"                          
                          x:FieldModifier="Public"
                          >

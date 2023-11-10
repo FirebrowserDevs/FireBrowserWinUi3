@@ -88,7 +88,7 @@ public sealed partial class MainWindow : Window
             Tabs.TabItems.Add(CreateNewIncog(typeof(InPrivate)));
         }
 
-        Title();
+        TitleTop();
         LoadUserDataAndSettings();
     }
 
@@ -112,7 +112,7 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    public void Title()
+    public void TitleTop()
     {
         var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
         Microsoft.UI.WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
@@ -741,7 +741,6 @@ public sealed partial class MainWindow : Window
             ViewModel.CanRefresh = false;
             ViewModel.CurrentAddress = null;
         }
-
     }
 
 
@@ -811,7 +810,7 @@ public sealed partial class MainWindow : Window
         );
 
         HistoryTemp.ItemsSource = null;
-        DbClear.ClearTable(databasePath, "urls");
+        await DbClear.ClearTable(databasePath, "urls");
     }
 
     private ObservableCollection<HistoryItem> browserHistory;
@@ -1087,8 +1086,20 @@ public sealed partial class MainWindow : Window
 
     private void DownBtn_Click(object sender, RoutedEventArgs e)
     {
-        FlyoutShowOptions options = new FlyoutShowOptions() { Placement = FlyoutPlacementMode.Bottom };
-        DownloadFlyout.ShowAt(DownBtn, options);
+        //FlyoutShowOptions options = new FlyoutShowOptions() { Placement = FlyoutPlacementMode.Bottom };
+        // DownloadFlyout.ShowAt(DownBtn, options);
+
+        if (TabContent.Content is WebContent)
+        {
+            if (TabWebView.CoreWebView2.IsDefaultDownloadDialogOpen == true)
+            {
+                (TabContent.Content as WebContent).WebViewElement.CoreWebView2.CloseDefaultDownloadDialog();
+            }
+            else
+            {
+                (TabContent.Content as WebContent).WebViewElement.CoreWebView2.OpenDefaultDownloadDialog();
+            }
+        }
     }
 
   
