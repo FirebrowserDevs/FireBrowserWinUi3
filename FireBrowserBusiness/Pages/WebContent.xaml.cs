@@ -14,10 +14,10 @@ using Microsoft.Web.WebView2.Core;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
-using Windows.UI.WebUI;
+using Windows.Media.Core;
+using Windows.Media.Playback;
+using Windows.Media.SpeechSynthesis;
 using static FireBrowserBusiness.MainWindow;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -48,7 +48,7 @@ namespace FireBrowserWinUi3.Pages
         public WebContent()
         {
             this.InitializeComponent();
-            Init();     
+            Init();
         }
 
         public async void Init()
@@ -71,7 +71,7 @@ namespace FireBrowserWinUi3.Pages
 
             Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", browserFolderPath);
             Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--enable-features=msSingleSignOnOSForPrimaryAccountIsShared");
-         
+
         }
 
         public void AfterComplete()
@@ -143,7 +143,7 @@ namespace FireBrowserWinUi3.Pages
             };
             s.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
             //s.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
-   
+
             s.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
             s.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
             s.CoreWebView2.ScriptDialogOpening += async (sender, args) =>
@@ -227,14 +227,25 @@ namespace FireBrowserWinUi3.Pages
         private void CoreWebView2_DownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
         {
             var downloadOperation = args.DownloadOperation;
+            // We avoid potential reentrancy from running a message loop in the download
+            // starting event handler by showing our download dialog later when we
+            // complete the deferral asynchronously.
+            System.Threading.SynchronizationContext.Current.Post((_) =>
+            {
+               
+                    // Your existing code for handling the download operation
+                    var downloadOperation = args.DownloadOperation;
 
-            var window = (Application.Current as App)?.m_window as MainWindow;
+                    var window = (Application.Current as App)?.m_window as MainWindow;
 
-            DownloadItem downloadItem = new(args.DownloadOperation);
-            window.DownloadFlyout.DownloadItemsListView.Items.Insert(0, downloadItem);
+                    DownloadItem downloadItem = new DownloadItem(downloadOperation);
+                    window.DownloadFlyout.DownloadItemsListView.Items.Insert(0, downloadItem);
 
-            window.DownloadFlyout.ShowAt(window.DownBtn);
+                    window.DownloadFlyout.ShowAt(window.DownBtn);
 
+                  
+                
+            }, null);
             args.Handled = true;
         }
 
@@ -311,6 +322,33 @@ namespace FireBrowserWinUi3.Pages
             Ctx.Hide();
         }
 
+
+        SpeechSynthesizer synthesizer = new SpeechSynthesizer();
+
+        private async void ConvertTextToSpeech(string text)
+        {
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                var synthesisStream = await synthesizer.SynthesizeSsmlToStreamAsync(
+                    $"<speak version='1.0' xml:lang='{userSettings.Lang}'><voice name='Microsoft Server Speech Text to Speech Voice ({userSettings.Lang}, HannaRUS)'>{text}</voice></speak>");
+
+                // Create a MediaPlayer element
+                MediaPlayer mediaPlayer = new MediaPlayer();
+
+                // Set the audio stream source
+                mediaPlayer.Source = MediaSource.CreateFromStream(synthesisStream, synthesisStream.ContentType);
+
+                // Subscribe to the MediaEnded event to clean up resources when playback completes
+                mediaPlayer.MediaEnded += (sender, args) =>
+                {
+                    mediaPlayer.Dispose(); // Dispose of the MediaPlayer after playback is complete
+                };
+
+                // Start playback
+                mediaPlayer.Play();
+            }
+        }
+
         public static async void OpenNewWindow(Uri uri)
         {
             await Windows.System.Launcher.LaunchUriAsync(uri);
@@ -323,15 +361,25 @@ namespace FireBrowserWinUi3.Pages
                 switch ((sender as MenuFlyoutItem).Tag)
                 {
                     case "Read":
-
+                        ConvertTextToSpeech(SelectionText);
                         break;
                     case "WebApp":
 
                         break;
                     case "OpenInTab":
-                        var window = (Application.Current as App)?.m_window as MainWindow;
-                        window.Tabs.TabItems.Add(window.CreateNewTab(typeof(WebContent), new Uri(SelectionText)));
-                        
+                        if (userSettings.OpenTabHandel == "1")
+                        {
+                            var window = (Application.Current as App)?.m_window as MainWindow;
+                            window.Tabs.TabItems.Add(window.CreateNewTab(typeof(WebContent), new Uri(SelectionText)));
+                            select();
+                        }
+                        else
+                        {
+                            var window = (Application.Current as App)?.m_window as MainWindow;
+                            window.Tabs.TabItems.Add(window.CreateNewTab(typeof(WebContent), new Uri(SelectionText)));
+                        }
+
+
                         break;
                     case "OpenInWindow":
                         OpenNewWindow(new Uri(SelectionText));
@@ -342,8 +390,13 @@ namespace FireBrowserWinUi3.Pages
             Ctx.Hide();
         }
 
-     
-        
+        public void select()
+        {
+            var window = (Application.Current as App)?.m_window as MainWindow;
+            window.SelectNewTab();
+        }
+
+
         private bool isOffline = false;
         private async void CheckNetworkStatus()
         {

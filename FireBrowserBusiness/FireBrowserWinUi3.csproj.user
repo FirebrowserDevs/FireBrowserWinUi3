@@ -22,6 +22,21 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Pages\TimeLinePages\DownloadsTimeLine.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\TimeLinePages\AppsTimeLine.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\TimeLinePages\FavoritesTimeLine.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\TimeLinePages\HistoryTimeLine.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\TimeLinePages\MainTimeLine.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\ModulesInstaller.xaml">
       <SubType>Designer</SubType>
     </Page>

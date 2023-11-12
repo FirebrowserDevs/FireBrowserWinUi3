@@ -7,15 +7,12 @@ using FireBrowserMultiCore;
 using FireBrowserQr;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
+using FireBrowserWinUi3.Pages.TimeLinePages;
 using Microsoft.Data.Sqlite;
 using Microsoft.UI;
-using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using SQLitePCL;
 using System;
@@ -25,17 +22,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UrlHelperWinUi3;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.Globalization.NumberFormatting;
-using Windows.Media.Capture;
-using Windows.Services.Maps;
-using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.System;
-using Windows.UI;
-using Windows.UI.WebUI;
 using WinRT.Interop;
 using Windowing = FireBrowserBusinessCore.Helpers.Windowing;
 
@@ -69,7 +58,6 @@ public sealed partial class MainWindow : Window
     private AppWindowTitleBar titleBar;
 
     public DownloadFlyout DownloadFlyout { get; set; } = new DownloadFlyout();
-    
 
     public MainWindow()
     {
@@ -92,7 +80,7 @@ public sealed partial class MainWindow : Window
         LoadUserDataAndSettings();
     }
 
-  
+
     public void SmallUpdates()
     {
         UrlBox.Text = TabWebView.CoreWebView2.Source.ToString();
@@ -118,7 +106,7 @@ public sealed partial class MainWindow : Window
         Microsoft.UI.WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
         appWindow = AppWindow.GetFromWindowId(windowId);
         appWindow.SetIcon("Logo.ico");
-      
+
 
         if (!AppWindowTitleBar.IsCustomizationSupported())
         {
@@ -163,7 +151,7 @@ public sealed partial class MainWindow : Window
         if (fullscreen)
         {
             view.SetPresenter(AppWindowPresenterKind.FullScreen);
-           
+
             ClassicToolbar.Height = 0;
 
             TabContent.Margin = margin;
@@ -171,7 +159,7 @@ public sealed partial class MainWindow : Window
         else
         {
             view.SetPresenter(AppWindowPresenterKind.Default);
-       
+
             ClassicToolbar.Height = 40;
 
             TabContent.Margin = margin;
@@ -184,15 +172,15 @@ public sealed partial class MainWindow : Window
         Microsoft.UI.WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
         var view = AppWindow.GetFromWindowId(wndId);
 
-        if (isFull)
+        if (isFull == false)
         {
             view.SetPresenter(AppWindowPresenterKind.FullScreen);
-           
+            isFull = true;
         }
         else
         {
             view.SetPresenter(AppWindowPresenterKind.Default);
-          
+            isFull = false;
         }
     }
 
@@ -380,7 +368,7 @@ public sealed partial class MainWindow : Window
         }
     }
 
- 
+
 
     private double GetScaleAdjustment()
     {
@@ -683,8 +671,8 @@ public sealed partial class MainWindow : Window
 
                 break;
             case "AdBlock":
-             
-                break; 
+
+                break;
             case "AddFavoriteFlyout":
                 if (TabContent.Content is WebContent)
                 {
@@ -707,7 +695,7 @@ public sealed partial class MainWindow : Window
             case "DarkMode":
                 if (TabContent.Content is WebContent)
                 {
-                    
+
                 }
                 break;
 
@@ -717,7 +705,7 @@ public sealed partial class MainWindow : Window
         }
     }
 
-  
+
 
     #endregion
 
@@ -745,7 +733,7 @@ public sealed partial class MainWindow : Window
 
 
 
-    private void TabMenuClick(object sender, RoutedEventArgs e)
+    private async void TabMenuClick(object sender, RoutedEventArgs e)
     {
         switch ((sender as Button).Tag)
         {
@@ -761,43 +749,52 @@ public sealed partial class MainWindow : Window
 
                 break;
             case "DevTools":
-                if (TabContent.Content is WebContent) (TabContent.Content as WebContent).WebViewElement.CoreWebView2.OpenDevToolsWindow();
+                if(TabContent.Content is WebContent)
+                {
+                    (TabContent.Content as WebContent).WebViewElement.CoreWebView2.OpenDevToolsWindow();                   
+                }
+
                 break;
             case "Settings":
                 Tabs.TabItems.Add(CreateNewTab(typeof(SettingsPage)));
                 SelectNewTab();
                 break;
             case "FullScreen":
-                if(isFull == true)
+                if (isFull == true)
                 {
                     GoFullScreen(false);
-                    isFull = false;
                     TextFull.Text = "Exit FullScreen";
                 }
                 else
                 {
                     GoFullScreen(true);
-                    isFull = true;
                     TextFull.Text = "Full Screen";
                 }
-           
+
+                break;
+            case "Downloads":
+                UrlBox.Text = "firebrowser://downloads";
+                TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine));
                 break;
             case "History":
-                FetchBrowserHistory();
+                UrlBox.Text = "firebrowser://history";
+                TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine));
+
                 break;
             case "InPrivate":
                 Tabs.TabItems.Add(CreateNewIncog(typeof(InPrivate)));
                 break;
             case "Favorites":
-
+                UrlBox.Text = "firebrowser://favorites";
+                TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine));
                 break;
-        
+
         }
     }
 
     #region database
 
-   private async void ClearDb()
+    private async void ClearDb()
     {
         FireBrowserMultiCore.User user = AuthService.CurrentUser;
         string username = user.Username;
@@ -1102,5 +1099,9 @@ public sealed partial class MainWindow : Window
         }
     }
 
-  
+    private void OpenHistoryMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        UrlBox.Text = "firebrowser://history";
+        TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine));
+    }
 }

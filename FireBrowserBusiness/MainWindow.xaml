@@ -117,25 +117,31 @@
                             </StackPanel>
                         </Button>
                         <Border BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}" Opacity="0.3" Margin="10,10" BorderThickness="1"/>
-                        <Button x:Name="His" x:FieldModifier="Public" Tag="History"   Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                        <Button x:Name="His" x:FieldModifier="Public" Tag="History" Click="TabMenuClick"  Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xE81C;" FontSize="18"/>
                                 <TextBlock Margin="10,0,0,0" Text="History"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="Fav" x:FieldModifier="Public" Tag="Favorites" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                        <Button x:Name="Fav" x:FieldModifier="Public" Tag="Favorites" Click="TabMenuClick" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE728;" FontSize="18"/>
                                 <TextBlock Margin="10,0,0,0" Text="Favorites"/>
                             </StackPanel>
                         </Button>
+                        <Button x:Name="Down" x:FieldModifier="Public" Tag="Downloads" Click="TabMenuClick" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE896;" FontSize="18"/>
+                                <TextBlock Margin="10,0,0,0" Text="Downloads"/>
+                            </StackPanel>
+                        </Button>
+                        <Border BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}" Opacity="0.3" Margin="10,10" BorderThickness="1"/>
                         <Button  Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE749;" FontSize="18"/>
                                 <TextBlock Margin="10,0,0,0" Text="Print"/>
                             </StackPanel>
                         </Button>
-                        <Border BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}" Opacity="0.3" Margin="10,10" BorderThickness="1"/>
                         <Button  x:FieldModifier="Public" Tag="FullScreen" Click="TabMenuClick"  Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon x:Name="Icon" FontFamily="{StaticResource FluentIcons}" Glyph="&#xE740;" FontSize="18"/>
@@ -198,7 +204,7 @@
                                                         <SymbolIcon Symbol="Clear" />
                                                     </MenuFlyoutItem.Icon>
                                                 </MenuFlyoutItem>
-                                                <MenuFlyoutItem x:Name="OpenHistoryMenuItem" Text="Open History Page" >
+                                                <MenuFlyoutItem x:Name="OpenHistoryMenuItem" Text="Open History Page" Click="OpenHistoryMenuItem_Click">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8A7;" />
                                                     </MenuFlyoutItem.Icon>
@@ -305,12 +311,12 @@
                     <PersonPicture.ContextFlyout>
                         <Flyout Placement="BottomEdgeAlignedLeft" AreOpenCloseAnimationsEnabled="True">
                             <Button IsEnabled="True" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" BorderBrush="Transparent" Background="Transparent" Margin="0,0,0,10">
-                                <StackPanel>
+                                <StackPanel Height="85">
                                     <StackPanel Orientation="Horizontal">
                                         <PersonPicture ProfilePicture="{dllimg:ImageLoader ImageName=clippy.png}" Width="45"/>
                                         <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
-                                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" Text="FireBrowser"/>
-                                            <TextBlock x:Name="Prof" Text="{Binding Username}"  FontSize="12"/>
+                                            <TextBlock x:Name="Prof" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" Text="{Binding Username}"/>
+                                            <TextBlock Text="Local User"  FontSize="12"/>
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Margin="0,10,0,0" Orientation="Vertical">

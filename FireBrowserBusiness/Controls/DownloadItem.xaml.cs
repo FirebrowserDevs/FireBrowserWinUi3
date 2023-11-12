@@ -2,23 +2,15 @@ using FireBrowserBusiness;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 
@@ -76,33 +68,34 @@ namespace FireBrowserWinUi3.Controls
             switch (sender.State)
             {
                 case CoreWebView2DownloadState.Completed:
+                    // Update UI for completed download
                     progressRing.Visibility = Visibility.Collapsed;
-                    ResourceLoader resourceLoader = new();
+                    ResourceLoader resourceLoader = new ResourceLoader();
                     subtitle.Text = resourceLoader.GetString("OpenFile");
                     SetIcon();
-
+                    
 
                     break;
 
-                case CoreWebView2DownloadState.Interrupted: //[TODO] 
+                case CoreWebView2DownloadState.Interrupted:
+                    // Handle interruption if needed
                     break;
 
                 case CoreWebView2DownloadState.InProgress:
                     progressRing.Visibility = Visibility.Visible;
-                    SetIcon();
                     break;
-
-
-
             }
         }
+
+
 
         private void _downloadOperation_BytesReceivedChanged(CoreWebView2DownloadOperation sender, object args)
         {
             try
             {
                 long progress = 100 * sender.BytesReceived / sender.TotalBytesToReceive;
-                subtitle.Text = ((int)progress).ToString() + "% - Downloading...";
+                subtitle.Text = $"{(int)progress}% - Downloading... ";
+                time.Text = sender.EstimatedEndTime;
                 progressRing.Value = (int)progress;
                 Progress = (int)progress;
             }
@@ -150,18 +143,7 @@ namespace FireBrowserWinUi3.Controls
             catch (FileNotFoundException)
             { window.DownloadFlyout.DownloadItemsListView.Items.Remove(this); }
         }
-        private async new void Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            try
-            {
-                Process.Start(_filepath);
-            }
-            catch
-            {
-                await Launcher.LaunchFileAsync(await StorageFile.GetFileFromPathAsync(_filepath));
-            }
-
-        }
+   
 
         private new void RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
@@ -186,7 +168,7 @@ namespace FireBrowserWinUi3.Controls
         private void DeleteMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             File.Delete(_filepath);
-          
+
         }
 
         private void ShowMenuFlyoutItem_Click(object sender, RoutedEventArgs e)

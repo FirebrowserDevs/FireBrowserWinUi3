@@ -6,7 +6,7 @@
     xmlns:local="using:FireBrowserWinUi3.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:helpers="using:FireBrowserWinUi3.Controls"
-    mc:Ignorable="d" Height="40" IsEnabled="True" Tapped="Tapped" RightTapped="RightTapped">
+    mc:Ignorable="d" Height="40" IsEnabled="True" RightTapped="RightTapped">
 
     <ListViewItem.Style>
         <Style TargetType="ListViewItem" BasedOn="{StaticResource DefaultListViewItemStyle}"/>
@@ -41,6 +41,7 @@
         <StackPanel Margin="10,-3,0,0" VerticalAlignment="Center" Grid.Column="1">
             <TextBlock Grid.Column="1" Margin="0,0,0,0" ToolTipService.ToolTip="{Binding Description}" x:Name="fileName"/>
             <TextBlock Margin="0,-2,0,0" Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="12" x:Name="subtitle"/>
+            <TextBlock Margin="0,-2,0,0" Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="12" x:Name="time"/>
         </StackPanel>
 
     </Grid>

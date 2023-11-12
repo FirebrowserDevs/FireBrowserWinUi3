@@ -1,5 +1,6 @@
 ﻿using FireBrowserMultiCore;
 using Microsoft.Data.Sqlite;
+using System;
 using System.IO;
 
 namespace FireBrowserDatabase;
@@ -11,6 +12,7 @@ public class SaveDb
         string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username);
         string databaseFolderPath = Path.Combine(userFolderPath, "Database");
         string databaseFilePath = Path.Combine(databaseFolderPath, "History.db");
+        var currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
         if (File.Exists(databaseFilePath))
         {
@@ -20,8 +22,8 @@ public class SaveDb
 
                 using (var transaction = connection.BeginTransaction())
                 {
-                    string query = "INSERT INTO urls (url, title, visit_count, typed_count, hidden) " +
-                                   "VALUES (@url, @title, @visitCount, @typedCount, @hidden)";
+                    string query = "INSERT INTO urls (url, title, visit_count, typed_count, hidden, last_visit_time) " +
+                                   "VALUES (@url, @title, @visitCount, @typedCount, @hidden, @last_visit_time)";
 
                     using (var command = new SqliteCommand(query, connection, transaction))
                     {
@@ -30,6 +32,7 @@ public class SaveDb
                         command.Parameters.AddWithValue("@visitCount", visitCount);
                         command.Parameters.AddWithValue("@typedCount", typedCount);
                         command.Parameters.AddWithValue("@hidden", hidden);
+                        command.Parameters.AddWithValue("@last_visit_time", currentTime);
 
                         command.ExecuteNonQuery();
                     }

@@ -1,17 +1,12 @@
 ﻿using FireBrowserMultiCore;
 using FireBrowserWinUi3;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.UI.Core.Preview;
-using Windows.UI.Popups;
-using Windows.UI.ViewManagement;
 using Path = System.IO.Path;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -34,7 +29,7 @@ namespace FireBrowserBusiness
         {
             this.InitializeComponent();
 
-          
+
 
             string coreFolderPath = UserDataManager.CoreFolderPath;
             string username = GetUsernameFromCoreFolderPath(coreFolderPath);
@@ -47,7 +42,7 @@ namespace FireBrowserBusiness
             System.Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
         }
 
-    
+
 
         public static string GetUsernameFromCoreFolderPath(string coreFolderPath)
         {
@@ -111,7 +106,7 @@ namespace FireBrowserBusiness
                     catch { }
                 }
 
-            
+
 
                 // The "FireBrowserUserCore" folder exists, so proceed with your application's normal behavior.
                 m_window = new MainWindow();

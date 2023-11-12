@@ -1,11 +1,8 @@
 ﻿using Microsoft.Data.Sqlite;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
-using System.Xml;
 
 namespace FireBrowserMultiCore
 {
@@ -96,6 +93,7 @@ namespace FireBrowserMultiCore
                     var createTableCommand = connection.CreateCommand();
                     createTableCommand.CommandText = "CREATE TABLE IF NOT EXISTS urls (" +
                         "id INTEGER PRIMARY KEY," +
+                        "last_visit_time TEXT," +
                         "url TEXT," +
                         "title TEXT," +
                         "visit_count INTEGER NOT NULL DEFAULT 0," +
@@ -112,7 +110,7 @@ namespace FireBrowserMultiCore
             }
         }
 
-      
+
 
         public static Settings LoadUserSettings(User user)
         {

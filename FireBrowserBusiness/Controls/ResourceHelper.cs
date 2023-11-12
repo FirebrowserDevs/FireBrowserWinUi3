@@ -1,6 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Markup;
 using Microsoft.Windows.ApplicationModel.Resources;
-using System.Text;
 
 namespace FireBrowserWinUi3.Controls
 {

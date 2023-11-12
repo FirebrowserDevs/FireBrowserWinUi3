@@ -1,8 +1,6 @@
-using BingWallpaper.Installer;
 using FireBrowserCore.Models;
 using FireBrowserCore.ViewModel;
 using FireBrowserMultiCore;
-using FireBrowserWinUi3.Controls;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -12,11 +10,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Net.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Graphics.Imaging;
-using Windows.Storage;
-using Windows.Storage.Streams;
 using static FireBrowserBusiness.MainWindow;
 using Settings = FireBrowserBusinessCore.Models.Settings;
 
@@ -69,7 +63,7 @@ public sealed partial class NewTab : Page
 
         GridSelect.SelectedValue = ViewModel.BackgroundType.ToString();
 
-       
+
         // Visibility setup based on LightMode setting
         SetVisibilityBasedOnLightMode(isMode);
     }
@@ -88,16 +82,16 @@ public sealed partial class NewTab : Page
     private async void NtpEnabled(bool isNtp)
     {
         if (isNtp == true)
-        {     
+        {
             while (isNtp == true)
             {
 
                 NtpTime.Visibility = Visibility.Visible;
                 NtpDate.Visibility = Visibility.Visible;
                 NtpTime.Text = System.DateTime.Now.ToString("H:mm");
-                NtpDate.Text = System.DateTime.Today.DayOfWeek.ToString() + ", " + System.DateTime.Today.ToString("MMMM d"); 
-                await Task.Delay(1000);           
-            }         
+                NtpDate.Text = System.DateTime.Today.DayOfWeek.ToString() + ", " + System.DateTime.Today.ToString("MMMM d");
+                await Task.Delay(1000);
+            }
         }
         else
         {

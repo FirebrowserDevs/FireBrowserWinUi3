@@ -63,6 +63,11 @@
     <None Remove="Pages\SettingsPages\SettingsNewTab.xaml" />
     <None Remove="Pages\SettingsPages\SettingsPrivacy.xaml" />
     <None Remove="Pages\SettingsPages\SettingsWebView.xaml" />
+    <None Remove="Pages\TimeLinePages\AppsTimeLine.xaml" />
+    <None Remove="Pages\TimeLinePages\DownloadsTimeLine.xaml" />
+    <None Remove="Pages\TimeLinePages\FavoritesTimeLine.xaml" />
+    <None Remove="Pages\TimeLinePages\HistoryTimeLine.xaml" />
+    <None Remove="Pages\TimeLinePages\MainTimeLine.xaml" />
     <None Remove="Pages\WebContent.xaml" />
     <None Remove="SetupWindow.xaml" />
     <None Remove="Setup\SetupAccess.xaml" />
@@ -147,6 +152,21 @@
     <None Update="LogoSetup.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Pages\TimeLinePages\DownloadsTimeLine.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\TimeLinePages\AppsTimeLine.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\TimeLinePages\FavoritesTimeLine.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\TimeLinePages\HistoryTimeLine.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\TimeLinePages\MainTimeLine.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Pages\ModulesInstaller.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
