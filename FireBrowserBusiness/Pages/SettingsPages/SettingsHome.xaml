@@ -49,24 +49,45 @@
                     </StackPanel>
                 </Button>
             </labs:SettingsCard>
-            <labs:SettingsCard>
-                <labs:SettingsCard.Header>
-                    Coming Later MultiProfile Eta*30-12-2024
-                </labs:SettingsCard.Header>
-            </labs:SettingsCard>
-            <labs:SettingsCard>
-                <labs:SettingsCard.Header>
-                    Maybe Added In Future *Bluetooth Control Center
-                </labs:SettingsCard.Header>
-            </labs:SettingsCard>
+            <labs:SettingsExpander>
+                <labs:SettingsExpander.Header>
+                    Profiles
+                </labs:SettingsExpander.Header>
+                <Button x:Name="Add" Click="Add_Click">Add</Button>
+                <labs:SettingsExpander.Items>
+                    <ListView x:Name="UserListView">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <!-- For the profile picture -->
+                                        <ColumnDefinition Width="*"/>
+                                        <!-- For the username -->
+                                        <ColumnDefinition Width="Auto"/>
+                                        <!-- For the "Switch" button -->
+                                    </Grid.ColumnDefinitions>
+
+
+                                    <PersonPicture Width="32" Height="32" Margin="10"/>
+
+                                    <!-- Username -->
+                                    <TextBlock Text="{Binding}" Grid.Column="1" VerticalAlignment="Center" Margin="10,0,10,0"/>
+
+                                    <!-- "Switch" button -->
+                                    <Button Content="Switch" Click="Button_Click" Grid.Column="2" Margin="10"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </labs:SettingsExpander.Items>
+            </labs:SettingsExpander>
         </StackPanel>
         <TextBlock VerticalAlignment="Bottom">
           ALPHA V2 RELEASE EXPECT BUGS 
           V0.0.8.00334ap Build: 101.2346 FrameWork: WinUi3
           Contact: firebrowserdevs@gmail.com
-        </TextBlock>
-        <TextBlock VerticalAlignment="Bottom" x:Name="SysInfoBox" Margin="0,0,0,20">
-          SysInfo: AMD64
         </TextBlock>
     </Grid>
 </Page>

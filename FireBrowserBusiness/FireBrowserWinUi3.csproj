@@ -50,6 +50,7 @@
     <Content Remove="Assets\user.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Controls\AddUser.xaml" />
     <None Remove="Controls\FireBrowserTabViewContainer.xaml" />
     <None Remove="Controls\FireBrowserTabViewItem.xaml" />
     <None Remove="Pages\InPrivate.xaml" />
@@ -98,7 +99,6 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
-    <PackageReference Include="Microsoft.QualityTools.Testing.Fakes" Version="16.11.230815" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
@@ -148,6 +148,9 @@
     <None Update="Assets\user.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\AddUser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="LogoSetup.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -266,11 +269,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="FireBrowserQr">
-      <HintPath>..\..\..\..\..\OneDrive\Bureaublad\Code\FireBrowser\FireBrowser-Uwp\src\FireBrowserQr\bin\x64\Release\FireBrowserQr.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 
   <!-- 
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
@@ -285,5 +283,10 @@
   </ItemGroup>
   <ItemGroup>
     <AdditionalDesignTimeBuildInput Remove="FakesAssemblies\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FireBrowserQr">
+      <HintPath>..\..\FireBrowser-Uwp-main\src\FireBrowserQr\bin\x64\Release\FireBrowserQr.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

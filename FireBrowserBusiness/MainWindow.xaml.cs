@@ -76,10 +76,10 @@ public sealed partial class MainWindow : Window
             Tabs.TabItems.Add(CreateNewIncog(typeof(InPrivate)));
         }
 
+
         TitleTop();
         LoadUserDataAndSettings();
     }
-
 
     public void SmallUpdates()
     {
@@ -744,6 +744,7 @@ public sealed partial class MainWindow : Window
                 SelectNewTab();
                 break;
             case "NewWindow":
+                
                 MainWindow newWindow = new();
                 newWindow.Activate();
                 break;

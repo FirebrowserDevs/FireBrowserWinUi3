@@ -22,6 +22,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\AddUser.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\TimeLinePages\DownloadsTimeLine.xaml">
       <SubType>Designer</SubType>
     </Page>
