@@ -176,11 +176,13 @@ public sealed partial class MainWindow : Window
         {
             view.SetPresenter(AppWindowPresenterKind.FullScreen);
             isFull = true;
+            TextFull.Text = "Exit FullScreen";
         }
         else
         {
             view.SetPresenter(AppWindowPresenterKind.Default);
             isFull = false;
+            TextFull.Text = "Full Screen";
         }
     }
 
@@ -763,12 +765,12 @@ public sealed partial class MainWindow : Window
                 if (isFull == true)
                 {
                     GoFullScreen(false);
-                    TextFull.Text = "Exit FullScreen";
+                   
                 }
                 else
                 {
                     GoFullScreen(true);
-                    TextFull.Text = "Full Screen";
+
                 }
 
                 break;
@@ -1102,6 +1104,12 @@ public sealed partial class MainWindow : Window
     private void OpenHistoryMenuItem_Click(object sender, RoutedEventArgs e)
     {
         UrlBox.Text = "firebrowser://history";
+        TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine));
+    }
+
+    private void OpenFavoritesMenu_Click(object sender, RoutedEventArgs e)
+    {
+        UrlBox.Text = "firebrowser://favorites";
         TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine));
     }
 }

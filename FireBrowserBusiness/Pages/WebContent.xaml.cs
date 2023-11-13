@@ -15,6 +15,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
@@ -142,6 +143,7 @@ namespace FireBrowserWinUi3.Pages
                 window.GoFullScreenWeb(s.CoreWebView2.ContainsFullScreenElement);
             };
             s.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
+            
             //s.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
 
             s.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
@@ -227,26 +229,34 @@ namespace FireBrowserWinUi3.Pages
         private void CoreWebView2_DownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
         {
             var downloadOperation = args.DownloadOperation;
+
+            var deferall = args.GetDeferral();
             // We avoid potential reentrancy from running a message loop in the download
             // starting event handler by showing our download dialog later when we
             // complete the deferral asynchronously.
             System.Threading.SynchronizationContext.Current.Post((_) =>
             {
-               
-                    // Your existing code for handling the download operation
-                    var downloadOperation = args.DownloadOperation;
+                using (deferall)
+                {
+                    // Hide the default download dialog.
+                    args.Handled = true;
+                 
+                    
+                     var downloadOperation = args.DownloadOperation;
 
-                    var window = (Application.Current as App)?.m_window as MainWindow;
+                     var window = (Application.Current as App)?.m_window as MainWindow;
 
-                    DownloadItem downloadItem = new DownloadItem(downloadOperation);
-                    window.DownloadFlyout.DownloadItemsListView.Items.Insert(0, downloadItem);
+                     DownloadItem downloadItem = new DownloadItem(downloadOperation);
+                     window.DownloadFlyout.DownloadItemsListView.Items.Insert(0, downloadItem);
 
-                    window.DownloadFlyout.ShowAt(window.DownBtn);
+                     window.DownloadFlyout.ShowAt(window.DownBtn);
+                     
+                     args.Handled = true;
 
-                  
-                
+                    args.ResultFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),"Downloads");
+                }
             }, null);
-            args.Handled = true;
+          
         }
 
         string SelectionText;

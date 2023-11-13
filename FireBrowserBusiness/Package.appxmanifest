@@ -13,7 +13,7 @@
   <Identity
     Name="daed96a7-ae7d-4b39-8636-8a70abaf13e6"
     Publisher="CN=JPJM-"
-    Version="1.0.3.0" />
+    Version="1.0.4.0" />
 
   <mp:PhoneIdentity PhoneProductId="daed96a7-ae7d-4b39-8636-8a70abaf13e6" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

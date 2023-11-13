@@ -95,7 +95,6 @@ namespace FireBrowserWinUi3.Controls
             {
                 long progress = 100 * sender.BytesReceived / sender.TotalBytesToReceive;
                 subtitle.Text = $"{(int)progress}% - Downloading... ";
-                time.Text = sender.EstimatedEndTime;
                 progressRing.Value = (int)progress;
                 Progress = (int)progress;
             }

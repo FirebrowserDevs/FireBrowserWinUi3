@@ -252,7 +252,7 @@
                     <Button Grid.Column="1" Width="32" Height="32" Padding="0" BorderThickness="0" Style="{ThemeResource QuietButtonStyle}">
                         <Button.Flyout>
                             <MenuFlyout Placement="Bottom">
-                                <MenuFlyoutItem x:Name="OpenFavoritesMenu" Text="Open Favorites Page" >
+                                <MenuFlyoutItem x:Name="OpenFavoritesMenu" Text="Open Favorites Page" Click="OpenFavoritesMenu_Click">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8A7;" />
                                     </MenuFlyoutItem.Icon>
