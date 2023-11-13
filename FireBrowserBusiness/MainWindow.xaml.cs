@@ -79,8 +79,23 @@ public sealed partial class MainWindow : Window
 
         TitleTop();
         LoadUserDataAndSettings();
+        LoadUsernames();
     }
 
+    private void LoadUsernames()
+    {
+        List<string> usernames = AuthService.GetAllUsernames();
+        string currentUsername = AuthService.CurrentUser?.Username;
+
+        foreach (string username in usernames)
+        {
+            // Exclude the current user's username
+            if (username != currentUsername)
+            {
+                UserListView.Items.Add(username);
+            }
+        }
+    }
     public void SmallUpdates()
     {
         UrlBox.Text = TabWebView.CoreWebView2.Source.ToString();
@@ -1112,5 +1127,22 @@ public sealed partial class MainWindow : Window
     {
         UrlBox.Text = "firebrowser://favorites";
         TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine));
+    }
+
+    private void MainUser_Click(object sender, RoutedEventArgs e)
+    {
+        if(UserFrame.Visibility == Visibility.Visible)
+        {
+            UserFrame.Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            UserFrame.Visibility = Visibility.Visible;
+        }
+    }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        UserFrame.Visibility = Visibility.Collapsed;
     }
 }
