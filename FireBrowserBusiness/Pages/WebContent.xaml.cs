@@ -15,7 +15,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
@@ -33,7 +32,7 @@ namespace FireBrowserWinUi3.Pages
     {
         Passer param;
         public Blocker Blocker { get; set; }
-
+        public static bool IsIncognitoModeEnabled { get; set; } = false;
         private FireBrowserMultiCore.User GetUser()
         {
             // Check if the user is authenticated.
@@ -77,15 +76,28 @@ namespace FireBrowserWinUi3.Pages
 
         public void AfterComplete()
         {
-            if (WebViewElement.CoreWebView2.Source.Contains("https"))
+            if (!IsIncognitoModeEnabled)
             {
-                param.ViewModel.SecurityIcon = "\uE72E";
-                param.ViewModel.SecurityIcontext = "Https Secured Website";
+                var username = AuthService.CurrentUser;
+                var url = WebViewElement.CoreWebView2.Source.ToString();
+                var title = WebViewElement.CoreWebView2.DocumentTitle.ToString();
+
+                SaveDb.InsertHistoryItem(username, url, title, visitCount: 0, typedCount: 0, hidden: 0);
+
+                if (WebViewElement.CoreWebView2.Source.Contains("https"))
+                {
+                    param.ViewModel.SecurityIcon = "\uE72E";
+                    param.ViewModel.SecurityIcontext = "Https Secured Website";
+                }
+                else if (WebViewElement.CoreWebView2.Source.Contains("http"))
+                {
+                    param.ViewModel.SecurityIcon = "\uE785";
+                    param.ViewModel.SecurityIcontext = "Http UnSecured Website";
+                }
             }
-            else if (WebViewElement.CoreWebView2.Source.Contains("http"))
+            else
             {
-                param.ViewModel.SecurityIcon = "\uE785";
-                param.ViewModel.SecurityIcontext = "Http UnSecured Website";
+
             }
         }
 
@@ -143,8 +155,8 @@ namespace FireBrowserWinUi3.Pages
                 window.GoFullScreenWeb(s.CoreWebView2.ContainsFullScreenElement);
             };
             s.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
-            
-            //s.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
+
+          
 
             s.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
             s.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
@@ -154,7 +166,14 @@ namespace FireBrowserWinUi3.Pages
             };
             s.CoreWebView2.DocumentTitleChanged += (sender, args) =>
             {
-                param.Tab.Header = WebViewElement.CoreWebView2.DocumentTitle;
+                if (!IsIncognitoModeEnabled)
+                {
+                    param.Tab.Header = WebViewElement.CoreWebView2.DocumentTitle;
+                }
+                else
+                {
+
+                }
             };
             s.CoreWebView2.PermissionRequested += (sender, args) =>
             {
@@ -171,19 +190,27 @@ namespace FireBrowserWinUi3.Pages
             {
                 try
                 {
-                    var bitmapImage = new BitmapImage();
-                    var stream = await sender.GetFaviconAsync(0);
-                    if (stream != null)
+                    if (!IsIncognitoModeEnabled)
                     {
-                        await bitmapImage.SetSourceAsync(stream);
-                        param.Tab.IconSource = new ImageIconSource { ImageSource = bitmapImage };
+                        var bitmapImage = new BitmapImage();
+                        var stream = await sender.GetFaviconAsync(0);
+                        if (stream != null)
+                        {
+                            await bitmapImage.SetSourceAsync(stream);
+                            param.Tab.IconSource = new ImageIconSource { ImageSource = bitmapImage };
+                        }
+                        else
+                        {
+                            var bitmapImage2 = new BitmapImage();
+                            await bitmapImage2.SetSourceAsync(await sender.GetFaviconAsync(CoreWebView2FaviconImageFormat.Jpeg));
+                            param.Tab.IconSource = new ImageIconSource { ImageSource = bitmapImage2 };
+                        }
                     }
                     else
                     {
-                        var bitmapImage2 = new BitmapImage();
-                        await bitmapImage2.SetSourceAsync(await sender.GetFaviconAsync(CoreWebView2FaviconImageFormat.Jpeg));
-                        param.Tab.IconSource = new ImageIconSource { ImageSource = bitmapImage2 };
+
                     }
+
                 }
                 catch
                 {
@@ -202,11 +229,6 @@ namespace FireBrowserWinUi3.Pages
                 Progress.IsIndeterminate = false;
                 Progress.Visibility = Visibility.Collapsed;
 
-                var username = AuthService.CurrentUser;
-                var url = WebViewElement.CoreWebView2.Source.ToString();
-                var title = WebViewElement.CoreWebView2.DocumentTitle.ToString();
-
-                SaveDb.InsertHistoryItem(username, url, title, visitCount: 0, typedCount: 0, hidden: 0);
 
                 AfterComplete();
                 CheckNetworkStatus();
@@ -224,40 +246,7 @@ namespace FireBrowserWinUi3.Pages
                 param?.TabView.TabItems.Add(window.CreateNewTab(typeof(WebContent), args.Uri));
                 args.Handled = true;
             };
-        }
-
-        private void CoreWebView2_DownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
-        {
-            var downloadOperation = args.DownloadOperation;
-
-            var deferall = args.GetDeferral();
-            // We avoid potential reentrancy from running a message loop in the download
-            // starting event handler by showing our download dialog later when we
-            // complete the deferral asynchronously.
-            System.Threading.SynchronizationContext.Current.Post((_) =>
-            {
-                using (deferall)
-                {
-                    // Hide the default download dialog.
-                    args.Handled = true;
-                 
-                    
-                     var downloadOperation = args.DownloadOperation;
-
-                     var window = (Application.Current as App)?.m_window as MainWindow;
-
-                     DownloadItem downloadItem = new DownloadItem(downloadOperation);
-                     window.DownloadFlyout.DownloadItemsListView.Items.Insert(0, downloadItem);
-
-                     window.DownloadFlyout.ShowAt(window.DownBtn);
-                     
-                     args.Handled = true;
-
-                    args.ResultFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),"Downloads");
-                }
-            }, null);
-          
-        }
+        }    
 
         string SelectionText;
         private void CoreWebView2_ContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)

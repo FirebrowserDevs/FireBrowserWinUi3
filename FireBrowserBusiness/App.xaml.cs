@@ -1,4 +1,5 @@
-﻿using FireBrowserMultiCore;
+﻿using FireBrowserBusinessCore.Helpers;
+using FireBrowserMultiCore;
 using FireBrowserWinUi3;
 using Microsoft.UI.Xaml;
 using System;
@@ -83,6 +84,9 @@ namespace FireBrowserBusiness
         /// Invoked when the application is launched.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
+        /// 
+
+
         protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
 
@@ -97,13 +101,27 @@ namespace FireBrowserBusiness
                 var evt = AppInstance.GetActivatedEventArgs();
                 ProtocolActivatedEventArgs protocolArgs = evt as ProtocolActivatedEventArgs;
 
-                if (protocolArgs != null)
+                string url = string.Empty; // Initialize url with an empty string
+
+                if (protocolArgs != null && protocolArgs.Kind == ActivationKind.Protocol)
                 {
-                    try
+                    if (protocolArgs.Uri != null)
                     {
-                        Args = protocolArgs.Uri.ToString();
+                        url = protocolArgs.Uri.ToString();
+
+                        if (url.StartsWith("http") || url.StartsWith("https"))
+                        {
+                            AppArguments.UrlArgument = url; // Standard web URL
+                        }
+                        else if (url.StartsWith("firebrowserwinui://"))
+                        {
+                            AppArguments.FireBrowserArgument = url; // Custom protocol for FireBrowser
+                        }
+                        else if (url.StartsWith("firebrowserincog://"))
+                        {
+                            AppArguments.FireBrowserIncog = url; // Custom protocol for FireBrowser
+                        }
                     }
-                    catch { }
                 }
 
 

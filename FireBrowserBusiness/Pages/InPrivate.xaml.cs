@@ -14,5 +14,10 @@ namespace FireBrowserWinUi3.Pages
         {
             this.InitializeComponent();
         }
+
+        private void Page_Loaded_1(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+
+        }
     }
 }

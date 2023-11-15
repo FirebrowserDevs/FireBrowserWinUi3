@@ -1,13 +1,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using FireBrowserBusiness.Controls;
 using FireBrowserBusiness.Pages;
+using FireBrowserBusinessCore.Helpers;
 using FireBrowserDatabase;
 using FireBrowserFavorites;
 using FireBrowserMultiCore;
 using FireBrowserQr;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
-using FireBrowserWinUi3.Pages.TimeLinePages;
 using Microsoft.Data.Sqlite;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UrlHelperWinUi3;
-using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage.Streams;
 using WinRT.Interop;
@@ -57,29 +56,46 @@ public sealed partial class MainWindow : Window
     private AppWindow appWindow;
     private AppWindowTitleBar titleBar;
 
-    public DownloadFlyout DownloadFlyout { get; set; } = new DownloadFlyout();
 
     public MainWindow()
     {
         InitializeComponent();
 
-        if (App.Args == string.Empty | App.Args == null) // Main view
-        {
-            Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
-        }
-        else if (App.Args.Contains("firebrowserwinui://")) // PWA/Pinned websites view
-        {
-            Tabs.TabItems.Add(CreateNewTab(typeof(InPrivate)));
-        }
-        else if (App.Args.Contains("firebrowserwinui://private"))
-        {
-            Tabs.TabItems.Add(CreateNewIncog(typeof(InPrivate)));
-        }
-
-
+        ArgsPassed();
         TitleTop();
         LoadUserDataAndSettings();
         LoadUsernames();
+    }
+
+    bool incog = false;
+    private void ArgsPassed()
+    {
+        string urlArgument = AppArguments.UrlArgument;
+        string fireBrowserArgument = AppArguments.FireBrowserArgument;
+        string firebrowserincog = AppArguments.FireBrowserIncog;
+
+        if (!string.IsNullOrEmpty(urlArgument))
+        {
+            Tabs.TabItems.Add(CreateNewTab(typeof(WebContent), new Uri(urlArgument.ToString())));
+        }
+        else if (!string.IsNullOrEmpty(fireBrowserArgument))
+        {
+            Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
+        }
+        else if (!string.IsNullOrEmpty(firebrowserincog))
+        {
+            Tabs.TabItems.Add(CreateNewIncog(typeof(InPrivate)));
+            Fav.IsEnabled = false;
+            His.IsEnabled = false;
+            History.IsEnabled = false;
+            FavoritesButton.IsEnabled = false;
+            WebContent.IsIncognitoModeEnabled = true;
+            incog = true;
+        }
+        else if (string.IsNullOrEmpty(urlArgument))
+        {
+            Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
+        }
     }
 
     private void LoadUsernames()
@@ -258,7 +274,14 @@ public sealed partial class MainWindow : Window
 
     private void TabView_AddTabButtonClick(TabView sender, object args)
     {
-        sender.TabItems.Add(CreateNewTab(typeof(NewTab)));
+        if (incog == true)
+        {
+            sender.TabItems.Add(CreateNewIncog(typeof(InPrivate)));
+        }
+        else
+        {
+            sender.TabItems.Add(CreateNewTab(typeof(NewTab)));
+        }
     }
 
     #region toolbar
@@ -385,8 +408,6 @@ public sealed partial class MainWindow : Window
         }
     }
 
-
-
     private double GetScaleAdjustment()
     {
         IntPtr hWnd = WindowNative.GetWindowHandle(this);
@@ -412,8 +433,8 @@ public sealed partial class MainWindow : Window
     private void Apptitlebar_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         double scaleAdjustment = GetScaleAdjustment();
-        Apptitlebar.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-        var customDragRegionPosition = Apptitlebar.TransformToVisual(null).TransformPoint(new Point(0, 0));
+        Apptitlebar.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity));
+        var customDragRegionPosition = Apptitlebar.TransformToVisual(null).TransformPoint(new Windows.Foundation.Point(0, 0));
 
         var dragRects = new Windows.Graphics.RectInt32[2];
 
@@ -434,8 +455,8 @@ public sealed partial class MainWindow : Window
     private void Apptitlebar_LayoutUpdated(object sender, object e)
     {
         double scaleAdjustment = GetScaleAdjustment();
-        Apptitlebar.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-        var customDragRegionPosition = Apptitlebar.TransformToVisual(null).TransformPoint(new Point(0, 0));
+        Apptitlebar.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity));
+        var customDragRegionPosition = Apptitlebar.TransformToVisual(null).TransformPoint(new Windows.Foundation.Point(0, 0));
 
         var dragRectsList = new List<Windows.Graphics.RectInt32>();
 
@@ -748,6 +769,10 @@ public sealed partial class MainWindow : Window
         }
     }
 
+    public static async void OpenNewWindow(Uri uri)
+    {
+        await Windows.System.Launcher.LaunchUriAsync(uri);
+    }
 
 
     private async void TabMenuClick(object sender, RoutedEventArgs e)
@@ -759,7 +784,6 @@ public sealed partial class MainWindow : Window
                 SelectNewTab();
                 break;
             case "NewWindow":
-                
                 MainWindow newWindow = new();
                 newWindow.Activate();
                 break;
@@ -767,9 +791,9 @@ public sealed partial class MainWindow : Window
 
                 break;
             case "DevTools":
-                if(TabContent.Content is WebContent)
+                if (TabContent.Content is WebContent)
                 {
-                    (TabContent.Content as WebContent).WebViewElement.CoreWebView2.OpenDevToolsWindow();                   
+                    (TabContent.Content as WebContent).WebViewElement.CoreWebView2.OpenDevToolsWindow();
                 }
 
                 break;
@@ -781,14 +805,11 @@ public sealed partial class MainWindow : Window
                 if (isFull == true)
                 {
                     GoFullScreen(false);
-                   
                 }
                 else
                 {
                     GoFullScreen(true);
-
                 }
-
                 break;
             case "Downloads":
                 UrlBox.Text = "firebrowser://downloads";
@@ -800,7 +821,7 @@ public sealed partial class MainWindow : Window
 
                 break;
             case "InPrivate":
-                Tabs.TabItems.Add(CreateNewIncog(typeof(InPrivate)));
+                OpenNewWindow(new Uri("firebrowserincog://"));
                 break;
             case "Favorites":
                 UrlBox.Text = "firebrowser://favorites";
@@ -1131,7 +1152,7 @@ public sealed partial class MainWindow : Window
 
     private void MainUser_Click(object sender, RoutedEventArgs e)
     {
-        if(UserFrame.Visibility == Visibility.Visible)
+        if (UserFrame.Visibility == Visibility.Visible)
         {
             UserFrame.Visibility = Visibility.Collapsed;
         }

@@ -8,7 +8,9 @@
   xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
   xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
   xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
-  IgnorableNamespaces="uap rescap uap3 uap4">
+  xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
+  xmlns:iot2="http://schemas.microsoft.com/appx/manifest/iot/windows10/2"
+  IgnorableNamespaces="uap rescap uap3 uap4 desktop4 iot2">
 
   <Identity
     Name="daed96a7-ae7d-4b39-8636-8a70abaf13e6"
@@ -35,7 +37,9 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="$targetentrypoint$">
+      EntryPoint="$targetentrypoint$"
+	  desktop4:SupportsMultipleInstances="true"
+      iot2:SupportsMultipleInstances="true">
       <uap:VisualElements
         DisplayName="FireBrowserWinUi3"
         Description="FireBrowserWinUi3"
@@ -68,6 +72,11 @@
             <uap:DisplayName>FireBrowser Internal Protocol</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
+		  <uap:Extension Category="windows.protocol">
+		  <uap:Protocol Name="firebrowserincog">
+		  <uap:DisplayName>FireBrowser Internal Incog</uap:DisplayName>
+		  </uap:Protocol>
+		  </uap:Extension>
       </Extensions>
     </Application>
   </Applications>

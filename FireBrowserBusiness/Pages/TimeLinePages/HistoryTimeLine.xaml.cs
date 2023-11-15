@@ -30,7 +30,7 @@ namespace FireBrowserWinUi3.Pages.TimeLinePages
         private ObservableCollection<HistoryItem> browserHistory;
 
         private async void FetchBrowserHistory()
-        {         
+        {
             Batteries.Init();
             try
             {
@@ -89,7 +89,7 @@ namespace FireBrowserWinUi3.Pages.TimeLinePages
                 Debug.WriteLine($"Error: {ex.Message}");
             }
         }
-      
+
 
 
 
