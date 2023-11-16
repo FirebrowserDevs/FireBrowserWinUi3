@@ -4,7 +4,6 @@ using FireBrowserBusiness;
 using FireBrowserBusinessCore.Helpers;
 using FireBrowserDatabase;
 using FireBrowserMultiCore;
-using FireBrowserWinUi3.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -156,7 +155,7 @@ namespace FireBrowserWinUi3.Pages
             };
             s.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
 
-          
+
 
             s.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
             s.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
@@ -246,7 +245,7 @@ namespace FireBrowserWinUi3.Pages
                 param?.TabView.TabItems.Add(window.CreateNewTab(typeof(WebContent), args.Uri));
                 args.Handled = true;
             };
-        }    
+        }
 
         string SelectionText;
         private void CoreWebView2_ContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)

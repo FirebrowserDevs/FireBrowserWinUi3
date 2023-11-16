@@ -14,6 +14,7 @@
     <AppxShowAllApps>False</AppxShowAllApps>
     <AppxBuildConfigurationSelection>x64</AppxBuildConfigurationSelection>
     <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+    <_LastSelectedProfileId>C:\Users\jpjm-\OneDrive\Bureaublad\TempWorkingCode\FireBrowserWinUi3\FireBrowserBusiness\Properties\PublishProfiles\win10-x64.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
@@ -22,6 +23,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\UI.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\AddUser.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -73,31 +77,7 @@
     <Page Update="Pages\WebContent.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Setup\SetupAccess.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Setup\SetupPrivacy.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Setup\SetupFinish.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Setup\SetupWebView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Setup\SetupAlgemeen.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Setup\SetupUi.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Setup\SetupUser.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="SetupWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Setup\SetupInit.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\Buttons.xaml">

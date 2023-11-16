@@ -5,14 +5,13 @@ using Microsoft.UI.Xaml.Controls;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace FireBrowserWinUi3.Setup
+namespace FireBrowserSetup
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class SetupUi : Page
     {
-
         public SetupUi()
         {
             this.InitializeComponent();
@@ -31,13 +30,10 @@ namespace FireBrowserWinUi3.Setup
             return null;
         }
 
-
         private void SetupUiBtn_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(SetupAlgemeen));
         }
-
-
 
         private void AutoTog_Toggled(object sender, RoutedEventArgs e)
         {
@@ -56,7 +52,6 @@ namespace FireBrowserWinUi3.Setup
                 // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(GetUser(), userSettings);
             }
-
         }
 
         private void ColorTB_TextChanged(object sender, TextChangedEventArgs e)
@@ -89,8 +84,43 @@ namespace FireBrowserWinUi3.Setup
             }
         }
 
+        private void DateTime_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                // Assuming 'url' and 'selection' have been defined earlier
+                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+
+                // Load the user's settings
+                Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
+
+
+                // Set the 'Auto' setting
+                userSettings.NtpDateTime = autoSettingValue;
+
+                // Save the modified settings back to the user's settings file
+                UserFolderManager.SaveUserSettings(GetUser(), userSettings);
+            }
+        }
+
+        private void NtpColorText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string color = NtpColorText.Text.ToString();
+            if (!string.IsNullOrEmpty(color))
+            {
+                // Load the user's settings
+                Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
+
+                userSettings.NtpTextColor = color;
+
+                // Save the modified settings back to the user's settings file
+                UserFolderManager.SaveUserSettings(GetUser(), userSettings);
+            }
+        }
+
         private void Color_TextChanged(object sender, TextChangedEventArgs e)
         {
+
             string color = Color.Text.ToString();
             if (!string.IsNullOrEmpty(color))
             {
@@ -138,40 +168,6 @@ namespace FireBrowserWinUi3.Setup
                 Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
 
                 userSettings.Background = type;
-
-                // Save the modified settings back to the user's settings file
-                UserFolderManager.SaveUserSettings(GetUser(), userSettings);
-            }
-        }
-
-        private void DateTime_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (sender is ToggleSwitch toggleSwitch)
-            {
-                // Assuming 'url' and 'selection' have been defined earlier
-                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
-
-                // Load the user's settings
-                Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-
-                // Set the 'Auto' setting
-                userSettings.NtpDateTime = autoSettingValue;
-
-                // Save the modified settings back to the user's settings file
-                UserFolderManager.SaveUserSettings(GetUser(), userSettings);
-            }
-        }
-
-        private void NtpColorText_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string color = NtpColorText.Text.ToString();
-            if (!string.IsNullOrEmpty(color))
-            {
-                // Load the user's settings
-                Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-                userSettings.NtpTextColor = color;
 
                 // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(GetUser(), userSettings);

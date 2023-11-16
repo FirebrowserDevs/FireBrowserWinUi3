@@ -30,8 +30,6 @@ namespace FireBrowserBusiness
         {
             this.InitializeComponent();
 
-
-
             string coreFolderPath = UserDataManager.CoreFolderPath;
             string username = GetUsernameFromCoreFolderPath(coreFolderPath);
 

@@ -1,4 +1,3 @@
-using FireBrowserWinUi3.Setup;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -41,6 +40,6 @@ public sealed partial class SetupWindow : Window
 
     private void setup_Loaded(object sender, RoutedEventArgs e)
     {
-        setup.Navigate(typeof(SetupInit));
+        setup.Navigate(typeof(FireBrowserSetup.SetupInit));
     }
 }

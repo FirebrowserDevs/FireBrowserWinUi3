@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
-    x:Class="FireBrowserWinUi3.Setup.SetupFinish"
+    x:Class="FireBrowserSetup.SetupAccess"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:FireBrowserWinUi3.Setup"
+    xmlns:local="using:FireBrowserSetup"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    xmlns:asset="using:Assets"
-   >
+     mc:Ignorable="d"
+ xmlns:ctr="using:CommunityToolkit.WinUI.Controls"
+ xmlns:asset="using:Assets">
+
 
     <Grid>
         <Grid.RowDefinitions>
@@ -25,13 +26,13 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Image Margin="5,5,0,5" Source="{asset:ImageLoader ImageName=done.png}"/>
+            <Image Margin="5,5,0,5" Source="{asset:ImageLoader ImageName=access.png}"/>
             <TextBlock Grid.Column="1" VerticalAlignment="Center">
-        <Run Text="Finishing" />
+        <Run Text="Accesbilty" />
         <Run
             CharacterSpacing="2"
             FontWeight="Light"
-            Text="SETTINGS" />
+            Text="Settings" />
             </TextBlock>
         </Grid>
         <Grid Grid.Row="1"
@@ -64,11 +65,31 @@
             Grid.Column="1"
             VerticalAlignment="Center"
             Orientation="Vertical"
-            Spacing="10">
-                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="Please Wait" 
-                       TextWrapping="Wrap"/>
+            >
 
-                    <ProgressBar Width="100" IsEnabled="True"  IsIndeterminate="True" ShowPaused="False" ShowError="False"/>
+
+                    <ctr:SettingsCard Header="FireBrowser - Light Mode" Description="This Will Enable Light Mode Or Not ( This Will Disable Stuff To Optimize Performance )" Margin="0,1,0,0">
+                        <ctr:SettingsCard.HeaderIcon>
+                            <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC4A;" />
+                        </ctr:SettingsCard.HeaderIcon>
+                        <ToggleSwitch x:Name="LiteMode" Toggled="LiteMode_Toggled"/>
+                    </ctr:SettingsCard>
+                    <ctr:SettingsCard Header="FireBrowser - SpeakEngine" Description="Change language Of Speech Engine" Margin="0,1,0,0">
+                        <ctr:SettingsCard.HeaderIcon>
+                            <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEFA9;" />
+                        </ctr:SettingsCard.HeaderIcon>
+                        <ComboBox x:Name="Langue" SelectionChanged="Langue_SelectionChanged" SelectedItem="en-Us">
+                            <x:String>nl-NL</x:String>
+                            <x:String>en-US</x:String>
+                        </ComboBox>
+                    </ctr:SettingsCard>
+
+                    <Button
+                 Margin="0,20,0,0"
+                         Style="{ThemeResource AccentButtonStyle}"
+                  Content="Setup Access"
+                     Click="Button_Click"
+                  />
                 </StackPanel>
             </Grid>
         </Grid>

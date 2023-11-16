@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace FireBrowserWinUi3.Setup
+namespace FireBrowserSetup
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -30,11 +30,6 @@ namespace FireBrowserWinUi3.Setup
 
             // If no user is authenticated, return null or handle as needed.
             return null;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(SetupWebView));
         }
 
         private void LiteMode_Toggled(object sender, RoutedEventArgs e)
@@ -90,6 +85,11 @@ namespace FireBrowserWinUi3.Setup
                 // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(GetUser(), userSettings);
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SetupWebView));
         }
     }
 }

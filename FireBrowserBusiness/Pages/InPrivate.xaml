@@ -8,19 +8,40 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:dllimg="using:Assets"
-    Loaded="Page_Loaded_1"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Padding="20" CornerRadius="44" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" Margin="0,307,0,0" Width="120" Height="106">
-            <Image Source="{dllimg:ImageLoader ImageName=IncognetoDark.png}" Width="70" Height="70"/>
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <!-- Large Round Card with Icon and Title -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="250"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Padding="20" CornerRadius="10" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          Width="350" Height="250">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Image Source="{dllimg:ImageLoader ImageName=IncognetoDark.png}" Width="80" Height="80"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   x:Uid="NewTabIncognitoTitle" Style="{ThemeResource TitleTextBlockStyle}"
+                   Text="You are in Private Browsing Mode"/>
         </Grid>
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,500,0,0" x:Uid="NewTabIncognitoTitle" Style="{ThemeResource TitleTextBlockStyle}" d:Text="You are in Private Browsing Mode" Text=""/>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="1" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal">
+                <Border Width="175"  CornerRadius="10">
+                    <ToggleSwitch IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          OffContent="Javascript Off" OnContent="Javascript On"/>
+                </Border>
+                <Border Width="175"  CornerRadius="10">
+                    <ToggleSwitch IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          OffContent="WebMessages Off" OnContent="WebMessages On"/>
+                </Border>
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

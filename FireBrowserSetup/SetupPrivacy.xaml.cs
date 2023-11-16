@@ -5,15 +5,14 @@ using Microsoft.UI.Xaml.Controls;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace FireBrowserWinUi3.Setup
+namespace FireBrowserSetup
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SetupWebView : Page
+    public sealed partial class SetupPrivacy : Page
     {
-
-        public SetupWebView()
+        public SetupPrivacy()
         {
             this.InitializeComponent();
         }
@@ -30,12 +29,7 @@ namespace FireBrowserWinUi3.Setup
             // If no user is authenticated, return null or handle as needed.
             return null;
         }
-        private void SetupWebViewBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(SetupFinish));
-        }
-
-        private void StatusTog_Toggled(object sender, RoutedEventArgs e)
+        private void DisableJavaScriptToggle_Toggled(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
@@ -47,14 +41,14 @@ namespace FireBrowserWinUi3.Setup
 
 
                 // Set the 'Auto' setting
-                userSettings.StatusBar = autoSettingValue;
+                userSettings.DisableJavaScript = autoSettingValue;
 
                 // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(GetUser(), userSettings);
             }
         }
 
-        private void BrowserKeys_Toggled(object sender, RoutedEventArgs e)
+        private void DisableGenaralAutoFillToggle_Toggled(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
@@ -66,14 +60,14 @@ namespace FireBrowserWinUi3.Setup
 
 
                 // Set the 'Auto' setting
-                userSettings.BrowserKeys = autoSettingValue;
+                userSettings.DisableGenAutoFill = autoSettingValue;
 
                 // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(GetUser(), userSettings);
             }
         }
 
-        private void BrowserScripts_Toggled(object sender, RoutedEventArgs e)
+        private void DisablWebMessFillToggle_Toggled(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
@@ -85,26 +79,35 @@ namespace FireBrowserWinUi3.Setup
 
 
                 // Set the 'Auto' setting
-                userSettings.BrowserScripts = autoSettingValue;
+                userSettings.DisableWebMess = autoSettingValue;
 
                 // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(GetUser(), userSettings);
             }
         }
 
-        private void userag_TextChanged(object sender, TextChangedEventArgs e)
+        private void PasswordWebMessFillToggle_Toggled(object sender, RoutedEventArgs e)
         {
-            string blob = userag.Text.ToString();
-            if (!string.IsNullOrEmpty(blob))
+            if (sender is ToggleSwitch toggleSwitch)
             {
+                // Assuming 'url' and 'selection' have been defined earlier
+                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+
                 // Load the user's settings
                 Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
 
-                userSettings.Useragent = blob;
+
+                // Set the 'Auto' setting
+                userSettings.DisablePassSave = autoSettingValue;
 
                 // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(GetUser(), userSettings);
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SetupAccess));
         }
     }
 }

@@ -6,7 +6,7 @@ using System;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace FireBrowserWinUi3.Setup
+namespace FireBrowserSetup
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -31,14 +31,9 @@ namespace FireBrowserWinUi3.Setup
             return null;
         }
 
-
-        private void SetupAlgemeenBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(SetupPrivacy));
-        }
-
         private void SearchengineSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
             try
             {
                 string selection = e.AddedItems[0].ToString();
@@ -222,7 +217,7 @@ namespace FireBrowserWinUi3.Setup
             }
         }
 
-        private void OpenNew_Toggled(object sender, RoutedEventArgs e)
+        private void Drbl_Toggled(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
@@ -234,45 +229,7 @@ namespace FireBrowserWinUi3.Setup
 
 
                 // Set the 'Auto' setting
-                userSettings.OpenTabHandel = autoSettingValue;
-
-                // Save the modified settings back to the user's settings file
-                UserFolderManager.SaveUserSettings(GetUser(), userSettings);
-            }
-        }
-
-        private void Adbl_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (sender is ToggleSwitch toggleSwitch)
-            {
-                // Assuming 'url' and 'selection' have been defined earlier
-                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
-
-                // Load the user's settings
-                Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-
-                // Set the 'Auto' setting
-                userSettings.AdblockBtn = autoSettingValue;
-
-                // Save the modified settings back to the user's settings file
-                UserFolderManager.SaveUserSettings(GetUser(), userSettings);
-            }
-        }
-
-        private void Read_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (sender is ToggleSwitch toggleSwitch)
-            {
-                // Assuming 'url' and 'selection' have been defined earlier
-                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
-
-                // Load the user's settings
-                Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-
-                // Set the 'Auto' setting
-                userSettings.ReadButton = autoSettingValue;
+                userSettings.DarkIcon = autoSettingValue;
 
                 // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(GetUser(), userSettings);
@@ -298,7 +255,7 @@ namespace FireBrowserWinUi3.Setup
             }
         }
 
-        private void Drbl_Toggled(object sender, RoutedEventArgs e)
+        private void Read_Toggled(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
@@ -310,11 +267,54 @@ namespace FireBrowserWinUi3.Setup
 
 
                 // Set the 'Auto' setting
-                userSettings.DarkIcon = autoSettingValue;
+                userSettings.ReadButton = autoSettingValue;
 
                 // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(GetUser(), userSettings);
             }
+        }
+
+        private void Adbl_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                // Assuming 'url' and 'selection' have been defined earlier
+                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+
+                // Load the user's settings
+                Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
+
+
+                // Set the 'Auto' setting
+                userSettings.AdblockBtn = autoSettingValue;
+
+                // Save the modified settings back to the user's settings file
+                UserFolderManager.SaveUserSettings(GetUser(), userSettings);
+            }
+        }
+
+        private void OpenNew_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                // Assuming 'url' and 'selection' have been defined earlier
+                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+
+                // Load the user's settings
+                Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
+
+
+                // Set the 'Auto' setting
+                userSettings.OpenTabHandel = autoSettingValue;
+
+                // Save the modified settings back to the user's settings file
+                UserFolderManager.SaveUserSettings(GetUser(), userSettings);
+            }
+        }
+
+        private void SetupAlgemeenBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SetupPrivacy));
         }
     }
 }

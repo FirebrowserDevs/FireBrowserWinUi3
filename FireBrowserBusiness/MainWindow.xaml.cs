@@ -552,8 +552,20 @@ public sealed partial class MainWindow : Window
                         SelectNewTab();
                         break;
                     case "firebrowser://modules":
-                        Tabs.TabItems.Add(CreateNewTab(typeof(ModulesInstaller)));
-                        SelectNewTab();
+
+                        var window = (Application.Current as App)?.m_window as MainWindow;
+                        UI quickConfigurationDialog = new()
+                        {
+                            XamlRoot = window.Content.XamlRoot,
+                            Content = "Disabled Untill Fix",
+                            Title = "Disabled",
+                            PrimaryButtonText = "OK",
+                        };
+
+                        quickConfigurationDialog.ShowAsync();
+
+                        //Tabs.TabItems.Add(CreateNewTab(typeof(ModulesInstaller)));
+                        //SelectNewTab();
                         break;
                     default:
                         // default behavior
@@ -784,8 +796,7 @@ public sealed partial class MainWindow : Window
                 SelectNewTab();
                 break;
             case "NewWindow":
-                MainWindow newWindow = new();
-                newWindow.Activate();
+                OpenNewWindow(new Uri("firebrowserwinui://"));
                 break;
             case "Share":
 

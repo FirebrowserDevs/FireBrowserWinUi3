@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireBrowserFavorites", "Fir
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireBrowserDatabase", "FireBrowserDatabase\FireBrowserDatabase.csproj", "{0E99C36C-59F8-4FBA-9FAA-A13507704F32}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireBrowserSetup", "FireBrowserSetup\FireBrowserSetup.csproj", "{2E429D1A-10EA-4FE3-9F24-98C0463E5417}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -185,6 +187,22 @@ Global
 		{0E99C36C-59F8-4FBA-9FAA-A13507704F32}.Release|x64.Build.0 = Release|x64
 		{0E99C36C-59F8-4FBA-9FAA-A13507704F32}.Release|x86.ActiveCfg = Release|Any CPU
 		{0E99C36C-59F8-4FBA-9FAA-A13507704F32}.Release|x86.Build.0 = Release|Any CPU
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Debug|x64.Build.0 = Debug|Any CPU
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Debug|x86.Build.0 = Debug|Any CPU
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Release|ARM64.Build.0 = Release|Any CPU
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Release|x64.ActiveCfg = Release|x64
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Release|x64.Build.0 = Release|x64
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Release|x86.ActiveCfg = Release|Any CPU
+		{2E429D1A-10EA-4FE3-9F24-98C0463E5417}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
