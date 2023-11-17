@@ -552,7 +552,6 @@ public sealed partial class MainWindow : Window
                         SelectNewTab();
                         break;
                     case "firebrowser://modules":
-
                         var window = (Application.Current as App)?.m_window as MainWindow;
                         UI quickConfigurationDialog = new()
                         {
@@ -566,6 +565,10 @@ public sealed partial class MainWindow : Window
 
                         //Tabs.TabItems.Add(CreateNewTab(typeof(ModulesInstaller)));
                         //SelectNewTab();
+                        break;
+                    case "firebrowser://settings":
+                        Tabs.TabItems.Add(CreateNewTab(typeof(SettingsPage)));
+                        SelectNewTab();
                         break;
                     default:
                         // default behavior

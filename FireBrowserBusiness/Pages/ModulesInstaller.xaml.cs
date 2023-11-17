@@ -36,6 +36,7 @@ namespace FireBrowserWinUi3.Pages
                 username,
                 "Modules"
             );
+
             // Directory where module DLLs are stored
             if (!Directory.Exists(databasePath))
             {
@@ -55,11 +56,16 @@ namespace FireBrowserWinUi3.Pages
                     foreach (Type type in moduleTypes)
                     {
                         IModule module = Activator.CreateInstance(type) as IModule;
-                        UIElement moduleUI = await module.GetModuleUIAsync(); // Await the async method
+                        Page moduleUI = await module.GetModulePageAsync(); // Await the async method
 
                         if (moduleUI != null)
                         {
-                            test.Content = moduleUI;
+                            // Assuming 'test' is a UI element container where you want to set the moduleUI content
+                            // Replace 'test' with your actual container/control
+                            if (test is ContentControl contentControl)
+                            {
+                                contentControl.Content = moduleUI;
+                            }
                         }
                     }
                 }
@@ -76,6 +82,7 @@ namespace FireBrowserWinUi3.Pages
                 }
             }
         }
+
 
 
         private async void tabControlMain_Loaded(object sender, RoutedEventArgs e)
