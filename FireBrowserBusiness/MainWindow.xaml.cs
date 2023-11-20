@@ -114,16 +114,17 @@ public sealed partial class MainWindow : Window
     }
     public void SmallUpdates()
     {
-        UrlBox.Text = TabWebView.CoreWebView2.Source.ToString();
-        ViewModel.Securitytype = TabWebView.CoreWebView2.Source.ToString();
+        var source = TabWebView.CoreWebView2.Source.ToString();
+        UrlBox.Text = source;
+        ViewModel.Securitytype = source;
 
-        if (TabWebView.CoreWebView2.Source.Contains("https"))
+        if (source.Contains("https"))
         {
             ViewModel.SecurityIcon = "\uE72E";
             ViewModel.SecurityIcontext = "Https Secured Website";
             ViewModel.Securitytext = "This Page Is Secured By A Valid SSL Certificate, Trusted By Root Authorities";
         }
-        else if (TabWebView.CoreWebView2.Source.Contains("http"))
+        else if (source.Contains("http"))
         {
             ViewModel.SecurityIcon = "\uE785";
             ViewModel.SecurityIcontext = "Http UnSecured Website";
@@ -131,13 +132,13 @@ public sealed partial class MainWindow : Window
         }
     }
 
+
     public void TitleTop()
     {
         var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
         Microsoft.UI.WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
         appWindow = AppWindow.GetFromWindowId(windowId);
         appWindow.SetIcon("Logo.ico");
-
 
         if (!AppWindowTitleBar.IsCustomizationSupported())
         {
@@ -147,11 +148,7 @@ public sealed partial class MainWindow : Window
         titleBar = appWindow.TitleBar;
         titleBar.ExtendsContentIntoTitleBar = true;
         var btnColor = Colors.Transparent;
-        titleBar.BackgroundColor = btnColor;
-        titleBar.ButtonBackgroundColor = btnColor;
-        titleBar.InactiveBackgroundColor = btnColor;
-        titleBar.ButtonInactiveBackgroundColor = btnColor;
-        titleBar.ButtonHoverBackgroundColor = btnColor;
+        titleBar.BackgroundColor = titleBar.ButtonBackgroundColor = titleBar.InactiveBackgroundColor = titleBar.ButtonInactiveBackgroundColor = titleBar.ButtonHoverBackgroundColor = btnColor;
 
         ViewModel = new ToolbarViewModel
         {
@@ -162,10 +159,8 @@ public sealed partial class MainWindow : Window
             Securitytype = "Link - FireBrowser://NewTab"
         };
 
-
         buttons();
     }
-
 
     public static string launchurl { get; set; }
     public static string SearchUrl { get; set; }
@@ -179,22 +174,11 @@ public sealed partial class MainWindow : Window
         var view = AppWindow.GetFromWindowId(wndId);
         var margin = fullscreen ? new Thickness(0, -40, 0, 0) : new Thickness(0, 35, 0, 0);
 
-        if (fullscreen)
-        {
-            view.SetPresenter(AppWindowPresenterKind.FullScreen);
+        view.SetPresenter(fullscreen ? AppWindowPresenterKind.FullScreen : AppWindowPresenterKind.Default);
 
-            ClassicToolbar.Height = 0;
+        ClassicToolbar.Height = fullscreen ? 0 : 40;
 
-            TabContent.Margin = margin;
-        }
-        else
-        {
-            view.SetPresenter(AppWindowPresenterKind.Default);
-
-            ClassicToolbar.Height = 40;
-
-            TabContent.Margin = margin;
-        }
+        TabContent.Margin = margin;
     }
 
     public void GoFullScreen(bool fullscreen)
@@ -203,18 +187,9 @@ public sealed partial class MainWindow : Window
         Microsoft.UI.WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
         var view = AppWindow.GetFromWindowId(wndId);
 
-        if (isFull == false)
-        {
-            view.SetPresenter(AppWindowPresenterKind.FullScreen);
-            isFull = true;
-            TextFull.Text = "Exit FullScreen";
-        }
-        else
-        {
-            view.SetPresenter(AppWindowPresenterKind.Default);
-            isFull = false;
-            TextFull.Text = "Full Screen";
-        }
+        view.SetPresenter(fullscreen ? AppWindowPresenterKind.FullScreen : AppWindowPresenterKind.Default);
+        isFull = fullscreen;
+        TextFull.Text = fullscreen ? "Exit FullScreen" : "Full Screen";
     }
 
 
@@ -234,9 +209,6 @@ public sealed partial class MainWindow : Window
 
         UserName.Text = Prof.Text = AuthService.CurrentUser?.Username ?? "DefaultUser";
     }
-
-
-
 
     public void buttons()
     {
@@ -335,7 +307,7 @@ public sealed partial class MainWindow : Window
 
     public FireBrowserTabViewItem CreateNewTab(Type page = null, object param = null, int index = -1)
     {
-        if (index == -1) index = Tabs.TabItems.Count;
+        index = Tabs.TabItems.Count;
 
         var newItem = new FireBrowserTabViewItem
         {
@@ -343,7 +315,6 @@ public sealed partial class MainWindow : Window
             IconSource = new Microsoft.UI.Xaml.Controls.SymbolIconSource { Symbol = Symbol.Home },
             Style = (Style)Microsoft.UI.Xaml.Application.Current.Resources["FloatingTabViewItemStyle"]
         };
-
 
         Passer passer = new()
         {
@@ -368,14 +339,16 @@ public sealed partial class MainWindow : Window
             frame.Navigate(page, passer);
         }
 
-        var toolTip = new ToolTip();
-        toolTip.Content = new Grid
+        var toolTip = new ToolTip
         {
-            Children =
-        {
-            new Microsoft.UI.Xaml.Controls.Image(),
-            new TextBlock()
-        }
+            Content = new Grid
+            {
+                Children =
+            {
+                new Microsoft.UI.Xaml.Controls.Image(),
+                new TextBlock()
+            }
+            }
         };
         ToolTipService.SetToolTip(newItem, toolTip);
 
@@ -383,30 +356,10 @@ public sealed partial class MainWindow : Window
         return newItem;
     }
 
-    public Frame TabContent
-    {
-        get
-        {
-            FireBrowserTabViewItem selectedItem = (FireBrowserTabViewItem)Tabs.SelectedItem;
-            if (selectedItem != null)
-            {
-                return (Frame)selectedItem.Content;
-            }
-            return null;
-        }
-    }
+    public Frame TabContent => (Tabs.SelectedItem as FireBrowserTabViewItem)?.Content as Frame;
 
-    public WebView2 TabWebView
-    {
-        get
-        {
-            if (TabContent.Content is WebContent)
-            {
-                return (TabContent.Content as WebContent).WebViewElement;
-            }
-            return null;
-        }
-    }
+    public WebView2 TabWebView => (TabContent?.Content as WebContent)?.WebViewElement;
+
 
     private double GetScaleAdjustment()
     {

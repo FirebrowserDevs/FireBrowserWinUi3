@@ -1,13 +1,10 @@
+using FireBrowserBusiness;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.Storage;
-using Windows.System;
-using Windows.UI.Core;
 using static FireBrowserBusiness.MainWindow;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -23,11 +20,6 @@ namespace FireBrowserWinUi3.Pages
         public SettingsPage()
         {
             this.InitializeComponent();
-            if (ApplicationData.Current.LocalSettings.Values.ContainsKey("SelectedNavViewItemId"))
-            {
-                string selectedItemId = (string)ApplicationData.Current.LocalSettings.Values["SelectedNavViewItemId"];
-                NavView_Navigate(selectedItemId, new EntranceNavigationTransitionInfo()); // Navigate to the previously selected item
-            }
         }
 
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
@@ -48,20 +40,43 @@ namespace FireBrowserWinUi3.Pages
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Add handler for ContentFrame navigation.
             ContentFrame.Navigated += On_Navigated;
 
-            NavView.SelectedItem = NavView.MenuItems[0];
-            NavView_Navigate("SettingsHome", new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
+            var window = (Application.Current as App)?.m_window as MainWindow;
+            var urlBoxText = window?.UrlBox.Text ?? string.Empty;
 
+            var navigateTo = urlBoxText switch
+            {
+                string s when s.Contains("firebrowser://SettingsHome") => ("SettingsHome", NavView.MenuItems[0]),
+                string s when s.Contains("firebrowser://Privacy") => ("Privacy", NavView.MenuItems[2]),
+                string s when s.Contains("firebrowser://WebView") => ("WebView", NavView.MenuItems[3]),
+                string s when s.Contains("firebrowser://NewTab") => ("NewTab", NavView.MenuItems[4]),
+                string s when s.Contains("firebrowser://Design") => ("Design", NavView.MenuItems[1]),
+                string s when s.Contains("firebrowser://Accessibility") => ("Accessibility", NavView.MenuItems[5]),
+                string s when s.Contains("firebrowser://About") => ("About", NavView.MenuItems[6]),
+                _ => (null, null), // default case
+            };
+
+            var (selectedTag, selectedItem) = navigateTo;
+
+            if (selectedTag != null && selectedItem != null)
+            {
+                NavView.SelectedItem = selectedItem;
+                NavView_Navigate(selectedTag, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
+            }
+            else
+            {
+                NavView.SelectedItem = NavView.MenuItems[0];
+                NavView_Navigate("SettingsHome", new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
+            } // Default behavior
         }
 
         private Passer passer;
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             passer = e.Parameter as Passer;
-            passer.Tab.IconSource = new
-                FontIconSource()
+
+            passer.Tab.IconSource = new FontIconSource
             {
                 Glyph = "\uE713"
             };
@@ -92,39 +107,6 @@ namespace FireBrowserWinUi3.Pages
             }
         }
 
-        private void NavView_BackRequested(NavigationView sender,
-                                           NavigationViewBackRequestedEventArgs args)
-        {
-            TryGoBack();
-        }
-
-        private void CoreDispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs e)
-        {
-            // When Alt+Left are pressed navigate back
-            if (e.EventType == CoreAcceleratorKeyEventType.SystemKeyDown
-                && e.VirtualKey == VirtualKey.Left
-                && e.KeyStatus.IsMenuKeyDown == true
-                && !e.Handled)
-            {
-                e.Handled = TryGoBack();
-            }
-        }
-
-        private bool TryGoBack()
-        {
-            if (!ContentFrame.CanGoBack)
-                return false;
-
-            // Don't go back if the nav pane is overlayed.
-            if (NavView.IsPaneOpen &&
-                (NavView.DisplayMode == NavigationViewDisplayMode.Compact ||
-                 NavView.DisplayMode == NavigationViewDisplayMode.Minimal))
-                return false;
-
-            ContentFrame.GoBack();
-            return true;
-        }
-
         private void On_Navigated(object sender, NavigationEventArgs e)
         {
             NavView.IsBackEnabled = ContentFrame.CanGoBack;
@@ -150,6 +132,21 @@ namespace FireBrowserWinUi3.Pages
             {
                 var navItemTag = args.InvokedItemContainer.Tag.ToString();
                 NavView_Navigate(navItemTag, args.RecommendedNavigationTransitionInfo);
+            }
+        }
+
+        private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            if (args.IsSettingsSelected == true)
+            {
+                NavView_Navigate("settings", args.RecommendedNavigationTransitionInfo);
+            }
+            else if (args.SelectedItemContainer != null)
+            {
+                var navItemTag = args.SelectedItemContainer.Tag.ToString();
+                NavView_Navigate(navItemTag, args.RecommendedNavigationTransitionInfo);
+                var window = (Application.Current as App)?.m_window as MainWindow;
+                window.UrlBox.Text = "firebrowser://" + navItemTag.ToString();
             }
         }
     }

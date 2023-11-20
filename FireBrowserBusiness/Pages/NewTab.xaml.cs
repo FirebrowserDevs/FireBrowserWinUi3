@@ -81,25 +81,17 @@ public sealed partial class NewTab : Page
 
     private async void NtpEnabled(bool isNtp)
     {
-        if (isNtp == true)
+        while (isNtp)
         {
-            while (isNtp == true)
-            {
+            NtpTime.Visibility = NtpDate.Visibility = Visibility.Visible;
+            NtpTime.Text = DateTime.Now.ToString("H:mm");
+            NtpDate.Text = $"{DateTime.Today.DayOfWeek}, {DateTime.Today.ToString("MMMM d")}";
+            await Task.Delay(500);
+        }
 
-                NtpTime.Visibility = Visibility.Visible;
-                NtpDate.Visibility = Visibility.Visible;
-                NtpTime.Text = System.DateTime.Now.ToString("H:mm");
-                NtpDate.Text = System.DateTime.Today.DayOfWeek.ToString() + ", " + System.DateTime.Today.ToString("MMMM d");
-                await Task.Delay(1000);
-            }
-        }
-        else
-        {
-            NtpTime.Visibility = Visibility.Collapsed;
-            NtpDate.Visibility = Visibility.Collapsed;
-            return;
-        }
+        NtpTime.Visibility = NtpDate.Visibility = Visibility.Collapsed;
     }
+
 
     private void SetVisibilityBasedOnLightMode(bool isLightMode)
     {

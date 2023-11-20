@@ -1,9 +1,9 @@
 using CommunityToolkit.WinUI.Helpers;
-using FireBrowserAdBlockCore;
 using FireBrowserBusiness;
 using FireBrowserBusinessCore.Helpers;
 using FireBrowserDatabase;
 using FireBrowserMultiCore;
+using FireBrowserWinUi3.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -30,7 +30,6 @@ namespace FireBrowserWinUi3.Pages
     public sealed partial class WebContent : Page
     {
         Passer param;
-        public Blocker Blocker { get; set; }
         public static bool IsIncognitoModeEnabled { get; set; } = false;
         private FireBrowserMultiCore.User GetUser()
         {
@@ -50,27 +49,20 @@ namespace FireBrowserWinUi3.Pages
             Init();
         }
 
-        public async void Init()
+        public async Task Init()
         {
             var currentUser = GetUser();
 
-            if (currentUser == null)
-            {
-                return;
-            }
+            if (currentUser is null) return;
 
             // Check if the user is authenticated
-            if (!AuthService.IsUserAuthenticated && !AuthService.Authenticate(currentUser.Username))
-            {
-                return;
-            }
+            if (!AuthService.IsUserAuthenticated && !AuthService.Authenticate(currentUser.Username)) return;
 
             // Get the path to the browser folder
             string browserFolderPath = Path.Combine(UserDataManager.CoreFolderPath, "Users", currentUser.Username, "Browser");
 
             Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", browserFolderPath);
             Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--enable-features=msSingleSignOnOSForPrimaryAccountIsShared");
-
         }
 
         public void AfterComplete()
@@ -83,20 +75,15 @@ namespace FireBrowserWinUi3.Pages
 
                 SaveDb.InsertHistoryItem(username, url, title, visitCount: 0, typedCount: 0, hidden: 0);
 
-                if (WebViewElement.CoreWebView2.Source.Contains("https"))
-                {
-                    param.ViewModel.SecurityIcon = "\uE72E";
-                    param.ViewModel.SecurityIcontext = "Https Secured Website";
-                }
-                else if (WebViewElement.CoreWebView2.Source.Contains("http"))
-                {
-                    param.ViewModel.SecurityIcon = "\uE785";
-                    param.ViewModel.SecurityIcontext = "Http UnSecured Website";
-                }
+                var isHttps = WebViewElement.CoreWebView2.Source.Contains("https");
+                var isHttp = WebViewElement.CoreWebView2.Source.Contains("http");
+
+                param.ViewModel.SecurityIcon = isHttps ? "\uE72E" : (isHttp ? "\uE785" : "");
+                param.ViewModel.SecurityIcontext = isHttps ? "Https Secured Website" : (isHttp ? "Http UnSecured Website" : "");
             }
             else
             {
-
+                // Handle incognito mode scenario
             }
         }
 
@@ -115,6 +102,24 @@ namespace FireBrowserWinUi3.Pages
         }
 
         Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+
+        protected override async void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            await WebViewElement.CoreWebView2?.ExecuteScriptAsync(@"(function() { 
+    try
+    {
+        const videos = document.querySelectorAll('video');
+        videos.forEach((video) => { video.pause();});
+        console.log('WINUI3_CoreWebView2: YES_VIDEOS_CLOSED');
+        return true; 
+
+    }
+    catch(error) {
+      console.log('WINUI3_CoreWebView2: NO_VIDEOS_CLOSED');
+      return error.message; 
+    }
+})();");
+        }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -154,14 +159,15 @@ namespace FireBrowserWinUi3.Pages
                 window.GoFullScreenWeb(s.CoreWebView2.ContainsFullScreenElement);
             };
             s.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
-
-
+            s.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = true;
 
             s.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
             s.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
             s.CoreWebView2.ScriptDialogOpening += async (sender, args) =>
             {
-
+                args.GetDeferral();
+                var window = (Application.Current as App)?.m_window as MainWindow;
+                await UIScript.ShowDialog($"{sender.DocumentTitle} says", args.Message, window.Content.XamlRoot);
             };
             s.CoreWebView2.DocumentTitleChanged += (sender, args) =>
             {
@@ -193,6 +199,7 @@ namespace FireBrowserWinUi3.Pages
                     {
                         var bitmapImage = new BitmapImage();
                         var stream = await sender.GetFaviconAsync(0);
+
                         if (stream != null)
                         {
                             await bitmapImage.SetSourceAsync(stream);
@@ -207,13 +214,12 @@ namespace FireBrowserWinUi3.Pages
                     }
                     else
                     {
-
+                        // Handle incognito mode scenario
                     }
-
                 }
                 catch
                 {
-
+                    // Handle any exceptions that might occur during the process
                 }
             };
             s.CoreWebView2.NavigationStarting += (sender, args) =>

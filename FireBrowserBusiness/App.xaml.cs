@@ -130,7 +130,6 @@ namespace FireBrowserBusiness
             }
         }
 
-
         public Window m_window;
     }
 }

@@ -53,8 +53,6 @@ namespace FireBrowserWinUi3.Pages.TimeLinePages
                 NavigationView.SelectedItem = NavigationView.MenuItems[0];
                 NavigationView_Navigate("apps", new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
             } // Default behavior
-
-
         }
 
         private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)

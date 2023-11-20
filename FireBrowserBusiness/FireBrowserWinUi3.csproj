@@ -11,7 +11,6 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <ApplicationIcon>Logo.ico</ApplicationIcon>
-    <PackageCertificateKeyFile>FireBrowserWinUi3_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
@@ -21,6 +20,8 @@
     <AppxBundle>Never</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 	<UseRidGraph>true</UseRidGraph>
+	<GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+	<PackageCertificateThumbprint>068F1734D59EE51056DB271A2149A6190BB75462</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="FakesAssemblies\**" />
@@ -55,6 +56,7 @@
     <None Remove="Controls\FireBrowserTabViewContainer.xaml" />
     <None Remove="Controls\FireBrowserTabViewItem.xaml" />
     <None Remove="Controls\UI.xaml" />
+    <None Remove="Controls\UIScript.xaml" />
     <None Remove="Pages\InPrivate.xaml" />
     <None Remove="Pages\ModulesInstaller.xaml" />
     <None Remove="Pages\NewTab.xaml" />
@@ -93,7 +95,7 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
     <Manifest Include="$(ApplicationManifest)" />
@@ -143,6 +145,9 @@
     <None Update="Assets\user.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\UIScript.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\UI.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
