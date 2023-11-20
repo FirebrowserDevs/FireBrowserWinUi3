@@ -65,7 +65,41 @@ public sealed partial class MainWindow : Window
         TitleTop();
         LoadUserDataAndSettings();
         LoadUsernames();
+
+        appWindow.Closing += AppWindow_Closing;
     }
+
+    private void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+    {
+        if(Tabs.TabItems.Count > 1)
+        {
+            args.Cancel = true;
+
+            var window = (Application.Current as App)?.m_window as MainWindow;
+            ConfirmAppClose quickConfigurationDialog = new()
+            {
+                XamlRoot = window.Content.XamlRoot
+            };
+
+            quickConfigurationDialog.PrimaryButtonClick += (sender, e) =>
+            {
+                // Close the application when the primary button is clicked
+                Application.Current.Exit();
+            };
+
+            quickConfigurationDialog.SecondaryButtonClick += (sender, e) =>
+            {
+                // Your logic for the secondary button click event here
+            };
+
+            quickConfigurationDialog.ShowAsync();
+        }
+        else
+        {
+            args.Cancel = false;
+        }
+    }
+
 
     bool incog = false;
     private void ArgsPassed()
@@ -155,7 +189,7 @@ public sealed partial class MainWindow : Window
             currentAddress = "",
             SecurityIcon = "\uE946",
             SecurityIcontext = "FireBrowser Home Page",
-            Securitytext = "This The Default Home Page Of Firebrowser Internal Pages Secure",
+            Securitytext = "This The Default Home Page Of FireBrowser Internal Pages Secure",
             Securitytype = "Link - FireBrowser://NewTab"
         };
 
@@ -246,62 +280,33 @@ public sealed partial class MainWindow : Window
 
     private void TabView_AddTabButtonClick(TabView sender, object args)
     {
-        if (incog == true)
-        {
-            sender.TabItems.Add(CreateNewIncog(typeof(InPrivate)));
-        }
-        else
-        {
-            sender.TabItems.Add(CreateNewTab(typeof(NewTab)));
-        }
+        sender.TabItems.Add(incog == true ? CreateNewIncog(typeof(InPrivate)) : CreateNewTab(typeof(NewTab)));
     }
 
     #region toolbar
+
+    public ToolbarViewModel ViewModel { get; set; }
     public class Passer
     {
         public FireBrowserTabViewItem Tab { get; set; }
         public FireBrowserTabViewContainer TabView { get; set; }
         public object Param { get; set; }
-
         public ToolbarViewModel ViewModel { get; set; }
-        public string UserName { get; set; }
     }
-
-    public ToolbarViewModel ViewModel { get; set; }
 
     public partial class ToolbarViewModel : ObservableObject
     {
-        [ObservableProperty]
-        public bool canRefresh;
-        [ObservableProperty]
-        public bool canGoBack;
-        [ObservableProperty]
-        public bool canGoForward;
-        [ObservableProperty]
-        public string currentAddress;
-        [ObservableProperty]
-        public string securityIcon;
-        [ObservableProperty]
-        public string securityIcontext;
-        [ObservableProperty]
-        public string securitytext;
-        [ObservableProperty]
-        public string securitytype;
-        [ObservableProperty]
-        public Visibility homeButtonVisibility;
-
-        private string _userName;
-
-        public string UserName
-        {
-            get
-            {
-                if (_userName == "DefaultFireBrowserUser") return "DefaultFireBrowserUserName";
-                else return _userName;
-            }
-            set { SetProperty(ref _userName, value); }
-        }
+        [ObservableProperty] public bool canRefresh;
+        [ObservableProperty] public bool canGoBack;
+        [ObservableProperty] public bool canGoForward;
+        [ObservableProperty] public string currentAddress;
+        [ObservableProperty] public string securityIcon;
+        [ObservableProperty] public string securityIcontext;
+        [ObservableProperty] public string securitytext;
+        [ObservableProperty] public string securitytype;
+        [ObservableProperty] public Visibility homeButtonVisibility;
     }
+
 
     #endregion
 
@@ -428,10 +433,7 @@ public sealed partial class MainWindow : Window
 
         var dragRects = dragRectsList.ToArray();
 
-        if (appWindow.TitleBar != null)
-        {
-            appWindow.TitleBar.SetDragRectangles(dragRects);
-        }
+        appWindow.TitleBar?.SetDragRectangles(dragRects);
     }
 
     private int maxTabItems = 20;
@@ -441,35 +443,30 @@ public sealed partial class MainWindow : Window
         {
             Application.Current.Exit();
         }
-        // If there is only one tab left, disable dragging and reordering of Tabs.
         else if (sender.TabItems.Count == 1)
         {
-            sender.CanReorderTabs = false;
-            sender.CanDragTabs = false;
+            sender.CanReorderTabs = sender.CanDragTabs = false;
         }
         else
         {
-            sender.CanReorderTabs = true;
-            sender.CanDragTabs = true;
+            sender.CanReorderTabs = sender.CanDragTabs = true;
         }
     }
 
-    private Passer CreatePasser(object parameter = null)
+    public Passer CreatePasser(object parameter = null)
     {
-        Passer passer = new()
+        return new()
         {
             Tab = Tabs.SelectedItem as FireBrowserTabViewItem,
             TabView = Tabs,
             ViewModel = ViewModel,
             Param = parameter,
         };
-        return passer;
     }
 
     public void SelectNewTab()
     {
-        var tabToSelect = Tabs.TabItems.Count - 1;
-        Tabs.SelectedIndex = tabToSelect;
+        Tabs.SelectedIndex = Tabs.TabItems.Count - 1;
     }
 
     public void FocusUrlBox(string text)
@@ -477,6 +474,7 @@ public sealed partial class MainWindow : Window
         UrlBox.Text = text;
         UrlBox.Focus(FocusState.Programmatic);
     }
+
     public void NavigateToUrl(string uri)
     {
         if (TabContent.Content is WebContent webContent)
@@ -538,12 +536,7 @@ public sealed partial class MainWindow : Window
             }
             else
             {
-                string searchurl;
-                if (SearchUrl == null) searchurl = "https://www.google.nl/search?q=";
-                else
-                {
-                    searchurl = SearchUrl;
-                }
+                string searchurl = SearchUrl ?? "https://www.google.nl/search?q=";
                 string query = searchurl + input;
                 NavigateToUrl(query);
             }
@@ -553,38 +546,43 @@ public sealed partial class MainWindow : Window
             // Handle the exception, log it, or display an error message.
             Debug.WriteLine("Error during navigation: " + ex.Message);
         }
-
-
-
     }
 
     #region cangochecks
     private bool CanGoBack()
     {
-        ViewModel.CanGoBack = (bool)(TabContent?.Content is WebContent
-            ? TabWebView?.CoreWebView2.CanGoBack
-            : TabContent?.CanGoBack);
+        ViewModel.CanGoBack = (TabContent?.Content is WebContent webContent)
+            ? (bool)(TabWebView?.CoreWebView2.CanGoBack)
+            : (bool)(TabContent?.CanGoBack);
 
         return ViewModel.CanGoBack;
     }
 
-
     private bool CanGoForward()
     {
-        ViewModel.CanGoForward = (bool)(TabContent?.Content is WebContent
-            ? TabWebView?.CoreWebView2.CanGoForward
-            : TabContent?.CanGoForward);
+        ViewModel.CanGoForward = (TabContent?.Content is WebContent webContent)
+            ? (bool)(TabWebView?.CoreWebView2.CanGoForward)
+            : (bool)(TabContent?.CanGoForward);
+
         return ViewModel.CanGoForward;
     }
-
 
     private void GoBack()
     {
         if (CanGoBack() && TabContent != null)
         {
-            if (TabContent.Content is WebContent && TabWebView.CoreWebView2.CanGoBack) TabWebView.CoreWebView2.GoBack();
-            else if (TabContent.CanGoBack) TabContent.GoBack();
-            else ViewModel.CanGoBack = false;
+            if (TabContent.Content is WebContent && TabWebView.CoreWebView2.CanGoBack)
+            {
+                TabWebView.CoreWebView2.GoBack();
+            }
+            else if (TabContent.CanGoBack)
+            {
+                TabContent.GoBack();
+            }
+            else
+            {
+                ViewModel.CanGoBack = false;
+            }
         }
     }
 
@@ -592,11 +590,21 @@ public sealed partial class MainWindow : Window
     {
         if (CanGoForward() && TabContent != null)
         {
-            if (TabContent.Content is WebContent && TabWebView.CoreWebView2.CanGoForward) TabWebView.CoreWebView2.GoForward();
-            else if (TabContent.CanGoForward) TabContent.GoForward();
-            else ViewModel.CanGoForward = false;
+            if (TabContent.Content is WebContent && TabWebView.CoreWebView2.CanGoForward)
+            {
+                TabWebView.CoreWebView2.GoForward();
+            }
+            else if (TabContent.CanGoForward)
+            {
+                TabContent.GoForward();
+            }
+            else
+            {
+                ViewModel.CanGoForward = false;
+            }
         }
     }
+
     #endregion
 
     #region click
@@ -719,14 +727,9 @@ public sealed partial class MainWindow : Window
     {
         if (TabContent?.Content is WebContent webContent)
         {
-            TabWebView.NavigationStarting += (s, e) =>
-            {
-                ViewModel.CanRefresh = false;
-            };
-            TabWebView.NavigationCompleted += (s, e) =>
-            {
-                ViewModel.CanRefresh = true;
-            };
+            TabWebView.NavigationStarting += (_, _) => ViewModel.CanRefresh = false;
+            TabWebView.NavigationCompleted += (_, _) => ViewModel.CanRefresh = true;
+
             await TabWebView.EnsureCoreWebView2Async();
             SmallUpdates();
         }
@@ -934,18 +937,12 @@ public sealed partial class MainWindow : Window
         TabViewItem selectedItem = args.Tab;
         var tabContent = (Frame)selectedItem.Content;
 
-        if (tabContent.Content is WebContent webContent)
+        if (tabContent.Content is WebContent webContent && webContent.WebViewElement != null)
         {
-            var webView = webContent.WebViewElement;
-
-            if (webView != null)
-            {
-                webView.Close();
-            }
+            webContent.WebViewElement.Close();
         }
 
-        var tabItems = (sender as TabView)?.TabItems;
-        tabItems?.Remove(args.Tab);
+        (sender as TabView)?.TabItems?.Remove(args.Tab);
     }
 
     private string selectedHistoryItem;

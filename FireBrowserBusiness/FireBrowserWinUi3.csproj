@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Controls\AddUser.xaml" />
+    <None Remove="Controls\ConfirmAppClose.xaml" />
     <None Remove="Controls\FireBrowserTabViewContainer.xaml" />
     <None Remove="Controls\FireBrowserTabViewItem.xaml" />
     <None Remove="Controls\UI.xaml" />
@@ -265,5 +266,11 @@
     <Reference Include="FireBrowserQr">
       <HintPath>..\..\FireBrowser-Uwp-main\src\FireBrowserQr\bin\x64\Release\FireBrowserQr.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\ConfirmAppClose.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\ConfirmAppClose.xaml" />
   </ItemGroup>
 </Project>
