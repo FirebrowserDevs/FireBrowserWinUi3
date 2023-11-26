@@ -1,7 +1,7 @@
 using FireBrowserBusiness;
 using FireBrowserBusinessCore;
 using FireBrowserMultiCore;
-using FireBrowserWinUi3.Controls;
+using FireBrowserWinUi3Core.CoreUi;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;

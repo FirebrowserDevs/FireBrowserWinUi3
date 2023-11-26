@@ -8,6 +8,7 @@ using FireBrowserMultiCore;
 using FireBrowserQr;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
+using FireBrowserWinUi3Core.CoreUi;
 using Microsoft.Data.Sqlite;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -21,10 +22,14 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UrlHelperWinUi3;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using WinRT.Interop;
+using Settings = FireBrowserMultiCore.Settings;
 using Windowing = FireBrowserBusinessCore.Helpers.Windowing;
 
 namespace FireBrowserBusiness;
@@ -56,6 +61,7 @@ public sealed partial class MainWindow : Window
     private AppWindow appWindow;
     private AppWindowTitleBar titleBar;
 
+    public DownloadFlyout DownloadFlyout { get; set; } = new DownloadFlyout();
 
     public MainWindow()
     {
@@ -65,13 +71,20 @@ public sealed partial class MainWindow : Window
         TitleTop();
         LoadUserDataAndSettings();
         LoadUsernames();
+        Init();
 
         appWindow.Closing += AppWindow_Closing;
     }
 
+    public async void Init()
+    {
+        await FireBrowserBusinessCore.Models.Data.Init();
+        FireBrowserSecureConnect.TwoFactorsAuthentification.Init();
+    }
+
     private void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
     {
-        if(Tabs.TabItems.Count > 1)
+        if (Tabs.TabItems.Count > 1)
         {
             args.Cancel = true;
 
@@ -122,6 +135,7 @@ public sealed partial class MainWindow : Window
             Fav.IsEnabled = false;
             His.IsEnabled = false;
             History.IsEnabled = false;
+            Down.IsEnabled = false;
             FavoritesButton.IsEnabled = false;
             WebContent.IsIncognitoModeEnabled = true;
             incog = true;
@@ -1023,15 +1037,12 @@ public sealed partial class MainWindow : Window
     {
         if (browserHistory == null) return;
 
-        // Clear the collection to start fresh with filtered items
         HistoryTemp.ItemsSource = null;
 
-        // Filter the browser history based on the search text
         var filteredHistory = new ObservableCollection<HistoryItem>(browserHistory
             .Where(item => item.Url.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
                            item.Title?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true));
 
-        // Bind the filtered browser history items to the ListView
         HistoryTemp.ItemsSource = filteredHistory;
     }
 
@@ -1086,20 +1097,10 @@ public sealed partial class MainWindow : Window
 
     private void DownBtn_Click(object sender, RoutedEventArgs e)
     {
-        //FlyoutShowOptions options = new FlyoutShowOptions() { Placement = FlyoutPlacementMode.Bottom };
-        // DownloadFlyout.ShowAt(DownBtn, options);
+        Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowOptions options = new Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Placement = Microsoft.UI.Xaml.Controls.Primitives.FlyoutPlacementMode.Bottom };
+        DownloadFlyout.ShowAt(DownBtn, options);
 
-        if (TabContent.Content is WebContent)
-        {
-            if (TabWebView.CoreWebView2.IsDefaultDownloadDialogOpen == true)
-            {
-                (TabContent.Content as WebContent).WebViewElement.CoreWebView2.CloseDefaultDownloadDialog();
-            }
-            else
-            {
-                (TabContent.Content as WebContent).WebViewElement.CoreWebView2.OpenDefaultDownloadDialog();
-            }
-        }
+
     }
 
     private void OpenHistoryMenuItem_Click(object sender, RoutedEventArgs e)
@@ -1129,5 +1130,59 @@ public sealed partial class MainWindow : Window
     private void Button_Click(object sender, RoutedEventArgs e)
     {
         UserFrame.Visibility = Visibility.Collapsed;
+    }
+
+    private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        FireBrowserSecureConnect.TwoFactorsAuthentification.ShowFlyout(Secure);
+    }
+
+    private void MenuFlyoutItem_Click_1(object sender, RoutedEventArgs e)
+    {
+        FireBrowserBusinessCore.Helpers.FlyoutLoad.ShowFlyout(Secure);
+    }
+
+
+    private async void SaveQrImage_Click(object sender, RoutedEventArgs e)
+    {
+        QRCodeGenerator qrGenerator = new QRCodeGenerator();
+        QRCodeData qrCodeData = qrGenerator.CreateQrCode((TabContent.Content as WebContent).WebViewElement.CoreWebView2.Source.ToString(), QRCodeGenerator.ECCLevel.M);
+
+        // Create byte/raw bitmap qr code
+        BitmapByteQRCode qrCodeBmp = new BitmapByteQRCode(qrCodeData);
+        byte[] qrCodeImageBmp = qrCodeBmp.GetGraphic(20);
+
+        FileSavePicker savePicker = new Windows.Storage.Pickers.FileSavePicker();
+        var window = (Application.Current as App)?.m_window as MainWindow;
+        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+        WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hWnd);
+
+        // Set options for your file picker
+        savePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+        savePicker.FileTypeChoices.Add("PNG files", new List<string>() { ".png" });
+        savePicker.DefaultFileExtension = ".png";
+        savePicker.SuggestedFileName = "QrImage";
+
+        // Open the picker for the user to pick a file
+        StorageFile file = await savePicker.PickSaveFileAsync();
+
+        if (file != null)
+        {
+            try
+            {
+                // Write the QR code image bytes to the StorageFile
+                using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                {
+                    await stream.WriteAsync(qrCodeImageBmp.AsBuffer());
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions
+                // For example: display an error message
+                Console.WriteLine("Failed to save the image: " + ex.Message);
+            }
+        }
+
     }
 }

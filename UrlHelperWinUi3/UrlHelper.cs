@@ -6,18 +6,32 @@ public class UrlHelper
 {
     public static string GetInputType(string input)
     {
-        string type = "searchquery";
+        if (IsURL(input))
+        {
+            return "url";
+        }
+        else if (IsURLWithoutProtocol(input))
+        {
+            return "urlNOProtocol";
+        }
+
+        return "searchquery";
+    }
+
+    private static bool IsURL(string input)
+    {
+        if (Uri.TryCreate(input, UriKind.Absolute, out Uri uri) &&
+            (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool IsURLWithoutProtocol(string input)
+    {
         string tld = TLD.GetTLDfromURL(input);
-
-        if (Uri.TryCreate(input, UriKind.Absolute, out Uri uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
-        {
-            type = "url";
-        }
-        else if (input.Contains(".") && TLD.KnownDomains.Any(tld.Contains))
-        {
-            type = "urlNOProtocol";
-        }
-
-        return type;
+        return input.Contains(".") && TLD.KnownDomains.Any(domain => tld.Contains(domain));
     }
 }

@@ -2,8 +2,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.Storage;
-
 
 namespace UrlHelperWinUi3;
 
@@ -15,9 +13,10 @@ public class TLD
     {
         try
         {
+            FireTxtReader rd = new FireTxtReader();
             var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(
                  new Uri($"ms-appx:////public_domains.txt"));
-            KnownDomains = await FileIO.ReadTextAsync(file);
+            KnownDomains = await rd.ReadTextFile(file);
         }
         catch (FileNotFoundException ex)
         {

@@ -3,12 +3,11 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
 
-namespace FireBrowserWinUi3.Controls;
+namespace FireBrowserWinUi3Core.CoreUi;
 
 public sealed partial class UIScript : ContentDialog
 {
     public UIScript() => InitializeComponent();
-
 
     public static async Task ShowDialog(string title, string content, XamlRoot root)
     {
@@ -23,5 +22,4 @@ public sealed partial class UIScript : ContentDialog
 
         await dialog.ShowAsync();
     }
-
 }

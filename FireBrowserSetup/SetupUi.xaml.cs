@@ -1,6 +1,7 @@
 using FireBrowserMultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using static System.Net.Mime.MediaTypeNames;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -139,19 +140,29 @@ namespace FireBrowserSetup
             string selection = e.AddedItems[0].ToString();
             string type;
 
+
             switch (selection)
             {
                 case "Default":
                     type = "0";
                     Color.IsEnabled = false;
+                    Image.Visibility = Visibility.Visible;
+                    Image2.Visibility = Visibility.Collapsed;
+                    Image3.Visibility = Visibility.Collapsed;
                     break;
                 case "Featured":
                     type = "1";
                     Color.IsEnabled = false;
+                    Image2.Visibility = Visibility.Visible;
+                    Image.Visibility = Visibility.Collapsed;
+                    Image3.Visibility = Visibility.Collapsed;
                     break;
                 case "Custom":
                     type = "2";
                     Color.IsEnabled = true;
+                    Image3.Visibility = Visibility.Visible;
+                    Image.Visibility = Visibility.Collapsed;
+                    Image2.Visibility = Visibility.Collapsed;
                     break;
 
                 // Add other cases for different search engines.

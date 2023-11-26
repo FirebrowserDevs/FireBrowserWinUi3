@@ -19,7 +19,7 @@
                 <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
                     <TextBlock Name="User" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" Text="FireBrowser User"/>
                     <TextBlock Text="Browser account" FontSize="12"/>
-                    <TextBlock>Availeble Now Only Switching Not Yet</TextBlock>
+                    <TextBlock>Available Only Switching Is Not Yet Available</TextBlock>
                 </StackPanel>
             </StackPanel>
             <labs:SettingsCard Margin="0,10,0,0" VerticalAlignment="Bottom">

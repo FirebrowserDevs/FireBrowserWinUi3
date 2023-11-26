@@ -8,12 +8,23 @@
     <Platforms>AnyCPU;x64</Platforms>
 	<UseRidGraph>true</UseRidGraph>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="AddUser.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
+      <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
       <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.0" />
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
+      <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="AddUser.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>

@@ -20,6 +20,7 @@ namespace FireBrowserMultiCore
 
             CreateSettingsFile(user.Username);
             CreateDatabaseFile(user.Username);
+            CreateDatabaseFileDownloads(user.Username);
         }
 
         public static void CreateSettingsFile(string username)
@@ -110,7 +111,41 @@ namespace FireBrowserMultiCore
             }
         }
 
+        public static void CreateDatabaseFileDownloads(string username)
+        {
+            string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username);
+            string databaseFolderPath = Path.Combine(userFolderPath, "Database");
+            string databaseFilePath = Path.Combine(databaseFolderPath, "Downloads.db");
 
+            // Ensure the "Database" folder exists
+            Directory.CreateDirectory(databaseFolderPath);
+
+            // Create the SQLite database file
+            using (var connection = new SqliteConnection($"Data Source={databaseFilePath}"))
+            {
+                connection.Open();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    using (var command = connection.CreateCommand())
+                    {
+                        command.CommandText = @"
+            CREATE TABLE IF NOT EXISTS downloads (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                guid VARCHAR(50) NOT NULL,
+                current_path TEXT NOT NULL,
+                end_time INTEGER NOT NULL,
+                start_time INTEGER NOT NULL
+            )";
+
+                        command.ExecuteNonQuery();
+                    }
+                    transaction.Commit();
+                }
+
+                Console.WriteLine("SQLite database and 'downloads' table created successfully.");
+            }
+        }
 
         public static Settings LoadUserSettings(User user)
         {

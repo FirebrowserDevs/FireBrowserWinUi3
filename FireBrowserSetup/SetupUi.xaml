@@ -39,9 +39,11 @@ ColumnSpacing="5">
             </Grid.ColumnDefinitions>
 
             <Border  Grid.Column="0"  CornerRadius="10" Width="450" Height="350">
-                <Border.Background>
-                    <ImageBrush ImageSource="ms-appx:///Assets/setup_image.png" />
-                </Border.Background>
+                <StackPanel>
+                    <Image x:Name="Image" Source="ms-appx:///Assets/default.png" />
+                    <Image x:Name="Image2" Visibility="Collapsed" Source="ms-appx:///Assets/featured.png" />
+                    <Image x:Name="Image3" Visibility="Collapsed" Source="ms-appx:///Assets/costum.png" />
+                </StackPanel>
             </Border>
 
             <StackPanel Width="525" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
@@ -89,7 +91,7 @@ ColumnSpacing="5">
                         </ctr:SettingsCard>
                     </ctr:SettingsExpander.Items>
                 </ctr:SettingsExpander>
-                <ctr:SettingsExpander Header="Tabs Layout Model" Description="Change Here Tab Mode" Margin="0,1,0,0">
+                <ctr:SettingsExpander Header="Tabs Layout Model" Description="Change Here Tab Model" Margin="0,1,0,0">
                     <ctr:SettingsExpander.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC6C;" />
                     </ctr:SettingsExpander.HeaderIcon>

@@ -33,7 +33,10 @@
     <Content Remove="Assets\access.png" />
     <Content Remove="Assets\algemeen.png" />
     <Content Remove="Assets\clippy.png" />
+    <Content Remove="Assets\costum.png" />
+    <Content Remove="Assets\default.png" />
     <Content Remove="Assets\done.png" />
+    <Content Remove="Assets\featured.png" />
     <Content Remove="Assets\Icons\About.svg" />
     <Content Remove="Assets\Icons\Accessibility.svg" />
     <Content Remove="Assets\Icons\Home.svg" />
@@ -52,12 +55,10 @@
     <Content Remove="Assets\user.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Controls\AddUser.xaml" />
-    <None Remove="Controls\ConfirmAppClose.xaml" />
+    <None Remove="Controls\DownloadFlyout.xaml" />
+    <None Remove="Controls\DownloadItem.xaml" />
     <None Remove="Controls\FireBrowserTabViewContainer.xaml" />
     <None Remove="Controls\FireBrowserTabViewItem.xaml" />
-    <None Remove="Controls\UI.xaml" />
-    <None Remove="Controls\UIScript.xaml" />
     <None Remove="Pages\InPrivate.xaml" />
     <None Remove="Pages\ModulesInstaller.xaml" />
     <None Remove="Pages\NewTab.xaml" />
@@ -119,6 +120,7 @@
     <ProjectReference Include="..\FireBrowserMultiCore\FireBrowserMultiCore.csproj" />
     <ProjectReference Include="..\FireBrowserSecureConnect\FireBrowserWinUi3SecureConnect.csproj" />
     <ProjectReference Include="..\FireBrowserSetup\FireBrowserSetup.csproj" />
+    <ProjectReference Include="..\SecureConnectOtp\SecureConnectOtp.csproj" />
     <ProjectReference Include="..\UrlHelperWinUi3\UrlHelperWinUi3.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -128,7 +130,16 @@
     <None Update="Assets\algemeen.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\costum.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\default.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\done.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\featured.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Logo.png">
@@ -146,18 +157,17 @@
     <None Update="Assets\user.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Page Update="Controls\UIScript.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\AddUser.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <None Update="LogoSetup.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\DownloadFlyout.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\DownloadItem.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\TimeLinePages\DownloadsTimeLine.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -266,11 +276,5 @@
     <Reference Include="FireBrowserQr">
       <HintPath>..\..\FireBrowser-Uwp-main\src\FireBrowserQr\bin\x64\Release\FireBrowserQr.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomAdditionalCompileInputs Remove="Controls\ConfirmAppClose.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Remove="Controls\ConfirmAppClose.xaml" />
   </ItemGroup>
 </Project>

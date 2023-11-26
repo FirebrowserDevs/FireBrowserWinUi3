@@ -8,9 +8,32 @@
     <Platforms>AnyCPU;x64</Platforms>
 	<UseRidGraph>true</UseRidGraph>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Controls\Two2FAFlyout.xaml" />
+    <None Remove="Dialogs\AddDialog.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FireBrowserBusinessCore\FireBrowserWinUi3Core.csproj" />
+    <ProjectReference Include="..\SecureConnectOtp\SecureConnectOtp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Dialogs\AddDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\Two2FAFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>
