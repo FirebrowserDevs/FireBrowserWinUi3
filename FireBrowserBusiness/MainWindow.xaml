@@ -317,6 +317,7 @@
                TabCloseRequested="Tabs_TabCloseRequested"
                TabItemsChanged="Tabs_TabItemsChanged"
                SelectionChanged="Tabs_SelectionChanged"
+               CanDragTabs="True"
                Grid.Row="0"
                Loaded="Tabs_Loaded"
                AddTabButtonClick="TabView_AddTabButtonClick">

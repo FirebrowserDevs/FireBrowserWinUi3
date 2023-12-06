@@ -117,8 +117,8 @@
                          BorderBrush="{ThemeResource SystemAltHighColor}"
                          Background="Transparent"
                          Width="Auto"
-                            TextChanged="NewTabSearchBox_TextChanged"
-                            PreviewKeyDown="NewTabSearchBox_PreviewKeyDown"
+                         TextChanged="NewTabSearchBox_TextChanged"
+                         PreviewKeyDown="NewTabSearchBox_PreviewKeyDown"
                          VerticalContentAlignment="Center"                          
                          x:FieldModifier="Public"
                          >

@@ -15,6 +15,7 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media.Imaging;
 using SQLitePCL;
 using System;
@@ -24,6 +25,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using UrlHelperWinUi3;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -152,11 +154,32 @@ public sealed partial class MainWindow : Window
             DownBtn.IsEnabled = false;
             FavoritesButton.IsEnabled = false;
             WebContent.IsIncognitoModeEnabled = true;
+            AuthService.DeleteUser("Private");
+            InPrivateUser();
             incog = true;
             return;
         }
 
         Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
+    }
+
+  
+    private void InPrivateUser()
+    {
+        User newUser = new User
+        {
+            Id = Guid.NewGuid(), // Generate a new GUID for the user Id
+            Username = "Private",
+            IsFirstLaunch = true,
+            UserSettings = null // You might want to initialize UserSettings based on your application logic
+        };
+
+        // Add the new user to your user collection or perform any other necessary logic
+        // For demonstration purposes, let's assume 'users' is a List<User> in your AuthService
+        AuthService.AddUser(newUser);
+        UserFolderManager.CreateUserFolders(newUser);
+        AuthService.CurrentUser.Username = newUser.Username;
+        AuthService.Authenticate(newUser.Username);
     }
 
     private void LoadUsernames()
@@ -810,6 +833,7 @@ public sealed partial class MainWindow : Window
                 break;
             case "InPrivate":
                 OpenNewWindow(new Uri("firebrowserincog://"));
+               
                 break;
             case "Favorites":
                 UrlBox.Text = "firebrowser://favorites";
@@ -1193,4 +1217,5 @@ public sealed partial class MainWindow : Window
             ct.CreateShortcut(clickedUserName);
         }
     }
+
 }

@@ -242,6 +242,8 @@
         </Setter>
     </Style>
 
+  
+
     <Style x:Key="FloatingTabViewItemStyle" TargetType="TabViewItem">
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />

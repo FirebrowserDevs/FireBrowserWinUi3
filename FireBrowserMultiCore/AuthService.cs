@@ -65,6 +65,42 @@ public class AuthService
         return false;
     }
 
+    public static bool DeleteUser(string username)
+    {
+        // Check if the user exists in the loaded user data.
+        User userToDelete = users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+
+        if (userToDelete != null)
+        {
+            try
+            {
+                // Delete the user folder.
+                string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username);
+                if (Directory.Exists(userFolderPath))
+                {
+                    Directory.Delete(userFolderPath, true);
+                }
+
+                // Remove the user from the list.
+                users.Remove(userToDelete);
+
+                // Save the updated user list to the JSON file.
+                SaveUsers();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions (e.g., folder not found, permission issues).
+                Console.WriteLine($"Error deleting user: {ex.Message}");
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+
     public static void AddUser(User newUser)
     {
         // Check if the username already exists.

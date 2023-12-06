@@ -63,7 +63,6 @@ public sealed partial class NewTab : Page
 
         GridSelect.SelectedValue = ViewModel.BackgroundType.ToString();
 
-
         // Visibility setup based on LightMode setting
         SetVisibilityBasedOnLightMode(isMode);
     }
