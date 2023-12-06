@@ -439,7 +439,7 @@ public sealed partial class WebContent : Page
             }
 
             // Wait for half a second before the next check
-            await Task.Delay(500);
+            await Task.Delay(1000);
         }
     }
     private void Grid_Loaded(object sender, RoutedEventArgs e)

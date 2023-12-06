@@ -150,16 +150,19 @@ public sealed partial class MainWindow : Window
             Fav.IsEnabled = false;
             His.IsEnabled = false;
             History.IsEnabled = false;
+            NewTab.Visibility = Visibility.Collapsed;
             Down.IsEnabled = false;
             DownBtn.IsEnabled = false;
             FavoritesButton.IsEnabled = false;
+            UserFrame.IsEnabled = false;
+            NewWindow.Visibility = Visibility.Collapsed;
             WebContent.IsIncognitoModeEnabled = true;
             AuthService.DeleteUser("Private");
             InPrivateUser();
             incog = true;
             return;
         }
-
+       
         Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
     }
 
@@ -187,7 +190,7 @@ public sealed partial class MainWindow : Window
         List<string> usernames = AuthService.GetAllUsernames();
         string currentUsername = AuthService.CurrentUser?.Username;
 
-        foreach (string username in usernames.Where(username => username != currentUsername))
+        foreach (string username in usernames.Where(username => username != currentUsername && !username.Contains("Private")))
         {
             UserListView.Items.Add(username);
         }

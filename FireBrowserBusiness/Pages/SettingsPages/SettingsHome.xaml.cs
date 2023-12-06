@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -29,25 +30,33 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
             List<string> usernames = AuthService.GetAllUsernames();
             string currentUsername = AuthService.CurrentUser?.Username;
 
-            foreach (string username in usernames)
+            if (currentUsername != null && currentUsername.Contains("Private"))
             {
-                // Exclude the current user's username
-                if (username != currentUsername)
+                UserListView.IsEnabled = false;
+                Add.IsEnabled = false;
+            }
+            else
+            {
+                UserListView.IsEnabled = true;
+
+                int nonPrivateUserCount = usernames.Count(username => !username.Contains("Private"));
+
+                if (nonPrivateUserCount + (currentUsername != null && !currentUsername.Contains("Private") ? 1 : 0) >= 6)
+                {
+                    Add.IsEnabled = false; // Assuming AddButton is the name of your "Add" button
+                }
+                else
+                {
+                    Add.IsEnabled = true;
+                }
+
+                foreach (string username in usernames.Where(username => username != currentUsername && !username.Contains("Private")))
                 {
                     UserListView.Items.Add(username);
                 }
             }
-
-            // Disable the "Add" button if the total count is equal to or greater than a limit
-            if (usernames.Count + (currentUsername != null ? 1 : 0) >= 6)
-            {
-                Add.IsEnabled = false; // Assuming AddButton is the name of your "Add" button
-            }
-            else
-            {
-                Add.IsEnabled = true;
-            }
         }
+
         private FireBrowserMultiCore.User GetUser()
         {
             // Check if the user is authenticated.

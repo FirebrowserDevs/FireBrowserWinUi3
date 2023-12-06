@@ -112,13 +112,13 @@
                             </Frame>
                         </StackPanel>
                         <Border BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}" Opacity="0.3" Margin="10,5,10,10" BorderThickness="1"/>
-                        <Button Tag="NewTab" Click="TabMenuClick"  Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch"	HorizontalContentAlignment="Left" Margin="0,0,0,0" IsEnabled="True">
+                        <Button x:Name="NewTab" Tag="NewTab" Click="TabMenuClick"  Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch"	HorizontalContentAlignment="Left" Margin="0,0,0,0" IsEnabled="True">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC6C;" FontSize="18"/>
                                 <TextBlock Margin="10,0,0,0" Text="New-Tab"/>
                             </StackPanel>
                         </Button>
-                        <Button Tag="NewWindow" Click="TabMenuClick" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Margin="0,0,0,0" IsEnabled="True">
+                        <Button x:Name="NewWindow" Tag="NewWindow" Click="TabMenuClick" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Margin="0,0,0,0" IsEnabled="True">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xE737;" FontSize="18"/>
                                 <TextBlock Margin="10,0,0,0" Text="New-Window"/>
