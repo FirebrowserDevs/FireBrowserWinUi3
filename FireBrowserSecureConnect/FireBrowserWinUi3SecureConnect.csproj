@@ -7,9 +7,9 @@
     <UseWinUI>true</UseWinUI>
     <Platforms>AnyCPU;x64</Platforms>
 	<UseRidGraph>true</UseRidGraph>
+	 <UseAOT>Enabled</UseAOT>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Controls\Two2FAFlyout.xaml" />
     <None Remove="Dialogs\AddDialog.xaml" />
   </ItemGroup>
 
@@ -27,12 +27,6 @@
 
   <ItemGroup>
     <Page Update="Dialogs\AddDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Controls\Two2FAFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

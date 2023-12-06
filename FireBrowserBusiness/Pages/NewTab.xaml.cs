@@ -83,14 +83,27 @@ public sealed partial class NewTab : Page
     {
         while (isNtp)
         {
+            await Task.Delay(100); // Introduce a delay before UI update
+
+            // Check if UI elements are disposed or still accessible
+            if (NtpTime == null || NtpDate == null)
+            {
+                break; // Exit the loop if UI elements are disposed
+            }
+
+            // Update UI only if the UI elements are available
             NtpTime.Visibility = NtpDate.Visibility = Visibility.Visible;
             NtpTime.Text = DateTime.Now.ToString("H:mm");
             NtpDate.Text = $"{DateTime.Today.DayOfWeek}, {DateTime.Today.ToString("MMMM d")}";
-            await Task.Delay(500);
         }
 
-        NtpTime.Visibility = NtpDate.Visibility = Visibility.Collapsed;
+        // Check UI elements again before modifying their visibility
+        if (NtpTime != null && NtpDate != null)
+        {
+            NtpTime.Visibility = NtpDate.Visibility = Visibility.Collapsed;
+        }
     }
+
 
 
     private void SetVisibilityBasedOnLightMode(bool isLightMode)

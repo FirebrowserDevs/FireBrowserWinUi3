@@ -7,6 +7,7 @@
     <UseWinUI>true</UseWinUI>
     <Platforms>AnyCPU;x64</Platforms>
 	<UseRidGraph>true</UseRidGraph>
+	 <UseAOT>Enabled</UseAOT>
   </PropertyGroup>
 
   <ItemGroup>

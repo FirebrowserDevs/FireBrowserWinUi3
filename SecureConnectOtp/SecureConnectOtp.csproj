@@ -6,6 +6,7 @@
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
 		<UseRidGraph>true</UseRidGraph>
+		 <UseAOT>Enabled</UseAOT>
 		<Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 

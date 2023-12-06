@@ -1,4 +1,5 @@
 using FireBrowserBusiness;
+using FireBrowserBusinessCore.Models;
 using FireBrowserMultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -60,7 +61,7 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
             return null;
         }
 
-        Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+        FireBrowserMultiCore.Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
         private void LoadUserDataAndSettings()
         {
             if (GetUser() is not { } currentUser)
@@ -106,6 +107,22 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
             {
                 MainWindow newWindow = new();
                 newWindow.Activate();
+            }
+        }
+
+        public static async void OpenNewWindow(Uri uri)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(uri);
+        }
+
+
+        private void Switch_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button switchButton && switchButton.DataContext is string clickedUserName)
+            {
+                OpenNewWindow(new Uri($"firebrowserwinuifireuser://{clickedUserName}"));
+                Shortcut ct = new();
+                ct.CreateShortcut(clickedUserName);
             }
         }
     }

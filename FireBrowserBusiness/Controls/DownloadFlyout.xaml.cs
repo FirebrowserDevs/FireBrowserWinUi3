@@ -13,10 +13,17 @@ public sealed partial class DownloadFlyout : Flyout
     public DownloadFlyout()
     {
         this.InitializeComponent();
+
         GetDownloadItems();
     }
 
-    private async void GetDownloadItems()
+    public void TriggerFlyoutUpdate()
+    {
+        DownloadItemsListView.Items.Clear();
+        GetDownloadItems();
+    }
+
+    public async void GetDownloadItems()
     {
         try
         {

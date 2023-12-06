@@ -104,7 +104,7 @@
                                                 <TextBlock Text="{Binding}" Grid.Column="1" VerticalAlignment="Center" Margin="5,0,5,0"/>
 
                                                 <!-- "Switch" button -->
-                                                <Button IsEnabled="False" Grid.Column="2" Margin="10" Style="{ThemeResource QuietButtonStyle}" Content="{firebrowser:FluentIcon Glyph=&#xE748;}"/>
+                                                <Button IsEnabled="True" Click="Button_Click_1" Grid.Column="2" Margin="10" Style="{ThemeResource QuietButtonStyle}" Content="{firebrowser:FluentIcon Glyph=&#xE748;}"/>
                                             </Grid>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>

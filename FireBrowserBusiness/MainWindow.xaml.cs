@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using FireBrowserBusiness.Controls;
 using FireBrowserBusiness.Pages;
 using FireBrowserBusinessCore.Helpers;
+using FireBrowserBusinessCore.Models;
 using FireBrowserDatabase;
 using FireBrowserFavorites;
 using FireBrowserMultiCore;
@@ -69,8 +70,8 @@ public sealed partial class MainWindow : Window
 
         ArgsPassed();
         TitleTop();
-        LoadUserDataAndSettings();
-        LoadUsernames();
+        LoadUserDataAndSettings(); // Load data and settings for the new user
+        LoadUserSettings();
         Init();
 
         appWindow.Closing += AppWindow_Closing;
@@ -113,37 +114,49 @@ public sealed partial class MainWindow : Window
         }
     }
 
-
     bool incog = false;
-    private void ArgsPassed()
+    private async void ArgsPassed()
     {
-        string urlArgument = AppArguments.UrlArgument;
-        string fireBrowserArgument = AppArguments.FireBrowserArgument;
-        string firebrowserincog = AppArguments.FireBrowserIncog;
-
-        if (!string.IsNullOrEmpty(urlArgument))
+        if (!string.IsNullOrEmpty(AppArguments.UrlArgument) &&
+            Uri.TryCreate(AppArguments.UrlArgument, UriKind.Absolute, out Uri uri))
         {
-            Tabs.TabItems.Add(CreateNewTab(typeof(WebContent), new Uri(urlArgument.ToString())));
+            Tabs.TabItems.Add(CreateNewTab(typeof(WebContent), uri));
+            return;
         }
-        else if (!string.IsNullOrEmpty(fireBrowserArgument))
+
+        if (!string.IsNullOrEmpty(AppArguments.FireBrowserArgument) ||
+            !string.IsNullOrEmpty(AppArguments.FireUser))
         {
             Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
+            return;
         }
-        else if (!string.IsNullOrEmpty(firebrowserincog))
+
+        if (!string.IsNullOrEmpty(AppArguments.FireBrowserPdf))
+        {
+            StorageFile file = await StorageFile.GetFileFromPathAsync(AppArguments.FireBrowserPdf);
+            var files = new List<IStorageItem> { file }.AsReadOnly();
+            if (files.Count > 0)
+            {
+                Tabs.TabItems.Add(CreateNewTab(typeof(WebContent), files[0]));
+            }
+            return;
+        }
+
+        if (!string.IsNullOrEmpty(AppArguments.FireBrowserIncog))
         {
             Tabs.TabItems.Add(CreateNewIncog(typeof(InPrivate)));
             Fav.IsEnabled = false;
             His.IsEnabled = false;
             History.IsEnabled = false;
             Down.IsEnabled = false;
+            DownBtn.IsEnabled = false;
             FavoritesButton.IsEnabled = false;
             WebContent.IsIncognitoModeEnabled = true;
             incog = true;
+            return;
         }
-        else if (string.IsNullOrEmpty(urlArgument))
-        {
-            Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
-        }
+
+        Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
     }
 
     private void LoadUsernames()
@@ -151,33 +164,30 @@ public sealed partial class MainWindow : Window
         List<string> usernames = AuthService.GetAllUsernames();
         string currentUsername = AuthService.CurrentUser?.Username;
 
-        foreach (string username in usernames)
+        foreach (string username in usernames.Where(username => username != currentUsername))
         {
-            // Exclude the current user's username
-            if (username != currentUsername)
-            {
-                UserListView.Items.Add(username);
-            }
+            UserListView.Items.Add(username);
         }
     }
+
+
     public void SmallUpdates()
     {
-        var source = TabWebView.CoreWebView2.Source.ToString();
+        string source = TabWebView.CoreWebView2.Source?.ToString() ?? string.Empty;
         UrlBox.Text = source;
         ViewModel.Securitytype = source;
 
-        if (source.Contains("https"))
-        {
-            ViewModel.SecurityIcon = "\uE72E";
-            ViewModel.SecurityIcontext = "Https Secured Website";
-            ViewModel.Securitytext = "This Page Is Secured By A Valid SSL Certificate, Trusted By Root Authorities";
-        }
-        else if (source.Contains("http"))
-        {
-            ViewModel.SecurityIcon = "\uE785";
-            ViewModel.SecurityIcontext = "Http UnSecured Website";
-            ViewModel.Securitytext = "This Page Is Unsecured By A Un-Valid SSL Certificate, Please Be Careful";
-        }
+        ViewModel.SecurityIcon = source.Contains("https") ? "\uE72E" :
+                                  source.Contains("http") ? "\uE785" : "";
+
+        ViewModel.SecurityIcontext = source.Contains("https") ? "Https Secured Website" :
+                                     source.Contains("http") ? "Http UnSecured Website" : "";
+
+        ViewModel.Securitytext = source.Contains("https")
+            ? "This Page Is Secured By A Valid SSL Certificate, Trusted By Root Authorities"
+            : source.Contains("http")
+                ? "This Page Is Unsecured By A Non-Valid SSL Certificate, Please Be Careful"
+                : "";
     }
 
 
@@ -200,14 +210,12 @@ public sealed partial class MainWindow : Window
 
         ViewModel = new ToolbarViewModel
         {
-            currentAddress = "",
+            CurrentAddress = "",
             SecurityIcon = "\uE946",
             SecurityIcontext = "FireBrowser Home Page",
             Securitytext = "This The Default Home Page Of FireBrowser Internal Pages Secure",
             Securitytype = "Link - FireBrowser://NewTab"
         };
-
-        buttons();
     }
 
     public static string launchurl { get; set; }
@@ -241,10 +249,18 @@ public sealed partial class MainWindow : Window
     }
 
 
-    Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+    private void LoadUserSettings()
+    {
+        LoadUsernames();
+        UpdateUIBasedOnSettings();
+    }
+
+
     private void LoadUserDataAndSettings()
     {
-        if (GetUser() is not { } currentUser)
+        FireBrowserMultiCore.User currentUser = AuthService.IsUserAuthenticated ? AuthService.CurrentUser : null;
+
+        if (currentUser == null)
         {
             UserName.Text = Prof.Text = "DefaultUser";
             return;
@@ -258,8 +274,12 @@ public sealed partial class MainWindow : Window
         UserName.Text = Prof.Text = AuthService.CurrentUser?.Username ?? "DefaultUser";
     }
 
-    public void buttons()
+
+
+    private void UpdateUIBasedOnSettings()
     {
+        Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+
         SetVisibility(AdBlock, userSettings.AdblockBtn != "0");
         SetVisibility(ReadBtn, userSettings.ReadButton != "0");
         SetVisibility(BtnTrans, userSettings.Translate != "0");
@@ -276,21 +296,6 @@ public sealed partial class MainWindow : Window
     {
         element.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
     }
-
-
-    private FireBrowserMultiCore.User GetUser()
-    {
-        // Check if the user is authenticated.
-        if (AuthService.IsUserAuthenticated)
-        {
-            // Return the authenticated user.
-            return AuthService.CurrentUser;
-        }
-
-        // If no user is authenticated, return null or handle as needed.
-        return null;
-    }
-
 
     private void TabView_AddTabButtonClick(TabView sender, object args)
     {
@@ -389,13 +394,9 @@ public sealed partial class MainWindow : Window
 
         int result = Windowing.GetDpiForMonitor(hMonitor, Windowing.Monitor_DPI_Type.MDT_Default_DPI, out uint dpiX, out _);
 
-        if (result != 0)
-        {
-            throw new Exception("Could not get DPI");
-        }
-
         return dpiX / 96.0; // Simplified calculation
     }
+
 
     private void Tabs_Loaded(object sender, RoutedEventArgs e)
     {
@@ -491,16 +492,16 @@ public sealed partial class MainWindow : Window
 
     public void NavigateToUrl(string uri)
     {
-        if (TabContent.Content is WebContent webContent)
-        {
-            webContent.WebViewElement.CoreWebView2.Navigate(uri.ToString());
-        }
-        else
+        if (TabContent.Content is not WebContent webContent)
         {
             launchurl ??= uri;
             TabContent.Navigate(typeof(WebContent), CreatePasser(uri));
+            return;
         }
+
+        webContent.WebViewElement.CoreWebView2.Navigate(uri.ToString());
     }
+
     private void UrlBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
         string input = UrlBox.Text.ToString();
@@ -517,17 +518,8 @@ public sealed partial class MainWindow : Window
                         SelectNewTab();
                         break;
                     case "firebrowser://modules":
-                        var window = (Application.Current as App)?.m_window as MainWindow;
-                        UI quickConfigurationDialog = new()
-                        {
-                            XamlRoot = window.Content.XamlRoot,
-                            Content = "Disabled Untill Fix",
-                            Title = "Disabled",
-                            PrimaryButtonText = "OK",
-                        };
-
-                        quickConfigurationDialog.ShowAsync();
-
+                        // Modify UI to show disabled message
+                        ShowDisabledDialog();
                         //Tabs.TabItems.Add(CreateNewTab(typeof(ModulesInstaller)));
                         //SelectNewTab();
                         break;
@@ -540,17 +532,15 @@ public sealed partial class MainWindow : Window
                         break;
                 }
             }
-            else if (inputtype == "url")
+            else if (inputtype is "url" or "urlNOProtocol")
             {
-                NavigateToUrl(input.Trim());
-            }
-            else if (inputtype == "urlNOProtocol")
-            {
-                NavigateToUrl("https://" + input.Trim());
+                string url = inputtype == "url" ? input.Trim() : "https://" + input.Trim();
+                NavigateToUrl(url);
             }
             else
             {
-                string searchurl = SearchUrl ?? "https://www.google.nl/search?q=";
+                Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+                string searchurl = SearchUrl ?? $"{userSettings.SearchUrl}";
                 string query = searchurl + input;
                 NavigateToUrl(query);
             }
@@ -560,6 +550,20 @@ public sealed partial class MainWindow : Window
             // Handle the exception, log it, or display an error message.
             Debug.WriteLine("Error during navigation: " + ex.Message);
         }
+    }
+
+    private void ShowDisabledDialog()
+    {
+        var window = (Application.Current as App)?.m_window as MainWindow;
+        UI quickConfigurationDialog = new()
+        {
+            XamlRoot = window.Content.XamlRoot,
+            Content = "Disabled Until Fixed",
+            Title = "Disabled",
+            PrimaryButtonText = "OK",
+        };
+
+        quickConfigurationDialog.ShowAsync();
     }
 
     #region cangochecks
@@ -851,42 +855,37 @@ public sealed partial class MainWindow : Window
                 "History.db"
             );
 
-            if (File.Exists(databasePath))
+            if (System.IO.File.Exists(databasePath))
             {
-                using (var connection = new SqliteConnection($"Data Source={databasePath};"))
+                using var connection = new SqliteConnection($"Data Source={databasePath};");
+                await connection.OpenAsync();
+
+                string sql = "SELECT url, title, visit_count, typed_count, hidden FROM urls ORDER BY id DESC";
+
+                using var command = new SqliteCommand(sql, connection);
+                using var reader = command.ExecuteReader();
+
+                browserHistory = new ObservableCollection<HistoryItem>();
+
+                while (reader.Read())
                 {
-                    await connection.OpenAsync();
-
-                    string sql = "SELECT url, title, visit_count, typed_count, hidden FROM urls ORDER BY id DESC";
-
-                    using (SqliteCommand command = new SqliteCommand(sql, connection))
+                    HistoryItem historyItem = new HistoryItem
                     {
-                        using (SqliteDataReader reader = command.ExecuteReader())
-                        {
-                            browserHistory = new ObservableCollection<HistoryItem>();
+                        Url = reader.GetString(0),
+                        Title = reader.IsDBNull(1) ? null : reader.GetString(1),
+                        VisitCount = reader.GetInt32(2),
+                        TypedCount = reader.GetInt32(3),
+                        Hidden = reader.GetInt32(4)
+                    };
 
-                            while (reader.Read())
-                            {
-                                HistoryItem historyItem = new HistoryItem
-                                {
-                                    Url = reader.GetString(0),
-                                    Title = reader.IsDBNull(1) ? null : reader.GetString(1),
-                                    VisitCount = reader.GetInt32(2),
-                                    TypedCount = reader.GetInt32(3),
-                                    Hidden = reader.GetInt32(4)
-                                };
+                    // Fetch the image source here
+                    historyItem.ImageSource = new BitmapImage(new Uri($"https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url={historyItem.Url}&size=32"));
 
-                                // Fetch the image source here
-                                historyItem.ImageSource = new BitmapImage(new Uri("https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=" + historyItem.Url + "&size=32"));
-
-                                browserHistory.Add(historyItem);
-                            }
-
-                            // Bind the browser history items to the ListView
-                            HistoryTemp.ItemsSource = browserHistory;
-                        }
-                    }
+                    browserHistory.Add(historyItem);
                 }
+
+                // Bind the browser history items to the ListView
+                HistoryTemp.ItemsSource = browserHistory;
             }
             else
             {
@@ -898,6 +897,7 @@ public sealed partial class MainWindow : Window
             Debug.WriteLine($"Error: {ex.Message}");
         }
     }
+
     #endregion
 
     public FireBrowserTabViewItem CreateNewIncog(Type page = null, object param = null, int index = -1)
@@ -1099,8 +1099,6 @@ public sealed partial class MainWindow : Window
     {
         Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowOptions options = new Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Placement = Microsoft.UI.Xaml.Controls.Primitives.FlyoutPlacementMode.Bottom };
         DownloadFlyout.ShowAt(DownBtn, options);
-
-
     }
 
     private void OpenHistoryMenuItem_Click(object sender, RoutedEventArgs e)
@@ -1184,5 +1182,15 @@ public sealed partial class MainWindow : Window
             }
         }
 
+    }
+
+    private void Button_Click_1(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button switchButton && switchButton.DataContext is string clickedUserName)
+        {
+            OpenNewWindow(new Uri($"firebrowseruser://{clickedUserName}"));
+            Shortcut ct = new();
+            ct.CreateShortcut(clickedUserName);
+        }
     }
 }

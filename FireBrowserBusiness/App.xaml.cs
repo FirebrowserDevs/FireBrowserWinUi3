@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -30,18 +31,10 @@ namespace FireBrowserBusiness
         {
             this.InitializeComponent();
 
-            string coreFolderPath = UserDataManager.CoreFolderPath;
-            string username = GetUsernameFromCoreFolderPath(coreFolderPath);
-
-            if (username != null)
-                AuthService.Authenticate(username);
-
             UrlHelperWinUi3.TLD.LoadKnownDomainsAsync();
 
             System.Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
         }
-
-
 
         public static string GetUsernameFromCoreFolderPath(string coreFolderPath)
         {
@@ -74,60 +67,80 @@ namespace FireBrowserBusiness
             return null;
         }
 
+        public void checknormal()
+        {
+            string coreFolderPath = UserDataManager.CoreFolderPath;
+            string username = GetUsernameFromCoreFolderPath(coreFolderPath);
 
-
-
-        public static string Args { get; set; }
-        /// <summary>
-        /// Invoked when the application is launched.
-        /// </summary>
-        /// <param name="args">Details about the launch request and process.</param>
-        /// 
-
+            if (username != null)
+                AuthService.Authenticate(username);
+        }
 
         protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-
             if (!Directory.Exists(UserDataManager.CoreFolderPath))
             {
-                // The "FireBrowserUserCore" folder does not exist, so proceed with  application's setup behavior.
+                // The "FireBrowserUserCore" folder does not exist, so proceed with application setup behavior.
                 m_window = new SetupWindow();
-                m_window.Activate();
             }
             else
             {
                 var evt = AppInstance.GetActivatedEventArgs();
                 ProtocolActivatedEventArgs protocolArgs = evt as ProtocolActivatedEventArgs;
 
-                string url = string.Empty; // Initialize url with an empty string
-
                 if (protocolArgs != null && protocolArgs.Kind == ActivationKind.Protocol)
                 {
-                    if (protocolArgs.Uri != null)
-                    {
-                        url = protocolArgs.Uri.ToString();
+                    string url = protocolArgs.Uri.ToString();
 
-                        if (url.StartsWith("http") || url.StartsWith("https"))
+                    if (url.StartsWith("http") || url.StartsWith("https"))
+                    {
+                        AppArguments.UrlArgument = url; // Standard web URL
+                        checknormal();
+                    }
+                    else if (url.StartsWith("firebrowserwinui://"))
+                    {
+                        AppArguments.FireBrowserArgument = url;
+                        checknormal();
+                    }
+                    else if (url.StartsWith("firebrowseruser://"))
+                    {
+                        AppArguments.FireUser = url;
+
+                        // Extract the username after 'firebrowserwinuifireuser://'
+                        string usernameSegment = url.Replace("firebrowseruser://", ""); // Remove the prefix
+                        string[] urlParts = usernameSegment.Split('/', StringSplitOptions.RemoveEmptyEntries);
+                        string username = urlParts.FirstOrDefault(); // Retrieve the first segment as the username
+
+                        // Authenticate the extracted username using your authentication service
+                        if (!string.IsNullOrEmpty(username))
                         {
-                            AppArguments.UrlArgument = url; // Standard web URL
+                            AuthService.Authenticate(username);
                         }
-                        else if (url.StartsWith("firebrowserwinui://"))
-                        {
-                            AppArguments.FireBrowserArgument = url; // Custom protocol for FireBrowser
-                        }
-                        else if (url.StartsWith("firebrowserincog://"))
-                        {
-                            AppArguments.FireBrowserIncog = url; // Custom protocol for FireBrowser
-                        }
+
+                        // No need to activate the window here
+                    }
+                    else if (url.StartsWith("firebrowserincog://"))
+                    {
+                        AppArguments.FireBrowserIncog = url;
+                        checknormal(); // Custom protocol for FireBrowser
+                    }
+                    else if (url.Contains(".pdf"))
+                    {
+                        AppArguments.FireBrowserPdf = url;
+                        checknormal();
                     }
                 }
+                else
+                {
+                    checknormal();
+                }
 
-
-
-                // The "FireBrowserUserCore" folder exists, so proceed with your application's normal behavior.
+                // Activate the window after evaluating the URL and handling respective cases
                 m_window = new MainWindow();
-                m_window.Activate();
             }
+
+            // Activate the window outside of conditional blocks
+            m_window.Activate();
         }
 
         public Window m_window;
