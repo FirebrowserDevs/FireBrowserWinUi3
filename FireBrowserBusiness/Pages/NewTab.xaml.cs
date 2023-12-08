@@ -1,6 +1,7 @@
 using FireBrowserCore.Models;
 using FireBrowserCore.ViewModel;
 using FireBrowserMultiCore;
+using FireBrowserWinUi3.Controls;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -51,6 +52,7 @@ public sealed partial class NewTab : Page
         string colorBackgroundSetting = userSettings.ColorBackground;
         string NtpColor = userSettings.NtpTextColor;
 
+        var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), NtpColor);
         // ViewModel setup
         ViewModel = new HomeViewModel
         {
@@ -60,6 +62,7 @@ public sealed partial class NewTab : Page
         NewColor.IsEnabled = backgroundSetting == "2";
         NewColor.Text = colorBackgroundSetting;
         NtpColorBox.Text = NtpColor;
+        NtpTime.Foreground = NtpDate.Foreground = new SolidColorBrush(color);
 
         GridSelect.SelectedValue = ViewModel.BackgroundType.ToString();
 
@@ -103,8 +106,6 @@ public sealed partial class NewTab : Page
         }
     }
 
-
-
     private void SetVisibilityBasedOnLightMode(bool isLightMode)
     {
         NtpGrid.Visibility = isLightMode ? Visibility.Collapsed : Visibility.Visible;
@@ -123,26 +124,25 @@ public sealed partial class NewTab : Page
                 userSettings.Background = "0";
                 ViewModel.BackgroundType = Settings.NewTabBackground.None;
                 NewColor.IsEnabled = false;
-
+                Download.Visibility = Visibility.Collapsed;
                 break;
             case "Featured":
                 userSettings.Background = "1";
                 ViewModel.BackgroundType = Settings.NewTabBackground.Featured;
                 NewColor.IsEnabled = false;
-
+                Download.Visibility = Visibility.Visible;
 
                 break;
             case "Custom":
                 userSettings.Background = "2";
                 ViewModel.BackgroundType = Settings.NewTabBackground.Costum;
                 NewColor.IsEnabled = true;
-
+                Download.Visibility = Visibility.Collapsed;
                 break;
             default:
                 // Handle the case when selection doesn't match any of the predefined options.
                 break;
         }
-
         // Save the modified settings back to the user's settings file
         UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
     }
@@ -197,7 +197,7 @@ public sealed partial class NewTab : Page
                         // Extract copyright information from the response
                         string copyright = images.images[0].copyright;
 
-
+                        string imageUrl = "https://bing.com" + images.images[0].url;
 
                         // Now, you can use the 'copyright' string on your page
                         return new ImageBrush()
@@ -205,8 +205,10 @@ public sealed partial class NewTab : Page
                             ImageSource = btpImg,
                             Stretch = Stretch.UniformToFill
                         };
+
+
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         return null;
                     }
@@ -219,11 +221,21 @@ public sealed partial class NewTab : Page
 
         }
 
-
         return new SolidColorBrush();
     }
 
 
+
+    private async void DownloadImage()
+    {
+        Guid gd = Guid.NewGuid();
+
+        ImageDownloader imageDownloader = new ImageDownloader(); // Create an instance of the ImageDownloader class
+
+        // Assuming this code is within a non-static method or instance
+        string imageName = $"{gd}.png"; // Set the image name
+        string savedImagePath = await imageDownloader.SaveGridAsImageAsync(GridImage, imageName);
+    }
 
     private void Type_Toggled(object sender, RoutedEventArgs e)
     {
@@ -246,7 +258,6 @@ public sealed partial class NewTab : Page
                 // Handle the case when there is no authenticated user.
             }
         }
-
     }
 
     private void Mode_Toggled(object sender, RoutedEventArgs e)
@@ -289,7 +300,6 @@ public sealed partial class NewTab : Page
         {
             // Handle the case when there is no authenticated user.
         }
-
     }
 
     private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
@@ -347,5 +357,10 @@ public sealed partial class NewTab : Page
         {
             // Handle the case when there is no authenticated user.
         }
+    }
+
+    private void Download_Click(object sender, RoutedEventArgs e)
+    {
+        DownloadImage();
     }
 }

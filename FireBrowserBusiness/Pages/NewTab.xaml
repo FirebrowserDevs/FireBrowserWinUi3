@@ -9,10 +9,9 @@
     mc:Ignorable="d"
     xmlns:firebrowser="using:FireBrowserBusiness.Controls"
     xmlns:dllimg="using:Assets"
-    xmlns:settings="using:CommunityToolkit.WinUI.Controls"
     NavigationCacheMode="Enabled"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Grid  x:Name="Grid" Background="{x:Bind local:NewTab.GetGridBackgroundAsync(ViewModel.BackgroundType, userSettings), Mode=OneWay}">
+    <Grid x:FieldModifier="public"  x:Name="GridMain" Background="{x:Bind local:NewTab.GetGridBackgroundAsync(ViewModel.BackgroundType, userSettings), Mode=OneWay}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
@@ -22,6 +21,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+        <Grid x:Name="GridImage" Background="{x:Bind local:NewTab.GetGridBackgroundAsync(ViewModel.BackgroundType, userSettings), Mode=OneWay}"/> 
         <Button x:Uid="NewTabEditButton"
              Style="{ThemeResource QuietButtonStyle}"
              Padding="6" Margin="0,31,64,0"
@@ -89,7 +89,17 @@
                         <TextBox IsEnabled="True" x:FieldModifier="Public" Margin="0,5,0,0" x:Name="NewColor" TextChanged="NewColor_TextChanged"/>
 
                         <TextBlock FontWeight="Bold" Text="Ntp Text Color"/>
-                        <TextBox x:Name="NtpColorBox" TextChanged="NtpColorBox_TextChanged" IsEnabled="False" x:FieldModifier="Public" Margin="0,5,0,0"  />
+                        <TextBox x:Name="NtpColorBox" TextChanged="NtpColorBox_TextChanged" x:FieldModifier="Public" Margin="0,5,0,0"  />
+
+                        <Button HorizontalAlignment="Left"  Content="{firebrowser:FluentIcon Glyph=&#xE78C;}" Style="{ThemeResource QuietButtonStyle}" x:Name="Download" Click="Download_Click" VerticalAlignment="Center" x:FieldModifier="Public" Margin="0,5,0,0" Width="Auto">
+                            <Button.Flyout>
+                                <Flyout Placement="Bottom">
+                                    <TextBlock TextWrapping="Wrap" TextLineBounds="Full" MaxLines="50" LineStackingStrategy="MaxHeight">
+                                          Download Bing Daily Image To Documents
+                                    </TextBlock>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
                     </StackPanel>
                 </Flyout>
             </Button.Flyout>
@@ -99,8 +109,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="NtpTime" Grid.Row="0" FontWeight="Medium" TextAlignment="Center" FontSize="68">Time</TextBlock>
-            <TextBlock x:Name="NtpDate" Grid.Row="1">Date</TextBlock>
+            <TextBlock x:Name="NtpTime" Grid.Row="0" FontWeight="Medium" TextAlignment="Center" FontSize="68"/>
+            <TextBlock x:Name="NtpDate" HorizontalAlignment="Center" Grid.Row="1"/>
         </Grid>
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" RowSpacing="4" x:Name="BigGrid">
             <Grid.RowDefinitions>

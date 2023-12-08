@@ -16,12 +16,12 @@
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <GenerateTestArtifacts>False</GenerateTestArtifacts>
     <AppxBundle>Never</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 	<UseRidGraph>true</UseRidGraph>
 	<GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
-	<PackageCertificateThumbprint>068F1734D59EE51056DB271A2149A6190BB75462</PackageCertificateThumbprint>
+	<PackageCertificateThumbprint>64814F1E4E033773E28817CC6A57B70F131EA1F4</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="FakesAssemblies\**" />

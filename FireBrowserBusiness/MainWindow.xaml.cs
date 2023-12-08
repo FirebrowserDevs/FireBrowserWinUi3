@@ -15,7 +15,6 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media.Imaging;
 using SQLitePCL;
 using System;
@@ -25,7 +24,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using UrlHelperWinUi3;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -38,29 +36,6 @@ using Windowing = FireBrowserBusinessCore.Helpers.Windowing;
 namespace FireBrowserBusiness;
 public sealed partial class MainWindow : Window
 {
-    public class StringOrIntTemplateSelector : DataTemplateSelector
-    {
-        public DataTemplate StringTemplate { get; set; }
-        public DataTemplate IntTemplate { get; set; }
-        public DataTemplate DefaultTemplate { get; set; }
-
-        protected override DataTemplate SelectTemplateCore(object item)
-        {
-            if (item is string)
-            {
-                return StringTemplate;
-            }
-            else if (item is int)
-            {
-                return IntTemplate;
-            }
-            else
-            {
-                return DefaultTemplate;
-            }
-        }
-    }
-
     private AppWindow appWindow;
     private AppWindowTitleBar titleBar;
 
@@ -85,7 +60,7 @@ public sealed partial class MainWindow : Window
         FireBrowserSecureConnect.TwoFactorsAuthentification.Init();
     }
 
-    private void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+    private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
     {
         if (Tabs.TabItems.Count > 1)
         {
@@ -108,7 +83,7 @@ public sealed partial class MainWindow : Window
                 // Your logic for the secondary button click event here
             };
 
-            quickConfigurationDialog.ShowAsync();
+            await quickConfigurationDialog.ShowAsync();
         }
         else
         {
@@ -162,11 +137,11 @@ public sealed partial class MainWindow : Window
             incog = true;
             return;
         }
-       
+
         Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
     }
 
-  
+
     private void InPrivateUser()
     {
         User newUser = new User
@@ -323,9 +298,17 @@ public sealed partial class MainWindow : Window
         element.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
     }
 
+    private int maxTabItems = 20;
     private void TabView_AddTabButtonClick(TabView sender, object args)
     {
-        sender.TabItems.Add(incog == true ? CreateNewIncog(typeof(InPrivate)) : CreateNewTab(typeof(NewTab)));
+        if (sender.TabItems.Count >= maxTabItems)
+        {
+
+        }
+        else
+        {
+            sender.TabItems.Add(incog == true ? CreateNewIncog(typeof(InPrivate)) : CreateNewTab(typeof(NewTab)));
+        }
     }
 
     #region toolbar
@@ -374,7 +357,7 @@ public sealed partial class MainWindow : Window
             Param = param,
         };
 
-        passer.ViewModel.CurrentAddress = null;
+        passer.ViewModel.CurrentAddress = "";
 
         double margin = ClassicToolbar.Height;
         var frame = new Frame
@@ -477,8 +460,8 @@ public sealed partial class MainWindow : Window
         appWindow.TitleBar?.SetDragRectangles(dragRects);
     }
 
-    private int maxTabItems = 20;
-    private async void Tabs_TabItemsChanged(TabView sender, IVectorChangedEventArgs args)
+
+    private void Tabs_TabItemsChanged(TabView sender, IVectorChangedEventArgs args)
     {
         if (sender.TabItems.Count == 0)
         {
@@ -578,7 +561,7 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    private void ShowDisabledDialog()
+    private async void ShowDisabledDialog()
     {
         var window = (Application.Current as App)?.m_window as MainWindow;
         UI quickConfigurationDialog = new()
@@ -589,7 +572,7 @@ public sealed partial class MainWindow : Window
             PrimaryButtonText = "OK",
         };
 
-        quickConfigurationDialog.ShowAsync();
+        await quickConfigurationDialog.ShowAsync();
     }
 
     #region cangochecks
@@ -790,7 +773,7 @@ public sealed partial class MainWindow : Window
     }
 
 
-    private async void TabMenuClick(object sender, RoutedEventArgs e)
+    private void TabMenuClick(object sender, RoutedEventArgs e)
     {
         switch ((sender as Button).Tag)
         {
@@ -836,7 +819,7 @@ public sealed partial class MainWindow : Window
                 break;
             case "InPrivate":
                 OpenNewWindow(new Uri("firebrowserincog://"));
-               
+
                 break;
             case "Favorites":
                 UrlBox.Text = "firebrowser://favorites";
@@ -1170,45 +1153,47 @@ public sealed partial class MainWindow : Window
 
     private async void SaveQrImage_Click(object sender, RoutedEventArgs e)
     {
-        QRCodeGenerator qrGenerator = new QRCodeGenerator();
-        QRCodeData qrCodeData = qrGenerator.CreateQrCode((TabContent.Content as WebContent).WebViewElement.CoreWebView2.Source.ToString(), QRCodeGenerator.ECCLevel.M);
-
-        // Create byte/raw bitmap qr code
-        BitmapByteQRCode qrCodeBmp = new BitmapByteQRCode(qrCodeData);
-        byte[] qrCodeImageBmp = qrCodeBmp.GetGraphic(20);
-
-        FileSavePicker savePicker = new Windows.Storage.Pickers.FileSavePicker();
-        var window = (Application.Current as App)?.m_window as MainWindow;
-        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
-        WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hWnd);
-
-        // Set options for your file picker
-        savePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-        savePicker.FileTypeChoices.Add("PNG files", new List<string>() { ".png" });
-        savePicker.DefaultFileExtension = ".png";
-        savePicker.SuggestedFileName = "QrImage";
-
-        // Open the picker for the user to pick a file
-        StorageFile file = await savePicker.PickSaveFileAsync();
-
-        if (file != null)
+        if (TabContent.Content is WebContent)
         {
-            try
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode((TabContent.Content as WebContent).WebViewElement.CoreWebView2.Source.ToString(), QRCodeGenerator.ECCLevel.M);
+
+            // Create byte/raw bitmap qr code
+            BitmapByteQRCode qrCodeBmp = new BitmapByteQRCode(qrCodeData);
+            byte[] qrCodeImageBmp = qrCodeBmp.GetGraphic(20);
+
+            FileSavePicker savePicker = new Windows.Storage.Pickers.FileSavePicker();
+            var window = (Application.Current as App)?.m_window as MainWindow;
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+            WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hWnd);
+
+            // Set options for your file picker
+            savePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            savePicker.FileTypeChoices.Add("PNG files", new List<string>() { ".png" });
+            savePicker.DefaultFileExtension = ".png";
+            savePicker.SuggestedFileName = "QrImage";
+
+            // Open the picker for the user to pick a file
+            StorageFile file = await savePicker.PickSaveFileAsync();
+
+            if (file != null)
             {
-                // Write the QR code image bytes to the StorageFile
-                using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                try
                 {
-                    await stream.WriteAsync(qrCodeImageBmp.AsBuffer());
+                    // Write the QR code image bytes to the StorageFile
+                    using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                    {
+                        await stream.WriteAsync(qrCodeImageBmp.AsBuffer());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle any exceptions
+                    // For example: display an error message
+                    Console.WriteLine("Failed to save the image: " + ex.Message);
                 }
             }
-            catch (Exception ex)
-            {
-                // Handle any exceptions
-                // For example: display an error message
-                Console.WriteLine("Failed to save the image: " + ex.Message);
-            }
         }
-
     }
 
     private void Button_Click_1(object sender, RoutedEventArgs e)

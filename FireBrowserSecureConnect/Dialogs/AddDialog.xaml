@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" 
-    CornerRadius="6">
+    CornerRadius="5">
 
     <ContentDialog.Resources>
         <ResourceDictionary>
@@ -20,30 +20,29 @@
         </ResourceDictionary>
     </ContentDialog.Resources>
 
-    <Grid Width="370">
+    <Grid Width="350">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBlock Margin="15" Grid.Row="0" Text="Add 2FA key" Style="{ThemeResource TitleTextBlockStyle}"/>
+        <TextBlock Margin="15" Grid.Row="0" Text="Add Key For 2Fa" Style="{ThemeResource TitleTextBlockStyle}"/>
 
         <Grid Padding="15,10" Grid.Row="1" Margin="0,0,0,0">
             <StackPanel >
-                <TextBox PlaceholderText="Secret" x:Name="secretBox"/>
-                <TextBox PlaceholderText="Name" x:Name="nameBox" Margin="0,10,0,0"/>
+                <TextBox PlaceholderText="Secret Code" x:Name="secretBox"/>
+                <TextBox PlaceholderText="Name Of Site" x:Name="nameBox" Margin="0,10,0,0"/>
                 <TextBlock IsTextSelectionEnabled="True" x:Name="codeBlock"/>
-
             </StackPanel>
         </Grid>
 
         <Grid Padding="10" BorderBrush="#33808080" BorderThickness="0,1,0,0" Grid.Row="2" Background="{StaticResource LayerOnAcrylicFillColorDefaultBrush}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Cancel" Padding="20,15" Margin="6,0" Click="Button_Click"/>
+                <Button Content="Close" Padding="20,15" Margin="6,0" Click="Button_Click"/>
                 <Button Content="Save" Padding="20,15" Style="{ThemeResource AccentButtonStyle}" Click="Button_Click_1"/>
             </StackPanel>
-            <HyperlinkButton Content="Copy generated code" Click="HyperlinkButton_Click"/>
+            <HyperlinkButton Content="Copy Code" Click="HyperlinkButton_Click"/>
         </Grid>
     </Grid>
 </ContentDialog>

@@ -26,6 +26,7 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
             ColorTB.Text = userSettings.ColorTool;
             ColorTV.Text = userSettings.ColorTV;
             Color.Text = userSettings.ColorBackground;
+            ColorNtp.Text = userSettings.NtpTextColor;
         }
 
         public void Check()
@@ -124,6 +125,22 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
             }
 
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+        }
+
+        private void ColorNtp_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (AuthService.CurrentUser != null)
+            {
+                // Update the "ColorBackground" setting for the current user
+                userSettings.NtpTextColor = ColorNtp.Text.ToString();
+
+                // Save the modified settings back to the user's settings file
+                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            }
+            else
+            {
+                // Handle the case when there is no authenticated user.
+            }
         }
     }
 }

@@ -47,6 +47,7 @@ namespace FireBrowserSecureConnect.ViewModels
             }
         }
 
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -77,6 +78,7 @@ namespace FireBrowserSecureConnect.ViewModels
             while (true)
             {
                 remainingSeconds = totp.RemainingSeconds();
+
                 ProgressValue = 100 * remainingSeconds / 30;
 
                 if (remainingSeconds == 30)
@@ -84,6 +86,8 @@ namespace FireBrowserSecureConnect.ViewModels
                     // Generate new code
                     Code = totp.ComputeTotp();
                 }
+
+
 
                 await Task.Delay(1000);
             }

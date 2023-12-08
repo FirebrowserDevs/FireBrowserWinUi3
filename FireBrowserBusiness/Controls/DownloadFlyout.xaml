@@ -33,7 +33,7 @@
             <Button VerticalAlignment="Center" HorizontalAlignment="Right"  Width="32" Height="32" Padding="0" Background="Transparent" BorderThickness="0">
                 <Button.Flyout>
                     <MenuFlyout Placement="Bottom">
-                        <MenuFlyoutItem x:Name="ShowDownloads" Tag="Show Download Folder" Click="ShowDownloads_Click" Text="Show Download Folder" >
+                        <MenuFlyoutItem x:Name="ShowDownloads" Tag="Show Download Folder" Click="ShowDownloads_Click" Text="Show Downloads Folder" >
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8B7;" />
                             </MenuFlyoutItem.Icon>
@@ -54,11 +54,7 @@
         <Grid Grid.Row="1" CornerRadius="3" Margin="6" 
               Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}" 
               BorderBrush="#33808080" BorderThickness="1">
-            <ListView Margin="0,3,0,0" SelectionMode="None" x:FieldModifier="public" IsItemClickEnabled="True" x:Name="DownloadItemsListView" >
-
-            </ListView>
-
+            <ListView Margin="0,3,0,0" SelectionMode="None" x:FieldModifier="public" IsItemClickEnabled="True" x:Name="DownloadItemsListView" />
         </Grid>
-
     </Grid>
 </Flyout>

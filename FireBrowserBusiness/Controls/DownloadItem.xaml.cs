@@ -35,7 +35,7 @@ public sealed partial class DownloadItem : ListViewItem
 
         progressRing.Visibility = Visibility.Collapsed;
         ResourceLoader resourceLoader = new();
-        subtitle.Text = resourceLoader.GetString("OpenFile");
+        subtitle.Text = resourceLoader.GetString("OpenDownload");
 
         SetIcon();
     }
@@ -77,7 +77,7 @@ public sealed partial class DownloadItem : ListViewItem
             case CoreWebView2DownloadState.Completed:
                 progressRing.Visibility = Visibility.Collapsed;
                 ResourceLoader resourceLoader = new();
-                subtitle.Text = resourceLoader.GetString("OpenFile");
+                subtitle.Text = resourceLoader.GetString("OpenDownload");
 
                 SetIcon();
                 break;
@@ -94,7 +94,6 @@ public sealed partial class DownloadItem : ListViewItem
         }
     }
 
-    private bool isDownloadCompleted = false;
     private void _downloadOperation_BytesReceivedChanged(CoreWebView2DownloadOperation sender, object args)
     {
         try
@@ -108,9 +107,7 @@ public sealed partial class DownloadItem : ListViewItem
                 progressRing.Visibility = Visibility.Collapsed;
                 SetIcon();
                 ResourceLoader resourceLoader = new();
-                subtitle.Text = resourceLoader.GetString("OpenFile");
-
-                isDownloadCompleted = true;
+                subtitle.Text = resourceLoader.GetString("OpenDownload");
 
                 // Simulate the download completion state
                 SimulateDownloadCompletion(sender);
@@ -154,6 +151,7 @@ public sealed partial class DownloadItem : ListViewItem
         catch (FileNotFoundException)
         { }
     }
+
 
 
     private Icon GetSmallFileIcon(string filePath)

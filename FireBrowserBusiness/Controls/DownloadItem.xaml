@@ -14,12 +14,12 @@
 
     <ListViewItem.Resources>
         <MenuFlyout x:Name="contextMenu">
-            <MenuFlyoutItem Text="Delete" IsEnabled="False" Click="MenuFlyoutItem_Click">
+            <MenuFlyoutItem Text="Delete Download" IsEnabled="False" Click="MenuFlyoutItem_Click">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE74D;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-            <MenuFlyoutItem Text="Show-InFolder" Click="MenuFlyoutItem_Click_1">
+            <MenuFlyoutItem Text="Show Folder" Click="MenuFlyoutItem_Click_1">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8B7;" />
                 </MenuFlyoutItem.Icon>
@@ -29,19 +29,18 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="19"/>
+            <ColumnDefinition Width="21"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Grid>
-            <Image x:Name="iconImage" Width="19" Margin="0,-2,0,0"/>
-            <ProgressRing Visibility="Visible" x:Name="progressRing" Value="100" IsIndeterminate="true" Width="19" Height="19"/>
+            <Image x:Name="iconImage" Width="21" Margin="0,-2,0,0"/>
+            <ProgressBar Visibility="Visible" x:Name="progressRing" Value="100" IsIndeterminate="true" Width="19" Height="19"/>
         </Grid>
 
         <StackPanel Margin="10,-3,0,0" VerticalAlignment="Center" Grid.Column="1">
             <TextBlock Grid.Column="1" Margin="0,0,0,0" ToolTipService.ToolTip="{Binding Description}" x:Name="fileName"/>
             <TextBlock Margin="0,-2,0,0" Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="12" x:Name="subtitle"/>
         </StackPanel>
-
     </Grid>
 </ListViewItem>

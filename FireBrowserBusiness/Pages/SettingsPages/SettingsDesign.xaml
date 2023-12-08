@@ -28,6 +28,12 @@
             </labs:SettingsCard.HeaderIcon>
             <TextBox x:Name="ColorTV" Text="#000000" TextChanged="ColorTV_TextChanged"/>
         </labs:SettingsCard>
+        <labs:SettingsCard Header="Color Ntp" Description="Change The Color Of The Ntp Text" Margin="0,1,0,0">
+            <labs:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE790;" />
+            </labs:SettingsCard.HeaderIcon>
+            <TextBox x:Name="ColorNtp" Text="#000000" TextChanged="ColorNtp_TextChanged"/>
+        </labs:SettingsCard>
         <labs:SettingsExpander Header="Tabs Layout Model" Description="Change Here Default Or Featured Or Custom" Margin="0,1,0,0">
             <labs:SettingsExpander.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC6C;" />
