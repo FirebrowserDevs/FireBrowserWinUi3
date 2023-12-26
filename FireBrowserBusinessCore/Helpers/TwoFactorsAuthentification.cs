@@ -6,18 +6,16 @@ using System.Threading.Tasks;
 
 namespace FireBrowserBusinessCore.Helpers
 {
-    public class TwoFactorsAuthentification
+    public static class TwoFactorsAuthentification
     {
-        public static ObservableCollection<TwoFactorAuthItem> Items { get; set; }
+        public static ObservableCollection<TwoFactorAuthItem> Items { get; private set; }
 
         public static void Save()
         {
             var options = new JsonSerializerOptions { WriteIndented = true };
             string jsonString = JsonSerializer.Serialize(Items, options);
 
-            // Encrypt the string
             byte[] encryptedJsonString = EncryptionHelpers.ProtectString(jsonString);
-
             File.WriteAllBytes(Data.TotpFilePath, encryptedJsonString);
         }
 
@@ -25,25 +23,21 @@ namespace FireBrowserBusinessCore.Helpers
         {
             if (File.Exists(Data.TotpFilePath))
             {
-                // Get encrypted json
                 byte[] encryptedJsonString = File.ReadAllBytes(Data.TotpFilePath);
-
-
-                // Decrypt the encrypted string
                 string jsonString = EncryptionHelpers.UnprotectToString(encryptedJsonString);
-                if (!string.IsNullOrEmpty(jsonString))
-                {
-                    Items = JsonSerializer.Deserialize<ObservableCollection<TwoFactorAuthItem>>(jsonString);
-                }
+
+                Items = !string.IsNullOrEmpty(jsonString)
+                    ? JsonSerializer.Deserialize<ObservableCollection<TwoFactorAuthItem>>(jsonString)
+                    : new ObservableCollection<TwoFactorAuthItem>();
             }
             else
             {
                 Items = new ObservableCollection<TwoFactorAuthItem>();
             }
 
-            await Task.Delay(0);
+            Items.CollectionChanged += (_, _) => Save();
+            await Task.CompletedTask;
 
-            Items.CollectionChanged += (s, a) => Save();
             return Items;
         }
     }

@@ -28,7 +28,7 @@ public static class UserDataManager
         var users = JsonSerializer.Deserialize<List<User>>(coreJson);
 
         // You would need to implement your logic to determine the current user's username.
-        string currentUsername = GetCurrentUserUsername(); // Replace with your actual logic.
+        string currentUsername = GetCurrentUserUsername(); 
 
         return new UserDataResult
         {
@@ -39,11 +39,6 @@ public static class UserDataManager
 
     public static string GetCurrentUserUsername()
     {
-        // Replace this example with your actual authentication logic.
-        // You may have an authentication service or user session where you can access the username.
-        // For simplicity, we'll assume you have a static property in an AuthService class.
-        // AuthService.CurrentUser represents the currently authenticated user with a Username property.
-
         if (AuthService.IsUserAuthenticated)
         {
             return AuthService.CurrentUser.Username;
@@ -52,7 +47,6 @@ public static class UserDataManager
         // Return a default or anonymous username if no user is authenticated.
         return "Guest";
     }
-
 
     public static void SaveUsers(List<User> users)
     {
@@ -66,6 +60,4 @@ public static class UserDataManager
 
         File.WriteAllText(coreFilePath, coreJson);
     }
-
-
 }

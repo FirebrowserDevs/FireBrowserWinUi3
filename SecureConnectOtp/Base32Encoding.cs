@@ -26,13 +26,13 @@ public class Base32Encoding
             if (bitsRemaining > 5)
             {
                 mask = cValue << (bitsRemaining - 5);
-                curByte = (byte)(curByte | mask);
+                curByte |= (byte)mask;
                 bitsRemaining -= 5;
             }
             else
             {
                 mask = cValue >> (5 - bitsRemaining);
-                curByte = (byte)(curByte | mask);
+                curByte |= (byte)mask;
                 returnArray[arrayIndex++] = curByte;
                 curByte = (byte)(cValue << (3 + bitsRemaining));
                 bitsRemaining += 3;
@@ -62,7 +62,7 @@ public class Base32Encoding
 
         foreach (byte b in input)
         {
-            nextChar = (byte)(nextChar | (b >> (8 - bitsRemaining)));
+            nextChar |= (byte)(b >> (8 - bitsRemaining));
             returnArray[arrayIndex++] = ValueToChar(nextChar);
 
             if (bitsRemaining < 4)
@@ -93,19 +93,17 @@ public class Base32Encoding
     {
         int value = c;
 
-        if (value < 91 && value > 64)
+        if ((value >= 'A' && value <= 'Z'))
         {
-            return value - 65;
+            return value - 'A';
         }
-
-        if (value < 56 && value > 49)
+        if ((value >= '2' && value <= '7'))
         {
-            return value - 24;
+            return value - ('2' - 26);
         }
-
-        if (value < 123 && value > 96)
+        if ((value >= 'a' && value <= 'z'))
         {
-            return value - 97;
+            return value - 'a';
         }
 
         throw new ArgumentException("Character is not a Base32 character.", nameof(c));
@@ -115,12 +113,11 @@ public class Base32Encoding
     {
         if (b < 26)
         {
-            return (char)(b + 65);
+            return (char)(b + 'A');
         }
-
         if (b < 32)
         {
-            return (char)(b + 24);
+            return (char)(b + ('2' - 26));
         }
 
         throw new ArgumentException("Byte is not a Base32 value.", nameof(b));

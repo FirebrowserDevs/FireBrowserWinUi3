@@ -13,10 +13,10 @@ namespace FireBrowserMultiCore
             string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username);
 
             Directory.CreateDirectory(userFolderPath);
-            Directory.CreateDirectory(Path.Combine(userFolderPath, "Settings"));
-            Directory.CreateDirectory(Path.Combine(userFolderPath, "Database"));
-            Directory.CreateDirectory(Path.Combine(userFolderPath, "Browser"));
-            Directory.CreateDirectory(Path.Combine(userFolderPath, "Modules"));
+            foreach (var folderName in new[] { "Settings", "Database", "Browser", "Modules" })
+            {
+                Directory.CreateDirectory(Path.Combine(userFolderPath, folderName));
+            }
 
             CreateSettingsFile(user.Username);
             CreateDatabaseFile(user.Username);
@@ -85,31 +85,27 @@ namespace FireBrowserMultiCore
             Directory.CreateDirectory(databaseFolderPath);
 
             // Create the SQLite database file
-            using (var connection = new SqliteConnection($"Data Source={databaseFilePath}"))
-            {
-                connection.Open();
+            using var connection = new SqliteConnection($"Data Source={databaseFilePath}");
+            connection.Open();
 
-                using (var transaction = connection.BeginTransaction())
-                {
-                    var createTableCommand = connection.CreateCommand();
-                    createTableCommand.CommandText = "CREATE TABLE IF NOT EXISTS urls (" +
-                        "id INTEGER PRIMARY KEY," +
-                        "last_visit_time TEXT," +
-                        "url TEXT," +
-                        "title TEXT," +
-                        "visit_count INTEGER NOT NULL DEFAULT 0," +
-                        "typed_count INTEGER NOT NULL DEFAULT 0," +
-                        "hidden INTEGER NOT NULL DEFAULT 0" +
-                        ")";
+            using var transaction = connection.BeginTransaction();
+            var createTableCommand = connection.CreateCommand();
+            createTableCommand.CommandText = @"CREATE TABLE IF NOT EXISTS urls (
+                                        id INTEGER PRIMARY KEY,
+                                        last_visit_time TEXT,
+                                        url TEXT,
+                                        title TEXT,
+                                        visit_count INTEGER NOT NULL DEFAULT 0,
+                                        typed_count INTEGER NOT NULL DEFAULT 0,
+                                        hidden INTEGER NOT NULL DEFAULT 0
+                                    )";
 
-                    createTableCommand.ExecuteNonQuery();
+            createTableCommand.ExecuteNonQuery();
+            transaction.Commit();
 
-                    transaction.Commit();
-                }
-
-                Console.WriteLine("SQLite database and 'urls' table created successfully.");
-            }
+            Console.WriteLine("SQLite database and 'urls' table created successfully.");
         }
+
 
         public static void CreateDatabaseFileDownloads(string username)
         {
@@ -121,30 +117,24 @@ namespace FireBrowserMultiCore
             Directory.CreateDirectory(databaseFolderPath);
 
             // Create the SQLite database file
-            using (var connection = new SqliteConnection($"Data Source={databaseFilePath}"))
-            {
-                connection.Open();
+            using var connection = new SqliteConnection($"Data Source={databaseFilePath}");
+            connection.Open();
 
-                using (var transaction = connection.BeginTransaction())
-                {
-                    using (var command = connection.CreateCommand())
-                    {
-                        command.CommandText = @"
-            CREATE TABLE IF NOT EXISTS downloads (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                guid VARCHAR(50) NOT NULL,
-                current_path TEXT NOT NULL,
-                end_time INTEGER NOT NULL,
-                start_time INTEGER NOT NULL
-            )";
+            using var transaction = connection.BeginTransaction();
+            using var command = connection.CreateCommand();
+            command.CommandText = @"
+        CREATE TABLE IF NOT EXISTS downloads (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            guid VARCHAR(50) NOT NULL,
+            current_path TEXT NOT NULL,
+            end_time INTEGER NOT NULL,
+            start_time INTEGER NOT NULL
+        )";
 
-                        command.ExecuteNonQuery();
-                    }
-                    transaction.Commit();
-                }
+            command.ExecuteNonQuery();
+            transaction.Commit();
 
-                Console.WriteLine("SQLite database and 'downloads' table created successfully.");
-            }
+            Console.WriteLine("SQLite database and 'downloads' table created successfully.");
         }
 
         public static Settings LoadUserSettings(User user)
@@ -154,7 +144,7 @@ namespace FireBrowserMultiCore
             if (File.Exists(settingsFilePath))
             {
                 string settingsJson = File.ReadAllText(settingsFilePath);
-                return System.Text.Json.JsonSerializer.Deserialize<Settings>(settingsJson);
+                return JsonSerializer.Deserialize<Settings>(settingsJson) ?? new Settings();
             }
 
             // Return default settings if the file doesn't exist.
@@ -176,6 +166,5 @@ namespace FireBrowserMultiCore
                 // You can handle the error or log it as needed.
             }
         }
-
     }
 }

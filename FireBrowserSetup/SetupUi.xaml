@@ -77,6 +77,7 @@ ColumnSpacing="5">
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC92;" />
                     </ctr:SettingsExpander.HeaderIcon>
                     <ctr:SettingsExpander.Items>
+                        
                         <ctr:SettingsCard Header="Ntp Time And Date" Description="Enable Ntp Time And Date HomePage" Margin="0,1,0,0">
                             <ctr:SettingsCard.HeaderIcon>
                                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC92;" />
@@ -89,6 +90,7 @@ ColumnSpacing="5">
                             </ctr:SettingsCard.HeaderIcon>
                             <TextBox x:Name="NtpColorText" Text="#000000" TextChanged="NtpColorText_TextChanged"/>
                         </ctr:SettingsCard>
+                        
                     </ctr:SettingsExpander.Items>
                 </ctr:SettingsExpander>
                 <ctr:SettingsExpander Header="Tabs Layout Model" Description="Change Here Tab Model" Margin="0,1,0,0">

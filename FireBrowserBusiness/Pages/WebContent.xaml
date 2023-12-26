@@ -62,7 +62,7 @@
     <Grid>
         <Grid x:Name="offlinePage" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}">
             <ScrollViewer>
-                <StackPanel Margin="0,30">
+                <StackPanel Margin="0,30" HorizontalAlignment="Center">
                     <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" TextAlignment="Center" FontWeight="SemiLight">Unable to reach the web</TextBlock>
                     <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" FontSize="16" TextAlignment="Center" FontWeight="SemiLight">FireBrowser-Uwp is unable to load the page you're requesting for.</TextBlock>
                     <StackPanel Orientation="Horizontal" Margin="0,12" HorizontalAlignment="Center">
@@ -73,33 +73,33 @@
                         <FontIcon Glyph="&#xF384;" FontSize="50" Opacity="0.3" />
                     </StackPanel>
                     <InfoBar x:Name="offlineInfoBar" Margin="20,24" MaxWidth="600" HorizontalAlignment="Stretch" IsOpen="True" Severity="Warning" HorizontalContentAlignment="Center"
-                    Title="It seems like your PC isn't connected to any network." IsClosable="False">
+            Title="It seems like your PC isn't connected to any network." IsClosable="False">
 
                     </InfoBar>
-                    <TextBlock Margin="20,8,20,8" MaxWidth="600" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="16">Let's get you back online!</TextBlock>
+                    <TextBlock Margin="20,8" MaxWidth="600" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="16">Let's get you back online!</TextBlock>
                     <TextBlock Margin="20,0" MaxWidth="600">To get connected, try these recommendations:</TextBlock>
 
-                    <Expander HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" Margin="20,28,20,4" MaxWidth="600">
+                    <Expander HorizontalContentAlignment="Left" Margin="20,28,20,4" MaxWidth="600">
                         <Expander.Header>
                             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15">Check your network cables, modem or routers</TextBlock>
                         </Expander.Header>
-                        <TextBlock TextAlignment="Left" TextWrapping="WrapWholeWords">
-             <Run>It's always a good idea to check your network connection sources to ensure they work as expected.</Run>
+                        <TextBlock TextWrapping="WrapWholeWords">
+                    <Run>It's always a good idea to check your network connection sources to ensure they work as expected.</Run>
                         </TextBlock>
                     </Expander>
 
-                    <Expander HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" Margin="20,4" MaxWidth="600">
+                    <Expander HorizontalContentAlignment="Left" Margin="20,4" MaxWidth="600">
                         <Expander.Header>
                             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15">Reconnect to your wireless network</TextBlock>
                         </Expander.Header>
-                        <TextBlock TextAlignment="Left" TextWrapping="WrapWholeWords">
-             <Run>Sometimes your wireless connection could behave unexpected. Reconnecting could be a major fix for this kind of issue.</Run>
+                        <TextBlock TextWrapping="WrapWholeWords">
+                    <Run>Sometimes your wireless connection could behave unexpectedly. Reconnecting could be a major fix for this kind of issue.</Run>
                         </TextBlock>
                     </Expander>
                 </StackPanel>
             </ScrollViewer>
-
         </Grid>
+
         <Grid x:Name="Grid" Loaded="Grid_Loaded">
             <ProgressBar x:Name="Progress" Canvas.ZIndex="1" IsIndeterminate="True" Height="3" VerticalAlignment="Top"/>
             <WebView2 

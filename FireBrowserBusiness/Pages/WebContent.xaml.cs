@@ -31,11 +31,9 @@ public sealed partial class WebContent : Page
         // Check if the user is authenticated.
         if (AuthService.IsUserAuthenticated)
         {
-            // Return the authenticated user.
             return AuthService.CurrentUser;
         }
 
-        // If no user is authenticated, return null or handle as needed.
         return null;
     }
     public WebContent()
@@ -222,16 +220,22 @@ public sealed partial class WebContent : Page
             Progress.IsIndeterminate = true;
             Progress.Visibility = Visibility.Visible;
 
-            CheckNetworkStatus();
+            if (param.TabView.SelectedItem == param.Tab)
+            {
+                CheckNetworkStatus();
+            }
         };
         s.CoreWebView2.NavigationCompleted += (sender, args) =>
         {
             Progress.IsIndeterminate = false;
             Progress.Visibility = Visibility.Collapsed;
 
-
-            AfterComplete();
-            CheckNetworkStatus();
+            if (param.TabView.SelectedItem == param.Tab)
+            {
+                CheckNetworkStatus();
+                AfterComplete();
+            }
+           
         };
         s.CoreWebView2.SourceChanged += (sender, args) =>
         {

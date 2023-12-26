@@ -13,71 +13,64 @@ namespace FireBrowserSecureConnect
         public static XamlRoot XamlRoot { get; set; }
 
         private static DispatcherTimer loginTimer;
-        private static bool userAuthenticifated = false;
+        private static bool userAuthenticated = false;
 
-        internal static ObservableCollection<TwoFactAuth> Items { get; set; } = new();
+        internal static ObservableCollection<TwoFactAuth> Items { get; } = new ObservableCollection<TwoFactAuth>();
+
         public static void Init()
         {
-            // Setup the login timer (will re-ask to enter Windows Hello password after 5min) 
             loginTimer = new DispatcherTimer();
             loginTimer.Interval = TimeSpan.FromMinutes(5);
-            loginTimer.Tick += (s, a) => userAuthenticifated = false;
+            loginTimer.Tick += (_, _) => userAuthenticated = false;
 
-            InitData();
+            InitializeData();
         }
 
-        private static async void InitData()
+        private static async void InitializeData()
         {
             var items = await FireBrowserBusinessCore.Helpers.TwoFactorsAuthentification.Load();
 
             foreach (var item in items)
             {
-                TwoFactAuth twoFactAuth = new(item);
+                var twoFactAuth = new TwoFactAuth(item);
                 twoFactAuth.Start();
-
                 Items.Add(twoFactAuth);
             }
         }
 
         public static async void ShowFlyout(FrameworkElement element)
         {
-            if (!userAuthenticifated)
-            {
+            HandleUserAuthentication();
+            ResetTimerAndShowFlyout(element);
+        }
 
-                userAuthenticifated = true;
+        private static void HandleUserAuthentication()
+        {
+            userAuthenticated = !userAuthenticated;
+        }
 
-                // Reset the timer
-                loginTimer.Stop();
-                loginTimer.Start();
-                Two2FAFlyout flyout = new();
-                flyout.ShowAt(element);
+        private static void ResetTimerAndShowFlyout(FrameworkElement element)
+        {
+            loginTimer.Stop();
+            loginTimer.Start();
 
-            }
-            else
-            {
-                // Reset the timer
-                loginTimer.Stop();
-                loginTimer.Start();
-                Two2FAFlyout flyout = new();
-                flyout.ShowAt(element);
-            }
+            var flyout = new Two2FAFlyout();
+            flyout.ShowAt(element);
         }
 
         public static void Add(string name, string secret)
         {
-            // Remplacement needed as the password property cannot be read
-            TwoFactorAuthItem item = new()
+            var item = new TwoFactorAuthItem
             {
                 Name = name,
                 Secret = Base32Encoding.ToBytes(secret)
             };
 
-            TwoFactAuth twoFactAuth = new(item);
+            var twoFactAuth = new TwoFactAuth(item);
             twoFactAuth.Start();
 
             Items.Add(twoFactAuth);
             FireBrowserBusinessCore.Helpers.TwoFactorsAuthentification.Items.Add(item);
         }
-
     }
 }

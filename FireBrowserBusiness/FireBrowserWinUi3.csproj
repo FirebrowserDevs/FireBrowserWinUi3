@@ -60,7 +60,6 @@
     <None Remove="Controls\FireBrowserTabViewContainer.xaml" />
     <None Remove="Controls\FireBrowserTabViewItem.xaml" />
     <None Remove="Pages\InPrivate.xaml" />
-    <None Remove="Pages\ModulesInstaller.xaml" />
     <None Remove="Pages\NewTab.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
     <None Remove="Pages\SettingsPages\SettingsAbout.xaml" />
@@ -181,9 +180,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Pages\TimeLinePages\MainTimeLine.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Pages\ModulesInstaller.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Pages\SettingsPages\SettingsAbout.xaml">

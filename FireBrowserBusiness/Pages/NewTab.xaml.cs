@@ -1,3 +1,4 @@
+using FireBrowserBusinessCore.ImagesBing;
 using FireBrowserCore.Models;
 using FireBrowserCore.ViewModel;
 using FireBrowserMultiCore;
@@ -10,6 +11,9 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using static FireBrowserBusiness.MainWindow;
@@ -160,6 +164,7 @@ public sealed partial class NewTab : Page
     }
 
 
+
     public static Brush GetGridBackgroundAsync(Settings.NewTabBackground backgroundType, FireBrowserMultiCore.Settings usersettings)
     {
         string colorString = usersettings.ColorBackground.ToString();
@@ -167,12 +172,9 @@ public sealed partial class NewTab : Page
         switch (backgroundType)
         {
             case Settings.NewTabBackground.None:
-
                 return new SolidColorBrush(Colors.Transparent);
 
-
             case Settings.NewTabBackground.Costum:
-
                 if (colorString == "#000000")
                 {
                     return new SolidColorBrush(Colors.Transparent);
@@ -184,40 +186,57 @@ public sealed partial class NewTab : Page
                 }
 
             case Settings.NewTabBackground.Featured:
-                var client = new HttpClient();
-
                 try
                 {
+                    var client = new HttpClient();
                     var request = client.GetStringAsync(new Uri("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1")).Result;
+
                     try
                     {
                         var images = System.Text.Json.JsonSerializer.Deserialize<ImageRoot>(request);
                         BitmapImage btpImg = new BitmapImage(new Uri("https://bing.com" + images.images[0].url));
 
-                        // Extract copyright information from the response
-                        string copyright = images.images[0].copyright;
-
-                        string imageUrl = "https://bing.com" + images.images[0].url;
-
-                        // Now, you can use the 'copyright' string on your page
+                        // Use the downloaded image as a background
                         return new ImageBrush()
                         {
                             ImageSource = btpImg,
                             Stretch = Stretch.UniformToFill
                         };
-
-
                     }
                     catch
                     {
-                        return null;
-                    }
 
+                        //not for vidoe
+                        string storedDbPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "StoredDb.json");
+                        string jsonData = File.ReadAllText(storedDbPath);
+
+                        List<StoredImages> storedImages = System.Text.Json.JsonSerializer.Deserialize<List<StoredImages>>(jsonData);
+
+                        StoredImages primaryImage = storedImages.FirstOrDefault(img => img.Primary);
+                        if (primaryImage != null && primaryImage.Primary)
+                        {
+                            string imagesFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "CacheImages");
+                            string imagePath = Path.Combine(imagesFolderPath, $"{primaryImage.Name}{primaryImage.Extension}");
+
+                            // Create a BitmapImage from the image path
+                            BitmapImage primaryBitmapImage = new BitmapImage(new Uri(imagePath));
+
+                            // Create an ImageBrush with the BitmapImage as the ImageSource
+                            ImageBrush imageBrush = new ImageBrush
+                            {
+                                ImageSource = primaryBitmapImage,
+                                Stretch = Stretch.UniformToFill
+                            };
+
+                            return imageBrush; // Return the created ImageBrush
+                        }
+                    }
                 }
                 catch
                 {
-                    return new SolidColorBrush(Colors.Transparent);
+                    // Handle exceptions or return a default value
                 }
+                break;
 
         }
 
@@ -226,15 +245,77 @@ public sealed partial class NewTab : Page
 
 
 
-    private async void DownloadImage()
+    private async Task DownloadImage()
     {
-        Guid gd = Guid.NewGuid();
+        try
+        {
+            FireBrowserMultiCore.User user = AuthService.CurrentUser;
+            string username = user.Username;
+            string databasePath = Path.Combine(
+                UserDataManager.CoreFolderPath,
+                UserDataManager.UsersFolderPath,
+                username,
+                "Database"
+            );
+            string imagesFolderPath = Path.Combine(databasePath, "CacheImages");
+            string storedDbPath = Path.Combine(databasePath, "StoredDb.json");
 
-        ImageDownloader imageDownloader = new ImageDownloader(); // Create an instance of the ImageDownloader class
+            // Create the "CacheImages" folder if it doesn't exist
+            if (!Directory.Exists(imagesFolderPath))
+            {
+                Directory.CreateDirectory(imagesFolderPath);
+                ShowInfoBar("CacheImages folder created.", InfoBarSeverity.Success);
+            }
 
-        // Assuming this code is within a non-static method or instance
-        string imageName = $"{gd}.png"; // Set the image name
-        string savedImagePath = await imageDownloader.SaveGridAsImageAsync(GridImage, imageName);
+            // Create the "StoredDb.json" file with default data if it doesn't exist
+            if (!File.Exists(storedDbPath))
+            {
+                // Create an empty JSON file if it doesn't exist
+                File.WriteAllText(storedDbPath, "[]");
+                ShowInfoBar("Created empty StoredDb.json.", InfoBarSeverity.Success);
+            }
+
+            // Download the image using the specified details
+            Guid gd = Guid.NewGuid();
+            string imageName = $"{gd}.png"; // Set the image name
+            ImageDownloader imageDownloader = new ImageDownloader();
+
+            // Save the image using custom folder path
+            string customFolderPath = imagesFolderPath; // Use the images folder path as custom folder path
+            string savedImagePath = await imageDownloader.SaveGridAsImageAsync(GridImage, imageName, customFolderPath);
+
+            // Append data to the JSON after saving the image
+            StoredImages newImageData = new StoredImages
+            {
+                Name = imageName,
+                Location = customFolderPath,
+                Extension = ".png",
+                Primary = false // Adjust this according to your logic
+            };
+
+            // Append new data to the JSON file
+            ImagesHelper hp = new ImagesHelper();
+            await hp.AppendToJsonAsync(storedDbPath, newImageData);
+
+            ShowInfoBar($"Downloaded Bing Image To {imagesFolderPath} Success!", InfoBarSeverity.Success);
+        }
+        catch (Exception ex)
+        {
+            ShowInfoBar($"Error downloading image: {ex.Message}", InfoBarSeverity.Error);
+            // Handle the exception as needed: log, display to the user, etc.
+        }
+    }
+
+
+    private async void ShowInfoBar(string message, InfoBarSeverity severity)
+    {
+        infoBar.IsOpen = true;
+        infoBar.Message = message;
+        infoBar.Severity = severity;
+
+        await Task.Delay(TimeSpan.FromSeconds(1.5)); 
+
+        infoBar.IsOpen = false; 
     }
 
     private void Type_Toggled(object sender, RoutedEventArgs e)

@@ -5,93 +5,39 @@ namespace SecureConnectOtp;
 
 public class InMemoryKey : IKeyProvider
 {
-    private readonly object _stateSync = new object();
     private readonly byte[] _keyData;
-    private readonly int _keyLength;
 
-    /// <summary>
-    /// Creates an instance of a key.
-    /// </summary>
-    /// <param name="key">Plaintext key data</param>
     public InMemoryKey(byte[] key)
     {
-        if (key == null)
-        {
-            throw new ArgumentNullException(nameof(key));
-        }
-        if (key.Length <= 0)
+        _keyData = key ?? throw new ArgumentNullException(nameof(key));
+        if (_keyData.Length <= 0)
         {
             throw new ArgumentException("The key must not be empty");
         }
-
-        _keyLength = key.Length;
-        var paddedKeyLength = (int)Math.Ceiling((decimal)key.Length / (decimal)16) * 16;
-        _keyData = new byte[paddedKeyLength];
-        Array.Copy(key, _keyData, key.Length);
     }
 
-    /// <summary>
-    /// Gets a copy of the plaintext key
-    /// </summary>
-    /// <remarks>
-    /// This is internal rather than protected so that the tests can use this method
-    /// </remarks>
-    /// <returns>Plaintext Key</returns>
-    internal byte[] GetCopyOfKey()
-    {
-        var plainKey = new byte[_keyLength];
-        lock (_stateSync)
-        {
-            Array.Copy(_keyData, plainKey, _keyLength);
-        }
-        return plainKey;
-    }
+    internal byte[] GetCopyOfKey() => (byte[])_keyData.Clone();
 
-    /// <summary>
-    /// Uses the key to get an HMAC using the specified algorithm and data
-    /// </summary>
-    /// <param name="mode">The HMAC algorithm to use</param>
-    /// <param name="data">The data used to compute the HMAC</param>
-    /// <returns>HMAC of the key and data</returns>
     public byte[] ComputeHmac(OtpHashMode mode, byte[] data)
     {
-        byte[] hashedValue;
-        using (var hmac = CreateHmacHash(mode))
+        using var hmac = CreateHmacHash(mode);
+        var key = GetCopyOfKey();
+        try
         {
-            var key = GetCopyOfKey();
-            try
-            {
-                hmac.Key = key;
-                hashedValue = hmac.ComputeHash(data);
-            }
-            finally
-            {
-                KeyUtilities.Destroy(key);
-            }
+            hmac.Key = key;
+            return hmac.ComputeHash(data);
         }
-
-        return hashedValue;
+        finally
+        {
+            KeyUtilities.Destroy(key);
+        }
     }
 
-    /// <summary>
-    /// Create an HMAC object for the specified algorithm
-    /// </summary>
-    private static HMAC CreateHmacHash(OtpHashMode otpHashMode)
-    {
-        HMAC hmacAlgorithm;
-        switch (otpHashMode)
+    private static HMAC CreateHmacHash(OtpHashMode otpHashMode) =>
+        otpHashMode switch
         {
-            case OtpHashMode.Sha256:
-                hmacAlgorithm = new HMACSHA256();
-                break;
-            case OtpHashMode.Sha512:
-                hmacAlgorithm = new HMACSHA512();
-                break;
-            // case OtpHashMode.Sha1:
-            default:
-                hmacAlgorithm = new HMACSHA1();
-                break;
-        }
-        return hmacAlgorithm;
-    }
+            OtpHashMode.Sha256 => new HMACSHA256(),
+            OtpHashMode.Sha512 => new HMACSHA512(),
+            _ => new HMACSHA1() // OtpHashMode.Sha1 or default
+        };
 }

@@ -2,14 +2,12 @@
 
 namespace SecureConnectOtp;
 
+#pragma warning disable CS8618
 public class VerificationWindow
 {
     private readonly int _previous;
     private readonly int _future;
 
-    /// <summary>
-    /// Create an instance of a verification window
-    /// </summary>
     /// <param name="previous">The number of previous frames to accept</param>
     /// <param name="future">The number of future frames to accept</param>
     public VerificationWindow(int previous = 0, int future = 0)
@@ -18,9 +16,6 @@ public class VerificationWindow
         _future = future;
     }
 
-    /// <summary>
-    /// Gets an enumerable of all the possible validation candidates
-    /// </summary>
     /// <param name="initialFrame">The initial frame to validate</param>
     /// <returns>Enumerable of all possible frames that need to be validated</returns>
     public IEnumerable<long> ValidationCandidates(long initialFrame)

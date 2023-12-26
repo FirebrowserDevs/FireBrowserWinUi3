@@ -1,71 +1,45 @@
 ﻿using FireBrowserMultiCore;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 
-namespace FireBrowserFavorites;
-public class FavManager
+namespace FireBrowserFavorites
 {
-    public void SaveFav(User user, string title, string url)
+    public class FavManager
     {
-        if (user != null)
+        public void SaveFav(User user, string title, string url)
         {
-            string username = user.Username; // Replace 'Username' with the actual property that holds the username in your User model.
-            string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username);
-            string databaseFolderPath = Path.Combine(userFolderPath, "Database");
-            string favoritesFilePath = Path.Combine(databaseFolderPath, "favorites.json");
+            if (user is null) return;
 
-            // Initialize the favorites list or load existing favorites
-            List<FavItem> favorites;
-            if (File.Exists(favoritesFilePath))
-            {
-                string json = File.ReadAllText(favoritesFilePath);
-                favorites = JsonConvert.DeserializeObject<List<FavItem>>(json);
-            }
-            else
-            {
-                favorites = new List<FavItem>();
-            }
+            string username = user.Username; // Replace 'Username' with the actual property that holds the username in your User model.
+            string favoritesFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Database", "favorites.json");
+
+            List<FavItem> favorites = File.Exists(favoritesFilePath)
+                ? JsonSerializer.Deserialize<List<FavItem>>(File.ReadAllText(favoritesFilePath)) ?? new List<FavItem>()
+                : new List<FavItem>();
 
             // Create a new favorite item and add it to the list
-            FavItem newFavorite = new FavItem { Title = title, Url = url };
+            FavItem newFavorite = new() { Title = title, Url = url };
             favorites.Add(newFavorite);
 
             // Serialize and save the updated favorites list to a JSON file
-            string jsonFavorites = JsonConvert.SerializeObject(favorites);
-            File.WriteAllText(favoritesFilePath, jsonFavorites);
+            File.WriteAllText(favoritesFilePath, JsonSerializer.Serialize(favorites));
         }
-        else
-        {
-            // Handle the case where there is no authenticated user (user is null)
-            // You may want to log an error or display a message to the user.
-        }
-    }
 
-
-    public List<FavItem> LoadFav(User user)
-    {
-        if (user == null)
+        public List<FavItem> LoadFav(User user)
         {
-            // Handle the case where there is no authenticated user (user is null)
-            // You may want to log an error or display a message to the user.
+            if (user is null) return new List<FavItem>();
+
+            string username = user.Username; // Replace 'Username' with the actual property that holds the username in your User model.
+            string favoritesFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Database", "favorites.json");
+
+            if (File.Exists(favoritesFilePath))
+            {
+                string json = File.ReadAllText(favoritesFilePath);
+                return JsonSerializer.Deserialize<List<FavItem>>(json) ?? new List<FavItem>();
+            }
+
             return new List<FavItem>();
         }
-
-        string username = user.Username; // Replace 'Username' with the actual property that holds the username in your User model.
-        string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username);
-        string databaseFolderPath = Path.Combine(userFolderPath, "Database");
-        string favoritesFilePath = Path.Combine(databaseFolderPath, "favorites.json");
-
-        List<FavItem> favorites = new List<FavItem>();
-
-        if (File.Exists(favoritesFilePath))
-        {
-            string json = File.ReadAllText(favoritesFilePath);
-            favorites = JsonConvert.DeserializeObject<List<FavItem>>(json);
-        }
-
-        return favorites;
     }
-
 }

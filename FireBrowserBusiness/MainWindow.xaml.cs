@@ -1,8 +1,8 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using FireBrowserBusiness.Controls;
 using FireBrowserBusiness.Pages;
 using FireBrowserBusinessCore.Helpers;
 using FireBrowserBusinessCore.Models;
+using FireBrowserBusinessCore.ViewModel;
 using FireBrowserDatabase;
 using FireBrowserFavorites;
 using FireBrowserMultiCore;
@@ -62,28 +62,28 @@ public sealed partial class MainWindow : Window
 
     private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
     {
-        if (Tabs.TabItems.Count > 1)
+        if (Tabs.TabItems?.Count > 1)
         {
             args.Cancel = true;
 
-            var window = (Application.Current as App)?.m_window as MainWindow;
-            ConfirmAppClose quickConfigurationDialog = new()
-            {
-                XamlRoot = window.Content.XamlRoot
-            };
+            var currentApp = Application.Current as App;
+            var mainWindow = currentApp?.m_window as MainWindow;
 
-            quickConfigurationDialog.PrimaryButtonClick += (sender, e) =>
+            if (mainWindow != null)
             {
-                // Close the application when the primary button is clicked
-                Application.Current.Exit();
-            };
+                ConfirmAppClose quickConfigurationDialog = new()
+                {
+                    XamlRoot = mainWindow.Content.XamlRoot
+                };
 
-            quickConfigurationDialog.SecondaryButtonClick += (sender, e) =>
-            {
-                // Your logic for the secondary button click event here
-            };
+                quickConfigurationDialog.PrimaryButtonClick += async (sender, e) =>
+                {
+                    // Close the application when the primary button is clicked
+                    Application.Current.Exit();
+                };
 
-            await quickConfigurationDialog.ShowAsync();
+                await quickConfigurationDialog.ShowAsync();
+            }
         }
         else
         {
@@ -171,7 +171,6 @@ public sealed partial class MainWindow : Window
         }
     }
 
-
     public void SmallUpdates()
     {
         string source = TabWebView.CoreWebView2.Source?.ToString() ?? string.Empty;
@@ -190,7 +189,6 @@ public sealed partial class MainWindow : Window
                 ? "This Page Is Unsecured By A Non-Valid SSL Certificate, Please Be Careful"
                 : "";
     }
-
 
     public void TitleTop()
     {
@@ -213,7 +211,7 @@ public sealed partial class MainWindow : Window
         {
             CurrentAddress = "",
             SecurityIcon = "\uE946",
-            SecurityIcontext = "FireBrowser Home Page",
+            SecurityIcontext = "FireBrowser NewTab",
             Securitytext = "This The Default Home Page Of FireBrowser Internal Pages Secure",
             Securitytype = "Link - FireBrowser://NewTab"
         };
@@ -249,13 +247,11 @@ public sealed partial class MainWindow : Window
         TextFull.Text = fullscreen ? "Exit FullScreen" : "Full Screen";
     }
 
-
     private void LoadUserSettings()
     {
         LoadUsernames();
         UpdateUIBasedOnSettings();
     }
-
 
     private void LoadUserDataAndSettings()
     {
@@ -275,12 +271,10 @@ public sealed partial class MainWindow : Window
         UserName.Text = Prof.Text = AuthService.CurrentUser?.Username ?? "DefaultUser";
     }
 
-
-
     private void UpdateUIBasedOnSettings()
     {
         Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
-
+    
         SetVisibility(AdBlock, userSettings.AdblockBtn != "0");
         SetVisibility(ReadBtn, userSettings.ReadButton != "0");
         SetVisibility(BtnTrans, userSettings.Translate != "0");
@@ -293,19 +287,15 @@ public sealed partial class MainWindow : Window
         SetVisibility(QrBtn, userSettings.QrCode != "0");
     }
 
-    private void SetVisibility(UIElement element, bool isVisible)
-    {
-        element.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+    private  void SetVisibility(UIElement element, bool isVisible)
+    {     
+       element.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;    
     }
 
     private int maxTabItems = 20;
     private void TabView_AddTabButtonClick(TabView sender, object args)
     {
-        if (sender.TabItems.Count >= maxTabItems)
-        {
-
-        }
-        else
+        if (sender.TabItems.Count < maxTabItems)
         {
             sender.TabItems.Add(incog == true ? CreateNewIncog(typeof(InPrivate)) : CreateNewTab(typeof(NewTab)));
         }
@@ -322,20 +312,6 @@ public sealed partial class MainWindow : Window
         public ToolbarViewModel ViewModel { get; set; }
     }
 
-    public partial class ToolbarViewModel : ObservableObject
-    {
-        [ObservableProperty] public bool canRefresh;
-        [ObservableProperty] public bool canGoBack;
-        [ObservableProperty] public bool canGoForward;
-        [ObservableProperty] public string currentAddress;
-        [ObservableProperty] public string securityIcon;
-        [ObservableProperty] public string securityIcontext;
-        [ObservableProperty] public string securitytext;
-        [ObservableProperty] public string securitytype;
-        [ObservableProperty] public Visibility homeButtonVisibility;
-    }
-
-
     #endregion
 
     public FireBrowserTabViewItem CreateNewTab(Type page = null, object param = null, int index = -1)
@@ -344,7 +320,7 @@ public sealed partial class MainWindow : Window
 
         var newItem = new FireBrowserTabViewItem
         {
-            Header = "FireBrowser HomePage",
+            Header = "NewTab",
             IconSource = new Microsoft.UI.Xaml.Controls.SymbolIconSource { Symbol = Symbol.Home },
             Style = (Style)Microsoft.UI.Xaml.Application.Current.Resources["FloatingTabViewItemStyle"]
         };
@@ -393,7 +369,6 @@ public sealed partial class MainWindow : Window
 
     public WebView2 TabWebView => (TabContent?.Content as WebContent)?.WebViewElement;
 
-
     private double GetScaleAdjustment()
     {
         IntPtr hWnd = WindowNative.GetWindowHandle(this);
@@ -401,11 +376,10 @@ public sealed partial class MainWindow : Window
         DisplayArea displayArea = DisplayArea.GetFromWindowId(wndId, DisplayAreaFallback.Primary);
         IntPtr hMonitor = Win32Interop.GetMonitorFromDisplayId(displayArea.DisplayId);
 
-        int result = Windowing.GetDpiForMonitor(hMonitor, Windowing.Monitor_DPI_Type.MDT_Default_DPI, out uint dpiX, out _);
+        _ = Windowing.GetDpiForMonitor(hMonitor, Windowing.Monitor_DPI_Type.MDT_Default_DPI, out uint dpiX, out _);
 
         return dpiX / 96.0; // Simplified calculation
     }
-
 
     private void Tabs_Loaded(object sender, RoutedEventArgs e)
     {
@@ -463,17 +437,13 @@ public sealed partial class MainWindow : Window
 
     private void Tabs_TabItemsChanged(TabView sender, IVectorChangedEventArgs args)
     {
-        if (sender.TabItems.Count == 0)
+        if (sender.TabItems.Count <= 0)
         {
             Application.Current.Exit();
         }
-        else if (sender.TabItems.Count == 1)
-        {
-            sender.CanReorderTabs = sender.CanDragTabs = false;
-        }
         else
         {
-            sender.CanReorderTabs = sender.CanDragTabs = true;
+            sender.CanReorderTabs = sender.CanDragTabs = sender.TabItems.Count > 1;
         }
     }
 
@@ -525,13 +495,7 @@ public sealed partial class MainWindow : Window
                     case "firebrowser://newtab":
                         Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
                         SelectNewTab();
-                        break;
-                    case "firebrowser://modules":
-                        // Modify UI to show disabled message
-                        ShowDisabledDialog();
-                        //Tabs.TabItems.Add(CreateNewTab(typeof(ModulesInstaller)));
-                        //SelectNewTab();
-                        break;
+                        break;                  
                     case "firebrowser://settings":
                         Tabs.TabItems.Add(CreateNewTab(typeof(SettingsPage)));
                         SelectNewTab();
@@ -661,7 +625,20 @@ public sealed partial class MainWindow : Window
                 {
                     TabContent.Navigate(typeof(NewTab));
                     UrlBox.Text = "";
+                    passer.Tab.Header = WebContent.IsIncognitoModeEnabled
+                          ? "Incognito"
+                          : "NewTab";
+
+                    passer.Tab.IconSource = new Microsoft.UI.Xaml.Controls.SymbolIconSource()
+                    {
+                        Symbol = WebContent.IsIncognitoModeEnabled
+                              ? Symbol.BlockContact
+                              : Symbol.Home
+                    };
+
+                    ViewModel.CurrentAddress = "";
                 }
+
                 break;
             case "Translate":
                 if (TabContent.Content is WebContent)
@@ -746,8 +723,6 @@ public sealed partial class MainWindow : Window
         }
     }
 
-
-
     #endregion
 
     private async void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -772,7 +747,6 @@ public sealed partial class MainWindow : Window
         await Windows.System.Launcher.LaunchUriAsync(uri);
     }
 
-
     private void TabMenuClick(object sender, RoutedEventArgs e)
     {
         switch ((sender as Button).Tag)
@@ -792,21 +766,13 @@ public sealed partial class MainWindow : Window
                 {
                     (TabContent.Content as WebContent).WebViewElement.CoreWebView2.OpenDevToolsWindow();
                 }
-
                 break;
             case "Settings":
                 Tabs.TabItems.Add(CreateNewTab(typeof(SettingsPage)));
                 SelectNewTab();
                 break;
             case "FullScreen":
-                if (isFull == true)
-                {
-                    GoFullScreen(false);
-                }
-                else
-                {
-                    GoFullScreen(true);
-                }
+                GoFullScreen(isFull != true);
                 break;
             case "Downloads":
                 UrlBox.Text = "firebrowser://downloads";
@@ -815,17 +781,14 @@ public sealed partial class MainWindow : Window
             case "History":
                 UrlBox.Text = "firebrowser://history";
                 TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine));
-
                 break;
             case "InPrivate":
                 OpenNewWindow(new Uri("firebrowserincog://"));
-
                 break;
             case "Favorites":
                 UrlBox.Text = "firebrowser://favorites";
                 TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine));
                 break;
-
         }
     }
 
@@ -914,7 +877,6 @@ public sealed partial class MainWindow : Window
     {
         if (index == -1) index = Tabs.TabItems.Count;
 
-
         UrlBox.Text = "";
 
         FireBrowserTabViewItem newItem = new()
@@ -933,8 +895,6 @@ public sealed partial class MainWindow : Window
 
         newItem.Style = (Style)Microsoft.UI.Xaml.Application.Current.Resources["FloatingTabViewItemStyle"];
 
-        // The content of the tab is often a frame that contains a page, though it could be any UIElement.
-
         Frame frame = new()
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -950,7 +910,6 @@ public sealed partial class MainWindow : Window
         {
             frame.Navigate(typeof(FireBrowserWinUi3.Pages.InPrivate), passer);
         }
-
 
         newItem.Content = frame;
         return newItem;
@@ -972,26 +931,21 @@ public sealed partial class MainWindow : Window
     private string selectedHistoryItem;
     private void Grid_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
     {
-        // Get the selected HistoryItem object
         HistoryItem historyItem = ((FrameworkElement)sender).DataContext as HistoryItem;
         selectedHistoryItem = historyItem.Url;
 
-        // Create a context menu flyout
         var flyout = new MenuFlyout();
 
-        // Add a menu item for "Delete This Record" button
         var deleteMenuItem = new MenuFlyoutItem
         {
             Text = "Delete This Record",
         };
 
-        // Set the icon for the menu item using the Unicode escape sequence
         deleteMenuItem.Icon = new FontIcon
         {
-            Glyph = "\uE74D" // Replace this with the Unicode escape sequence for your desired icon
+            Glyph = "\uE74D" 
         };
 
-        // Handle the click event directly within the right-tapped event handler
         deleteMenuItem.Click += (s, args) =>
         {
             FireBrowserMultiCore.User user = AuthService.CurrentUser;
@@ -1003,8 +957,7 @@ public sealed partial class MainWindow : Window
                 "Database",
                 "History.db"
             );
-            // Perform the deletion logic here
-            // Example: Delete data from the 'History' table where the 'Url' matches the selectedHistoryItem
+
             DbClearTableData db = new();
             db.DeleteTableData(databasePath, "urls", $"Url = '{selectedHistoryItem}'");
             if (HistoryTemp.ItemsSource is ObservableCollection<HistoryItem> historyItems)
@@ -1015,12 +968,10 @@ public sealed partial class MainWindow : Window
                     historyItems.Remove(itemToRemove);
                 }
             }
-            // After deletion, you may want to update the UI or any other actions
         };
 
         flyout.Items.Add(deleteMenuItem);
 
-        // Show the context menu flyout
         flyout.ShowAt((FrameworkElement)sender, e.GetPosition((FrameworkElement)sender));
     }
 
@@ -1067,7 +1018,6 @@ public sealed partial class MainWindow : Window
         ListView listView = sender as ListView;
         if (listView.ItemsSource != null)
         {
-            // Get selected item
             FavItem item = (FavItem)listView.SelectedItem;
             string launchurlfav = item.Url;
             if (TabContent.Content is WebContent)
@@ -1089,7 +1039,6 @@ public sealed partial class MainWindow : Window
         ListView listView = sender as ListView;
         if (listView.ItemsSource != null)
         {
-            // Get selected item
             HistoryItem item = (HistoryItem)listView.SelectedItem;
             string launchurlfav = item.Url;
             if (TabContent.Content is WebContent)
@@ -1125,17 +1074,10 @@ public sealed partial class MainWindow : Window
 
     private void MainUser_Click(object sender, RoutedEventArgs e)
     {
-        if (UserFrame.Visibility == Visibility.Visible)
-        {
-            UserFrame.Visibility = Visibility.Collapsed;
-        }
-        else
-        {
-            UserFrame.Visibility = Visibility.Visible;
-        }
+        UserFrame.Visibility = UserFrame?.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e)
+    private void MoreTool_Click(object sender, RoutedEventArgs e)
     {
         UserFrame.Visibility = Visibility.Collapsed;
     }
@@ -1150,7 +1092,6 @@ public sealed partial class MainWindow : Window
         FireBrowserBusinessCore.Helpers.FlyoutLoad.ShowFlyout(Secure);
     }
 
-
     private async void SaveQrImage_Click(object sender, RoutedEventArgs e)
     {
         if (TabContent.Content is WebContent)
@@ -1158,7 +1099,6 @@ public sealed partial class MainWindow : Window
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode((TabContent.Content as WebContent).WebViewElement.CoreWebView2.Source.ToString(), QRCodeGenerator.ECCLevel.M);
 
-            // Create byte/raw bitmap qr code
             BitmapByteQRCode qrCodeBmp = new BitmapByteQRCode(qrCodeData);
             byte[] qrCodeImageBmp = qrCodeBmp.GetGraphic(20);
 
@@ -1167,20 +1107,17 @@ public sealed partial class MainWindow : Window
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
             WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hWnd);
 
-            // Set options for your file picker
             savePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
             savePicker.FileTypeChoices.Add("PNG files", new List<string>() { ".png" });
             savePicker.DefaultFileExtension = ".png";
             savePicker.SuggestedFileName = "QrImage";
 
-            // Open the picker for the user to pick a file
             StorageFile file = await savePicker.PickSaveFileAsync();
 
             if (file != null)
             {
                 try
                 {
-                    // Write the QR code image bytes to the StorageFile
                     using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
                     {
                         await stream.WriteAsync(qrCodeImageBmp.AsBuffer());
@@ -1188,15 +1125,13 @@ public sealed partial class MainWindow : Window
                 }
                 catch (Exception ex)
                 {
-                    // Handle any exceptions
-                    // For example: display an error message
                     Console.WriteLine("Failed to save the image: " + ex.Message);
                 }
             }
         }
     }
 
-    private void Button_Click_1(object sender, RoutedEventArgs e)
+    private void SwitchName_Click(object sender, RoutedEventArgs e)
     {
         if (sender is Button switchButton && switchButton.DataContext is string clickedUserName)
         {
@@ -1205,5 +1140,4 @@ public sealed partial class MainWindow : Window
             ct.CreateShortcut(clickedUserName);
         }
     }
-
 }

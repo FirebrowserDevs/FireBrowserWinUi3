@@ -12,21 +12,15 @@ namespace FireBrowserWinUi3.Controls;
 
 public class ImageDownloader
 {
-    public async Task<string> GetDownloadsFolderPath()
-    {
-        StorageFolder downloadsFolder = KnownFolders.DocumentsLibrary;
-        return downloadsFolder.Path;
-    }
-
-    public async Task<string> SaveGridAsImageAsync(Grid gridToSave, string imageName)
+    public async Task<string> SaveGridAsImageAsync(Grid gridToSave, string imageName, string customFolderPath)
     {
         try
         {
             RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap();
             await renderTargetBitmap.RenderAsync(gridToSave);
 
-            StorageFolder downloadsFolder = KnownFolders.DocumentsLibrary;
-            StorageFile imageFile = await downloadsFolder.CreateFileAsync(imageName, CreationCollisionOption.GenerateUniqueName);
+            StorageFolder customFolder = await StorageFolder.GetFolderFromPathAsync(customFolderPath);
+            StorageFile imageFile = await customFolder.CreateFileAsync(imageName, CreationCollisionOption.GenerateUniqueName);
 
             using (IRandomAccessStream fileStream = await imageFile.OpenAsync(FileAccessMode.ReadWrite))
             {
@@ -48,4 +42,5 @@ public class ImageDownloader
 
         return null;
     }
+
 }

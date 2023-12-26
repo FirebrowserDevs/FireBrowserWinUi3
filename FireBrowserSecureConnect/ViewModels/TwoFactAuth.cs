@@ -1,5 +1,6 @@
 ﻿using FireBrowserBusinessCore.Models;
 using SecureConnectOtp;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -10,11 +11,27 @@ namespace FireBrowserSecureConnect.ViewModels
     {
         private string code = "000000";
         private int progressValue = 100;
-
         private int remainingSeconds;
-        public string Name { get; set; }
 
+        public string Name { get; set; }
         public TwoFactorAuthItem Data { get; set; }
+
+        public string Code
+        {
+            get => code;
+            set => SetAndNotify(ref code, value);
+        }
+
+        public int ProgressValue
+        {
+            get => progressValue;
+            set => SetAndNotify(ref progressValue, value);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "") =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public TwoFactAuth(TwoFactorAuthItem data)
         {
@@ -22,74 +39,44 @@ namespace FireBrowserSecureConnect.ViewModels
             Name = data.Name;
         }
 
-        public string Code
-        {
-            get { return code; }
-            set
-            {
-                if (value != code)
-                {
-                    code = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-        public int ProgressValue
-        {
-            get { return progressValue; }
-            set
-            {
-                if (value != progressValue)
-                {
-                    progressValue = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-
-        private Totp totp;
         public void Start()
         {
-            totp = new(Data.Secret, Data.Step, (OtpHashMode)Data.OtpHashMode, Data.Size);
+            totp = new Totp(Data.Secret, Data.Step, (OtpHashMode)Data.OtpHashMode, Data.Size);
             Refresh();
-
         }
+
+        private Totp totp;
 
         private async void Refresh()
         {
-            // Calibrate the timer
-            int sec = totp.RemainingSeconds();
-            while (totp.RemainingSeconds() == sec)
-            {
-                await Task.Delay(10);
-            }
-
-            Code = totp.ComputeTotp();
+            await Task.Delay(10); // Initial delay before starting the loop
 
             while (true)
             {
-                remainingSeconds = totp.RemainingSeconds();
+                int remainingSec = totp.RemainingSeconds();
 
-                ProgressValue = 100 * remainingSeconds / 30;
+                if (remainingSec != remainingSeconds)
+                {
+                    Code = totp.ComputeTotp();
+                    remainingSeconds = remainingSec;
+                    ProgressValue = 100 * remainingSeconds / 30;
+                }
 
                 if (remainingSeconds == 30)
                 {
-                    // Generate new code
                     Code = totp.ComputeTotp();
                 }
 
-
-
                 await Task.Delay(1000);
+            }
+        }
+
+        private void SetAndNotify<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+        {
+            if (!EqualityComparer<T>.Default.Equals(field, value))
+            {
+                field = value;
+                NotifyPropertyChanged(propertyName);
             }
         }
     }

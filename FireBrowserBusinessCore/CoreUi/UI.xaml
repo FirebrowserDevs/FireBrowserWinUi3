@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Title="Module Load Failed"
+    PrimaryButtonText="OK"
     CornerRadius="10"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 </ContentDialog>

@@ -1,18 +1,21 @@
 ﻿using Microsoft.Data.Sqlite;
 
-namespace FireBrowserDatabase;
-
-public class DbClearTableData
+namespace FireBrowserDatabase
 {
-    public void DeleteTableData(string databasePath, string tablename, string where)
+    public class DbClearTableData
     {
-        using (SqliteConnection m_dbConnection = new SqliteConnection($"Data Source={databasePath};"))
+        public void DeleteTableData(string databasePath, string tablename, string where)
         {
+            if (string.IsNullOrEmpty(databasePath) || string.IsNullOrEmpty(tablename))
+                return;
+
+            using var m_dbConnection = new SqliteConnection($"Data Source={databasePath};");
             m_dbConnection.Open();
-            var wheret = "";
-            if (!string.IsNullOrEmpty(where)) wheret = $" where {where}";
-            SqliteCommand selectCommand = new SqliteCommand($"delete from {tablename}{wheret}", m_dbConnection);
-            SqliteDataReader query = selectCommand.ExecuteReader();
+
+            string wheret = string.IsNullOrEmpty(where) ? string.Empty : $" where {where}";
+            using var command = new SqliteCommand($"delete from {tablename}{wheret}", m_dbConnection);
+            command.ExecuteNonQuery();
+
             m_dbConnection.Close();
         }
     }

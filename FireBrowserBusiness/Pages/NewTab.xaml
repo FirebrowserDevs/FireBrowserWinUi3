@@ -11,7 +11,7 @@
     xmlns:dllimg="using:Assets"
     NavigationCacheMode="Enabled"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Grid x:FieldModifier="public"  x:Name="GridMain" Background="{x:Bind local:NewTab.GetGridBackgroundAsync(ViewModel.BackgroundType, userSettings), Mode=OneWay}">
+    <Grid x:FieldModifier="Public"  x:Name="GridMain" Background="{x:Bind local:NewTab.GetGridBackgroundAsync(ViewModel.BackgroundType, userSettings), Mode=OneWay}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
@@ -21,7 +21,12 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid x:Name="GridImage" Background="{x:Bind local:NewTab.GetGridBackgroundAsync(ViewModel.BackgroundType, userSettings), Mode=OneWay}"/> 
+        <Grid x:Name="GridImage" Background="{x:Bind local:NewTab.GetGridBackgroundAsync(ViewModel.BackgroundType, userSettings), Mode=OneWay}"/>
+        <InfoBar
+            Title="Bing Images"
+            x:Name="infoBar"
+            IsClosable="False"
+            Width="500"/>
         <Button x:Uid="NewTabEditButton"
              Style="{ThemeResource QuietButtonStyle}"
              Padding="6" Margin="0,31,64,0"
@@ -44,6 +49,7 @@
                 </Flyout>
             </Button.Flyout>
         </Button>
+       
         <Button x:Uid="NewTabSettingsButton"
              Style="{ThemeResource QuietButtonStyle}"
              Padding="6" Margin="0,31,32,0"

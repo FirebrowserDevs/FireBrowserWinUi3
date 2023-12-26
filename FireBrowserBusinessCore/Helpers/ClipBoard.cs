@@ -6,12 +6,9 @@ namespace FireBrowserBusinessCore.Helpers
     {
         public static void WriteStringToClipboard(string text)
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                text = "";
-            }
+            text ??= string.Empty; // Simplified null check using the null-coalescing assignment
 
-            var dataPackage = new DataPackage
+            var dataPackage = new DataPackage()
             {
                 RequestedOperation = DataPackageOperation.Copy
             };

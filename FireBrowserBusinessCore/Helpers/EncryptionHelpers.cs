@@ -14,7 +14,6 @@ namespace FireBrowserBusinessCore.Helpers
         {
             try
             {
-                // Check the calling application's name
                 string callingAppName = GetCallingAppName();
                 if (IsAllowedApp(callingAppName))
                 {
@@ -23,8 +22,7 @@ namespace FireBrowserBusinessCore.Helpers
                 }
                 else
                 {
-                    // Access denied for unauthorized applications
-                    throw new UnauthorizedAccessException("Access denied for the calling application.");
+                    throw new UnauthorizedAccessException($"Access denied for the calling application '{callingAppName}'.");
                 }
             }
             catch (CryptographicException)
@@ -38,16 +36,14 @@ namespace FireBrowserBusinessCore.Helpers
             }
         }
 
-        // Method to retrieve the calling application's name
         private static string GetCallingAppName()
         {
             return Process.GetCurrentProcess().ProcessName;
         }
 
-        // Method to check if the calling application is allowed
         private static bool IsAllowedApp(string appName)
         {
-            return appName == "FireBrowserWinUi3" || appName == "FireVault";
+            return appName == nameof(FireBrowserWinUi3) || appName == ("FireVault");
         }
 
         public static string UnprotectToString(byte[] data)
@@ -62,8 +58,7 @@ namespace FireBrowserBusinessCore.Helpers
                 }
                 else
                 {
-                    // Access denied for unauthorized applications
-                    throw new UnauthorizedAccessException("Access denied for the calling application.");
+                    throw new UnauthorizedAccessException($"Access denied for the calling application '{callingAppName}'.");
                 }
             }
             catch (CryptographicException)

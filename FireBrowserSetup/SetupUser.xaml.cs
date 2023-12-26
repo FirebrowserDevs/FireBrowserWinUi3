@@ -30,35 +30,6 @@ namespace FireBrowserSetup
             Frame.Navigate(typeof(SetupUi));
         }
 
-        public static Settings LoadUserSettings(string username)
-        {
-            string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username);
-            string settingsFolderPath = Path.Combine(userFolderPath, "Settings");
-            string settingsFilePath = Path.Combine(settingsFolderPath, "settings.json");
-
-            try
-            {
-                if (File.Exists(settingsFilePath))
-                {
-                    // Read the JSON content from settings.json
-                    string jsonContent = File.ReadAllText(settingsFilePath);
-
-                    // Deserialize the JSON content into the UserSettings object
-                    var userSettings = JsonSerializer.Deserialize<Settings>(jsonContent);
-
-                    return userSettings;
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions that may occur during file reading or deserialization
-                Console.WriteLine("Error reading settings.json: " + ex.Message);
-            }
-
-            // Return a default UserSettings object or handle the error as needed
-            return new Settings();
-        }
-
         private async Task CreateUserOnStartup()
         {
             // Create a new user object with a unique username.

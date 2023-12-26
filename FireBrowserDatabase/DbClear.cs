@@ -1,24 +1,23 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.Threading.Tasks;
 
-namespace FireBrowserDatabase;
-public class DbClear
+namespace FireBrowserDatabase
 {
-    public static async Task ClearTable(string databasePath, string tableName)
+    public class DbClear
     {
-        await Task.Run(() =>
+        public static async Task ClearTable(string databasePath, string tableName)
         {
-            using (var connection = new SqliteConnection($"Data Source={databasePath}"))
-            {
-                connection.Open();
-                // Create a command that deletes all rows from the specified table
-                var command = new SqliteCommand($"DELETE FROM {tableName}", connection);
+            if (string.IsNullOrEmpty(databasePath) || string.IsNullOrEmpty(tableName))
+                return;
 
-                // Execute the command to clear the table
-                command.ExecuteNonQuery();
+            await using var connection = new SqliteConnection($"Data Source={databasePath}");
+            await connection.OpenAsync();
 
-                connection.Close();
-            }
-        });
+            var command = connection.CreateCommand();
+            command.CommandText = $"DELETE FROM {tableName}";
+            await command.ExecuteNonQueryAsync();
+
+            await connection.CloseAsync();
+        }
     }
 }

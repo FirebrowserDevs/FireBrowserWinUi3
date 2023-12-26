@@ -86,7 +86,7 @@ public class Blocker
         {
             // Test if the <body/> element exist in the page
             string html = await sender.ExecuteScriptAsync("document.documentElement.outerHTML;");
-            if (!html.Contains("body>"))
+            if (!html.Contains("<body/>"))
             {
                 _retryWithoutBlocker = true;
                 _webView.Reload();
