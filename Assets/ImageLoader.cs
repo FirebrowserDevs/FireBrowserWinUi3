@@ -29,4 +29,25 @@ public class ImageLoader : MarkupExtension
 
         return bitmapImage;
     }
+
+
+    //alternive for setup and combined icon's
+    public BitmapImage LoadImage(string imageName)
+    {
+        if (string.IsNullOrEmpty(imageName))
+        {
+            return null;
+        }
+
+        if (ImageCache.TryGetValue(imageName, out var cachedImage))
+        {
+            return cachedImage;
+        }
+
+        var uri = new Uri($"ms-appx:///Assets//Assets/{imageName}");
+        var bitmapImage = new BitmapImage(uri);
+        ImageCache[imageName] = bitmapImage;
+
+        return bitmapImage;
+    }
 }

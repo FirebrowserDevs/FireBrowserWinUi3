@@ -28,7 +28,7 @@ public static class UserDataManager
         var users = JsonSerializer.Deserialize<List<User>>(coreJson);
 
         // You would need to implement your logic to determine the current user's username.
-        string currentUsername = GetCurrentUserUsername(); 
+        string currentUsername = GetCurrentUserUsername();
 
         return new UserDataResult
         {

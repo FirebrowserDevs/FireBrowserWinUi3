@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:firebrowser="using:FireBrowserBusiness.Controls"
-    xmlns:dllimg="using:Assets">
+    xmlns:dllimg="using:Assets"
+    xmlns:person="using:FireBrowserBusinessCore.Helpers">
     <Window.SystemBackdrop>
         <MicaBackdrop Kind="BaseAlt" />
     </Window.SystemBackdrop>
@@ -23,7 +24,7 @@
                     <StackPanel Name="menuheader">
                         <Button IsEnabled="True" x:Name="MainUser" Click="MainUser_Click"  HorizontalAlignment="Stretch"  HorizontalContentAlignment="Left" BorderBrush="Transparent" Background="Transparent" Margin="0,0,0,10">
                             <StackPanel Orientation="Horizontal">
-                                <PersonPicture ProfilePicture="{dllimg:ImageLoader ImageName=clippy.png}" Width="45"/>
+                                <PersonPicture ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}" Width="45"/>
                                 <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
                                     <TextBlock x:Name="UserName" Text="{Binding Username}" Style="{ThemeResource SubtitleTextBlockStyle}"  FontSize="15"/>
                                     <TextBlock Text="Local Account" FontSize="12"/>
@@ -275,13 +276,13 @@
                Loaded="Tabs_Loaded"
                AddTabButtonClick="TabView_AddTabButtonClick">
             <firebrowser:FireBrowserTabViewContainer.TabStripHeader>
-                <PersonPicture ProfilePicture="{dllimg:ImageLoader ImageName=clippy.png}"  x:Name="Profile"  Width="32" Height="32"  Margin="5,0,0,0">
+                <PersonPicture ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}"  x:Name="Profile"  Width="32" Height="32"  Margin="5,0,0,0">
                     <PersonPicture.ContextFlyout>
                         <Flyout Placement="BottomEdgeAlignedLeft" AreOpenCloseAnimationsEnabled="True">
                             <Button IsEnabled="True" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" BorderBrush="Transparent" Background="Transparent" Margin="0,0,0,10">
                                 <StackPanel Height="85">
                                     <StackPanel Orientation="Horizontal">
-                                        <PersonPicture ProfilePicture="{dllimg:ImageLoader ImageName=clippy.png}" Width="45"/>
+                                        <PersonPicture ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}" Width="45"/>
                                         <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
                                             <TextBlock x:Name="Prof" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" Text="{Binding Username}"/>
                                             <TextBlock Text="Local User"  FontSize="12"/>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FireBrowserBusinessCore.ImagesBing
 {
     public class ImagesHelper
-    {     
+    {
         public async Task AppendToJsonAsync(string storedDbPath, StoredImages imageData)
         {
             try

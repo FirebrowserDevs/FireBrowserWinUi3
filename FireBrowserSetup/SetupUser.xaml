@@ -67,7 +67,24 @@
                     <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="FireBrowser User Setup" 
                         TextWrapping="Wrap"/>
 
-                    <TextBox x:Name="UserName" PlaceholderText="Username Here" Margin="0,20,0,0"/>
+                    <Button IsEnabled="True" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" BorderBrush="Transparent" Background="Transparent" Margin="0,0,0,10">
+                        <StackPanel Orientation="Horizontal">
+                            <PersonPicture x:Name="Pimg" ProfilePicture="{asset:ImageLoader ImageName=clippy.png}" Width="45"/>
+                            <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                                <TextBlock x:Name="UsrBox" Text="{Binding Username}" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15"/>
+                                <TextBlock Text="Local Account" FontSize="12"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Button>
+                    <ComboBox x:Name="ProfileImage" SelectionChanged="ProfileImage_SelectionChanged"  SelectedItem="clippy" Width="300">
+                        <x:String>clippy</x:String>
+                        <x:String>sunflower</x:String>
+                        <x:String>butterfly</x:String>
+                        <x:String>present</x:String>
+                        <x:String>crayon</x:String>
+                    </ComboBox>
+
+                    <TextBox MaxLength="25" x:Name="UserName" TextChanged="UserName_TextChanged" PlaceholderText="Username Here" Margin="0,5,0,0"/>
 
                     <Button
                  Margin="0,20,0,0"

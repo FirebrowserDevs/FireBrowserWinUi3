@@ -313,9 +313,9 @@ public sealed partial class NewTab : Page
         infoBar.Message = message;
         infoBar.Severity = severity;
 
-        await Task.Delay(TimeSpan.FromSeconds(1.5)); 
+        await Task.Delay(TimeSpan.FromSeconds(1.5));
 
-        infoBar.IsOpen = false; 
+        infoBar.IsOpen = false;
     }
 
     private void Type_Toggled(object sender, RoutedEventArgs e)

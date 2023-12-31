@@ -274,7 +274,7 @@ public sealed partial class MainWindow : Window
     private void UpdateUIBasedOnSettings()
     {
         Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
-    
+
         SetVisibility(AdBlock, userSettings.AdblockBtn != "0");
         SetVisibility(ReadBtn, userSettings.ReadButton != "0");
         SetVisibility(BtnTrans, userSettings.Translate != "0");
@@ -287,9 +287,9 @@ public sealed partial class MainWindow : Window
         SetVisibility(QrBtn, userSettings.QrCode != "0");
     }
 
-    private  void SetVisibility(UIElement element, bool isVisible)
-    {     
-       element.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;    
+    private void SetVisibility(UIElement element, bool isVisible)
+    {
+        element.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private int maxTabItems = 20;
@@ -495,7 +495,7 @@ public sealed partial class MainWindow : Window
                     case "firebrowser://newtab":
                         Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
                         SelectNewTab();
-                        break;                  
+                        break;
                     case "firebrowser://settings":
                         Tabs.TabItems.Add(CreateNewTab(typeof(SettingsPage)));
                         SelectNewTab();
@@ -943,7 +943,7 @@ public sealed partial class MainWindow : Window
 
         deleteMenuItem.Icon = new FontIcon
         {
-            Glyph = "\uE74D" 
+            Glyph = "\uE74D"
         };
 
         deleteMenuItem.Click += (s, args) =>

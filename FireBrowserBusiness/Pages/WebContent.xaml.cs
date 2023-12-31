@@ -1,7 +1,6 @@
 using CommunityToolkit.WinUI.Helpers;
 using FireBrowserBusiness;
 using FireBrowserBusinessCore.Helpers;
-using FireBrowserDatabase;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3Core.CoreUi;
@@ -235,7 +234,7 @@ public sealed partial class WebContent : Page
                 CheckNetworkStatus();
                 AfterComplete();
             }
-           
+
         };
         s.CoreWebView2.SourceChanged += (sender, args) =>
         {
