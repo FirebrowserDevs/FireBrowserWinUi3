@@ -10,17 +10,10 @@ namespace FireBrowserBusinessCore.Models
 
         public static async Task Init()
         {
-
             string currentUsername = AuthService.CurrentUser.Username;
-
             string username = currentUsername;
-            string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username);
-            string databaseFolderPath = Path.Combine(userFolderPath, "Database");
-
-
-            string path = databaseFolderPath;
-
-            TotpFilePath = Path.Combine(path, "2FA.json");
+            string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Database");
+            TotpFilePath = Path.Combine(userFolderPath, "2FA.json");
         }
     }
 }

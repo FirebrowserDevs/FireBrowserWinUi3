@@ -9,21 +9,17 @@ namespace FireBrowserBusinessCore.Helpers
 {
     public class ProfileImage : MarkupExtension
     {
-        private static readonly Dictionary<string, BitmapImage> ImageCache = new Dictionary<string, BitmapImage>();
+        private static readonly Dictionary<string, BitmapImage> ImageCache = new();
 
         public string ImageName { get; set; }
 
         protected override object ProvideValue()
         {
             if (string.IsNullOrEmpty(ImageName))
-            {
                 return null;
-            }
 
             if (ImageCache.TryGetValue(ImageName, out var cachedImage))
-            {
                 return cachedImage;
-            }
 
             string destinationFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username);
             string imagePath = Path.Combine(destinationFolderPath, ImageName);
@@ -39,9 +35,7 @@ namespace FireBrowserBusinessCore.Helpers
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading image: {ex.Message}");
-                // You can return a placeholder image or null here as needed.
-                // For example:
-                return null;
+                return null; // Return a placeholder image or null as needed.
             }
         }
     }

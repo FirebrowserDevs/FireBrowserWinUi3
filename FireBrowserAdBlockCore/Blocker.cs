@@ -82,18 +82,13 @@ public class Blocker
 
     private async void CoreWebView2_NavigationCompleted(CoreWebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
     {
-        if (!_retryWithoutBlocker)
+        string html = await sender.ExecuteScriptAsync("document.documentElement.outerHTML;");
+        if (!_retryWithoutBlocker && !html.Contains("<body/>"))
         {
-            // Test if the <body/> element exist in the page
-            string html = await sender.ExecuteScriptAsync("document.documentElement.outerHTML;");
-            if (!html.Contains("<body/>"))
-            {
-                _retryWithoutBlocker = true;
-                _webView.Reload();
-            }
+            _retryWithoutBlocker = true;
+            _webView.Reload();
         }
-        else _retryWithoutBlocker = false;
-
+        _retryWithoutBlocker = false;
     }
 
 

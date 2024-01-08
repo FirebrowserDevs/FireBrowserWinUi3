@@ -3,9 +3,6 @@
     x:Class="FireBrowserWinUi3.Pages.WebContent"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
     xmlns:firebrowser="using:FireBrowserBusiness.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
@@ -60,28 +57,26 @@
         </CommandBarFlyout>
     </Page.Resources>
     <Grid>
-        <Grid x:Name="offlinePage" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}">
+        <Grid x:Name="offlinePage" Visibility="Collapsed" Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}">
             <ScrollViewer>
                 <StackPanel Margin="0,30" HorizontalAlignment="Center">
-                    <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" TextAlignment="Center" FontWeight="SemiLight">Unable to reach the web</TextBlock>
-                    <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" FontSize="16" TextAlignment="Center" FontWeight="SemiLight">FireBrowser-Uwp is unable to load the page you're requesting for.</TextBlock>
+                    <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" TextAlignment="Center" FontWeight="SemiLight" Text="Unable to reach the web"/>
+                    <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}" FontSize="16" TextAlignment="Center" FontWeight="SemiLight" Text="FireBrowser-Uwp is unable to load the page you're requesting for."/>
                     <StackPanel Orientation="Horizontal" Margin="0,12" HorizontalAlignment="Center">
                         <FontIcon Glyph="&#xE7F8;" FontSize="50"/>
                         <ProgressBar x:Name="pcToNet" Width="100" Margin="10" Value="100" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}"/>
-                        <FontIcon x:Name="netIcon" Glyph="&#xEC3F;" FontSize="50" Opacity="1" />
-                        <ProgressBar x:Name="netToWeb" Width="100" Margin="10" Value="100" Background="Red"  Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}"/>
-                        <FontIcon Glyph="&#xF384;" FontSize="50" Opacity="0.3" />
+                        <FontIcon x:Name="netIcon" Glyph="&#xEC3F;" FontSize="50" Opacity="1"/>
+                        <ProgressBar x:Name="netToWeb" Width="100" Margin="10" Value="100" Background="Red" Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}"/>
+                        <FontIcon Glyph="&#xF384;" FontSize="50" Opacity="0.3"/>
                     </StackPanel>
                     <InfoBar x:Name="offlineInfoBar" Margin="20,24" MaxWidth="600" HorizontalAlignment="Stretch" IsOpen="True" Severity="Warning" HorizontalContentAlignment="Center"
-            Title="It seems like your PC isn't connected to any network." IsClosable="False">
-
-                    </InfoBar>
-                    <TextBlock Margin="20,8" MaxWidth="600" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="16">Let's get you back online!</TextBlock>
-                    <TextBlock Margin="20,0" MaxWidth="600">To get connected, try these recommendations:</TextBlock>
+                     Title="It seems like your PC isn't connected to any network." IsClosable="False"/>
+                    <TextBlock Margin="20,8" MaxWidth="600" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="16" Text="Let's get you back online!"/>
+                    <TextBlock Margin="20,0" MaxWidth="600" TextWrapping="WrapWholeWords">To get connected, try these recommendations:</TextBlock>
 
                     <Expander HorizontalContentAlignment="Left" Margin="20,28,20,4" MaxWidth="600">
                         <Expander.Header>
-                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15">Check your network cables, modem or routers</TextBlock>
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" Text="Check your network cables, modem or routers"/>
                         </Expander.Header>
                         <TextBlock TextWrapping="WrapWholeWords">
                     <Run>It's always a good idea to check your network connection sources to ensure they work as expected.</Run>
@@ -90,7 +85,7 @@
 
                     <Expander HorizontalContentAlignment="Left" Margin="20,4" MaxWidth="600">
                         <Expander.Header>
-                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15">Reconnect to your wireless network</TextBlock>
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" Text="Reconnect to your wireless network"/>
                         </Expander.Header>
                         <TextBlock TextWrapping="WrapWholeWords">
                     <Run>Sometimes your wireless connection could behave unexpectedly. Reconnecting could be a major fix for this kind of issue.</Run>
@@ -103,16 +98,15 @@
         <Grid x:Name="Grid" Loaded="Grid_Loaded">
             <ProgressBar x:Name="Progress" Canvas.ZIndex="1" IsIndeterminate="True" Height="3" VerticalAlignment="Top"/>
             <WebView2 
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch"
-         Margin="0,0,0,0"
-                MinWidth="100"
-                MinHeight="100"
-              Canvas.ZIndex="2"
-         x:Name="WebViewElement"
-         x:FieldModifier="public"      
-         AllowDrop="True"
-         />
+        HorizontalAlignment="Stretch" 
+        VerticalAlignment="Stretch"
+        Margin="0"
+        MinWidth="100"
+        MinHeight="100"
+        Canvas.ZIndex="2"
+        x:Name="WebViewElement"
+        x:FieldModifier="public"
+        AllowDrop="True"/>
         </Grid>
     </Grid>
 </Page>

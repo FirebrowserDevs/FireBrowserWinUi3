@@ -13,10 +13,8 @@ public class TLD
     {
         try
         {
-            FireTxtReader rd = new FireTxtReader();
-            var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(
-                 new Uri($"ms-appx:////public_domains.txt"));
-            KnownDomains = await rd.ReadTextFile(file);
+            var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:////public_domains.txt"));
+            KnownDomains = await new FireTxtReader().ReadTextFile(file);
         }
         catch (FileNotFoundException ex)
         {
@@ -30,10 +28,5 @@ public class TLD
         }
     }
 
-    public static string GetTLDfromURL(string url)
-    {
-        int pos = url.LastIndexOf(".") + 1;
-        string tld = url.Substring(pos, url.Length - pos);
-        return tld;
-    }
+    public static string GetTLDfromURL(string url) => url[(url.LastIndexOf(".") + 1)..];
 }

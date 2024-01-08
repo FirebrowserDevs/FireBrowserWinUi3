@@ -34,7 +34,7 @@
 
         <Grid>
             <Image x:Name="iconImage" Width="21" Margin="0,-2,0,0"/>
-            <ProgressBar Visibility="Visible" x:Name="progressRing" Value="100" IsIndeterminate="true" Width="19" Height="19"/>
+            <ProgressRing Visibility="Visible" x:Name="progressRing" Value="100" IsIndeterminate="true" Width="19" Height="19"/>
         </Grid>
 
         <StackPanel Margin="10,-3,0,0" VerticalAlignment="Center" Grid.Column="1">

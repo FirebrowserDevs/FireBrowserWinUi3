@@ -2,95 +2,19 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text.Json;
 
-namespace FireBrowserMultiCore
+namespace FireBrowserMultiCore;
+public static class UserFolderManager
 {
-    public static class UserFolderManager
+    public static void CreateUserFolders(User user)
     {
-        public static void CreateUserFolders(User user)
-        {
-            string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username);
+        string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username);
 
-            Directory.CreateDirectory(userFolderPath);
-            foreach (var folderName in new[] { "Settings", "Database", "Browser", "Modules" })
-            {
-                Directory.CreateDirectory(Path.Combine(userFolderPath, folderName));
-            }
+        foreach (var folderName in new[] { "Settings", "Database", "Browser", "Modules" })
+            Directory.CreateDirectory(Path.Combine(userFolderPath, folderName));
 
-            CreateSettingsFile(user.Username);
-            CreateDatabaseFile(user.Username);
-            CreateDatabaseFileDownloads(user.Username);
-        }
-
-        public static void CreateSettingsFile(string username)
-        {
-            string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username);
-            string settingsFolderPath = Path.Combine(userFolderPath, "Settings");
-            string settingsFilePath = Path.Combine(settingsFolderPath, "settings.json");
-
-            // Ensure the "Settings" folder exists
-            Directory.CreateDirectory(settingsFolderPath);
-
-            // Create and populate the settings object
-            var settings = new Settings
-            {
-                DisableJavaScript = "0",
-                DisablePassSave = "0",
-                DisableWebMess = "0",
-                DisableGenAutoFill = "0",
-                ColorBackground = "#000000",
-                StatusBar = "1",
-                BrowserKeys = "1",
-                BrowserScripts = "1",
-                Useragent = "WebView",
-                LightMode = "0",
-                OpSw = "1",
-                EngineFriendlyName = "Google",
-                SearchUrl = "https://www.google.com/search?q=",
-                ColorTool = "#000000",
-                ColorTV = "#000000",
-                Background = "1",
-                Auto = "0",
-                Lang = "nl-NL",
-                ReadButton = "1",
-                AdblockBtn = "1",
-                Downloads = "1",
-                Translate = "1",
-                Favorites = "1",
-                Historybtn = "1",
-                QrCode = "1",
-                FavoritesL = "1",
-                ToolIcon = "1",
-                DarkIcon = "1",
-                OpenTabHandel = "0",
-                NtpDateTime = "0",
-                ExitDialog = "0",
-                NtpTextColor = "#000000",
-                // Add other settings properties here
-            };
-
-            // Serialize the settings object to JSON and save it to the file
-            string jsonString = System.Text.Json.JsonSerializer.Serialize(settings);
-            File.WriteAllText(settingsFilePath, jsonString);
-        }
-
-        public static void CreateDatabaseFile(string username)
-        {
-            string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username);
-            string databaseFolderPath = Path.Combine(userFolderPath, "Database");
-            string databaseFilePath = Path.Combine(databaseFolderPath, "History.db");
-
-            // Ensure the "Database" folder exists
-            Directory.CreateDirectory(databaseFolderPath);
-
-            // Create the SQLite database file
-            using var connection = new SqliteConnection($"Data Source={databaseFilePath}");
-            connection.Open();
-
-            using var transaction = connection.BeginTransaction();
-            var createTableCommand = connection.CreateCommand();
-            createTableCommand.CommandText = @"CREATE TABLE IF NOT EXISTS urls (
+        CreateSettingsFile(user.Username);
+        CreateDatabaseFile(user.Username, "History.db", @"CREATE TABLE IF NOT EXISTS urls (
                                         id INTEGER PRIMARY KEY,
                                         last_visit_time TEXT,
                                         url TEXT,
@@ -98,73 +22,97 @@ namespace FireBrowserMultiCore
                                         visit_count INTEGER NOT NULL DEFAULT 0,
                                         typed_count INTEGER NOT NULL DEFAULT 0,
                                         hidden INTEGER NOT NULL DEFAULT 0
-                                    )";
+                                    )");
+        CreateDatabaseFile(user.Username, "Downloads.db", @"CREATE TABLE IF NOT EXISTS downloads (
+                                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                        guid VARCHAR(50) NOT NULL,
+                                        current_path TEXT NOT NULL,
+                                        end_time INTEGER NOT NULL,
+                                        start_time INTEGER NOT NULL
+                                    )");
+    }
 
-            createTableCommand.ExecuteNonQuery();
-            transaction.Commit();
+    private static void CreateSettingsFile(string username)
+    {
+        string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Settings", "settings.json");
 
-            Console.WriteLine("SQLite database and 'urls' table created successfully.");
-        }
-
-
-        public static void CreateDatabaseFileDownloads(string username)
+        var settings = new Settings
         {
-            string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username);
-            string databaseFolderPath = Path.Combine(userFolderPath, "Database");
-            string databaseFilePath = Path.Combine(databaseFolderPath, "Downloads.db");
+            DisableJavaScript = "0",
+            DisablePassSave = "0",
+            DisableWebMess = "0",
+            DisableGenAutoFill = "0",
+            ColorBackground = "#000000",
+            StatusBar = "1",
+            BrowserKeys = "1",
+            BrowserScripts = "1",
+            Useragent = "WebView",
+            LightMode = "0",
+            OpSw = "1",
+            EngineFriendlyName = "Google",
+            SearchUrl = "https://www.google.com/search?q=",
+            ColorTool = "#000000",
+            ColorTV = "#000000",
+            Background = "1",
+            Auto = "0",
+            Lang = "nl-NL",
+            ReadButton = "1",
+            AdblockBtn = "1",
+            Downloads = "1",
+            Translate = "1",
+            Favorites = "1",
+            Historybtn = "1",
+            QrCode = "1",
+            FavoritesL = "1",
+            ToolIcon = "1",
+            DarkIcon = "1",
+            OpenTabHandel = "0",
+            NtpDateTime = "0",
+            ExitDialog = "0",
+            NtpTextColor = "#000000",
+        };
 
-            // Ensure the "Database" folder exists
-            Directory.CreateDirectory(databaseFolderPath);
+        File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));
+    }
 
-            // Create the SQLite database file
-            using var connection = new SqliteConnection($"Data Source={databaseFilePath}");
-            connection.Open();
+    private static void CreateDatabaseFile(string username, string dbName, string sql)
+    {
+        string databaseFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Database");
+        string databaseFilePath = Path.Combine(databaseFolderPath, dbName);
 
-            using var transaction = connection.BeginTransaction();
-            using var command = connection.CreateCommand();
-            command.CommandText = @"
-        CREATE TABLE IF NOT EXISTS downloads (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            guid VARCHAR(50) NOT NULL,
-            current_path TEXT NOT NULL,
-            end_time INTEGER NOT NULL,
-            start_time INTEGER NOT NULL
-        )";
+        using var connection = new SqliteConnection($"Data Source={databaseFilePath}");
+        connection.Open();
 
-            command.ExecuteNonQuery();
-            transaction.Commit();
+        using var transaction = connection.BeginTransaction();
+        using var command = connection.CreateCommand();
+        command.CommandText = sql;
 
-            Console.WriteLine("SQLite database and 'downloads' table created successfully.");
-        }
+        command.ExecuteNonQuery();
+        transaction.Commit();
 
-        public static Settings LoadUserSettings(User user)
+        Console.WriteLine($"SQLite database and '{dbName}' table created successfully.");
+    }
+
+    public static Settings LoadUserSettings(User user)
+    {
+        string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username, "Settings", "settings.json");
+
+        if (File.Exists(settingsFilePath))
+            return System.Text.Json.JsonSerializer.Deserialize<Settings>(File.ReadAllText(settingsFilePath)) ?? new Settings();
+
+        return new Settings();
+    }
+
+    public static void SaveUserSettings(User user, Settings settings)
+    {
+        try
         {
             string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username, "Settings", "settings.json");
-
-            if (File.Exists(settingsFilePath))
-            {
-                string settingsJson = File.ReadAllText(settingsFilePath);
-                return JsonSerializer.Deserialize<Settings>(settingsJson) ?? new Settings();
-            }
-
-            // Return default settings if the file doesn't exist.
-            return new Settings();
+            File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));
         }
-
-        public static void SaveUserSettings(User user, Settings settings)
+        catch (Exception ex)
         {
-            try
-            {
-                string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username, "Settings", "settings.json");
-                string settingsJson = System.Text.Json.JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
-
-                File.WriteAllText(settingsFilePath, settingsJson);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Error saving user settings: " + ex.Message);
-                // You can handle the error or log it as needed.
-            }
+            Debug.WriteLine("Error saving user settings: " + ex.Message);
         }
     }
 }

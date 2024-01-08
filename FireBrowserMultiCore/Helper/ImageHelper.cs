@@ -3,52 +3,27 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
 
-namespace FireBrowserMultiCore.Helper
+namespace FireBrowserMultiCore.Helper;
+
+public class ImageHelper : MarkupExtension
 {
-    public class ImageHelper : MarkupExtension
+    private static readonly Dictionary<string, BitmapImage> ImageCache = new();
+
+    public string ImageName { get; set; }
+
+    protected override object ProvideValue() => LoadImage(ImageName);
+
+    public BitmapImage LoadImage(string imageName)
     {
-        private static readonly Dictionary<string, BitmapImage> ImageCache = new();
+        if (string.IsNullOrEmpty(imageName)) return null;
 
-        public string ImageName { get; set; }
-
-        protected override object ProvideValue()
+        if (!ImageCache.TryGetValue(imageName, out var cachedImage))
         {
-            if (string.IsNullOrEmpty(ImageName))
-            {
-                return null;
-            }
-
-            if (ImageCache.TryGetValue(ImageName, out var cachedImage))
-            {
-                return cachedImage;
-            }
-
-            var uri = new Uri($"ms-appx:///FireBrowserMultiCore//Assets/{ImageName}");
-            var bitmapImage = new BitmapImage(uri);
-            ImageCache[ImageName] = bitmapImage;
-
-            return bitmapImage;
-        }
-
-
-        //alternive for setup and combined icon's
-        public BitmapImage LoadImage(string imageName)
-        {
-            if (string.IsNullOrEmpty(imageName))
-            {
-                return null;
-            }
-
-            if (ImageCache.TryGetValue(imageName, out var cachedImage))
-            {
-                return cachedImage;
-            }
-
             var uri = new Uri($"ms-appx:///FireBrowserMultiCore//Assets/{imageName}");
-            var bitmapImage = new BitmapImage(uri);
-            ImageCache[imageName] = bitmapImage;
-
-            return bitmapImage;
+            cachedImage = new BitmapImage(uri);
+            ImageCache[imageName] = cachedImage;
         }
+
+        return cachedImage;
     }
 }

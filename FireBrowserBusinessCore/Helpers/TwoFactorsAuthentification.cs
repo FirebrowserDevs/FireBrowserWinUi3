@@ -8,7 +8,7 @@ namespace FireBrowserBusinessCore.Helpers
 {
     public static class TwoFactorsAuthentification
     {
-        public static ObservableCollection<TwoFactorAuthItem> Items { get; private set; }
+        public static ObservableCollection<TwoFactorAuthItem> Items { get; private set; } = new();
 
         public static void Save()
         {
@@ -29,10 +29,6 @@ namespace FireBrowserBusinessCore.Helpers
                 Items = !string.IsNullOrEmpty(jsonString)
                     ? JsonSerializer.Deserialize<ObservableCollection<TwoFactorAuthItem>>(jsonString)
                     : new ObservableCollection<TwoFactorAuthItem>();
-            }
-            else
-            {
-                Items = new ObservableCollection<TwoFactorAuthItem>();
             }
 
             Items.CollectionChanged += (_, _) => Save();

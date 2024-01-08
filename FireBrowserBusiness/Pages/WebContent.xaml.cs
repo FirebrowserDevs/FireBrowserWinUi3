@@ -192,21 +192,19 @@ public sealed partial class WebContent : Page
                     var bitmapImage = new BitmapImage();
                     var stream = await sender.GetFaviconAsync(0);
 
+                    var iconSource = new ImageIconSource { ImageSource = bitmapImage };
                     if (stream != null)
                     {
                         await bitmapImage.SetSourceAsync(stream);
-                        param.Tab.IconSource = new ImageIconSource { ImageSource = bitmapImage };
                     }
                     else
                     {
                         var bitmapImage2 = new BitmapImage();
                         await bitmapImage2.SetSourceAsync(await sender.GetFaviconAsync(CoreWebView2FaviconImageFormat.Jpeg));
-                        param.Tab.IconSource = new ImageIconSource { ImageSource = bitmapImage2 };
+                        iconSource.ImageSource = bitmapImage2;
                     }
-                }
-                else
-                {
-                    // Handle incognito mode scenario
+
+                    param.Tab.IconSource = iconSource;
                 }
             }
             catch
@@ -253,13 +251,9 @@ public sealed partial class WebContent : Page
 
     private void CoreWebView2_DownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
     {
-        var downloadOperation = args.DownloadOperation;
-
-        DownloadItem downloadItem = new(downloadOperation);
-
         var window = (Application.Current as App)?.m_window as MainWindow;
-        window.DownloadFlyout.DownloadItemsListView.Items.Insert(0, downloadItem);
 
+        window.DownloadFlyout.DownloadItemsListView.Items.Insert(0, new DownloadItem(args.DownloadOperation));
         window.DownloadFlyout.ShowAt(window.DownBtn);
 
         args.Handled = true;
@@ -343,108 +337,82 @@ public sealed partial class WebContent : Page
 
     private async void ConvertTextToSpeech(string text)
     {
-        if (!string.IsNullOrWhiteSpace(text))
+        if (string.IsNullOrWhiteSpace(text)) return;
+
+        var synthesisStream = await new SpeechSynthesizer().SynthesizeSsmlToStreamAsync(
+            $"<speak version='1.0' xml:lang='{userSettings.Lang}'><voice name='Microsoft Server Speech Text to Speech Voice ({userSettings.Lang}, HannaRUS)'>{text}</voice></speak>");
+
+        var mediaPlayer = new MediaPlayer
         {
-            var synthesisStream = await synthesizer.SynthesizeSsmlToStreamAsync(
-                $"<speak version='1.0' xml:lang='{userSettings.Lang}'><voice name='Microsoft Server Speech Text to Speech Voice ({userSettings.Lang}, HannaRUS)'>{text}</voice></speak>");
+            Source = MediaSource.CreateFromStream(synthesisStream, synthesisStream.ContentType)
+        };
 
-            // Create a MediaPlayer element
-            MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.MediaEnded += (_, args) => mediaPlayer.Dispose();
 
-            // Set the audio stream source
-            mediaPlayer.Source = MediaSource.CreateFromStream(synthesisStream, synthesisStream.ContentType);
-
-            // Subscribe to the MediaEnded event to clean up resources when playback completes
-            mediaPlayer.MediaEnded += (sender, args) =>
-            {
-                mediaPlayer.Dispose(); // Dispose of the MediaPlayer after playback is complete
-            };
-
-            // Start playback
-            mediaPlayer.Play();
-        }
+        mediaPlayer.Play();
     }
 
-    public static async void OpenNewWindow(Uri uri)
-    {
-        await Windows.System.Launcher.LaunchUriAsync(uri);
-    }
+    public static async void OpenNewWindow(Uri uri) => await Windows.System.Launcher.LaunchUriAsync(uri);
 
     private void ContextClicked_Click(object sender, RoutedEventArgs e)
     {
         if (sender is MenuFlyoutItem button && button.Tag != null)
         {
+            var mainWindow = (Application.Current as App)?.m_window as MainWindow;
+
             switch ((sender as MenuFlyoutItem).Tag)
             {
                 case "Read":
                     ConvertTextToSpeech(SelectionText);
                     break;
                 case "WebApp":
-
                     break;
                 case "OpenInTab":
+                    var newTab = mainWindow?.CreateNewTab(typeof(WebContent), new Uri(SelectionText));
                     if (userSettings.OpenTabHandel == "1")
                     {
-                        var window = (Application.Current as App)?.m_window as MainWindow;
-                        window.Tabs.TabItems.Add(window.CreateNewTab(typeof(WebContent), new Uri(SelectionText)));
+                        mainWindow?.Tabs.TabItems.Add(newTab);
                         select();
                     }
                     else
                     {
-                        var window = (Application.Current as App)?.m_window as MainWindow;
-                        window.Tabs.TabItems.Add(window.CreateNewTab(typeof(WebContent), new Uri(SelectionText)));
+                        mainWindow?.Tabs.TabItems.Add(newTab);
                     }
-
-
                     break;
                 case "OpenInWindow":
                     OpenNewWindow(new Uri(SelectionText));
                     break;
             }
-
         }
         Ctx.Hide();
     }
 
-    public void select()
-    {
-        var window = (Application.Current as App)?.m_window as MainWindow;
-        window.SelectNewTab();
-    }
-
+    public void select() => ((Application.Current as App)?.m_window as MainWindow)?.SelectNewTab();
 
     private bool isOffline = false;
     private async void CheckNetworkStatus()
     {
         while (true)
         {
-            if (NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+            bool isInternetAvailable = NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable;
+            if (isInternetAvailable && isOffline)
             {
-                if (isOffline)
-                {
-                    // Internet is back online
-                    WebViewElement.Reload();
-                    Grid.Visibility = Visibility.Visible;
-                    offlinePage.Visibility = Visibility.Collapsed;
-                    isOffline = false;
-
-                }
+                WebViewElement.Reload();
+                Grid.Visibility = Visibility.Visible;
+                offlinePage.Visibility = Visibility.Collapsed;
+                isOffline = false;
             }
-            else
+            else if (!isInternetAvailable)
             {
-                // Internet is offline
                 offlinePage.Visibility = Visibility.Visible;
                 Grid.Visibility = Visibility.Collapsed;
                 isOffline = true;
-
-                // Wait for a second before checking again
                 await Task.Delay(1000);
             }
-
-            // Wait for half a second before the next check
             await Task.Delay(1000);
         }
     }
+
     private void Grid_Loaded(object sender, RoutedEventArgs e)
     {
         if (Grid.Children.Count == 0) Grid.Children.Add(WebViewElement);

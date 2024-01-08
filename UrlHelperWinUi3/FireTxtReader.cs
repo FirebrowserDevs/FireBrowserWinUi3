@@ -7,26 +7,15 @@ using Windows.Storage;
 namespace UrlHelperWinUi3;
 public class FireTxtReader
 {
-    private const int BufferSize = (int)(1.5 * 1024 * 1024); // 1.5 MB buffer size
+    private const int BufferSize = (int)(1.5 * 1024 * 1024);
 
     public async Task<string> ReadTextFile(StorageFile file)
     {
         try
         {
-            using (Stream stream = await file.OpenStreamForReadAsync())
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                byte[] buffer = new byte[BufferSize];
-                int bytesRead;
-
-                while ((bytesRead = await stream.ReadAsync(buffer, 0, BufferSize)) > 0)
-                {
-                    string chunk = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    stringBuilder.Append(chunk);
-                }
-
-                return stringBuilder.ToString();
-            }
+            using Stream stream = await file.OpenStreamForReadAsync();
+            using StreamReader reader = new(stream, Encoding.UTF8, true, BufferSize);
+            return await reader.ReadToEndAsync();
         }
         catch (Exception ex)
         {

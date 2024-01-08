@@ -7,25 +7,20 @@ using System.Text.Json;
 namespace FireBrowserMultiCore;
 public class AuthService
 {
-    private static List<User> users;
     private static readonly string UserDataFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FireBrowserUserCore", "UsrCore.json");
-    static AuthService()
-    {
-        LoadUsersFromJson();
-    }
+    private static readonly List<User> users = LoadUsersFromJson();
 
-    private static void LoadUsersFromJson()
+    private static List<User> LoadUsersFromJson()
     {
         try
         {
             string userDataJson = File.ReadAllText(UserDataFilePath);
-            users = JsonSerializer.Deserialize<List<User>>(userDataJson) ?? new List<User>();
+            return JsonSerializer.Deserialize<List<User>>(userDataJson) ?? new List<User>();
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error loading user data: {ex.Message}");
-            users = new List<User>();
-            CurrentUser = null;
+            return new List<User>();
         }
     }
 
@@ -35,28 +30,14 @@ public class AuthService
 
     public static bool SwitchUser(string username)
     {
-        User switchedUser = users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
-
-        if (switchedUser != null)
-        {
-            CurrentUser = switchedUser;
-            return true;
-        }
-
-        return false;
+        CurrentUser = users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+        return CurrentUser != null;
     }
 
     public static bool Authenticate(string username)
     {
-        User authenticatedUser = users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
-
-        if (authenticatedUser != null)
-        {
-            CurrentUser = authenticatedUser;
-            return true;
-        }
-
-        return false;
+        CurrentUser = users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+        return CurrentUser != null;
     }
 
     public static bool DeleteUser(string username)
@@ -90,13 +71,11 @@ public class AuthService
 
     public static void AddUser(User newUser)
     {
-        if (users.Any(u => u.Username.Equals(newUser.Username, StringComparison.OrdinalIgnoreCase)))
+        if (!users.Any(u => u.Username.Equals(newUser.Username, StringComparison.OrdinalIgnoreCase)))
         {
-            return;
+            users.Add(newUser);
+            SaveUsers();
         }
-
-        users.Add(newUser);
-        SaveUsers();
     }
 
     private static void SaveUsers()
@@ -105,13 +84,7 @@ public class AuthService
         File.WriteAllText(UserDataFilePath, coreJson);
     }
 
-    public static List<string> GetAllUsernames()
-    {
-        return users.Select(u => u.Username).ToList();
-    }
+    public static List<string> GetAllUsernames() => users.Select(u => u.Username).ToList();
 
-    public static void Logout()
-    {
-        CurrentUser = null;
-    }
+    public static void Logout() => CurrentUser = null;
 }

@@ -17,47 +17,20 @@ public static class UserDataManager
 
         if (!File.Exists(coreFilePath))
         {
-            return new UserDataResult
-            {
-                Users = new List<User>(),
-                CurrentUsername = string.Empty // You can set a default value if needed.
-            };
+            return new UserDataResult { Users = new List<User>(), CurrentUsername = string.Empty };
         }
 
-        string coreJson = File.ReadAllText(coreFilePath);
-        var users = JsonSerializer.Deserialize<List<User>>(coreJson);
+        var users = JsonSerializer.Deserialize<List<User>>(File.ReadAllText(coreFilePath));
+        string currentUsername = AuthService.IsUserAuthenticated ? AuthService.CurrentUser.Username : "Guest";
 
-        // You would need to implement your logic to determine the current user's username.
-        string currentUsername = GetCurrentUserUsername();
-
-        return new UserDataResult
-        {
-            Users = users,
-            CurrentUsername = currentUsername
-        };
-    }
-
-    public static string GetCurrentUserUsername()
-    {
-        if (AuthService.IsUserAuthenticated)
-        {
-            return AuthService.CurrentUser.Username;
-        }
-
-        // Return a default or anonymous username if no user is authenticated.
-        return "Guest";
+        return new UserDataResult { Users = users, CurrentUsername = currentUsername };
     }
 
     public static void SaveUsers(List<User> users)
     {
-        if (!Directory.Exists(CoreFolderPath))
-        {
-            Directory.CreateDirectory(CoreFolderPath);
-        }
+        if (!Directory.Exists(CoreFolderPath)) Directory.CreateDirectory(CoreFolderPath);
 
         string coreFilePath = Path.Combine(CoreFolderPath, CoreFileName);
-        string coreJson = JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true });
-
-        File.WriteAllText(coreFilePath, coreJson);
+        File.WriteAllText(coreFilePath, JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true }));
     }
 }

@@ -23,14 +23,11 @@ namespace FireBrowserBusiness.Pages;
 public sealed partial class NewTab : Page
 {
     bool isAuto;
-    bool isMode;
-    bool isNtp;
     public HomeViewModel ViewModel { get; set; }
     public NewTab()
     {
         this.InitializeComponent();
         HomeSync();
-        this.Loaded += NewTab_Loaded;
     }
 
     private void NewTab_Loaded(object sender, RoutedEventArgs e)
@@ -43,36 +40,24 @@ public sealed partial class NewTab : Page
     FireBrowserMultiCore.Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
     public void HomeSync()
     {
-        bool isAuto = userSettings.Auto == "1";
-        Type.IsOn = isAuto;
+        Type.IsOn = userSettings.Auto == "1";
+        Mode.IsOn = userSettings.LightMode == "1";
 
-        // Update the LightMode setting
-        bool isMode = userSettings.LightMode == "1";
-        Mode.IsOn = isMode;
-
-
-        // Get Background and ColorBackground settings
-        string backgroundSetting = userSettings.Background;
-        string colorBackgroundSetting = userSettings.ColorBackground;
-        string NtpColor = userSettings.NtpTextColor;
-
-        var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), NtpColor);
-        // ViewModel setup
         ViewModel = new HomeViewModel
         {
-            BackgroundType = GetBackgroundType(backgroundSetting)
+            BackgroundType = GetBackgroundType(userSettings.Background)
         };
 
-        NewColor.IsEnabled = backgroundSetting == "2";
-        NewColor.Text = colorBackgroundSetting;
-        NtpColorBox.Text = NtpColor;
+        var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor);
+        NewColor.IsEnabled = userSettings.Background == "2";
+        NewColor.Text = userSettings.ColorBackground;
+        NtpColorBox.Text = userSettings.NtpTextColor;
         NtpTime.Foreground = NtpDate.Foreground = new SolidColorBrush(color);
 
         GridSelect.SelectedValue = ViewModel.BackgroundType.ToString();
-
-        // Visibility setup based on LightMode setting
-        SetVisibilityBasedOnLightMode(isMode);
+        SetVisibilityBasedOnLightMode(userSettings.LightMode == "1");
     }
+
 
 
     private Settings.NewTabBackground GetBackgroundType(string setting)
@@ -89,22 +74,20 @@ public sealed partial class NewTab : Page
     {
         while (isNtp)
         {
-            await Task.Delay(100); // Introduce a delay before UI update
+            await Task.Delay(100);
 
-            // Check if UI elements are disposed or still accessible
-            if (NtpTime == null || NtpDate == null)
+            if (NtpTime is not null && NtpDate is not null)
             {
-                break; // Exit the loop if UI elements are disposed
+                NtpTime.Visibility = NtpDate.Visibility = Visibility.Visible;
+                (NtpTime.Text, NtpDate.Text) = (DateTime.Now.ToString("H:mm"), $"{DateTime.Today.DayOfWeek}, {DateTime.Today.ToString("MMMM d")}");
             }
-
-            // Update UI only if the UI elements are available
-            NtpTime.Visibility = NtpDate.Visibility = Visibility.Visible;
-            NtpTime.Text = DateTime.Now.ToString("H:mm");
-            NtpDate.Text = $"{DateTime.Today.DayOfWeek}, {DateTime.Today.ToString("MMMM d")}";
+            else
+            {
+                break;
+            }
         }
 
-        // Check UI elements again before modifying their visibility
-        if (NtpTime != null && NtpDate != null)
+        if (NtpTime is not null && NtpDate is not null)
         {
             NtpTime.Visibility = NtpDate.Visibility = Visibility.Collapsed;
         }
@@ -112,44 +95,45 @@ public sealed partial class NewTab : Page
 
     private void SetVisibilityBasedOnLightMode(bool isLightMode)
     {
-        NtpGrid.Visibility = isLightMode ? Visibility.Collapsed : Visibility.Visible;
-        Edit.Visibility = isLightMode ? Visibility.Collapsed : Visibility.Visible;
-        SetTab.Visibility = isLightMode ? Visibility.Collapsed : Visibility.Visible;
-        BigGrid.Visibility = isLightMode ? Visibility.Collapsed : Visibility.Visible;
+        var visibility = isLightMode ? Visibility.Collapsed : Visibility.Visible;
+
+        NtpGrid.Visibility = Edit.Visibility = SetTab.Visibility = BigGrid.Visibility = visibility;
     }
 
     private void GridSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        var selection = (sender as GridView).SelectedItem as GridViewItem;
+        var selection = (sender as GridView)?.SelectedItem as GridViewItem;
 
-        switch (selection.Tag)
+        if (selection != null && selection.Tag is string tag)
         {
-            case "None":
-                userSettings.Background = "0";
-                ViewModel.BackgroundType = Settings.NewTabBackground.None;
-                NewColor.IsEnabled = false;
-                Download.Visibility = Visibility.Collapsed;
-                break;
-            case "Featured":
-                userSettings.Background = "1";
-                ViewModel.BackgroundType = Settings.NewTabBackground.Featured;
-                NewColor.IsEnabled = false;
-                Download.Visibility = Visibility.Visible;
-
-                break;
-            case "Custom":
-                userSettings.Background = "2";
-                ViewModel.BackgroundType = Settings.NewTabBackground.Costum;
-                NewColor.IsEnabled = true;
-                Download.Visibility = Visibility.Collapsed;
-                break;
-            default:
-                // Handle the case when selection doesn't match any of the predefined options.
-                break;
+            switch (tag)
+            {
+                case "None":
+                    SetAndSaveBackgroundSettings("0", Settings.NewTabBackground.None, false, Visibility.Collapsed);
+                    break;
+                case "Featured":
+                    SetAndSaveBackgroundSettings("1", Settings.NewTabBackground.Featured, false, Visibility.Visible);
+                    break;
+                case "Custom":
+                    SetAndSaveBackgroundSettings("2", Settings.NewTabBackground.Costum, true, Visibility.Collapsed);
+                    break;
+                default:
+                    // Handle the case when selection doesn't match any of the predefined options.
+                    break;
+            }
         }
-        // Save the modified settings back to the user's settings file
+    }
+
+    private void SetAndSaveBackgroundSettings(string background, Settings.NewTabBackground backgroundType, bool isNewColorEnabled, Visibility downloadVisibility)
+    {
+        userSettings.Background = background;
+        ViewModel.BackgroundType = backgroundType;
+        NewColor.IsEnabled = isNewColorEnabled;
+        Download.Visibility = downloadVisibility;
+
         UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
     }
+
 
     Passer param;
     protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -165,9 +149,10 @@ public sealed partial class NewTab : Page
 
 
 
-    public static Brush GetGridBackgroundAsync(Settings.NewTabBackground backgroundType, FireBrowserMultiCore.Settings usersettings)
+    public static Brush GetGridBackgroundAsync(Settings.NewTabBackground backgroundType, FireBrowserMultiCore.Settings userSettings)
     {
-        string colorString = usersettings.ColorBackground.ToString();
+        string colorString = userSettings.ColorBackground.ToString();
+        var client = new HttpClient();
 
         switch (backgroundType)
         {
@@ -175,73 +160,53 @@ public sealed partial class NewTab : Page
                 return new SolidColorBrush(Colors.Transparent);
 
             case Settings.NewTabBackground.Costum:
-                if (colorString == "#000000")
-                {
-                    return new SolidColorBrush(Colors.Transparent);
-                }
-                else
-                {
-                    var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), colorString);
-                    return new SolidColorBrush(color);
-                }
+                var color = colorString == "#000000" ?
+                                Colors.Transparent :
+                                (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), colorString);
+                return new SolidColorBrush(color);
 
             case Settings.NewTabBackground.Featured:
                 try
                 {
-                    var client = new HttpClient();
-                    var request = client.GetStringAsync(new Uri("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1")).Result;
+                    var images = System.Text.Json.JsonSerializer.Deserialize<ImageRoot>(client.GetStringAsync(new Uri("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1")).Result);
+                    BitmapImage btpImg = new BitmapImage(new Uri("https://bing.com" + images.images[0].url));
 
-                    try
+                    return new ImageBrush()
                     {
-                        var images = System.Text.Json.JsonSerializer.Deserialize<ImageRoot>(request);
-                        BitmapImage btpImg = new BitmapImage(new Uri("https://bing.com" + images.images[0].url));
-
-                        // Use the downloaded image as a background
-                        return new ImageBrush()
-                        {
-                            ImageSource = btpImg,
-                            Stretch = Stretch.UniformToFill
-                        };
-                    }
-                    catch
-                    {
-
-                        //not for vidoe
-                        string storedDbPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "StoredDb.json");
-                        string jsonData = File.ReadAllText(storedDbPath);
-
-                        List<StoredImages> storedImages = System.Text.Json.JsonSerializer.Deserialize<List<StoredImages>>(jsonData);
-
-                        StoredImages primaryImage = storedImages.FirstOrDefault(img => img.Primary);
-                        if (primaryImage != null && primaryImage.Primary)
-                        {
-                            string imagesFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "CacheImages");
-                            string imagePath = Path.Combine(imagesFolderPath, $"{primaryImage.Name}{primaryImage.Extension}");
-
-                            // Create a BitmapImage from the image path
-                            BitmapImage primaryBitmapImage = new BitmapImage(new Uri(imagePath));
-
-                            // Create an ImageBrush with the BitmapImage as the ImageSource
-                            ImageBrush imageBrush = new ImageBrush
-                            {
-                                ImageSource = primaryBitmapImage,
-                                Stretch = Stretch.UniformToFill
-                            };
-
-                            return imageBrush; // Return the created ImageBrush
-                        }
-                    }
+                        ImageSource = btpImg,
+                        Stretch = Stretch.UniformToFill
+                    };
                 }
                 catch
                 {
-                    // Handle exceptions or return a default value
+                    string storedDbPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "StoredDb.json");
+                    string jsonData = File.ReadAllText(storedDbPath);
+
+                    List<StoredImages> storedImages = System.Text.Json.JsonSerializer.Deserialize<List<StoredImages>>(jsonData);
+
+                    StoredImages primaryImage = storedImages.FirstOrDefault(img => img.Primary);
+                    if (primaryImage != null && primaryImage.Primary)
+                    {
+                        string imagesFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "CacheImages");
+                        string imagePath = Path.Combine(imagesFolderPath, $"{primaryImage.Name}{primaryImage.Extension}");
+
+                        BitmapImage primaryBitmapImage = new BitmapImage(new Uri(imagePath));
+
+                        ImageBrush imageBrush = new ImageBrush
+                        {
+                            ImageSource = primaryBitmapImage,
+                            Stretch = Stretch.UniformToFill
+                        };
+
+                        return imageBrush;
+                    }
                 }
                 break;
-
         }
 
         return new SolidColorBrush();
     }
+
 
 
 
@@ -322,21 +287,13 @@ public sealed partial class NewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            isAuto = toggleSwitch.IsOn;
-            string autoValue = isAuto ? "1" : "0";
-
+            string autoValue = toggleSwitch.IsOn ? "1" : "0";
+            string autoColor = AuthService.CurrentUser != null ? "0" : autoValue;
 
             if (AuthService.CurrentUser != null)
             {
-                // Update the "Auto" setting for the current user
                 userSettings.Auto = autoValue;
-
-                // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
-            }
-            else
-            {
-                // Handle the case when there is no authenticated user.
             }
         }
     }
@@ -345,41 +302,25 @@ public sealed partial class NewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            isMode = toggleSwitch.IsOn;
-            string autoValue = isMode ? "1" : "0";
-
+            string autoValue = toggleSwitch.IsOn ? "1" : "0";
+            string lightModeColor = AuthService.CurrentUser != null ? "0" : autoValue;
 
             if (AuthService.CurrentUser != null)
             {
-                // Update the "Auto" setting for the current user
                 userSettings.LightMode = autoValue;
-
-                // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
-            }
-            else
-            {
-                // Handle the case when there is no authenticated user.
             }
         }
     }
 
     private void NewColor_TextChanged(object sender, TextChangedEventArgs e)
     {
-        // Get the current user
-
+        string colorValue = AuthService.CurrentUser != null ? NewColor.Text : "#ffffff";
 
         if (AuthService.CurrentUser != null)
         {
-            // Update the "ColorBackground" setting for the current user
-            userSettings.ColorBackground = NewColor.Text.ToString();
-
-            // Save the modified settings back to the user's settings file
+            userSettings.ColorBackground = colorValue;
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
-        }
-        else
-        {
-            // Handle the case when there is no authenticated user.
         }
     }
 
@@ -387,21 +328,16 @@ public sealed partial class NewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            isNtp = toggleSwitch.IsOn;
-            string autoValue = isNtp ? "1" : "0";
-
+            string autoValue = toggleSwitch.IsOn ? "1" : "0";
 
             if (AuthService.CurrentUser != null)
             {
-                // Update the "Auto" setting for the current user
                 userSettings.NtpDateTime = autoValue;
-
-                // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
             }
             else
             {
-                // Handle the case when there is no authenticated user.
+                autoValue = "0";
             }
         }
     }
@@ -428,15 +364,12 @@ public sealed partial class NewTab : Page
     {
         if (AuthService.CurrentUser != null)
         {
-            // Update the "ColorBackground" setting for the current user
-            userSettings.NtpTextColor = NtpColorBox.Text.ToString();
-
-            // Save the modified settings back to the user's settings file
+            userSettings.NtpTextColor = NtpColorBox.Text;
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
         else
         {
-            // Handle the case when there is no authenticated user.
+            NtpColorBox.Text = "#ffffff";
         }
     }
 

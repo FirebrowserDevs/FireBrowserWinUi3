@@ -10,6 +10,7 @@
     xmlns:firebrowser="using:FireBrowserBusiness.Controls"
     xmlns:dllimg="using:Assets"
     NavigationCacheMode="Enabled"
+    Loaded="NewTab_Loaded"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid x:FieldModifier="Public"  x:Name="GridMain" Background="{x:Bind local:NewTab.GetGridBackgroundAsync(ViewModel.BackgroundType, userSettings), Mode=OneWay}">
         <VisualStateManager.VisualStateGroups>
