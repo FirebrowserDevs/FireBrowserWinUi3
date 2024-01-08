@@ -722,8 +722,8 @@ public sealed partial class MainWindow : Window
                 Tabs.TabItems.Add(CreateNewTab(typeof(NewTab)));
                 SelectNewTab();
                 break;
-            case "NewWindow":                              
-                OpenNewWindow(new Uri($"firebrowseruser://{UserName.Text}"));                 
+            case "NewWindow":
+                OpenNewWindow(new Uri($"firebrowseruser://{UserName.Text}"));
                 break;
             case "Share":
 
