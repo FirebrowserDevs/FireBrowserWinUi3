@@ -15,7 +15,7 @@
   <Identity
     Name="57443TechFireX.FireBrowserWinUi"
     Publisher="CN=787233D4-4D29-47D2-B29A-AD3E99C44FE7"
-    Version="1.2.0.0" />
+    Version="1.2.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="1d44e450-bc60-4c0d-96ba-81fa6f9c337d" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

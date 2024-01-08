@@ -24,6 +24,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using UrlHelperWinUi3;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -59,6 +60,8 @@ public sealed partial class MainWindow : Window
         FireBrowserSecureConnect.TwoFactorsAuthentification.Init();
     }
 
+    private bool exiting = false; // Track the exit state
+
     private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
     {
         if (Tabs.TabItems?.Count > 1)
@@ -68,6 +71,8 @@ public sealed partial class MainWindow : Window
             if (Application.Current is not App currentApp || !(currentApp.m_window is MainWindow mainWindow))
                 return;
 
+            exiting = true;
+
             ConfirmAppClose quickConfigurationDialog = new()
             {
                 XamlRoot = mainWindow.Content.XamlRoot
@@ -75,7 +80,13 @@ public sealed partial class MainWindow : Window
 
             quickConfigurationDialog.PrimaryButtonClick += async (_, _) =>
             {
-                // Close the application when the primary button is clicked
+                // Close the dialog first
+                quickConfigurationDialog.Hide();
+
+                // Delay the app exit to allow time for the dialog to close
+                await Task.Delay(100); // Adjust the delay time if needed
+
+                // Close the application synchronously after the dialog is closed
                 Application.Current.Exit();
             };
 
@@ -86,6 +97,8 @@ public sealed partial class MainWindow : Window
             args.Cancel = false;
         }
     }
+
+
 
     bool incog = false;
     private async void ArgsPassed()
