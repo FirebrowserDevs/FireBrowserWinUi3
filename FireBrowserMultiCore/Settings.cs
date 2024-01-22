@@ -33,4 +33,12 @@ public class Settings
     public string NtpDateTime { get; set; }
     public string ExitDialog { get; set; }
     public string NtpTextColor { get; set; }
+
+    public string ExceptionLog { get; set; }
+
+    public string Eq2fa { get; set; }
+    public string Eqsets { get; set; }
+    public string EqHis { get; set; }
+    public string Eqfav { get; set; }
+
 }

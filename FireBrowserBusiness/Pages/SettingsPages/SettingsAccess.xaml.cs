@@ -21,6 +21,7 @@ public sealed partial class SettingsAccess : Page
     private void LoadUserDataAndSettings()
     {
         Langue.SelectedValue = userSettings.Lang;
+        Logger.SelectedValue = userSettings.ExceptionLog;
         bool isMode = userSettings.LightMode == "1";
         LiteMode.IsOn = isMode;
     }
@@ -113,5 +114,22 @@ public sealed partial class SettingsAccess : Page
     private async void LaunchOnStartupToggle_Click(object sender, RoutedEventArgs e)
     {
         await ToggleLaunchOnStartup(LaunchOnStartupToggle.IsChecked ?? false);
+    }
+
+    private void Logger_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        string selection = e.AddedItems[0].ToString();
+        string langSetting = selection switch
+        {
+            "Low" => "Low",
+            "High" => "High",
+            _ => throw new ArgumentException("Invalid selection")
+        };
+
+        // Update the "Auto" setting for the current user
+        userSettings.ExceptionLog = langSetting;
+
+        // Save the modified settings back to the user's settings file
+        UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
     }
 }

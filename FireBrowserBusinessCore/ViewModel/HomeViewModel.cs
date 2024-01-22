@@ -1,35 +1,37 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using FireBrowserBusinessCore.Models;
 
-namespace FireBrowserCore.ViewModel;
-public partial class HomeViewModel : ObservableObject
+namespace FireBrowserCore.ViewModel
 {
-    private Settings.NewTabBackground _backgroundType;
-    private string _imageTitle;
-    private string _imageCopyright;
-    private string _imageCopyrightLink;
-
-    public Settings.NewTabBackground BackgroundType
+    public partial class HomeViewModel : ObservableObject
     {
-        get => _backgroundType;
-        set => SetProperty(ref _backgroundType, value);
-    }
+        private Settings.NewTabBackground _backgroundType;
+        private string _imageTitle;
+        private string _imageCopyright;
+        private string _imageCopyrightLink;
 
-    public string ImageTitle
-    {
-        get => _imageTitle;
-        set => SetProperty(ref _imageTitle, value);
-    }
+        public Settings.NewTabBackground BackgroundType
+        {
+            get => _backgroundType;
+            set => SetProperty(ref _backgroundType, value);
+        }
 
-    public string ImageCopyright
-    {
-        get => _imageCopyright;
-        set => SetProperty(ref _imageCopyright, value);
-    }
+        public string ImageTitle
+        {
+            get => _imageTitle;
+            set => SetProperty(ref _imageTitle, value);
+        }
 
-    public string ImageCopyrightLink
-    {
-        get => _imageCopyrightLink;
-        set => SetProperty(ref _imageCopyrightLink, value);
+        public string ImageCopyright
+        {
+            get => _imageCopyright;
+            set => SetProperty(ref _imageCopyright, value);
+        }
+
+        public string ImageCopyrightLink
+        {
+            get => _imageCopyrightLink;
+            set => SetProperty(ref _imageCopyrightLink, value);
+        }
     }
 }

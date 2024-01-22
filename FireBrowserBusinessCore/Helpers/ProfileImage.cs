@@ -5,38 +5,37 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace FireBrowserBusinessCore.Helpers
+namespace FireBrowserBusinessCore.Helpers;
+
+public class ProfileImage : MarkupExtension
 {
-    public class ProfileImage : MarkupExtension
+    private static readonly Dictionary<string, BitmapImage> ImageCache = new();
+
+    public string ImageName { get; set; }
+
+    protected override object ProvideValue()
     {
-        private static readonly Dictionary<string, BitmapImage> ImageCache = new();
+        if (string.IsNullOrEmpty(ImageName))
+            return null;
 
-        public string ImageName { get; set; }
+        if (ImageCache.TryGetValue(ImageName, out var cachedImage))
+            return cachedImage;
 
-        protected override object ProvideValue()
+        string destinationFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser?.Username);
+        string imagePath = Path.Combine(destinationFolderPath, ImageName);
+
+        try
         {
-            if (string.IsNullOrEmpty(ImageName))
-                return null;
+            var uri = new Uri(imagePath);
+            var bitmapImage = new BitmapImage(uri);
+            ImageCache[ImageName] = bitmapImage;
 
-            if (ImageCache.TryGetValue(ImageName, out var cachedImage))
-                return cachedImage;
-
-            string destinationFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username);
-            string imagePath = Path.Combine(destinationFolderPath, ImageName);
-
-            try
-            {
-                var uri = new Uri(imagePath);
-                var bitmapImage = new BitmapImage(uri);
-                ImageCache[ImageName] = bitmapImage;
-
-                return bitmapImage;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading image: {ex.Message}");
-                return null; // Return a placeholder image or null as needed.
-            }
+            return bitmapImage;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading image: {ex.Message}");
+            return null; // Return a placeholder image or null as needed.
         }
     }
 }

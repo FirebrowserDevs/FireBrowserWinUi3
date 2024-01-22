@@ -90,6 +90,15 @@
 		  <uap:DisplayName>FireBrowser Pdf</uap:DisplayName>
 		  </uap:FileTypeAssociation>
 		  </uap:Extension>
+		  <uap:Extension Category="windows.fileTypeAssociation">
+		  <uap:FileTypeAssociation Name="firescript">
+		  <uap:SupportedFileTypes>
+		  <uap:FileType ContentType="application/firescript">.fscript</uap:FileType>
+		  </uap:SupportedFileTypes>
+		  <uap:DisplayName>FireBrowser Script</uap:DisplayName>
+		  <uap:Logo>Assets\Icons\fscript.png</uap:Logo>
+		  </uap:FileTypeAssociation>
+		  </uap:Extension>
       </Extensions>
     </Application>
   </Applications>

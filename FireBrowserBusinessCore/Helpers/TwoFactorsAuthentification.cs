@@ -1,4 +1,5 @@
 ﻿using FireBrowserBusinessCore.Models;
+using FireBrowserMultiCore;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
@@ -15,8 +16,7 @@ namespace FireBrowserBusinessCore.Helpers
             var options = new JsonSerializerOptions { WriteIndented = true };
             string jsonString = JsonSerializer.Serialize(Items, options);
 
-            byte[] encryptedJsonString = EncryptionHelpers.ProtectString(jsonString);
-            File.WriteAllBytes(Data.TotpFilePath, encryptedJsonString);
+            File.WriteAllBytes(Data.TotpFilePath, EncryptionHelpers.ProtectString(jsonString));
         }
 
         public static async Task<ObservableCollection<TwoFactorAuthItem>> Load()

@@ -29,6 +29,7 @@ namespace FireBrowserWinUi3.Pages
             ("WebView", typeof(Pages.SettingsPages.SettingsWebView)),
             ("NewTab",  typeof(Pages.SettingsPages.SettingsNewTab)),
             ("Design",  typeof(Pages.SettingsPages.SettingsDesign)),
+            ("Enqryption",  typeof(Pages.SettingsPages.SettingsEnqryption)),
             ("Accessibility",  typeof(Pages.SettingsPages.SettingsAccess)),
             ("About",  typeof(Pages.SettingsPages.SettingsAbout))
         };
@@ -52,8 +53,9 @@ namespace FireBrowserWinUi3.Pages
                 string s when s.Contains("firebrowser://WebView") => ("WebView", NavView.MenuItems[3]),
                 string s when s.Contains("firebrowser://NewTab") => ("NewTab", NavView.MenuItems[4]),
                 string s when s.Contains("firebrowser://Design") => ("Design", NavView.MenuItems[1]),
-                string s when s.Contains("firebrowser://Accessibility") => ("Accessibility", NavView.MenuItems[5]),
-                string s when s.Contains("firebrowser://About") => ("About", NavView.MenuItems[6]),
+                string s when s.Contains("firebrowser://Enqryption") => ("Enqryption", NavView.MenuItems[5]),
+                string s when s.Contains("firebrowser://Accessibility") => ("Accessibility", NavView.MenuItems[6]),
+                string s when s.Contains("firebrowser://About") => ("About", NavView.MenuItems[7]),
                 _ => (null, null), // default case
             };
 

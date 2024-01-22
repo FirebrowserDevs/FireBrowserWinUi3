@@ -3,7 +3,6 @@
     x:Class="FireBrowserWinUi3.Pages.SettingsPages.SettingsDesign"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:FireBrowserWinUi3.Pages.SettingsPages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -50,15 +49,9 @@
                 </labs:SettingsCard>
             </labs:SettingsExpander.Items>
             <ComboBox x:Name="Type" SelectionChanged="Type_SelectionChanged">
-                <x:String>
-                    Default
-                </x:String>
-                <x:String>
-                    Featured
-                </x:String>
-                <x:String>
-                    Custom
-                </x:String>
+                <x:String>Default</x:String>
+                <x:String>Featured</x:String>
+                <x:String>Custom</x:String>
             </ComboBox>
         </labs:SettingsExpander>
     </StackPanel>

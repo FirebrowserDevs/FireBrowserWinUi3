@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:FireBrowserBusiness.Styles">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <FontFamily x:Key="FluentIcons">/Assets/Segoe Fluent Icons.ttf#Segoe Fluent Icons</FontFamily>
     <Style TargetType="FontIcon">
         <Setter Property="FontSize" Value="16"/>

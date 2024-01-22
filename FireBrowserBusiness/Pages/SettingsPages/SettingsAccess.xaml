@@ -3,12 +3,10 @@
     x:Class="FireBrowserWinUi3.Pages.SettingsPages.SettingsAccess"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:FireBrowserWinUi3.Pages.SettingsPages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:labs="using:CommunityToolkit.WinUI.Controls"
-    xmlns:dllimg="using:Assets">
+    xmlns:labs="using:CommunityToolkit.WinUI.Controls">
 
     <Grid>
         <StackPanel>
@@ -38,6 +36,15 @@
                 <ComboBox x:Name="Langue"  SelectionChanged="Langue_SelectionChanged">
                     <x:String>nl-NL</x:String>
                     <x:String>en-US</x:String>
+                </ComboBox>
+            </labs:SettingsCard>
+            <labs:SettingsCard Header="FireBrowser - ExceptionLogger" Description="Change Logger Level" Margin="0,1,0,0">
+                <labs:SettingsCard.HeaderIcon>
+                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE783;" />
+                </labs:SettingsCard.HeaderIcon>
+                <ComboBox x:Name="Logger" SelectionChanged="Logger_SelectionChanged">
+                    <x:String>Low</x:String>
+                    <x:String>High</x:String>
                 </ComboBox>
             </labs:SettingsCard>
         </StackPanel>

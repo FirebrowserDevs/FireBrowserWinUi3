@@ -4,28 +4,26 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace FireBrowserBusinessCore.ImagesBing
+namespace FireBrowserBusinessCore.ImagesBing;
+public class ImagesHelper
 {
-    public class ImagesHelper
+    public async Task AppendToJsonAsync(string storedDbPath, StoredImages imageData)
     {
-        public async Task AppendToJsonAsync(string storedDbPath, StoredImages imageData)
+        try
         {
-            try
-            {
-                string jsonData = File.ReadAllText(storedDbPath);
+            string jsonData = File.ReadAllText(storedDbPath);
 
-                List<StoredImages> storedImages = System.Text.Json.JsonSerializer.Deserialize<List<StoredImages>>(jsonData);
-                storedImages.Add(imageData);
+            List<StoredImages> storedImages = System.Text.Json.JsonSerializer.Deserialize<List<StoredImages>>(jsonData);
+            storedImages.Add(imageData);
 
-                string updatedJsonData = System.Text.Json.JsonSerializer.Serialize(storedImages);
+            string updatedJsonData = System.Text.Json.JsonSerializer.Serialize(storedImages);
 
-                File.WriteAllText(storedDbPath, updatedJsonData);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"{ex.Message}");
-                // Handle the exception as needed: log, display to the user, etc.
-            }
+            File.WriteAllText(storedDbPath, updatedJsonData);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"{ex.Message}");
+            // Handle the exception as needed: log, display to the user, etc.
         }
     }
 }

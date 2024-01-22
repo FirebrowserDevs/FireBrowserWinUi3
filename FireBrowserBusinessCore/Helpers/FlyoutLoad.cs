@@ -1,15 +1,14 @@
 ﻿using FireBrowserBusinessCore.CoreUi;
 using Microsoft.UI.Xaml;
 
-namespace FireBrowserBusinessCore.Helpers
+namespace FireBrowserBusinessCore.Helpers;
+
+public static class FlyoutLoad
 {
-    public static class FlyoutLoad
+    public static XamlRoot XamlRoot { get; set; }
+
+    public static void ShowFlyout(FrameworkElement element)
     {
-        public static XamlRoot XamlRoot { get; set; }
-        public static async void ShowFlyout(FrameworkElement element)
-        {
-            SecurityInfo flyout = new();
-            flyout.ShowAt(element);
-        }
+        new SecurityInfo().ShowAt(element);
     }
 }

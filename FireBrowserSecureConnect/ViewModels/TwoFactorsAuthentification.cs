@@ -5,30 +5,33 @@ using Microsoft.UI.Xaml;
 using SecureConnectOtp;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace FireBrowserSecureConnect
 {
     public static class TwoFactorsAuthentification
     {
-        public static XamlRoot XamlRoot { get; set; }
-
-        private static DispatcherTimer loginTimer;
+        private static readonly DispatcherTimer loginTimer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(5) };
         private static bool userAuthenticated = false;
 
         internal static ObservableCollection<TwoFactAuth> Items { get; } = new ObservableCollection<TwoFactAuth>();
 
-        public static void Init()
-        {
-            loginTimer = new DispatcherTimer();
-            loginTimer.Interval = TimeSpan.FromMinutes(5);
-            loginTimer.Tick += (_, _) => userAuthenticated = false;
+        public static XamlRoot XamlRoot { get; set; }
 
+        static TwoFactorsAuthentification()
+        {
+            loginTimer.Tick += (_, _) => userAuthenticated = false;
             InitializeData();
         }
 
-        private static async void InitializeData()
+        public static void Init()
         {
-            var items = await FireBrowserBusinessCore.Helpers.TwoFactorsAuthentification.Load();
+            loginTimer.Start();
+        }
+
+        private static void InitializeData()
+        {
+            var items = Task.Run(() => FireBrowserBusinessCore.Helpers.TwoFactorsAuthentification.Load()).Result;
 
             foreach (var item in items)
             {
@@ -38,16 +41,13 @@ namespace FireBrowserSecureConnect
             }
         }
 
-        public static async void ShowFlyout(FrameworkElement element)
+        public static void ShowFlyout(FrameworkElement element)
         {
             HandleUserAuthentication();
             ResetTimerAndShowFlyout(element);
         }
 
-        private static void HandleUserAuthentication()
-        {
-            userAuthenticated = !userAuthenticated;
-        }
+        private static void HandleUserAuthentication() => userAuthenticated = !userAuthenticated;
 
         private static void ResetTimerAndShowFlyout(FrameworkElement element)
         {

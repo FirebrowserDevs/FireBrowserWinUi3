@@ -38,7 +38,7 @@ public sealed partial class NewTab : Page
     }
 
     FireBrowserMultiCore.Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
-    public void HomeSync()
+    private void HomeSync()
     {
         Type.IsOn = userSettings.Auto == "1";
         Mode.IsOn = userSettings.LightMode == "1";
@@ -57,7 +57,6 @@ public sealed partial class NewTab : Page
         GridSelect.SelectedValue = ViewModel.BackgroundType.ToString();
         SetVisibilityBasedOnLightMode(userSettings.LightMode == "1");
     }
-
 
 
     private Settings.NewTabBackground GetBackgroundType(string setting)
@@ -106,26 +105,20 @@ public sealed partial class NewTab : Page
 
         if (selection != null && selection.Tag is string tag)
         {
-            switch (tag)
-            {
-                case "None":
-                    SetAndSaveBackgroundSettings("0", Settings.NewTabBackground.None, false, Visibility.Collapsed);
-                    break;
-                case "Featured":
-                    SetAndSaveBackgroundSettings("1", Settings.NewTabBackground.Featured, false, Visibility.Visible);
-                    break;
-                case "Custom":
-                    SetAndSaveBackgroundSettings("2", Settings.NewTabBackground.Costum, true, Visibility.Collapsed);
-                    break;
-                default:
-                    // Handle the case when selection doesn't match any of the predefined options.
-                    break;
-            }
+            SetAndSaveBackgroundSettings(
+                tag switch
+                {
+                    "None" => ("0", Settings.NewTabBackground.None, false, Visibility.Collapsed),
+                    "Featured" => ("1", Settings.NewTabBackground.Featured, false, Visibility.Visible),
+                    "Custom" => ("2", Settings.NewTabBackground.Costum, true, Visibility.Collapsed),
+                    _ => throw new ArgumentException("Invalid selection.")
+                });
         }
     }
 
-    private void SetAndSaveBackgroundSettings(string background, Settings.NewTabBackground backgroundType, bool isNewColorEnabled, Visibility downloadVisibility)
+    private void SetAndSaveBackgroundSettings((string, Settings.NewTabBackground, bool, Visibility) settings)
     {
+        var (background, backgroundType, isNewColorEnabled, downloadVisibility) = settings;
         userSettings.Background = background;
         ViewModel.BackgroundType = backgroundType;
         NewColor.IsEnabled = isNewColorEnabled;
@@ -146,8 +139,6 @@ public sealed partial class NewTab : Page
     {
         public ImageTab[] images { get; set; }
     }
-
-
 
     public static Brush GetGridBackgroundAsync(Settings.NewTabBackground backgroundType, FireBrowserMultiCore.Settings userSettings)
     {
@@ -207,61 +198,41 @@ public sealed partial class NewTab : Page
         return new SolidColorBrush();
     }
 
-
-
-
     private async Task DownloadImage()
     {
         try
         {
-            FireBrowserMultiCore.User user = AuthService.CurrentUser;
+            var user = AuthService.CurrentUser;
             string username = user.Username;
-            string databasePath = Path.Combine(
-                UserDataManager.CoreFolderPath,
-                UserDataManager.UsersFolderPath,
-                username,
-                "Database"
-            );
+            string databasePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Database");
             string imagesFolderPath = Path.Combine(databasePath, "CacheImages");
             string storedDbPath = Path.Combine(databasePath, "StoredDb.json");
 
-            // Create the "CacheImages" folder if it doesn't exist
             if (!Directory.Exists(imagesFolderPath))
             {
                 Directory.CreateDirectory(imagesFolderPath);
                 ShowInfoBar("CacheImages folder created.", InfoBarSeverity.Success);
             }
 
-            // Create the "StoredDb.json" file with default data if it doesn't exist
             if (!File.Exists(storedDbPath))
             {
-                // Create an empty JSON file if it doesn't exist
                 File.WriteAllText(storedDbPath, "[]");
                 ShowInfoBar("Created empty StoredDb.json.", InfoBarSeverity.Success);
             }
 
-            // Download the image using the specified details
             Guid gd = Guid.NewGuid();
-            string imageName = $"{gd}.png"; // Set the image name
-            ImageDownloader imageDownloader = new ImageDownloader();
+            string imageName = $"{gd}.png";
+            string savedImagePath = await new ImageDownloader().SaveGridAsImageAsync(GridImage, imageName, imagesFolderPath);
 
-            // Save the image using custom folder path
-            string customFolderPath = imagesFolderPath; // Use the images folder path as custom folder path
-            string savedImagePath = await imageDownloader.SaveGridAsImageAsync(GridImage, imageName, customFolderPath);
-
-            // Append data to the JSON after saving the image
-            StoredImages newImageData = new StoredImages
+            var newImageData = new StoredImages
             {
                 Name = imageName,
-                Location = customFolderPath,
+                Location = imagesFolderPath,
                 Extension = ".png",
                 Primary = false // Adjust this according to your logic
             };
 
-            // Append new data to the JSON file
-            ImagesHelper hp = new ImagesHelper();
-            await hp.AppendToJsonAsync(storedDbPath, newImageData);
-
+            await new ImagesHelper().AppendToJsonAsync(storedDbPath, newImageData);
             ShowInfoBar($"Downloaded Bing Image To {imagesFolderPath} Success!", InfoBarSeverity.Success);
         }
         catch (Exception ex)
@@ -271,110 +242,47 @@ public sealed partial class NewTab : Page
         }
     }
 
-
-    private async void ShowInfoBar(string message, InfoBarSeverity severity)
+    private void ShowInfoBar(string message, InfoBarSeverity severity)
     {
         infoBar.IsOpen = true;
         infoBar.Message = message;
         infoBar.Severity = severity;
 
-        await Task.Delay(TimeSpan.FromSeconds(1.5));
-
-        infoBar.IsOpen = false;
+        _ = Task.Delay(TimeSpan.FromSeconds(1.5)).ContinueWith(_ => infoBar.IsOpen = false);
     }
 
-    private void Type_Toggled(object sender, RoutedEventArgs e)
+    private void UpdateUserSettings(Action<FireBrowserMultiCore.Settings> updateAction)
     {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            string autoValue = toggleSwitch.IsOn ? "1" : "0";
-            string autoColor = AuthService.CurrentUser != null ? "0" : autoValue;
-
-            if (AuthService.CurrentUser != null)
-            {
-                userSettings.Auto = autoValue;
-                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
-            }
-        }
-    }
-
-    private void Mode_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            string autoValue = toggleSwitch.IsOn ? "1" : "0";
-            string lightModeColor = AuthService.CurrentUser != null ? "0" : autoValue;
-
-            if (AuthService.CurrentUser != null)
-            {
-                userSettings.LightMode = autoValue;
-                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
-            }
-        }
-    }
-
-    private void NewColor_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        string colorValue = AuthService.CurrentUser != null ? NewColor.Text : "#ffffff";
-
         if (AuthService.CurrentUser != null)
         {
-            userSettings.ColorBackground = colorValue;
+            updateAction.Invoke(userSettings);
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
 
-    private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            string autoValue = toggleSwitch.IsOn ? "1" : "0";
+    private void Type_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.Auto = Type.IsOn ? "1" : "0");
+    private void Mode_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.LightMode = Mode.IsOn ? "1" : "0");
+    private void NewColor_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.ColorBackground = NewColor.Text);
+    private void DateTimeToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpDateTime = DateTimeToggle.IsOn ? "1" : "0");
 
-            if (AuthService.CurrentUser != null)
-            {
-                userSettings.NtpDateTime = autoValue;
-                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
-            }
-            else
-            {
-                autoValue = "0";
-            }
-        }
-    }
+    private void NtpColorBox_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpTextColor = NtpColorBox.Text);
+
+    private void Download_Click(object sender, RoutedEventArgs e) => DownloadImage();
+
 
     private void NewTabSearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
-        if (isAuto)
+        if (isAuto && Application.Current is App app && app.m_window is MainWindow window)
         {
-            var window = (Application.Current as App)?.m_window as MainWindow;
-            window.FocusUrlBox((NewTabSearchBox.Text));
+            window.FocusUrlBox(NewTabSearchBox.Text);
         }
     }
 
     private void NewTabSearchBox_PreviewKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
     {
-        if (!isAuto && e.Key is Windows.System.VirtualKey.Enter)
+        if (!isAuto && e.Key is Windows.System.VirtualKey.Enter && Application.Current is App app && app.m_window is MainWindow window)
         {
-            var window = (Application.Current as App)?.m_window as MainWindow;
-            window.FocusUrlBox((NewTabSearchBox.Text));
+            window.FocusUrlBox(NewTabSearchBox.Text);
         }
-    }
-
-    private void NtpColorBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (AuthService.CurrentUser != null)
-        {
-            userSettings.NtpTextColor = NtpColorBox.Text;
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
-        }
-        else
-        {
-            NtpColorBox.Text = "#ffffff";
-        }
-    }
-
-    private void Download_Click(object sender, RoutedEventArgs e)
-    {
-        DownloadImage();
     }
 }

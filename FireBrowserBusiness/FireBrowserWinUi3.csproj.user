@@ -23,6 +23,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Pages\SettingsPages\SettingsEnqryption.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\DownloadFlyout.xaml">
       <SubType>Designer</SubType>
     </Page>

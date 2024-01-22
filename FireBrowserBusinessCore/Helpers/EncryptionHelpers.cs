@@ -3,73 +3,53 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace FireBrowserBusinessCore.Helpers
+namespace FireBrowserBusinessCore.Helpers;
+public static class EncryptionHelpers
 {
-    internal static class EncryptionHelpers
+    // Your additional entropy
+    private static readonly byte[] AdditionalEntropy = { 9, 6, 4, 1, 5 };
+
+    public static byte[] ProtectString(string str)
     {
-        // Your additional entropy
-        static byte[] s_additionalEntropy = { 9, 6, 4, 1, 5 };
-
-        public static byte[] ProtectString(string str)
+        try
         {
-            try
-            {
-                string callingAppName = GetCallingAppName();
-                if (IsAllowedApp(callingAppName))
-                {
-                    var data = Encoding.UTF8.GetBytes(str);
-                    return ProtectedData.Protect(data, s_additionalEntropy, DataProtectionScope.CurrentUser);
-                }
-                else
-                {
-                    throw new UnauthorizedAccessException($"Access denied for the calling application '{callingAppName}'.");
-                }
-            }
-            catch (CryptographicException)
-            {
-                return null;
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                Console.WriteLine(ex.Message);
-                return null;
-            }
+            string callingAppName = GetCallingAppName();
+            return IsAllowedApp(callingAppName)
+                ? ProtectedData.Protect(Encoding.UTF8.GetBytes(str), AdditionalEntropy, DataProtectionScope.CurrentUser)
+                : throw new UnauthorizedAccessException($"Access denied for the calling application '{callingAppName}'.");
         }
-
-        private static string GetCallingAppName()
+        catch (CryptographicException)
         {
-            return Process.GetCurrentProcess().ProcessName;
+            return null;
         }
-
-        private static bool IsAllowedApp(string appName)
+        catch (UnauthorizedAccessException ex)
         {
-            return appName == nameof(FireBrowserWinUi3) || appName == ("FireVault");
+            Console.WriteLine(ex.Message);
+            return null;
         }
+    }
 
-        public static string UnprotectToString(byte[] data)
+    private static string GetCallingAppName() => Process.GetCurrentProcess().ProcessName;
+
+    private static bool IsAllowedApp(string appName) => appName == nameof(FireBrowserWinUi3) || appName == "FireVault";
+
+    public static string UnprotectToString(byte[] data)
+    {
+        try
         {
-            try
-            {
-                string callingAppName = GetCallingAppName();
-                if (IsAllowedApp(callingAppName))
-                {
-                    var unprotectedData = ProtectedData.Unprotect(data, s_additionalEntropy, DataProtectionScope.CurrentUser);
-                    return Encoding.UTF8.GetString(unprotectedData);
-                }
-                else
-                {
-                    throw new UnauthorizedAccessException($"Access denied for the calling application '{callingAppName}'.");
-                }
-            }
-            catch (CryptographicException)
-            {
-                return null;
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                Console.WriteLine(ex.Message);
-                return null;
-            }
+            string callingAppName = GetCallingAppName();
+            return IsAllowedApp(callingAppName)
+                ? Encoding.UTF8.GetString(ProtectedData.Unprotect(data, AdditionalEntropy, DataProtectionScope.CurrentUser))
+                : throw new UnauthorizedAccessException($"Access denied for the calling application '{callingAppName}'.");
+        }
+        catch (CryptographicException)
+        {
+            return null;
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            Console.WriteLine(ex.Message);
+            return null;
         }
     }
 }

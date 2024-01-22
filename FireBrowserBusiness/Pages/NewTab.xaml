@@ -43,7 +43,7 @@
                         <ToggleSwitch x:Name="Mode" Toggled="Mode_Toggled">
                             Enable Light Mode
                         </ToggleSwitch>
-                        <ToggleSwitch x:Name="DateTimeToggle" Toggled="ToggleSwitch_Toggled">
+                        <ToggleSwitch x:Name="DateTimeToggle" Toggled="DateTimeToggle_Toggled">
                             Enable Ntp
                         </ToggleSwitch>
                     </StackPanel>
@@ -101,9 +101,7 @@
                         <Button HorizontalAlignment="Left"  Content="{firebrowser:FluentIcon Glyph=&#xE78C;}" Style="{ThemeResource QuietButtonStyle}" x:Name="Download" Click="Download_Click" VerticalAlignment="Center" x:FieldModifier="Public" Margin="0,5,0,0" Width="Auto">
                             <Button.Flyout>
                                 <Flyout Placement="Bottom">
-                                    <TextBlock TextWrapping="Wrap" TextLineBounds="Full" MaxLines="50" LineStackingStrategy="MaxHeight">
-                                          Download Bing Daily Image To Documents
-                                    </TextBlock>
+                                    <TextBlock TextWrapping="Wrap" TextLineBounds="Full" MaxLines="50" LineStackingStrategy="MaxHeight" Text="Download Bing Daily Image To Documents"/>
                                 </Flyout>
                             </Button.Flyout>
                         </Button>

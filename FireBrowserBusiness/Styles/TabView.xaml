@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:FireBrowserBusiness.Styles">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
             <StaticResource x:Key="TabViewBackground" ResourceKey="SystemControlBackgroundListLowBrush" />
@@ -241,8 +240,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-  
 
     <Style x:Key="FloatingTabViewItemStyle" TargetType="TabViewItem">
         <Setter Property="HorizontalContentAlignment" Value="Left" />

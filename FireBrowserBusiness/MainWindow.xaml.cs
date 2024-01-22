@@ -4,6 +4,7 @@ using FireBrowserBusinessCore.Helpers;
 using FireBrowserBusinessCore.Models;
 using FireBrowserBusinessCore.ViewModel;
 using FireBrowserDatabase;
+using FireBrowserExceptions;
 using FireBrowserFavorites;
 using FireBrowserMultiCore;
 using FireBrowserQr;
@@ -51,6 +52,7 @@ public sealed partial class MainWindow : Window
         LoadUserSettings();
         Init();
 
+
         appWindow.Closing += AppWindow_Closing;
     }
 
@@ -60,37 +62,40 @@ public sealed partial class MainWindow : Window
         FireBrowserSecureConnect.TwoFactorsAuthentification.Init();
     }
 
-    private bool exiting = false; // Track the exit state
-
     private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
     {
         if (Tabs.TabItems?.Count > 1)
         {
-            args.Cancel = true;
-
-            if (Application.Current is not App currentApp || !(currentApp.m_window is MainWindow mainWindow))
-                return;
-
-            exiting = true;
-
-            ConfirmAppClose quickConfigurationDialog = new()
+            try
             {
-                XamlRoot = mainWindow.Content.XamlRoot
-            };
+                args.Cancel = true;
 
-            quickConfigurationDialog.PrimaryButtonClick += async (_, _) =>
+                if (Application.Current is not App currentApp || !(currentApp.m_window is MainWindow mainWindow))
+                    return;
+
+
+                ConfirmAppClose quickConfigurationDialog = new()
+                {
+                    XamlRoot = mainWindow.Content.XamlRoot
+                };
+
+                quickConfigurationDialog.PrimaryButtonClick += async (_, _) =>
+                {
+                    // Close the dialog first
+                    quickConfigurationDialog.Hide();
+
+                    // Delay the app exit to allow time for the dialog to close
+                    await Task.Delay(250); // Adjust the delay time if needed
+
+                    // Close the application synchronously after the dialog is closed
+                    Application.Current.Exit();
+                };
+                await quickConfigurationDialog.ShowAsync();
+            }
+            catch (Exception ex)
             {
-                // Close the dialog first
-                quickConfigurationDialog.Hide();
-
-                // Delay the app exit to allow time for the dialog to close
-                await Task.Delay(100); // Adjust the delay time if needed
-
-                // Close the application synchronously after the dialog is closed
-                Application.Current.Exit();
-            };
-
-            await quickConfigurationDialog.ShowAsync();
+                ExceptionLogger.LogException(ex);
+            }
         }
         else
         {
@@ -503,8 +508,7 @@ public sealed partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            // Handle the exception, log it, or display an error message.
-            Debug.WriteLine("Error during navigation: " + ex.Message);
+            ExceptionLogger.LogException(ex);
         }
     }
 
@@ -847,7 +851,7 @@ public sealed partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error: {ex.Message}");
+            ExceptionLogger.LogException(ex);
         }
     }
 
@@ -1083,7 +1087,7 @@ public sealed partial class MainWindow : Window
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Failed to save the image: " + ex.Message);
+                    ExceptionLogger.LogException(ex);
                 }
             }
         }

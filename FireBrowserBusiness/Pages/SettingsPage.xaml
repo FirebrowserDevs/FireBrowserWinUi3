@@ -3,7 +3,6 @@
     x:Class="FireBrowserWinUi3.Pages.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:FireBrowserWinUi3.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -11,12 +10,11 @@
 
     <Grid>
         <NavigationView x:Name="NavView"
-                   Loaded="NavView_Loaded"
-                   ItemInvoked="NavView_ItemInvoked"
-                     IsBackButtonVisible="Collapsed"
-                        SelectionChanged="NavView_SelectionChanged"
-                     IsSettingsVisible="False"
-                        Header="">
+                Loaded="NavView_Loaded"
+                ItemInvoked="NavView_ItemInvoked"
+                IsBackButtonVisible="Collapsed"
+                SelectionChanged="NavView_SelectionChanged"
+                IsSettingsVisible="False">
             <NavigationView.MenuItems>
                 <NavigationViewItem Tag="SettingsHome" Content="Home">
                     <NavigationViewItem.Icon>
@@ -41,6 +39,11 @@
                 <NavigationViewItem Tag="NewTab"  Content="New Tab">
                     <NavigationViewItem.Icon>
                         <ImageIcon Source="ms-appx:///Assets/Icons/Tabs.png"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Tag="Enqryption"  Content="Enqryption">
+                    <NavigationViewItem.Icon>
+                        <ImageIcon Source="ms-appx:///Assets/Icons/enqryption.png"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="Accessibility"  Content="Accessibility">

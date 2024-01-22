@@ -12,18 +12,14 @@
             <AppBarButton Click="ContextMenuItem_Click" ToolTipService.ToolTip="Share" Tag="Share" Icon="{firebrowser:FluentIcon Glyph=&#xE72D;}"/>
             <AppBarButton Click="ContextMenuItem_Click" IsEnabled="True" ToolTipService.ToolTip="Print" Tag="Print" Icon="{firebrowser:FluentIcon Glyph=&#xE749;}"/>
             <CommandBarFlyout.SecondaryCommands>
-                <AppBarButton  Click="ContextMenuItem_Click" Label="Copy" Tag="Copy" Icon="{firebrowser:FluentIcon Glyph=&#xE8C8;}">
+                <AppBarButton Click="ContextMenuItem_Click" Label="Copy" Tag="Copy" Icon="{firebrowser:FluentIcon Glyph=&#xE8C8;}">
                     <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator 
-                      Modifiers="Control" 
-                      Key="C" />
+                        <KeyboardAccelerator Modifiers="Control" Key="C" />
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
-                <AppBarButton  Click="ContextMenuItem_Click" Label="Select all" Tag="Select" Icon="{firebrowser:FluentIcon Glyph=&#xE8B3;}">
+                <AppBarButton Click="ContextMenuItem_Click" Label="Select all" Tag="Select" Icon="{firebrowser:FluentIcon Glyph=&#xE8B3;}">
                     <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator 
-                      Modifiers="Control" 
-                      Key="A" />
+                        <KeyboardAccelerator Modifiers="Control" Key="A" />
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
                 <AppBarButton Label="Open In" x:Name="OpenLinks" Visibility="Collapsed" Icon="{firebrowser:FluentIcon Glyph=&#xE8AD;}">
@@ -44,10 +40,7 @@
                 </AppBarButton>
                 <AppBarButton Click="ContextMenuItem_Click" Label="Save" Tag="Save" Content="{firebrowser:FluentIcon Glyph=&#xE74E;}">
                     <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator 
-                      Modifiers="Control" 
-                      Key="S"
-                      />
+                        <KeyboardAccelerator Modifiers="Control" Key="S" />
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
                 <!-- Todo: add inspect and possibly a separator for these dev options-->
@@ -79,7 +72,7 @@
                             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" Text="Check your network cables, modem or routers"/>
                         </Expander.Header>
                         <TextBlock TextWrapping="WrapWholeWords">
-                    <Run>It's always a good idea to check your network connection sources to ensure they work as expected.</Run>
+                              <Run>It's always a good idea to check your network connection sources to ensure they work as expected.</Run>
                         </TextBlock>
                     </Expander>
 
@@ -101,8 +94,6 @@
         HorizontalAlignment="Stretch" 
         VerticalAlignment="Stretch"
         Margin="0"
-        MinWidth="100"
-        MinHeight="100"
         Canvas.ZIndex="2"
         x:Name="WebViewElement"
         x:FieldModifier="public"

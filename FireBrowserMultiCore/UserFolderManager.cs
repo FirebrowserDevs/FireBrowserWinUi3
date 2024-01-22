@@ -70,6 +70,11 @@ public static class UserFolderManager
             NtpDateTime = "0",
             ExitDialog = "0",
             NtpTextColor = "#000000",
+            ExceptionLog = "Low",
+            Eq2fa = "1",
+            Eqfav = "0",
+            EqHis = "0",
+            Eqsets = "0",
         };
 
         File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));

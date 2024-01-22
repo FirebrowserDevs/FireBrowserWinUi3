@@ -15,9 +15,5 @@ public sealed class ResourceString : MarkupExtension
         return resourceLoader.GetString(name);
     }
 
-    protected override object ProvideValue()
-    {
-        var resourceLoader = new ResourceLoader(Filename);
-        return resourceLoader.GetString(Name);
-    }
+    protected override object ProvideValue() => GetString(Name, Filename);
 }
