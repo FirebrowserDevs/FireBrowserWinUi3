@@ -37,6 +37,23 @@
             <TextBox x:Name="Agent" Text="FireBrowser Web" TextChanged="Agent_TextChanged"/>
         </labs:SettingsCard>
 
+        <labs:SettingsExpander Header="WebView2 Anti-Tracking" Description="WebView2 Tracking Prevention">
+            <labs:SettingsExpander.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE7EF;"/>
+            </labs:SettingsExpander.HeaderIcon>
+            <ComboBox  x:Name="PreventionLevel" SelectionChanged="PreventionLevel_SelectionChanged">
+                <x:String>None</x:String>
+                <x:String>Basic</x:String>
+                <x:String>Balanced</x:String>
+                <x:String>Strict</x:String>
+            </ComboBox>
+            <labs:SettingsExpander.Items>
+                <labs:SettingsCard>
+                    <TextBlock x:Name="Info" Text="Important Info"/>
+                </labs:SettingsCard>
+            </labs:SettingsExpander.Items>
+        </labs:SettingsExpander>
+
         <labs:SettingsCard Header="WebView2 Cookies" Description="WebView2 Clear Cookies">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8B7;"/>

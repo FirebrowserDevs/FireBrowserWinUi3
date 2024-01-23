@@ -91,6 +91,33 @@ public sealed partial class WebContent : Page
         WebViewElement.CoreWebView2.Settings.IsPasswordAutosaveEnabled = (userSettings.DisablePassSave == "1") ? false : true;
         WebViewElement.CoreWebView2.Settings.IsGeneralAutofillEnabled = (userSettings.DisableGenAutoFill == "1") ? false : true;
         WebViewElement.CoreWebView2.Settings.IsWebMessageEnabled = (userSettings.DisableWebMess == "1") ? false : true;
+
+        string disableWebMessSetting = userSettings.TrackPrevention ?? "2";
+
+        // Map the numeric value to the corresponding tracking prevention level
+        CoreWebView2TrackingPreventionLevel preventionLevel;
+        switch (int.Parse(disableWebMessSetting))
+        {
+            case 0:
+                preventionLevel = CoreWebView2TrackingPreventionLevel.None;
+                break;
+            case 1:
+                preventionLevel = CoreWebView2TrackingPreventionLevel.Basic;
+                break;
+            case 2:
+                preventionLevel = CoreWebView2TrackingPreventionLevel.Balanced;
+                break;
+            case 3:
+                preventionLevel = CoreWebView2TrackingPreventionLevel.Strict;
+                break;
+            default:
+                // You may want to handle unexpected values here
+                preventionLevel = CoreWebView2TrackingPreventionLevel.Balanced;
+                break;
+        }
+
+        // Set the PreferredTrackingPreventionLevel
+        WebViewElement.CoreWebView2.Profile.PreferredTrackingPreventionLevel = preventionLevel;
     }
 
     Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
@@ -113,11 +140,21 @@ public sealed partial class WebContent : Page
 })();");
     }
 
+    public static class WebViewUtils
+    {
+        public static async Task EarlySync(WebView2 webView)
+        {
+            await webView.EnsureCoreWebView2Async();
+            // Add any additional setup or event handling here
+        }
+    }
+
     protected override async void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
         param = e.Parameter as Passer;
-        await WebViewElement.EnsureCoreWebView2Async();
+
+        await WebViewUtils.EarlySync(WebViewElement);
 
         LoadSettings();
         WebView2 s = WebViewElement;
@@ -322,7 +359,7 @@ public sealed partial class WebContent : Page
 
                     break;
                 case "Share":
-
+                 
                     break;
                 case "Print":
                     WebViewElement.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);

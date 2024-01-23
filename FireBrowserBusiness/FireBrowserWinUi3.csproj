@@ -275,7 +275,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FireBrowserQr">
-      <HintPath>..\..\..\..\..\OneDrive\Bureaublad\Code\FireBrowser\FireBrowser-Uwp\src\FireBrowserQr\bin\x64\Release\FireBrowserQr.dll</HintPath>
+      <HintPath>..\..\..\..\..\OneDrive\Bureaublad\Code\FireBrowser\FireBrowser-Uwp\src\FireBrowserQr\bin\x64\Debug\FireBrowserQr.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

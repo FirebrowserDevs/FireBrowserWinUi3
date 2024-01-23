@@ -75,6 +75,7 @@ public static class UserFolderManager
             Eqfav = "0",
             EqHis = "0",
             Eqsets = "0",
+            TrackPrevention = "2",
         };
 
         File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));

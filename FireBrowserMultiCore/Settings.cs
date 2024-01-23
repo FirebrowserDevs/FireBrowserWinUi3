@@ -41,4 +41,6 @@ public class Settings
     public string EqHis { get; set; }
     public string Eqfav { get; set; }
 
+    public string TrackPrevention { get; set; }
+
 }

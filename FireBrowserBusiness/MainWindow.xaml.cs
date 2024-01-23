@@ -16,6 +16,7 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media.Imaging;
 using SQLitePCL;
 using System;
@@ -32,6 +33,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using WinRT.Interop;
+using static FireBrowserWinUi3.Pages.WebContent;
 using Settings = FireBrowserMultiCore.Settings;
 using Windowing = FireBrowserBusinessCore.Helpers.Windowing;
 
@@ -50,8 +52,7 @@ public sealed partial class MainWindow : Window
         ArgsPassed();
         LoadUserDataAndSettings(); // Load data and settings for the new user
         LoadUserSettings();
-        Init();
-
+        Init();      
 
         appWindow.Closing += AppWindow_Closing;
     }
@@ -203,6 +204,7 @@ public sealed partial class MainWindow : Window
             string s when s.Contains("http") => "This Page Is Unsecured By A Non-Valid SSL Certificate, Please Be Careful",
             _ => ""
         };
+
     }
 
 
@@ -319,6 +321,7 @@ public sealed partial class MainWindow : Window
 
     #endregion
 
+    private bool isFirstTabHovered = false;
     public FireBrowserTabViewItem CreateNewTab(Type? page = null, object param = null, int index = -1)
     {
         index = Tabs.TabItems.Count;
@@ -329,6 +332,9 @@ public sealed partial class MainWindow : Window
             IconSource = new Microsoft.UI.Xaml.Controls.SymbolIconSource { Symbol = Symbol.Home },
             Style = (Style)Microsoft.UI.Xaml.Application.Current.Resources["FloatingTabViewItemStyle"]
         };
+
+        TabItemEventsHelper ts = new TabItemEventsHelper(TabsHover);
+        ts.AttachEventHandlers(newItem);
 
         var passer = new Passer
         {
@@ -354,8 +360,10 @@ public sealed partial class MainWindow : Window
         }
 
         newItem.Content = frame;
+
         return newItem;
     }
+
 
     public Frame TabContent => (Tabs.SelectedItem as FireBrowserTabViewItem)?.Content as Frame;
 
@@ -712,6 +720,7 @@ public sealed partial class MainWindow : Window
 
     #endregion
 
+
     private async void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (TabContent?.Content is WebContent webContent)
@@ -721,11 +730,13 @@ public sealed partial class MainWindow : Window
 
             await TabWebView.EnsureCoreWebView2Async();
             SmallUpdates();
+
         }
         else
         {
             ViewModel.CanRefresh = false;
             ViewModel.CurrentAddress = null;
+
         }
     }
 
@@ -1097,5 +1108,5 @@ public sealed partial class MainWindow : Window
     {
         if (!(sender is Button switchButton && switchButton.DataContext is string clickedUserName)) return;
         OpenNewWindow(new Uri($"firebrowseruser://{clickedUserName}")); new Shortcut().CreateShortcut(clickedUserName);
-    }
+    }  
 }

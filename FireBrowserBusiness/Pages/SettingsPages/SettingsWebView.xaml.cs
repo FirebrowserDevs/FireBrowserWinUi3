@@ -22,8 +22,44 @@ public sealed partial class SettingsWebView : Page
         StatusTog.IsOn = userSettings.StatusBar == "1" ? true : false;
         BrowserKeys.IsOn = userSettings.BrowserKeys == "1" ? true : false;
         BrowserScripts.IsOn = userSettings.BrowserScripts == "1" ? true : false;
+        antitracklevel();
+       
     }
 
+    public void antitracklevel()
+    {
+        // Assuming userSettings.TrackPrevention is a string that may be null or contain a valid number (0, 1, 2, 3)
+        string trackPreventionSetting = userSettings.TrackPrevention;
+
+        // Default to "2" if the setting is null or empty
+        trackPreventionSetting = string.IsNullOrEmpty(trackPreventionSetting) ? "2" : trackPreventionSetting;
+
+        // Map the numeric value to the corresponding text value
+        string selectedText;
+        switch (int.Parse(trackPreventionSetting))
+        {
+            case 0:
+                selectedText = "None";
+                break;
+            case 1:
+                selectedText = "Basic";
+                break;
+            case 2:
+                selectedText = "Balanced";
+                break;
+            case 3:
+                selectedText = "Strict";
+                break;
+            default:
+                // You may want to handle unexpected values here
+                selectedText = "Balanced";
+                break;
+        }
+
+        // Assuming PreventionLevel.ItemsSource contains the text values ("None", "Basic", "Balanced", "Strict")
+        PreventionLevel.SelectedItem = selectedText;
+
+    }
     private async void ClearCookies_Click(object sender, RoutedEventArgs e)
     {
         await Web.EnsureCoreWebView2Async();
@@ -107,6 +143,52 @@ public sealed partial class SettingsWebView : Page
 
             // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+        }
+    }
+
+    private void PreventionLevel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        try
+        {
+            string selection = e.AddedItems[0].ToString();
+            string antitrack;
+
+            switch (selection)
+            {
+                case "None":
+                    antitrack = "0";
+                    Info.Text = "No Privacy Anti Tracking No Effect On Websites";
+                    break;
+                case "Basic":
+                    antitrack = "1";
+                    Info.Text = "Basic Privacy Anti Tracking Small Effect On Websites";
+                    break;
+                case "Balanced":
+                    antitrack = "2";
+                    Info.Text = "Balanced Privacy Anti Tracking High Level Works With Most Sites";
+                    break;
+                case "Strict":
+                    antitrack = "3";
+                    Info.Text = "Strict Privacy Anti Tracking Can Break Some Websites";
+                    break;
+              
+                default:
+                    // Handle the case when selection doesn't match any of the predefined options.
+                    antitrack = "2";
+                    break;
+            }
+
+            if (!string.IsNullOrEmpty(antitrack))
+            {
+
+                userSettings.TrackPrevention = antitrack;
+                // Save the modified settings back to the user's settings file
+                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error occurred: " + ex.Message);
         }
     }
 }

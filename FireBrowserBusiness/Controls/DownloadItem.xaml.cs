@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Windows.ApplicationModel.Resources;
@@ -58,7 +59,7 @@ public sealed partial class DownloadItem : ListViewItem
         _downloadOperation.StateChanged += _downloadOperation_StateChanged;
         _downloadOperation.EstimatedEndTimeChanged += _downloadOperation_EstimatedEndTimeChanged;
 
-        fileName.Text = _downloadOperation.ResultFilePath.Substring(_filePath.LastIndexOf("\\") + 1);
+        fileName.Text = _downloadOperation.ResultFilePath.Substring(_filePath.LastIndexOf("\\") + 1);  
 
         SetIcon();
 
@@ -78,7 +79,7 @@ public sealed partial class DownloadItem : ListViewItem
                 progressRing.Visibility = Visibility.Collapsed;
                 ResourceLoader resourceLoader = new();
                 subtitle.Text = resourceLoader.GetString("OpenDownload");
-
+              
                 SetIcon();
                 break;
 
@@ -196,7 +197,6 @@ public sealed partial class DownloadItem : ListViewItem
 
     private async void InsertDownloadIntoDatabase()
     {
-
         try
         {
             using (var connection = new SqliteConnection($"Data Source={_databaseFilePath}"))
@@ -206,25 +206,31 @@ public sealed partial class DownloadItem : ListViewItem
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = @"
-                            INSERT INTO downloads (guid, current_path, end_time, start_time)
-                            VALUES (@guid, @currentPath, @endTime, @startTime)";
+                    INSERT INTO downloads (guid, current_path, end_time, start_time)
+                    VALUES (@guid, @currentPath, @endTime, @startTime)";
 
                     // Parameters for the SQL command
-                    command.Parameters.AddWithValue("@guid", Guid.NewGuid().ToString());
-                    command.Parameters.AddWithValue("@currentPath", _filePath);
-                    command.Parameters.AddWithValue("@endTime", _downloadOperation.EstimatedEndTime.ToString()); // Set end time
-                    command.Parameters.AddWithValue("@startTime", DateTimeOffset.UtcNow.ToUnixTimeSeconds()); // Set start time
+                    command.Parameters.Add("@guid", SqliteType.Text).Value = Guid.NewGuid().ToString();
+                    command.Parameters.Add("@currentPath", SqliteType.Text).Value = _filePath;
+                    command.Parameters.Add("@endTime", SqliteType.Text).Value = _downloadOperation.EstimatedEndTime.ToString();
+                    command.Parameters.Add("@startTime", SqliteType.Integer).Value = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
                     await command.ExecuteNonQueryAsync();
                 }
             }
         }
-        catch (Exception ex)
+        catch (SqliteException ex)
         {
             // Handle database insertion error
             Debug.WriteLine($"Database insertion error: {ex.Message}");
         }
+        catch (Exception ex)
+        {
+            // Handle other exceptions
+            Debug.WriteLine($"An error occurred: {ex.Message}");
+        }
     }
+
     private void ListViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
     {
         if (_downloadOperation != null)
@@ -244,11 +250,36 @@ public sealed partial class DownloadItem : ListViewItem
         }
     }
 
-    private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    private async void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        File.Delete(_filePath);
+        DeleteDownloadFromDatabase(); 
+        File.Delete(_filePath); // Replace with the actual property name
         var window = (Application.Current as App)?.m_window as MainWindow;
         window.DownloadFlyout.DownloadItemsListView.Items.Remove(this);
+    }
+
+    private async void DeleteDownloadFromDatabase()
+    {
+        try
+        {
+            using (var connection = new SqliteConnection($"Data Source={_databaseFilePath}"))
+            {
+                await connection.OpenAsync();
+
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "DELETE FROM downloads WHERE current_path = @currentPath";
+                    command.Parameters.AddWithValue("@currentPath", _filePath);
+
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle database deletion error
+            Debug.WriteLine($"Database deletion error: {ex.Message}");
+        }
     }
 
     private void MenuFlyoutItem_Click_1(object sender, RoutedEventArgs e)
