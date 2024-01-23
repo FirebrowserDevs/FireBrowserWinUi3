@@ -5,15 +5,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Height="40" IsEnabled="True" RightTapped="ListViewItem_RightTapped">
+    mc:Ignorable="d" Height="40" IsEnabled="True" RightTapped="ListViewItem_RightTapped"
+    xmlns:local="using:FireBrowserBusiness.Controls"
+    >
 
     <ListViewItem.Style>
         <Style TargetType="ListViewItem" BasedOn="{StaticResource DefaultListViewItemStyle}"/>
     </ListViewItem.Style>
 
     <ListViewItem.Resources>
+
         <MenuFlyout x:Name="contextMenu">
-            <MenuFlyoutItem Text="Delete Download"  Click="MenuFlyoutItem_Click">
+            <MenuFlyoutItem x:Name="Delete" Text="Delete Download"  Click="MenuFlyoutItem_Click" >
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE74D;" />
                 </MenuFlyoutItem.Icon>
@@ -27,6 +30,7 @@
     </ListViewItem.Resources>
 
     <Grid>
+       
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="21"/>
             <ColumnDefinition/>

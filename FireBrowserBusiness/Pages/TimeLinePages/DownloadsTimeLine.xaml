@@ -9,6 +9,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ListView x:Name="DownloadItemsListView" />
+        <ListView x:FieldModifier="Public" x:Name="DownloadItemsListView" />
     </Grid>
 </Page>

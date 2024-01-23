@@ -10,6 +10,7 @@ using FireBrowserMultiCore;
 using FireBrowserQr;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
+using FireBrowserWinUi3.Pages.TimeLinePages;
 using FireBrowserWinUi3Core.CoreUi;
 using Microsoft.Data.Sqlite;
 using Microsoft.UI;
@@ -333,8 +334,8 @@ public sealed partial class MainWindow : Window
             Style = (Style)Microsoft.UI.Xaml.Application.Current.Resources["FloatingTabViewItemStyle"]
         };
 
-        TabItemEventsHelper ts = new TabItemEventsHelper(TabsHover);
-        ts.AttachEventHandlers(newItem);
+        //TabItemEventsHelper ts = new TabItemEventsHelper(TabsHover);
+        //ts.AttachEventHandlers(newItem);
 
         var passer = new Passer
         {
@@ -363,7 +364,6 @@ public sealed partial class MainWindow : Window
 
         return newItem;
     }
-
 
     public Frame TabContent => (Tabs.SelectedItem as FireBrowserTabViewItem)?.Content as Frame;
 

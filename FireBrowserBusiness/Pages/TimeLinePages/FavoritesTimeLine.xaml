@@ -29,6 +29,14 @@
                     <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE16F;" />
                 </AppBarButton.Icon>
             </AppBarButton>
+            <AppBarButton
+       Click="FavContextItem_Click"
+       Tag="DeleteSingleRecord"
+       ToolTipService.ToolTip="Delete Record">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE74D;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
             <CommandBarFlyout.SecondaryCommands>
                 <AppBarButton
             Click="FavContextItem_Click"

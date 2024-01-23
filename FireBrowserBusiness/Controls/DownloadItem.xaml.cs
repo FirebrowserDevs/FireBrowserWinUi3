@@ -1,5 +1,8 @@
 using FireBrowserBusiness;
+using FireBrowserBusiness.Controls;
 using FireBrowserMultiCore;
+using FireBrowserWinUi3.Pages;
+using FireBrowserWinUi3.Pages.TimeLinePages;
 using Microsoft.Data.Sqlite;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -23,6 +26,8 @@ public sealed partial class DownloadItem : ListViewItem
     private CoreWebView2DownloadOperation _downloadOperation;
     private string _filePath;
     private readonly string _databaseFilePath = "";
+
+    private static DownloadsTimeLine downloadsTimeLineInstance;
 
     private int Progress { get; set; } = 0;
     private string EstimatedEnd { get; set; } = string.Empty;
@@ -250,13 +255,35 @@ public sealed partial class DownloadItem : ListViewItem
         }
     }
 
+
     private async void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        DeleteDownloadFromDatabase(); 
-        File.Delete(_filePath); // Replace with the actual property name
-        var window = (Application.Current as App)?.m_window as MainWindow;
-        window.DownloadFlyout.DownloadItemsListView.Items.Remove(this);
+        try
+        {
+            // Delete from the database
+            DeleteDownloadFromDatabase();
+
+            // Delete the file
+            File.Delete(_filePath); // Replace with the actual property name
+
+            // Remove the item from the current ListView in MainWindow
+            var window = (Application.Current as App)?.m_window as MainWindow;
+            window.DownloadFlyout.DownloadItemsListView.Items.Remove(this);
+        }
+        catch (SqliteException ex)
+        {
+            // Handle SQLite exceptions
+            Debug.WriteLine($"SQLite Exception: {ex.Message}");
+            // You might want to show a user-friendly message here
+        }
+        catch (Exception ex)
+        {
+            // Handle other exceptions
+            Debug.WriteLine($"An error occurred: {ex.Message}");
+            // You might want to show a user-friendly message here
+        }
     }
+
 
     private async void DeleteDownloadFromDatabase()
     {

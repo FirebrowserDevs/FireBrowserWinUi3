@@ -12,9 +12,8 @@ namespace FireBrowserWinUi3.Controls
     public class TabItemEventsHelper
     {
         private bool isFlyoutOpen = false;
-        private DispatcherTimer flyoutCloseTimer;
         private Flyout tabsHover;
-
+        private DispatcherTimer flyoutCloseTimer;
         public TabItemEventsHelper(Flyout tabsHover)
         {
             this.tabsHover = tabsHover;
@@ -29,6 +28,15 @@ namespace FireBrowserWinUi3.Controls
             newItem.LostFocus += OnLostFocus;
             newItem.RightTapped += OnRightTapped;
             newItem.PointerCaptureLost += OnPointerCaptureLost;
+
+            // Assuming "CloseButton" is the name of the close button in your tab item
+            var closeButton = newItem.FindName("CloseButton") as Button;
+
+            if (closeButton != null)
+            {
+                closeButton.PointerEntered += CloseButton_PointerEntered;
+                closeButton.PointerExited += OnCloseButtonPointerExited;
+            }
         }
 
         private void OnPointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -36,8 +44,7 @@ namespace FireBrowserWinUi3.Controls
             // Show the flyout when the TabItem is clicked
             ShowFlyout((FireBrowserTabViewItem)sender);
         }
-
-        private void OnPointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private async void OnPointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             FireBrowserTabViewItem tabItem = (FireBrowserTabViewItem)sender;
 
@@ -52,8 +59,15 @@ namespace FireBrowserWinUi3.Controls
             else if (!isFlyoutOpen)
             {
                 // Open the flyout when the pointer enters, if not already open
+                await Task.Delay(50); // Introduce a slight delay before showing the flyout
                 ShowFlyout(tabItem);
             }
+        }
+
+        private void CloseButton_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            // Focus on the close button when the pointer enters
+            FocusOnCloseButton(FindTabItemFromCloseButton(sender));
         }
 
         private void OnPointerMoved(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -83,6 +97,23 @@ namespace FireBrowserWinUi3.Controls
                     // Start the timer to close the flyout
                     StartFlyoutCloseTimer(tabItem);
                 }
+            }
+        }
+
+        private void OnCloseButtonPointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            // Remove focus when the pointer leaves the close button
+            UnfocusOnCloseButton(FindTabItemFromCloseButton(sender));
+        }
+
+        private void UnfocusOnCloseButton(FireBrowserTabViewItem tabItem)
+        {
+            // Find the CloseButton in the visual tree of the tab item
+            var closeButton = tabItem.FindName("CloseButton") as Button;
+
+            if (closeButton != null)
+            {
+                closeButton.Focus(FocusState.Unfocused);
             }
         }
 
@@ -140,8 +171,6 @@ namespace FireBrowserWinUi3.Controls
             }
         }
 
-
-
         private void OnRightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
             // Prevent the default context menu from appearing
@@ -191,28 +220,22 @@ namespace FireBrowserWinUi3.Controls
 
         private async void StartFlyoutCloseTimer(FireBrowserTabViewItem tabItem)
         {
-            if (flyoutCloseTimer == null)
-            {
-                flyoutCloseTimer = new DispatcherTimer();
-                flyoutCloseTimer.Interval = TimeSpan.FromSeconds(1); // Adjust the delay as needed
-                flyoutCloseTimer.Tick += (s, args) => CloseFlyout(tabItem);
-            }
+            // Delay for 2.5 seconds before closing the flyout
+            await Task.Delay(2500);
 
-            flyoutCloseTimer.Start();
+            // Close the flyout after the delay
+            CloseFlyout(tabItem);
 
-            // Await the delay before closing the flyout
-            await Task.Delay(1000);
+            // Delay for 3 seconds before allowing the flyout to open again
+            await Task.Delay(3000);
 
-            // Check if the pointer has re-entered during the delay
-            if (!isFlyoutOpen && IsPointerOverParentContainer(tabItem, Window.Current.CoreWindow.PointerPosition))
-            {
-                ShowFlyout(tabItem);
-            }
+            // Reset the timer to allow the flyout to open again
+            ResetFlyoutCloseTimer();
         }
-
 
         private void ResetFlyoutCloseTimer()
         {
+            // Reset the timer if it's running
             if (flyoutCloseTimer != null)
             {
                 flyoutCloseTimer.Stop();
@@ -235,6 +258,25 @@ namespace FireBrowserWinUi3.Controls
             if (Window.Current != null && Window.Current.CoreWindow != null)
             {
                 return Window.Current.CoreWindow.PointerPosition;
+            }
+
+            return null;
+        }
+
+        // Helper method to find the tab item associated with a close button
+        private FireBrowserTabViewItem FindTabItemFromCloseButton(object closeButton)
+        {
+            // Find the visual tree upwards to locate the FireBrowserTabViewItem
+            DependencyObject current = closeButton as DependencyObject;
+
+            while (current != null)
+            {
+                if (current is FireBrowserTabViewItem tabItem)
+                {
+                    return tabItem;
+                }
+
+                current = VisualTreeHelper.GetParent(current);
             }
 
             return null;

@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Xml;
 using Windows.System;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -78,6 +80,47 @@ namespace FireBrowserWinUi3.Pages.TimeLinePages
             FavoritesListView.ItemsSource = null;
             File.Delete(databasePath);
         }
+
+        private async void RemoveFavorite(FavItem selectedItem)
+        {
+            string username = user.Username;
+            string databasePath = Path.Combine(
+                UserDataManager.CoreFolderPath,
+                UserDataManager.UsersFolderPath,
+                username,
+                "Database",
+                "favorites.json"
+            );
+
+            // Read the JSON content from the file
+            string jsonContent = File.ReadAllText(databasePath);
+
+            // Deserialize JSON content into a list of FavItem
+            List<FavItem> favoritesList = JsonSerializer.Deserialize<List<FavItem>>(jsonContent);
+
+            // Find and remove the selected item from the list
+            if (selectedItem != null)
+            {
+                favoritesList.Remove(selectedItem);
+
+                // Serialize the updated list back to JSON
+                string updatedJsonContent = JsonSerializer.Serialize(favoritesList, new JsonSerializerOptions
+                {
+                    WriteIndented = true // Use this option if you want indented output
+                });
+
+                File.WriteAllText(databasePath, updatedJsonContent);
+
+                // Update your UI or perform any other necessary actions
+                FavoritesListView.ItemsSource = favoritesList;
+            }
+            else
+            {
+                // Handle the case where the selected item is null (optional)
+                Console.WriteLine("Selected item is null.");
+            }
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             ClearFavs();
@@ -95,10 +138,16 @@ namespace FireBrowserWinUi3.Pages.TimeLinePages
                 case "CopyText":
                     ClipBoard.WriteStringToClipboard(ctmtext);
                     break;
-                    // link context menu
+                case "DeleteSingleRecord":
+                    // Assuming ctmurl and ctmtext represent the URL and title of the selected item
+                    //FavItem selectedItem = new FavItem { Url = ctmurl, Title = ctmtext };
+                    //RemoveFavorite(selectedItem);
+                    break;
+                    // Add other cases as needed
             }
             FavoritesContextMenu.Hide();
         }
+
 
     }
 }

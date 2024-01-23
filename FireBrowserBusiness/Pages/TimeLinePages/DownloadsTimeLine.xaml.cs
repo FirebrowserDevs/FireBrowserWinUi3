@@ -15,6 +15,8 @@ namespace FireBrowserWinUi3.Pages.TimeLinePages
     /// </summary>
     public sealed partial class DownloadsTimeLine : Page
     {
+        public ListView DownloadItemsList => DownloadItemsListView;
+
         public DownloadsTimeLine()
         {
             this.InitializeComponent();
