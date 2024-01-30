@@ -1,5 +1,6 @@
 using CommunityToolkit.WinUI.Helpers;
 using FireBrowserBusiness;
+using FireBrowserBusiness.Controls;
 using FireBrowserBusinessCore.Helpers;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3.Controls;
@@ -17,6 +18,7 @@ using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
+using Windows.Storage;
 using static FireBrowserBusiness.MainWindow;
 
 namespace FireBrowserWinUi3.Pages;
@@ -25,6 +27,8 @@ public sealed partial class WebContent : Page
 {
     Passer param;
     public static bool IsIncognitoModeEnabled { get; set; } = false;
+    public BitmapImage PictureWebElement { get; set; }
+
     private FireBrowserMultiCore.User GetUser()
     {
         // Check if the user is authenticated.
@@ -34,6 +38,7 @@ public sealed partial class WebContent : Page
         }
 
         return null;
+
     }
     public WebContent()
     {
@@ -41,7 +46,7 @@ public sealed partial class WebContent : Page
         Init();
     }
 
-    public async Task Init()
+    public void Init()
     {
         var currentUser = GetUser();
 
@@ -259,7 +264,7 @@ public sealed partial class WebContent : Page
                 CheckNetworkStatus();
             }
         };
-        s.CoreWebView2.NavigationCompleted += (sender, args) =>
+        s.CoreWebView2.NavigationCompleted += async (sender, args) =>
         {
             Progress.IsIndeterminate = false;
             Progress.Visibility = Visibility.Collapsed;
@@ -269,6 +274,37 @@ public sealed partial class WebContent : Page
                 CheckNetworkStatus();
                 AfterComplete();
             }
+
+            //thread safe
+            s?.DispatcherQueue.TryEnqueue(async () =>
+            {
+                // allow webview to load the page
+                await Task.Delay(2400);
+
+                BitmapImage bitmap = new();
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    await s?.CoreWebView2?.CapturePreviewAsync(CoreWebView2CapturePreviewImageFormat.Jpeg, memoryStream.AsRandomAccessStream());
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+
+                    bitmap.SetSource(memoryStream.AsRandomAccessStream());
+
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+                    Windows.Storage.StorageFile file = await ApplicationData.Current.RoamingFolder.CreateFileAsync("view.png", Windows.Storage.CreationCollisionOption.ReplaceExisting);
+                    await Windows.Storage.FileIO.WriteBytesAsync(file, memoryStream.GetBuffer());
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+                    PictureWebElement = bitmap;
+
+                    // set the active tab with the current view
+                    MainWindow win = (Window)(Application.Current as App).m_window as MainWindow;
+                    if (win?.TabViewContainer.SelectedItem is FireBrowserTabViewItem tab)
+                    {
+                        if (win?.TabContent.Content is WebContent web)
+                            tab.BitViewWebContent = web.PictureWebElement;
+                    }
+                }
+            });
 
         };
         s.CoreWebView2.SourceChanged += (sender, args) =>
@@ -359,7 +395,7 @@ public sealed partial class WebContent : Page
 
                     break;
                 case "Share":
-                 
+
                     break;
                 case "Print":
                     WebViewElement.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);

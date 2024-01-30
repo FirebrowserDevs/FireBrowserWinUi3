@@ -10,14 +10,12 @@ using FireBrowserMultiCore;
 using FireBrowserQr;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
-using FireBrowserWinUi3.Pages.TimeLinePages;
 using FireBrowserWinUi3Core.CoreUi;
 using Microsoft.Data.Sqlite;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media.Imaging;
 using SQLitePCL;
 using System;
@@ -34,7 +32,6 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using WinRT.Interop;
-using static FireBrowserWinUi3.Pages.WebContent;
 using Settings = FireBrowserMultiCore.Settings;
 using Windowing = FireBrowserBusinessCore.Helpers.Windowing;
 
@@ -53,7 +50,7 @@ public sealed partial class MainWindow : Window
         ArgsPassed();
         LoadUserDataAndSettings(); // Load data and settings for the new user
         LoadUserSettings();
-        Init();      
+        Init();
 
         appWindow.Closing += AppWindow_Closing;
     }
@@ -369,6 +366,7 @@ public sealed partial class MainWindow : Window
 
     public WebView2 TabWebView => (TabContent?.Content as WebContent)?.WebViewElement;
 
+    public FireBrowserTabViewContainer TabViewContainer => Tabs;
     private double GetScaleAdjustment()
     {
         var hWnd = WindowNative.GetWindowHandle(this);
@@ -444,6 +442,7 @@ public sealed partial class MainWindow : Window
 
     public Passer CreatePasser(object parameter = null)
     {
+
         return new()
         {
             Tab = Tabs.SelectedItem as FireBrowserTabViewItem,
@@ -451,6 +450,7 @@ public sealed partial class MainWindow : Window
             ViewModel = ViewModel,
             Param = parameter,
         };
+
     }
 
     public void SelectNewTab() => Tabs.SelectedIndex = Tabs.TabItems.Count - 1;
@@ -467,10 +467,13 @@ public sealed partial class MainWindow : Window
         {
             launchurl ??= uri;
             TabContent.Navigate(typeof(WebContent), CreatePasser(uri));
+
             return;
         }
 
         webContent.WebViewElement.CoreWebView2.Navigate(uri.ToString());
+
+
     }
 
     private void UrlBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -1108,5 +1111,5 @@ public sealed partial class MainWindow : Window
     {
         if (!(sender is Button switchButton && switchButton.DataContext is string clickedUserName)) return;
         OpenNewWindow(new Uri($"firebrowseruser://{clickedUserName}")); new Shortcut().CreateShortcut(clickedUserName);
-    }  
+    }
 }
