@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 using static FireBrowserBusiness.MainWindow;
 using Settings = FireBrowserBusinessCore.Models.Settings;
 
@@ -211,13 +212,12 @@ public sealed partial class NewTab : Page
             if (!Directory.Exists(imagesFolderPath))
             {
                 Directory.CreateDirectory(imagesFolderPath);
-                ShowInfoBar("CacheImages folder created.", InfoBarSeverity.Success);
             }
 
             if (!File.Exists(storedDbPath))
             {
                 File.WriteAllText(storedDbPath, "[]");
-                ShowInfoBar("Created empty StoredDb.json.", InfoBarSeverity.Success);
+               
             }
 
             Guid gd = Guid.NewGuid();
@@ -233,23 +233,14 @@ public sealed partial class NewTab : Page
             };
 
             await new ImagesHelper().AppendToJsonAsync(storedDbPath, newImageData);
-            ShowInfoBar($"Downloaded Bing Image To {imagesFolderPath} Success!", InfoBarSeverity.Success);
         }
         catch (Exception ex)
         {
-            ShowInfoBar($"Error downloading image: {ex.Message}", InfoBarSeverity.Error);
-            // Handle the exception as needed: log, display to the user, etc.
+           
         }
     }
 
-    private void ShowInfoBar(string message, InfoBarSeverity severity)
-    {
-        infoBar.IsOpen = true;
-        infoBar.Message = message;
-        infoBar.Severity = severity;
 
-        _ = Task.Delay(TimeSpan.FromSeconds(1.5)).ContinueWith(_ => infoBar.IsOpen = false);
-    }
 
     private void UpdateUserSettings(Action<FireBrowserMultiCore.Settings> updateAction)
     {

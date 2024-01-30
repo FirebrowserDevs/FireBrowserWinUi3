@@ -23,11 +23,6 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Grid x:Name="GridImage" Background="{x:Bind local:NewTab.GetGridBackgroundAsync(ViewModel.BackgroundType, userSettings), Mode=OneWay}"/>
-        <InfoBar
-            Title="Bing Images"
-            x:Name="infoBar"
-            IsClosable="False"
-            Width="500"/>
         <Button x:Uid="NewTabEditButton"
              Style="{ThemeResource QuietButtonStyle}"
              Padding="6" Margin="0,31,64,0"
@@ -50,7 +45,6 @@
                 </Flyout>
             </Button.Flyout>
         </Button>
-       
         <Button x:Uid="NewTabSettingsButton"
              Style="{ThemeResource QuietButtonStyle}"
              Padding="6" Margin="0,31,32,0"
@@ -69,7 +63,7 @@
                                 Margin="0,8,0,0">
                                                None
                                     </TextBlock>
-                             </StackPanel>
+                                </StackPanel>
                             </GridViewItem>
                             <GridViewItem x:Name="FsGrid" Padding="12" Tag="Featured" x:FieldModifier="Public">
                                 <StackPanel>

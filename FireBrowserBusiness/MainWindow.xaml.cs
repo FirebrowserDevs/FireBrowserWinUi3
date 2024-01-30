@@ -39,7 +39,6 @@ namespace FireBrowserBusiness;
 public sealed partial class MainWindow : Window
 {
     private AppWindow appWindow;
-    private AppWindowTitleBar titleBar;
 
     public DownloadFlyout DownloadFlyout { get; set; } = new DownloadFlyout();
 
