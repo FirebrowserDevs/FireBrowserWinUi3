@@ -27,8 +27,14 @@ public sealed partial class FireBrowserTabViewItem : TabViewItem
 
         /* - 2024-1-31
              1. qualify the sender (TabItem) to be the Selected Tab of the Container 
-             2. Test to see if exists, hence they is a timeout of 2400 millseconds to load the page
+             2. Test to see if exists, hence they is a timeout of 2400 millseconds to load the page 
              3. Doesn't show Preview of WebSite if it's a newtab compontent.  
+        */
+
+        /* -        
+           ( 31-1-2024 ) Updated Deley to 1500 works 
+
+
         */
 
         if ((sender as FireBrowserBusiness.Controls.FireBrowserTabViewItem).IsSelected)
@@ -46,10 +52,5 @@ public sealed partial class FireBrowserTabViewItem : TabViewItem
                 }
 
             }
-
-
-
     }
-
-
 }

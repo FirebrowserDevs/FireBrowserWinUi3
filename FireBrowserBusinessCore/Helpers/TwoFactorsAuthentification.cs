@@ -1,5 +1,4 @@
 ﻿using FireBrowserBusinessCore.Models;
-using FireBrowserMultiCore;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;

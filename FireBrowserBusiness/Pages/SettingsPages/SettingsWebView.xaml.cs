@@ -23,7 +23,7 @@ public sealed partial class SettingsWebView : Page
         BrowserKeys.IsOn = userSettings.BrowserKeys == "1" ? true : false;
         BrowserScripts.IsOn = userSettings.BrowserScripts == "1" ? true : false;
         antitracklevel();
-       
+
     }
 
     public void antitracklevel()
@@ -171,7 +171,7 @@ public sealed partial class SettingsWebView : Page
                     antitrack = "3";
                     Info.Text = "Strict Privacy Anti Tracking Can Break Some Websites";
                     break;
-              
+
                 default:
                     // Handle the case when selection doesn't match any of the predefined options.
                     antitrack = "2";

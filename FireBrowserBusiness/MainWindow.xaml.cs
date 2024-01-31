@@ -330,9 +330,6 @@ public sealed partial class MainWindow : Window
             Style = (Style)Microsoft.UI.Xaml.Application.Current.Resources["FloatingTabViewItemStyle"]
         };
 
-        //TabItemEventsHelper ts = new TabItemEventsHelper(TabsHover);
-        //ts.AttachEventHandlers(newItem);
-
         var passer = new Passer
         {
             Tab = newItem,
@@ -653,7 +650,6 @@ public sealed partial class MainWindow : Window
                         QRCodeGenerator qrGenerator = new QRCodeGenerator();
                         QRCodeData qrCodeData = qrGenerator.CreateQrCode((TabContent.Content as WebContent).WebViewElement.CoreWebView2.Source.ToString(), QRCodeGenerator.ECCLevel.M);
 
-                        //Create byte/raw bitmap qr code
                         BitmapByteQRCode qrCodeBmp = new BitmapByteQRCode(qrCodeData);
                         byte[] qrCodeImageBmp = qrCodeBmp.GetGraphic(20);
                         using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())

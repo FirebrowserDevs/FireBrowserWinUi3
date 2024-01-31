@@ -1,10 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Email;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -53,7 +51,7 @@ namespace FireBrowserExceptions
 
                 await dialog.ShowAsync();
             }
-            catch 
+            catch
             {
             }
         }

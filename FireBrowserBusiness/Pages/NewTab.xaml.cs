@@ -16,7 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Windows.UI.Core;
 using static FireBrowserBusiness.MainWindow;
 using Settings = FireBrowserBusinessCore.Models.Settings;
 
@@ -217,7 +216,7 @@ public sealed partial class NewTab : Page
             if (!File.Exists(storedDbPath))
             {
                 File.WriteAllText(storedDbPath, "[]");
-               
+
             }
 
             Guid gd = Guid.NewGuid();
@@ -236,7 +235,7 @@ public sealed partial class NewTab : Page
         }
         catch (Exception ex)
         {
-           
+
         }
     }
 

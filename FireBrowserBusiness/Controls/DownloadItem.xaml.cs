@@ -1,14 +1,11 @@
 using FireBrowserBusiness;
-using FireBrowserBusiness.Controls;
 using FireBrowserMultiCore;
-using FireBrowserWinUi3.Pages;
 using FireBrowserWinUi3.Pages.TimeLinePages;
 using Microsoft.Data.Sqlite;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Windows.ApplicationModel.Resources;
@@ -64,7 +61,7 @@ public sealed partial class DownloadItem : ListViewItem
         _downloadOperation.StateChanged += _downloadOperation_StateChanged;
         _downloadOperation.EstimatedEndTimeChanged += _downloadOperation_EstimatedEndTimeChanged;
 
-        fileName.Text = _downloadOperation.ResultFilePath.Substring(_filePath.LastIndexOf("\\") + 1);  
+        fileName.Text = _downloadOperation.ResultFilePath.Substring(_filePath.LastIndexOf("\\") + 1);
 
         SetIcon();
 
@@ -84,7 +81,7 @@ public sealed partial class DownloadItem : ListViewItem
                 progressRing.Visibility = Visibility.Collapsed;
                 ResourceLoader resourceLoader = new();
                 subtitle.Text = resourceLoader.GetString("OpenDownload");
-              
+
                 SetIcon();
                 break;
 

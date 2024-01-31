@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Xml;
 using Windows.System;
 
 // To learn more about WinUI, the WinUI project structure,

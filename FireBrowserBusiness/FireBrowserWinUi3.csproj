@@ -119,6 +119,7 @@
     <ProjectReference Include="..\FireBrowserExceptions\FireBrowserExceptions.csproj" />
     <ProjectReference Include="..\FireBrowserFavorites\FireBrowserFavorites.csproj" />
     <ProjectReference Include="..\FireBrowserMultiCore\FireBrowserMultiCore.csproj" />
+    <ProjectReference Include="..\FireBrowserQr\FireBrowserQr.csproj" />
     <ProjectReference Include="..\FireBrowserSecureConnect\FireBrowserWinUi3SecureConnect.csproj" />
     <ProjectReference Include="..\FireBrowserSetup\FireBrowserSetup.csproj" />
     <ProjectReference Include="..\SecureConnectOtp\SecureConnectOtp.csproj" />
@@ -272,11 +273,6 @@
   </ItemGroup>
   <ItemGroup>
     <AdditionalDesignTimeBuildInput Remove="FakesAssemblies\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="FireBrowserQr">
-      <HintPath>..\..\..\FireBrowser-Uwp\src\FireBrowserQr\bin\Debug\FireBrowserQr.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Update="Assets\Icons\enqryption.png">

@@ -7,8 +7,8 @@
     <FlyoutBase.AttachedFlyout>
         <Flyout SystemBackdrop="{ThemeResource AcrylicBackgroundFillColorDefaultBackdrop}">
             <Grid
-                Width="412"
-                Height="256"
+                Width="275"
+                Height="165"
                 Margin="1,1,0,0"
                 BorderBrush="{StaticResource SystemChromeGrayColor}"
                 BorderThickness=".8"
@@ -18,7 +18,7 @@
                     x:Name="ImgTabViewItem"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
-                    Stretch="UniformToFill"
+                    Stretch="Fill"
                     UseLayoutRounding="True" />
             </Grid>
         </Flyout>
