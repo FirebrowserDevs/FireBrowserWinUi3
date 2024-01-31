@@ -5,13 +5,19 @@
     x:Name="TabViewItem"
     PointerEntered="TabViewItem_PointerEntered">
     <FlyoutBase.AttachedFlyout>
-        <Flyout>
+        <Flyout SystemBackdrop="{ThemeResource AcrylicBackgroundFillColorDefaultBackdrop}">
             <Grid
-                Width="480"
-                Height="320"
-                Margin="2">
+                Width="412"
+                Height="256"
+                Margin="1,1,0,0"
+                BorderBrush="{StaticResource SystemChromeGrayColor}"
+                BorderThickness=".8"
+                CornerRadius="{StaticResource ControlCornerRadius}">
+
                 <Image
                     x:Name="ImgTabViewItem"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
                     Stretch="UniformToFill"
                     UseLayoutRounding="True" />
             </Grid>

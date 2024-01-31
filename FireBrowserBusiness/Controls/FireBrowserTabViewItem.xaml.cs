@@ -24,23 +24,28 @@ public sealed partial class FireBrowserTabViewItem : TabViewItem
     private void TabViewItem_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
         MainWindow win = (Window)(Application.Current as App).m_window as MainWindow;
-        if (win?.TabViewContainer.SelectedItem is FireBrowserTabViewItem tab)
-        {
-            if (win?.TabContent.Content is WebContent web)
+
+        /* - 2024-1-31
+             1. qualify the sender (TabItem) to be the Selected Tab of the Container 
+             2. Test to see if exists, hence they is a timeout of 2400 millseconds to load the page
+             3. Doesn't show Preview of WebSite if it's a newtab compontent.  
+        */
+
+        if ((sender as FireBrowserBusiness.Controls.FireBrowserTabViewItem).IsSelected)
+            if (win?.TabViewContainer.SelectedItem is FireBrowserTabViewItem tab)
             {
-                // test to see if exists, hence they is a timeout of 2400 millseconds to load the page
-                // this also allow NOT to show if it's a newTab aswell...dizzle. 2024-01-30
-                // need to work on ie:  if 2 tabs are present no matter where the mouse enters on the TabContainer it will show the SelectedTabs View - weird
-                // jarno I DIDN't use an exitof the mouse event because that was I believe you weird or itchy ticking of the flyout. 
-                if (web.PictureWebElement is BitmapImage)
+                if (win?.TabContent.Content is WebContent web)
                 {
-                    ImgTabViewItem.Source = web.PictureWebElement;
-                    Flyout.GetAttachedFlyout(TabViewItem).ShowAt(TabViewItem);
+
+                    if (web.PictureWebElement is BitmapImage)
+                    {
+                        ImgTabViewItem.Source = web.PictureWebElement;
+                        Flyout.GetAttachedFlyout(TabViewItem).ShowAt(TabViewItem);
+                    }
+
                 }
 
             }
-
-        }
 
 
 
