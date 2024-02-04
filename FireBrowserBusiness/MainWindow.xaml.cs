@@ -71,7 +71,6 @@ public sealed partial class MainWindow : Window
                 if (Application.Current is not App currentApp || !(currentApp.m_window is MainWindow mainWindow))
                     return;
 
-
                 ConfirmAppClose quickConfigurationDialog = new()
                 {
                     XamlRoot = mainWindow.Content.XamlRoot
@@ -81,10 +80,8 @@ public sealed partial class MainWindow : Window
                 {
                     // Close the dialog first
                     quickConfigurationDialog.Hide();
-
                     // Delay the app exit to allow time for the dialog to close
-                    await Task.Delay(250); // Adjust the delay time if needed
-
+                    await Task.Delay(250); 
                     // Close the application synchronously after the dialog is closed
                     Application.Current.Exit();
                 };
@@ -100,8 +97,6 @@ public sealed partial class MainWindow : Window
             args.Cancel = false;
         }
     }
-
-
 
     bool incog = false;
     private async void ArgsPassed()
@@ -317,8 +312,6 @@ public sealed partial class MainWindow : Window
     }
 
     #endregion
-
-    private bool isFirstTabHovered = false;
     public FireBrowserTabViewItem CreateNewTab(Type? page = null, object param = null, int index = -1)
     {
         index = Tabs.TabItems.Count;
@@ -359,9 +352,7 @@ public sealed partial class MainWindow : Window
     }
 
     public Frame TabContent => (Tabs.SelectedItem as FireBrowserTabViewItem)?.Content as Frame;
-
     public WebView2 TabWebView => (TabContent?.Content as WebContent)?.WebViewElement;
-
     public FireBrowserTabViewContainer TabViewContainer => Tabs;
     private double GetScaleAdjustment()
     {
@@ -427,15 +418,11 @@ public sealed partial class MainWindow : Window
 
         appWindow.TitleBar?.SetDragRectangles(dragRects);
     }
-
-
     private void Tabs_TabItemsChanged(TabView sender, IVectorChangedEventArgs args)
     {
         if (sender.TabItems.Count <= 0) Application.Current.Exit();
         else sender.CanReorderTabs = sender.CanDragTabs = sender.TabItems.Count > 1;
     }
-
-
     public Passer CreatePasser(object parameter = null)
     {
 
@@ -448,15 +435,12 @@ public sealed partial class MainWindow : Window
         };
 
     }
-
     public void SelectNewTab() => Tabs.SelectedIndex = Tabs.TabItems.Count - 1;
-
     public void FocusUrlBox(string text)
     {
         UrlBox.Text = text;
         UrlBox.Focus(FocusState.Programmatic);
     }
-
     public void NavigateToUrl(string uri)
     {
         if (!(TabContent.Content is WebContent webContent))
@@ -468,10 +452,7 @@ public sealed partial class MainWindow : Window
         }
 
         webContent.WebViewElement.CoreWebView2.Navigate(uri.ToString());
-
-
     }
-
     private void UrlBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
         string input = UrlBox.Text.ToString();
@@ -560,13 +541,9 @@ public sealed partial class MainWindow : Window
             {
                 TabWebView.CoreWebView2.GoBack();
             }
-            else if (TabContent.CanGoBack)
-            {
-                TabContent.GoBack();
-            }
             else
             {
-                ViewModel.CanGoBack = false;
+                TabContent.GoBack();
             }
         }
     }
@@ -579,21 +556,17 @@ public sealed partial class MainWindow : Window
             {
                 TabWebView.CoreWebView2.GoForward();
             }
-            else if (TabContent.CanGoForward)
-            {
-                TabContent.GoForward();
-            }
             else
             {
-                ViewModel.CanGoForward = false;
+                TabContent.GoForward();
             }
         }
     }
 
+
     #endregion
 
     #region click
-
     private async void ToolbarButtonClick(object sender, RoutedEventArgs e)
     {
         Passer passer = new()
@@ -611,85 +584,64 @@ public sealed partial class MainWindow : Window
             case "Forward":
                 GoForward();
                 break;
-            case "Refresh":
-                if (TabContent.Content is WebContent) TabWebView.CoreWebView2.Reload();
+            case "Refresh" when TabContent.Content is WebContent:
+                TabWebView.CoreWebView2.Reload();
                 break;
-            case "Home":
-                if (TabContent.Content is WebContent)
+            case "Home" when TabContent.Content is WebContent:
+                if (incog == true)
+                {
+                    TabContent.Navigate(typeof(InPrivate));
+                }
+                else
                 {
                     TabContent.Navigate(typeof(NewTab));
-                    UrlBox.Text = "";
-                    passer.Tab.Header = WebContent.IsIncognitoModeEnabled
-                          ? "Incognito"
-                          : "NewTab";
-
-                    passer.Tab.IconSource = new Microsoft.UI.Xaml.Controls.SymbolIconSource()
-                    {
-                        Symbol = WebContent.IsIncognitoModeEnabled
-                              ? Symbol.BlockContact
-                              : Symbol.Home
-                    };
-
-                    ViewModel.CurrentAddress = "";
                 }
-
-                break;
-            case "Translate":
-                if (TabContent.Content is WebContent)
+                UrlBox.Text = "";
+                passer.Tab.Header = WebContent.IsIncognitoModeEnabled ? "Incognito" : "NewTab";
+                passer.Tab.IconSource = new Microsoft.UI.Xaml.Controls.SymbolIconSource()
                 {
-                    string url = (TabContent.Content as WebContent).WebViewElement.CoreWebView2.Source.ToString();
-                    (TabContent.Content as WebContent).WebViewElement.CoreWebView2.Navigate("https://translate.google.com/translate?hl&u=" + url);
-                }
+                    Symbol = WebContent.IsIncognitoModeEnabled ? Symbol.BlockContact : Symbol.Home
+                };
+                ViewModel.CurrentAddress = "";
                 break;
-            case "QRCode":
+            case "Translate" when TabContent.Content is WebContent:
+                string url = (TabContent.Content as WebContent).WebViewElement.CoreWebView2.Source.ToString();
+                (TabContent.Content as WebContent).WebViewElement.CoreWebView2.Navigate($"https://translate.google.com/translate?hl&u={url}");
+                break;
+            case "QRCode" when TabContent.Content is WebContent:
                 try
                 {
-                    if (TabContent.Content is WebContent)
+                    QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                    QRCodeData qrCodeData = qrGenerator.CreateQrCode((TabContent.Content as WebContent).WebViewElement.CoreWebView2.Source.ToString(), QRCodeGenerator.ECCLevel.M);
+                    BitmapByteQRCode qrCodeBmp = new BitmapByteQRCode(qrCodeData);
+                    byte[] qrCodeImageBmp = qrCodeBmp.GetGraphic(20);
+
+                    using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
+                    using (DataWriter writer = new DataWriter(stream.GetOutputStreamAt(0)))
                     {
-                        //Create raw qr code data
-                        QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                        QRCodeData qrCodeData = qrGenerator.CreateQrCode((TabContent.Content as WebContent).WebViewElement.CoreWebView2.Source.ToString(), QRCodeGenerator.ECCLevel.M);
+                        writer.WriteBytes(qrCodeImageBmp);
+                        await writer.StoreAsync();
 
-                        BitmapByteQRCode qrCodeBmp = new BitmapByteQRCode(qrCodeData);
-                        byte[] qrCodeImageBmp = qrCodeBmp.GetGraphic(20);
-                        using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
-                        {
-                            using (DataWriter writer = new DataWriter(stream.GetOutputStreamAt(0)))
-                            {
-                                writer.WriteBytes(qrCodeImageBmp);
-                                await writer.StoreAsync();
-                            }
-                            var image = new BitmapImage();
-                            await image.SetSourceAsync(stream);
+                        var image = new BitmapImage();
+                        await image.SetSourceAsync(stream);
 
-                            QRCodeImage.Source = image;
-                        }
+                        QRCodeImage.Source = image;
                     }
-                    else
-                    {
-                        //await UI.ShowDialog("Information", "No Webcontent Detected ( Url )");
-                        QRCodeFlyout.Hide();
-                    }
-
                 }
                 catch
                 {
-                    //await UI.ShowDialog("Error", "An error occurred while trying to generate your qr code");
                     QRCodeFlyout.Hide();
                 }
                 break;
             case "ReadingMode":
-
+                // Handle ReadingMode
                 break;
             case "AdBlock":
-
+                // Handle AdBlock
                 break;
-            case "AddFavoriteFlyout":
-                if (TabContent.Content is WebContent)
-                {
-                    FavoriteTitle.Text = TabWebView.CoreWebView2.DocumentTitle;
-                    FavoriteUrl.Text = TabWebView.CoreWebView2.Source;
-                }
+            case "AddFavoriteFlyout" when TabContent.Content is WebContent:
+                FavoriteTitle.Text = TabWebView.CoreWebView2.DocumentTitle;
+                FavoriteUrl.Text = TabWebView.CoreWebView2.Source;
                 break;
             case "AddFavorite":
                 FireBrowserMultiCore.User auth = AuthService.CurrentUser;
@@ -700,16 +652,11 @@ public sealed partial class MainWindow : Window
                 FireBrowserMultiCore.User user = AuthService.CurrentUser;
                 FavManager fs = new FavManager();
                 List<FavItem> favorites = fs.LoadFav(user);
-
                 FavoritesListView.ItemsSource = favorites;
                 break;
-            case "DarkMode":
-                if (TabContent.Content is WebContent)
-                {
-
-                }
+            case "DarkMode" when TabContent.Content is WebContent:
+                // Handle DarkMode for WebContent
                 break;
-
             case "History":
                 FetchBrowserHistory();
                 break;
@@ -717,8 +664,6 @@ public sealed partial class MainWindow : Window
     }
 
     #endregion
-
-
     private async void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (TabContent?.Content is WebContent webContent)
@@ -728,13 +673,11 @@ public sealed partial class MainWindow : Window
 
             await TabWebView.EnsureCoreWebView2Async();
             SmallUpdates();
-
         }
         else
         {
             ViewModel.CanRefresh = false;
             ViewModel.CurrentAddress = null;
-
         }
     }
 

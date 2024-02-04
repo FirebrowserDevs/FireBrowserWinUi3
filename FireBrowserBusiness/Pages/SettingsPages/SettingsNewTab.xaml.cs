@@ -30,7 +30,6 @@ public sealed partial class SettingsNewTab : Page
         Tlbl.IsOn = userSettings.ToolIcon == "1" ? true : false;
     }
 
-
     private void SearchengineSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         try
@@ -82,14 +81,9 @@ public sealed partial class SettingsNewTab : Page
 
             if (!string.IsNullOrEmpty(url))
             {
-
-                // Modify the settings based on user input
                 userSettings.EngineFriendlyName = selection;
                 userSettings.SearchUrl = url;
 
-
-
-                // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
             }
         }
@@ -103,13 +97,10 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.OpenTabHandel = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -119,16 +110,10 @@ public sealed partial class SettingsNewTab : Page
 
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-
-
-
-            // Set the 'Auto' setting
             userSettings.DarkIcon = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -137,13 +122,10 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.Translate = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -152,13 +134,10 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.ReadButton = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -167,13 +146,10 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.AdblockBtn = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -182,13 +158,10 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.Downloads = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -197,13 +170,10 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.FavoritesL = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -212,13 +182,10 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.Favorites = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -227,13 +194,10 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.Historybtn = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -242,13 +206,10 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.QrCode = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -257,13 +218,10 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.ToolIcon = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }

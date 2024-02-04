@@ -10,6 +10,11 @@
     >
 
     <StackPanel>
+        <InfoBar
+    IsOpen="True"
+    Severity="Warning"
+    Title="alpha features"
+    Message="These Futures Are Worked on may not work as intended yet" />
         <labs:SettingsCard VerticalAlignment="Top" Margin="0,5,0,0">
             <labs:SettingsCard.Header>
                 Enqryption Settings ** Note StartUp Slower  **

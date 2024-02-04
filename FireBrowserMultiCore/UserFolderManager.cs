@@ -6,12 +6,18 @@ using System.IO;
 namespace FireBrowserMultiCore;
 public static class UserFolderManager
 {
+    private static readonly string SettingsFolderName = "Settings";
+    private static readonly string DatabaseFolderName = "Database";
+    private static readonly string[] SubFolderNames = { SettingsFolderName, DatabaseFolderName, "Browser", "Modules" };
+
     public static void CreateUserFolders(User user)
     {
         string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username);
 
-        foreach (var folderName in new[] { "Settings", "Database", "Browser", "Modules" })
+        foreach (var folderName in SubFolderNames)
+        {
             Directory.CreateDirectory(Path.Combine(userFolderPath, folderName));
+        }
 
         CreateSettingsFile(user.Username);
         CreateDatabaseFile(user.Username, "History.db", @"CREATE TABLE IF NOT EXISTS urls (
@@ -34,7 +40,8 @@ public static class UserFolderManager
 
     private static void CreateSettingsFile(string username)
     {
-        string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Settings", "settings.json");
+        string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, SettingsFolderName, "settings.json");
+
 
         var settings = new Settings
         {
@@ -83,7 +90,7 @@ public static class UserFolderManager
 
     private static void CreateDatabaseFile(string username, string dbName, string sql)
     {
-        string databaseFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Database");
+        string databaseFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, DatabaseFolderName);
         string databaseFilePath = Path.Combine(databaseFolderPath, dbName);
 
         using var connection = new SqliteConnection($"Data Source={databaseFilePath}");
@@ -101,7 +108,7 @@ public static class UserFolderManager
 
     public static Settings LoadUserSettings(User user)
     {
-        string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username, "Settings", "settings.json");
+        string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username, SettingsFolderName, "settings.json");
 
         if (File.Exists(settingsFilePath))
             return System.Text.Json.JsonSerializer.Deserialize<Settings>(File.ReadAllText(settingsFilePath)) ?? new Settings();
@@ -113,7 +120,7 @@ public static class UserFolderManager
     {
         try
         {
-            string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username, "Settings", "settings.json");
+            string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username, SettingsFolderName, "settings.json");
             File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));
         }
         catch (Exception ex)
