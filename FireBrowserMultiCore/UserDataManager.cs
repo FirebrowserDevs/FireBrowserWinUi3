@@ -10,17 +10,16 @@ public static class UserDataManager
     public static readonly string CoreFolderPath = Path.Combine(DocumentsFolder, "FireBrowserUserCore");
     public static readonly string UsersFolderPath = "Users";
     public static readonly string CoreFileName = "UsrCore.json";
+    public static readonly string CoreFilePath = Path.Combine(CoreFolderPath, CoreFileName);
 
     public static UserDataResult LoadUsers()
     {
-        string coreFilePath = Path.Combine(CoreFolderPath, CoreFileName);
-
-        if (!File.Exists(coreFilePath))
+        if (!File.Exists(CoreFilePath))
         {
             return new UserDataResult { Users = new List<User>(), CurrentUsername = string.Empty };
         }
 
-        var users = JsonSerializer.Deserialize<List<User>>(File.ReadAllText(coreFilePath));
+        var users = JsonSerializer.Deserialize<List<User>>(File.ReadAllText(CoreFilePath));
         string currentUsername = AuthService.IsUserAuthenticated ? AuthService.CurrentUser.Username : "Guest";
 
         return new UserDataResult { Users = users, CurrentUsername = currentUsername };
@@ -28,9 +27,11 @@ public static class UserDataManager
 
     public static void SaveUsers(List<User> users)
     {
-        if (!Directory.Exists(CoreFolderPath)) Directory.CreateDirectory(CoreFolderPath);
+        if (!Directory.Exists(CoreFolderPath))
+        {
+            Directory.CreateDirectory(CoreFolderPath);
+        }
 
-        string coreFilePath = Path.Combine(CoreFolderPath, CoreFileName);
-        File.WriteAllText(coreFilePath, JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true }));
+        File.WriteAllText(CoreFilePath, JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true }));
     }
 }

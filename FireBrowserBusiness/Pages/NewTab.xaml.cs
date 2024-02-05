@@ -11,12 +11,10 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Windows.UI.Core;
 using static FireBrowserBusiness.MainWindow;
 using Settings = FireBrowserBusinessCore.Models.Settings;
 
@@ -25,6 +23,8 @@ public sealed partial class NewTab : Page
 {
     bool isAuto;
     public HomeViewModel ViewModel { get; set; }
+
+    Passer param;
     public NewTab()
     {
         this.InitializeComponent();
@@ -116,7 +116,6 @@ public sealed partial class NewTab : Page
                 });
         }
     }
-
     private void SetAndSaveBackgroundSettings((string, Settings.NewTabBackground, bool, Visibility) settings)
     {
         var (background, backgroundType, isNewColorEnabled, downloadVisibility) = settings;
@@ -127,20 +126,15 @@ public sealed partial class NewTab : Page
 
         UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
     }
-
-
-    Passer param;
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
         param = e.Parameter as Passer;
     }
-
     private class ImageRoot
     {
         public ImageTab[] images { get; set; }
     }
-
     public static Brush GetGridBackgroundAsync(Settings.NewTabBackground backgroundType, FireBrowserMultiCore.Settings userSettings)
     {
         string colorString = userSettings.ColorBackground.ToString();
@@ -161,44 +155,28 @@ public sealed partial class NewTab : Page
                 try
                 {
                     var images = System.Text.Json.JsonSerializer.Deserialize<ImageRoot>(client.GetStringAsync(new Uri("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1")).Result);
-                    BitmapImage btpImg = new BitmapImage(new Uri("https://bing.com" + images.images[0].url));
 
-                    return new ImageBrush()
+                    if (images != null && images.images != null && images.images.Any())
                     {
-                        ImageSource = btpImg,
-                        Stretch = Stretch.UniformToFill
-                    };
-                }
-                catch
-                {
-                    string storedDbPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "StoredDb.json");
-                    string jsonData = File.ReadAllText(storedDbPath);
+                        BitmapImage btpImg = new BitmapImage(new Uri("https://bing.com" + images.images[0].url));
 
-                    List<StoredImages> storedImages = System.Text.Json.JsonSerializer.Deserialize<List<StoredImages>>(jsonData);
-
-                    StoredImages primaryImage = storedImages.FirstOrDefault(img => img.Primary);
-                    if (primaryImage != null && primaryImage.Primary)
-                    {
-                        string imagesFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "CacheImages");
-                        string imagePath = Path.Combine(imagesFolderPath, $"{primaryImage.Name}{primaryImage.Extension}");
-
-                        BitmapImage primaryBitmapImage = new BitmapImage(new Uri(imagePath));
-
-                        ImageBrush imageBrush = new ImageBrush
+                        return new ImageBrush()
                         {
-                            ImageSource = primaryBitmapImage,
+                            ImageSource = btpImg,
                             Stretch = Stretch.UniformToFill
                         };
-
-                        return imageBrush;
                     }
+                }
+                catch (Exception ex)
+                {
+                    // Log or handle the exception appropriately
+                    Console.WriteLine($"Error fetching Bing image: {ex.Message}");
                 }
                 break;
         }
 
         return new SolidColorBrush();
     }
-
     private async Task DownloadImage()
     {
         try
@@ -217,7 +195,7 @@ public sealed partial class NewTab : Page
             if (!File.Exists(storedDbPath))
             {
                 File.WriteAllText(storedDbPath, "[]");
-               
+
             }
 
             Guid gd = Guid.NewGuid();
@@ -236,12 +214,9 @@ public sealed partial class NewTab : Page
         }
         catch (Exception ex)
         {
-           
+
         }
     }
-
-
-
     private void UpdateUserSettings(Action<FireBrowserMultiCore.Settings> updateAction)
     {
         if (AuthService.CurrentUser != null)
@@ -250,16 +225,12 @@ public sealed partial class NewTab : Page
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
-
     private void Type_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.Auto = Type.IsOn ? "1" : "0");
     private void Mode_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.LightMode = Mode.IsOn ? "1" : "0");
     private void NewColor_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.ColorBackground = NewColor.Text);
     private void DateTimeToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpDateTime = DateTimeToggle.IsOn ? "1" : "0");
-
     private void NtpColorBox_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpTextColor = NtpColorBox.Text);
-
     private void Download_Click(object sender, RoutedEventArgs e) => DownloadImage();
-
 
     private void NewTabSearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {

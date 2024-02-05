@@ -5,7 +5,6 @@ using Microsoft.Web.WebView2.Core;
 using System;
 
 namespace FireBrowserWinUi3.Pages.SettingsPages;
-
 public sealed partial class SettingsWebView : Page
 {
     Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
@@ -23,7 +22,6 @@ public sealed partial class SettingsWebView : Page
         BrowserKeys.IsOn = userSettings.BrowserKeys == "1" ? true : false;
         BrowserScripts.IsOn = userSettings.BrowserScripts == "1" ? true : false;
         antitracklevel();
-       
     }
 
     public void antitracklevel()
@@ -58,7 +56,6 @@ public sealed partial class SettingsWebView : Page
 
         // Assuming PreventionLevel.ItemsSource contains the text values ("None", "Basic", "Balanced", "Strict")
         PreventionLevel.SelectedItem = selectedText;
-
     }
     private async void ClearCookies_Click(object sender, RoutedEventArgs e)
     {
@@ -94,10 +91,8 @@ public sealed partial class SettingsWebView : Page
     {
         string autoSettingValue = Agent.Text.ToString();
 
-        // Set the 'Auto' setting
         userSettings.Useragent = autoSettingValue;
 
-        // Save the modified settings back to the user's settings file
         UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
     }
 
@@ -105,13 +100,10 @@ public sealed partial class SettingsWebView : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.StatusBar = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -120,13 +112,10 @@ public sealed partial class SettingsWebView : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.BrowserKeys = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -135,13 +124,10 @@ public sealed partial class SettingsWebView : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.BrowserScripts = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -171,7 +157,7 @@ public sealed partial class SettingsWebView : Page
                     antitrack = "3";
                     Info.Text = "Strict Privacy Anti Tracking Can Break Some Websites";
                     break;
-              
+
                 default:
                     // Handle the case when selection doesn't match any of the predefined options.
                     antitrack = "2";

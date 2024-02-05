@@ -1,23 +1,6 @@
-using FireBrowserBusinessCore.Helpers;
-using FireBrowserBusinessCore.Models;
 using FireBrowserMultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -44,7 +27,7 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
             EnqFav.IsOn = userSettings.Eqfav == "1" ? true : false;
         }
 
-     
+
 
 
         private void EnqSets_Toggled(object sender, RoutedEventArgs e)
@@ -61,18 +44,18 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
                 UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
             }
         }
-        
+
 
         private async void Enq2fa_Toggled(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
-                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";              
+                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
                 // Set the 'Auto' setting
                 userSettings.Eq2fa = autoSettingValue;
 
-               
+
 
                 // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);

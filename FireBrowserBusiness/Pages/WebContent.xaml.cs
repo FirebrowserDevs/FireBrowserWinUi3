@@ -288,7 +288,7 @@ public sealed partial class WebContent : Page
             s?.DispatcherQueue.TryEnqueue(async () =>
             {
                 // allow webview to load the page
-                await Task.Delay(2400);
+                await Task.Delay(1500);
 
                 BitmapImage bitmap = new() { DecodePixelHeight = 512, DecodePixelWidth = 640 };
 

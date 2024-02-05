@@ -5,31 +5,23 @@
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     x:Name="TabViewItem"
     PointerEntered="TabViewItem_PointerEntered">
-    <ToolTipService.ToolTip>
-        <ToolTip
-            BorderBrush="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
-            BorderThickness=".5"
-            CornerRadius="1."
-            IsEnabled="{x:Bind ViewModel.IsTooltipEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <ToolTip.Content>
-                <Grid>
-                    <controls:HeaderedContentControl
-                        x:Name="ImgTabViewHeader"
-                        Width="320"
-                        Height="256"
-                        Margin="2"
-                        CanBeScrollAnchor="False"
-                        CornerRadius=".5"
-                        Foreground="LimeGreen">
-                        <Image
-                            x:Name="ImgTabViewItem"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Stretch="Fill"
-                            UseLayoutRounding="True" />
-                    </controls:HeaderedContentControl>
-                </Grid>
-            </ToolTip.Content>
-        </ToolTip>
-    </ToolTipService.ToolTip>
+    <FlyoutBase.AttachedFlyout>
+        <Flyout SystemBackdrop="{ThemeResource AcrylicBackgroundFillColorDefaultBackdrop}">
+            <Grid
+                Width="412"
+                Height="256"
+                Margin="1,1,0,0"
+                BorderBrush="{StaticResource SystemChromeGrayColor}"
+                BorderThickness=".8"
+                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                <Image
+                    x:Name="ImgTabViewItem"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Stretch="UniformToFill"
+                    UseLayoutRounding="True" />
+            </Grid>
+        </Flyout>
+    </FlyoutBase.AttachedFlyout>
 </TabViewItem>

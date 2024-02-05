@@ -25,13 +25,10 @@ public sealed partial class SettingsPrivacy : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.DisableJavaScript = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -40,13 +37,10 @@ public sealed partial class SettingsPrivacy : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.DisableGenAutoFill = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -55,13 +49,10 @@ public sealed partial class SettingsPrivacy : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.DisableWebMess = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
@@ -70,13 +61,10 @@ public sealed partial class SettingsPrivacy : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
-            // Set the 'Auto' setting
             userSettings.DisablePassSave = autoSettingValue;
 
-            // Save the modified settings back to the user's settings file
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
