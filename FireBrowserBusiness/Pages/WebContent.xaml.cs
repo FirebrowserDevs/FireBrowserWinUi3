@@ -28,7 +28,7 @@ public sealed partial class WebContent : Page
     Passer param;
     public static bool IsIncognitoModeEnabled { get; set; } = false;
     public BitmapImage PictureWebElement { get; set; }
-
+    public WebView2 WebView { get; set; }
     private FireBrowserMultiCore.User GetUser()
     {
         // Check if the user is authenticated.
@@ -44,6 +44,7 @@ public sealed partial class WebContent : Page
     {
         this.InitializeComponent();
         Init();
+        WebView = this.WebViewElement;
     }
 
     public void Init()
@@ -130,19 +131,19 @@ public sealed partial class WebContent : Page
     protected override async void OnNavigatedFrom(NavigationEventArgs e)
     {
         await WebViewElement.CoreWebView2?.ExecuteScriptAsync(@"(function() { 
-    try
-    {
-        const videos = document.querySelectorAll('video');
-        videos.forEach((video) => { video.pause();});
-        console.log('WINUI3_CoreWebView2: YES_VIDEOS_CLOSED');
-        return true; 
+                try
+                {
+                    const videos = document.querySelectorAll('video');
+                    videos.forEach((video) => { video.pause();});
+                    console.log('WINUI3_CoreWebView2: YES_VIDEOS_CLOSED');
+                    return true; 
 
-    }
-    catch(error) {
-      console.log('WINUI3_CoreWebView2: NO_VIDEOS_CLOSED');
-      return error.message; 
-    }
-})();");
+                }
+                catch(error) {
+                  console.log('WINUI3_CoreWebView2: NO_VIDEOS_CLOSED');
+                  return error.message; 
+                }
+            })();");
     }
 
     public static class WebViewUtils
@@ -186,7 +187,13 @@ public sealed partial class WebContent : Page
                 }
             }
         }
-
+        s.DragLeave += (sender, args) =>
+        {
+            if (sender is WebView2 web)
+            {
+                OpenNewWindow(web.Source);
+            }
+        };
         s.CoreWebView2.ContainsFullScreenElementChanged += (sender, args) =>
         {
             var window = (Application.Current as App)?.m_window as MainWindow;
@@ -259,17 +266,19 @@ public sealed partial class WebContent : Page
             Progress.IsIndeterminate = true;
             Progress.Visibility = Visibility.Visible;
 
-            if (param.TabView.SelectedItem == param.Tab)
+            if ((TabViewItem)param.TabView.SelectedItem == param.Tab)
             {
                 CheckNetworkStatus();
             }
         };
+
         s.CoreWebView2.NavigationCompleted += async (sender, args) =>
         {
             Progress.IsIndeterminate = false;
             Progress.Visibility = Visibility.Collapsed;
 
-            if (param.TabView.SelectedItem == param.Tab)
+
+            if ((TabViewItem)param.TabView.SelectedItem == param.Tab)
             {
                 CheckNetworkStatus();
                 AfterComplete();
@@ -281,7 +290,7 @@ public sealed partial class WebContent : Page
                 // allow webview to load the page
                 await Task.Delay(2400);
 
-                BitmapImage bitmap = new();
+                BitmapImage bitmap = new() { DecodePixelHeight = 512, DecodePixelWidth = 640 };
 
                 using (MemoryStream memoryStream = new MemoryStream())
                 {
@@ -309,7 +318,7 @@ public sealed partial class WebContent : Page
         };
         s.CoreWebView2.SourceChanged += (sender, args) =>
         {
-            if (param.TabView.SelectedItem == param.Tab)
+            if ((TabViewItem)param.TabView.SelectedItem == param.Tab)
             {
                 param.ViewModel.CurrentAddress = sender.Source;
             }

@@ -469,8 +469,8 @@ public sealed partial class MainWindow : Window
 
             return;
         }
-
-        webContent.WebViewElement.CoreWebView2.Navigate(uri.ToString());
+        // 2024-02-04, change to element no CoreWebView2 sometimes. 
+        webContent.WebViewElement.Source = new(uri); // .CoreWebView2.Navigate(uri.ToString());
 
 
     }
@@ -731,6 +731,45 @@ public sealed partial class MainWindow : Window
             TabWebView.NavigationCompleted += (_, _) => ViewModel.CanRefresh = true;
 
             await TabWebView.EnsureCoreWebView2Async();
+            // 2014-02-04 added to stop a video from playing when selection is made to a different tab / save on memory resources. 
+            if (e.RemovedItems.Count > 0)
+            {
+                e.RemovedItems.All((tab) =>
+                {
+
+                    if (tab is FireBrowserTabViewItem viewedItem)
+                    {
+                        if (viewedItem.Content is Frame frame)
+                        {
+                            if (frame.Content is WebContent web)
+                            {
+                                frame.DispatcherQueue.TryEnqueue(async () =>
+                                {
+                                    await web.WebView.CoreWebView2?.ExecuteScriptAsync(@"(function() { 
+                                        try
+                                        {
+                                            const videos = document.querySelectorAll('video');
+                                            videos.forEach((video) => { video.pause();});
+                                            console.log('WINUI3_CoreWebView2: YES_VIDEOS_CLOSED');
+                                            return true; 
+
+                                        }
+                                        catch(error) {
+                                          console.log('WINUI3_CoreWebView2: NO_VIDEOS_CLOSED');
+                                          return error.message; 
+                                        }
+                                    })();");
+                                });
+                            }
+                        }
+                        return true;
+                    }
+                    return false;
+                });
+
+
+            }
+
             SmallUpdates();
 
         }
