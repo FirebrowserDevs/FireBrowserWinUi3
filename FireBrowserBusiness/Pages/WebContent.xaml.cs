@@ -187,13 +187,7 @@ public sealed partial class WebContent : Page
                 }
             }
         }
-        s.DragLeave += (sender, args) =>
-        {
-            if (sender is WebView2 web)
-            {
-                OpenNewWindow(web.Source);
-            }
-        };
+
         s.CoreWebView2.ContainsFullScreenElementChanged += (sender, args) =>
         {
             var window = (Application.Current as App)?.m_window as MainWindow;

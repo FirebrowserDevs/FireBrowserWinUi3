@@ -1,17 +1,13 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using FireBrowserBusinessCore.ViewModel;
 using FireBrowserWinUi3.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System.Threading.Tasks;
 
 namespace FireBrowserBusiness.Controls;
 public sealed partial class FireBrowserTabViewItem : TabViewItem
 {
     public FireBrowserTabViewItem() => InitializeComponent();
-
-    public ObservableObject FireBrowswerTabViewModel { get; set; }
 
     public TabViewItemViewModel ViewModel { get; set; } = new TabViewItemViewModel() { IsTooltipEnabled = default };
 
@@ -41,19 +37,14 @@ public sealed partial class FireBrowserTabViewItem : TabViewItem
                     if (web.PictureWebElement is BitmapImage)
                     {
                         ImgTabViewItem.Source = web.PictureWebElement;
-                        ImgTabViewHeader.Header = new TextBlock() { Text = web.WebView.CoreWebView2?.DocumentTitle, IsColorFontEnabled = true, FontSize = 12, TextWrapping = TextWrapping.Wrap };
+                        ImgTabViewHeader.Header = new TextBlock() { Text = web.WebView.CoreWebView2?.DocumentTitle, IsColorFontEnabled = true, FontSize = 12, MaxLines = 2, TextWrapping = TextWrapping.WrapWholeWords };
                         ViewModel.IsTooltipEnabled = true;
                     }
 
                 }
 
-                }
-
             }
 
-
-
     }
-
 
 }
