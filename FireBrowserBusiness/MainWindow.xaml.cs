@@ -267,11 +267,11 @@ public sealed partial class MainWindow : Window
 
         if (currentUser == null || (!AuthService.IsUserAuthenticated && !AuthService.Authenticate(currentUser?.Username)))
         {
-            UserName.Text = Prof.Text = "DefaultUser";
+            UserName.Text = "DefaultUser";
             return;
         }
 
-        UserName.Text = Prof.Text = currentUser.Username ?? "DefaultUser";
+        UserName.Text =  currentUser.Username ?? "DefaultUser";
     }
 
     private void UpdateUIBasedOnSettings()
@@ -674,10 +674,6 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    public void share(Window window)
-    {
-        ShareHelper.ShowShareUIForWindow(ShareWindowHelper.GetHwndForCurrentWindow(window));
-    }
 
     #endregion
     private async void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -747,6 +743,12 @@ public sealed partial class MainWindow : Window
 
     public static async void OpenNewWindow(Uri uri) => await Windows.System.Launcher.LaunchUriAsync(uri);
 
+    public void ShareUi(string Url, string Title)
+    {        
+        var hWnd = WindowNative.GetWindowHandle(this);
+        ShareUIHelper.ShowShareUIURL(Url, Title, hWnd);
+    }
+
     private void TabMenuClick(object sender, RoutedEventArgs e)
     {
         switch ((sender as Button).Tag)
@@ -758,8 +760,8 @@ public sealed partial class MainWindow : Window
             case "NewWindow":
                 OpenNewWindow(new Uri($"firebrowseruser://{UserName.Text}"));
                 break;
-            case "Share":
-             
+            case "Share" when TabContent.Content is WebContent:
+                    ShareUi(TabWebView.CoreWebView2.DocumentTitle, TabWebView.CoreWebView2.Source);
                 break;
             case "DevTools":
                 if (TabContent.Content is WebContent)

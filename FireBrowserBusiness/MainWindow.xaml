@@ -109,14 +109,14 @@
                                 <TextBlock x:Name="TextFull" Margin="10,0,0,0" Text="Full Screen"/>
                             </StackPanel>
                         </Button>
-                        <Button Tag="Share" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                        <Button Tag="Share" Click="TabMenuClick" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE72D;" FontSize="18"/>
                                 <TextBlock Margin="10,0,0,0" Text="Share"/>
                             </StackPanel>
                         </Button>
                         <Border BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}" Opacity="0.3" Margin="10,10" BorderThickness="1"/>
-                        <Button Tag="DevTools" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                        <Button Tag="DevTools" Click="TabMenuClick" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;" FontSize="18"/>
                                 <TextBlock Margin="10,0,0,0" Text="Dev Tools"/>
@@ -258,13 +258,6 @@
                     </Grid>
                 </StackPanel>
             </Flyout>
-            <Flyout x:Name="TabsHover" x:FieldModifier="Public">
-                <StackPanel Width="225" Height="175">
-                    <Grid>
-                        <Image x:Name="ScreenshotImage" Width="Auto" Height="Auto" Margin="0,0,0,0" />
-                    </Grid>
-                </StackPanel>
-            </Flyout>
         </Grid.Resources>
         <firebrowser:FireBrowserTabViewContainer x:Name="Tabs"
                x:FieldModifier="public"
@@ -274,34 +267,21 @@
                TabCloseRequested="Tabs_TabCloseRequested"
                TabItemsChanged="Tabs_TabItemsChanged"
                SelectionChanged="Tabs_SelectionChanged"
-               CanDragTabs="True"
-               Grid.Row="0"        
+               CanDragTabs="True"     
                Loaded="Tabs_Loaded"
-               IsRightTapEnabled="False"
                AddTabButtonClick="TabView_AddTabButtonClick">
             <firebrowser:FireBrowserTabViewContainer.TabStripHeader>
-                <PersonPicture ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}"  x:Name="Profile"  Width="32" Height="32"  Margin="5,0,0,0">
+                <PersonPicture ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}" x:Name="Profile"  Width="32" Height="32"  Margin="5,0,0,0">
                     <PersonPicture.ContextFlyout>
                         <Flyout Placement="BottomEdgeAlignedLeft" AreOpenCloseAnimationsEnabled="True">
-                            <Button IsEnabled="True" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" BorderBrush="Transparent" Background="Transparent" Margin="0,0,0,10">
-                                <StackPanel Height="85">
+                            <StackPanel Margin="0,2,0,0" Orientation="Vertical">
+                                <Button Click="TabMenuClick" Tag="Settings"  Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
                                     <StackPanel Orientation="Horizontal">
-                                        <PersonPicture ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}" Width="45"/>
-                                        <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
-                                            <TextBlock x:Name="Prof" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" Text="{Binding Username}"/>
-                                            <TextBlock Text="Local User"  FontSize="12"/>
-                                        </StackPanel>
+                                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE713;" FontSize="18"/>
+                                        <TextBlock Margin="10,0,0,0" Text="Settings"/>
                                     </StackPanel>
-                                    <StackPanel Margin="0,10,0,0" Orientation="Vertical">
-                                        <Button Click="TabMenuClick" Tag="Settings"  Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
-                                            <StackPanel Orientation="Horizontal">
-                                                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE713;" FontSize="18"/>
-                                                <TextBlock Margin="10,0,0,0" Text="Settings"/>
-                                            </StackPanel>
-                                        </Button>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Button>
+                                </Button>
+                            </StackPanel>
                         </Flyout>
                     </PersonPicture.ContextFlyout>
                 </PersonPicture>

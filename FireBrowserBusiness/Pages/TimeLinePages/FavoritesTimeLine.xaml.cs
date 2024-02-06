@@ -132,8 +132,8 @@ public sealed partial class FavoritesTimeLine : Page
                 break;
             case "DeleteSingleRecord":
                 // Assuming ctmurl and ctmtext represent the URL and title of the selected item
-                //FavItem selectedItem = new FavItem { Url = ctmurl, Title = ctmtext };
-                //RemoveFavorite(selectedItem);
+                FavItem selectedItem = new FavItem { Url = ctmurl, Title = ctmtext };
+                RemoveFavorite(selectedItem);
                 break;
                 // Add other cases as needed
         }

@@ -2,6 +2,7 @@ using CommunityToolkit.WinUI.Helpers;
 using FireBrowserBusiness;
 using FireBrowserBusiness.Controls;
 using FireBrowserBusinessCore.Helpers;
+using FireBrowserBusinessCore.ShareHelper;
 using FireBrowserDataCore.Actions;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3.Controls;
@@ -20,6 +21,7 @@ using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
 using Windows.Storage;
+using WinRT.Interop;
 using static FireBrowserBusiness.MainWindow;
 
 namespace FireBrowserWinUi3.Pages;
@@ -159,6 +161,13 @@ public sealed partial class WebContent : Page
         {
             await webView.EnsureCoreWebView2Async();
         }
+    }
+
+    public void ShareUi(string Url, string Title)
+    {
+        var window = (Application.Current as App)?.m_window as MainWindow;
+        var hWnd = WindowNative.GetWindowHandle(window);
+        ShareUIHelper.ShowShareUIURL(Url, Title, hWnd);
     }
 
     protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -405,7 +414,7 @@ public sealed partial class WebContent : Page
 
                     break;
                 case "Share":
-
+                    ShareUi(WebViewElement.CoreWebView2.DocumentTitle, WebViewElement.CoreWebView2.Source);
                     break;
                 case "Print":
                     WebViewElement.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
