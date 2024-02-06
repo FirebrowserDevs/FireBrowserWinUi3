@@ -4,6 +4,7 @@ using FireBrowserBusinessCore.Helpers;
 using FireBrowserBusinessCore.Models;
 using FireBrowserBusinessCore.ViewModel;
 using FireBrowserDatabase;
+using FireBrowserDataCore.Actions;
 using FireBrowserExceptions;
 using FireBrowserFavorites;
 using FireBrowserMultiCore;
@@ -81,7 +82,7 @@ public sealed partial class MainWindow : Window
                     // Close the dialog first
                     quickConfigurationDialog.Hide();
                     // Delay the app exit to allow time for the dialog to close
-                    await Task.Delay(250); 
+                    await Task.Delay(250);
                     // Close the application synchronously after the dialog is closed
                     Application.Current.Exit();
                 };
@@ -927,8 +928,11 @@ public sealed partial class MainWindow : Window
                 "History.db"
             );
 
-            var db = new DbClearTableData();
-            db.DeleteTableData(databasePath, "urls", $"Url = '{selectedHistoryItem}'");
+            //var db = new DbClearTableData();
+            //db.DeleteTableData(databasePath, "urls", $"Url = '{selectedHistoryItem}'");
+            HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
+            await historyActions.DeleteHistoryItem(selectedHistoryItem);
+            await Task.Delay(1000);
 
             if (HistoryTemp.ItemsSource is ObservableCollection<HistoryItem> historyItems)
             {

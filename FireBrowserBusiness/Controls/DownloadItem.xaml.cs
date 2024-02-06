@@ -1,4 +1,5 @@
 using FireBrowserBusiness;
+using FireBrowserDataCore.Actions;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3.Pages.TimeLinePages;
 using Microsoft.Data.Sqlite;
@@ -201,36 +202,47 @@ public sealed partial class DownloadItem : ListViewItem
     {
         try
         {
-            using (var connection = new SqliteConnection($"Data Source={_databaseFilePath}"))
-            {
-                await connection.OpenAsync();
+            DownloadActions downloadActions = new DownloadActions(AuthService.CurrentUser.Username);
+            await downloadActions.InsertDownloadItem(Guid.NewGuid().ToString(), _filePath, _downloadOperation.EstimatedEndTime.ToString(), DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = @"
-                    INSERT INTO downloads (guid, current_path, end_time, start_time)
-                    VALUES (@guid, @currentPath, @endTime, @startTime)";
-
-                    // Parameters for the SQL command
-                    command.Parameters.Add("@guid", SqliteType.Text).Value = Guid.NewGuid().ToString();
-                    command.Parameters.Add("@currentPath", SqliteType.Text).Value = _filePath;
-                    command.Parameters.Add("@endTime", SqliteType.Text).Value = _downloadOperation.EstimatedEndTime.ToString();
-                    command.Parameters.Add("@startTime", SqliteType.Integer).Value = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-
-                    await command.ExecuteNonQueryAsync();
-                }
-            }
-        }
-        catch (SqliteException ex)
-        {
-            // Handle database insertion error
-            Debug.WriteLine($"Database insertion error: {ex.Message}");
         }
         catch (Exception ex)
         {
-            // Handle other exceptions
+
             Debug.WriteLine($"An error occurred: {ex.Message}");
         }
+        //try
+        //{
+        //    using (var connection = new SqliteConnection($"Data Source={_databaseFilePath}"))
+        //    {
+        //        await connection.OpenAsync();
+
+        //        using (var command = connection.CreateCommand())
+        //        {
+        //            command.CommandText = @"
+        //            INSERT INTO downloads (guid, current_path, end_time, start_time)
+        //            VALUES (@guid, @currentPath, @endTime, @startTime)";
+
+        //            // Parameters for the SQL command
+        //            command.Parameters.Add("@guid", SqliteType.Text).Value = Guid.NewGuid().ToString();
+        //            command.Parameters.Add("@currentPath", SqliteType.Text).Value = _filePath;
+        //            command.Parameters.Add("@endTime", SqliteType.Text).Value = _downloadOperation.EstimatedEndTime.ToString();
+        //            command.Parameters.Add("@startTime", SqliteType.Integer).Value = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+        //            await command.ExecuteNonQueryAsync();
+        //        }
+        //    }
+        //}
+        //catch (SqliteException ex)
+        //{
+        //    // Handle database insertion error
+        //    Debug.WriteLine($"Database insertion error: {ex.Message}");
+        //}
+        //catch (Exception ex)
+        //{
+        //    // Handle other exceptions
+        //    Debug.WriteLine($"An error occurred: {ex.Message}");
+        //}
     }
 
     private void ListViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -286,24 +298,33 @@ public sealed partial class DownloadItem : ListViewItem
     {
         try
         {
-            using (var connection = new SqliteConnection($"Data Source={_databaseFilePath}"))
-            {
-                await connection.OpenAsync();
-
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = "DELETE FROM downloads WHERE current_path = @currentPath";
-                    command.Parameters.AddWithValue("@currentPath", _filePath);
-
-                    await command.ExecuteNonQueryAsync();
-                }
-            }
+            DownloadActions downloadActions = new DownloadActions(AuthService.CurrentUser.Username);
+            await downloadActions.DeleteDownloadItem(_filePath);
         }
         catch (Exception ex)
         {
-            // Handle database deletion error
             Debug.WriteLine($"Database deletion error: {ex.Message}");
         }
+        //try
+        //{
+        //    using (var connection = new SqliteConnection($"Data Source={_databaseFilePath}"))
+        //    {
+        //        await connection.OpenAsync();
+
+        //        using (var command = connection.CreateCommand())
+        //        {
+        //            command.CommandText = "DELETE FROM downloads WHERE current_path = @currentPath";
+        //            command.Parameters.AddWithValue("@currentPath", _filePath);
+
+        //            await command.ExecuteNonQueryAsync();
+        //        }
+        //    }
+        //}
+        //catch (Exception ex)
+        //{
+        //    // Handle database deletion error
+        //    Debug.WriteLine($"Database deletion error: {ex.Message}");
+        //}
     }
 
     private void MenuFlyoutItem_Click_1(object sender, RoutedEventArgs e)

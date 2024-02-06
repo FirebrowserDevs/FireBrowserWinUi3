@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecureConnectOtp", "SecureC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireBrowserExceptions", "FireBrowserExceptions\FireBrowserExceptions.csproj", "{DC4E0767-238A-4AD1-B26E-04D4089CC07B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireBrowserQr", "FireBrowserQr\FireBrowserQr.csproj", "{C10AD70C-D162-4F5F-A962-F88698BD9B27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireBrowserQr", "FireBrowserQr\FireBrowserQr.csproj", "{C10AD70C-D162-4F5F-A962-F88698BD9B27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCoreDb", "DataCoreDb\DataCoreDb.csproj", "{1A737E49-6959-46B0-899A-C952D982F37D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -257,6 +259,22 @@ Global
 		{C10AD70C-D162-4F5F-A962-F88698BD9B27}.Release|x64.Build.0 = Release|x64
 		{C10AD70C-D162-4F5F-A962-F88698BD9B27}.Release|x86.ActiveCfg = Release|Any CPU
 		{C10AD70C-D162-4F5F-A962-F88698BD9B27}.Release|x86.Build.0 = Release|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Debug|x64.Build.0 = Debug|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Debug|x86.Build.0 = Debug|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|ARM64.Build.0 = Release|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|x64.ActiveCfg = Release|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|x64.Build.0 = Release|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|x86.ActiveCfg = Release|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

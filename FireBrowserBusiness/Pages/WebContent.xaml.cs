@@ -2,6 +2,7 @@ using CommunityToolkit.WinUI.Helpers;
 using FireBrowserBusiness;
 using FireBrowserBusiness.Controls;
 using FireBrowserBusinessCore.Helpers;
+using FireBrowserDataCore.Actions;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3Core.CoreUi;
@@ -63,15 +64,20 @@ public sealed partial class WebContent : Page
         Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--enable-features=msSingleSignOnOSForPrimaryAccountIsShared");
     }
 
-    public void AfterComplete()
+    public async Task AfterComplete()
     {
         if (!IsIncognitoModeEnabled)
         {
+            await Task.Delay(1000);
+            // allow webview to update from the core. 
             var username = AuthService.CurrentUser;
             var url = WebViewElement.CoreWebView2.Source.ToString();
             var title = WebViewElement.CoreWebView2.DocumentTitle.ToString();
 
-            SaveDb.InsertHistoryItem(username, url, title, visitCount: 0, typedCount: 0, hidden: 0);
+            var dbContext = new HistoryActions(AuthService.CurrentUser.Username);
+            await dbContext.InsertHistoryItem(url, title, 0, 0, 0);
+
+            //SaveDb.InsertHistoryItem(username, url, title, visitCount: 0, typedCount: 0, hidden: 0);
 
             var isHttps = WebViewElement.CoreWebView2.Source.Contains("https");
             var isHttp = WebViewElement.CoreWebView2.Source.Contains("http");
@@ -265,19 +271,20 @@ public sealed partial class WebContent : Page
                 CheckNetworkStatus();
             }
         };
-
-        s.CoreWebView2.NavigationCompleted += async (sender, args) =>
+        s.CoreWebView2.HistoryChanged += async (sender, args) =>
         {
-            Progress.IsIndeterminate = false;
-            Progress.Visibility = Visibility.Collapsed;
-
 
             if ((TabViewItem)param.TabView.SelectedItem == param.Tab)
             {
                 CheckNetworkStatus();
-                AfterComplete();
+                await AfterComplete();
             }
-
+        };
+        s.CoreWebView2.NavigationCompleted += async (sender, args) =>
+        {
+            Progress.IsIndeterminate = false;
+            Progress.Visibility = Visibility.Collapsed;
+            // move history to history change event caputures all navigation now 
             //thread safe
             s?.DispatcherQueue.TryEnqueue(async () =>
             {

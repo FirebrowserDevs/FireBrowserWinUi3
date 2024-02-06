@@ -97,6 +97,12 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.1" />
@@ -113,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assets\Assets.csproj" />
+    <ProjectReference Include="..\DataCoreDb\DataCoreDb.csproj" />
     <ProjectReference Include="..\FireBrowserAdBlockCore\FireBrowserAdBlockCore.csproj" />
     <ProjectReference Include="..\FireBrowserBusinessCore\FireBrowserWinUi3Core.csproj" />
     <ProjectReference Include="..\FireBrowserDatabase\FireBrowserDatabase.csproj" />
