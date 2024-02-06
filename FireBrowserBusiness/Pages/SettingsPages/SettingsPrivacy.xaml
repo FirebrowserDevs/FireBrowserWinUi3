@@ -42,10 +42,24 @@
             <ToggleSwitch  x:Name="PasswordWebMessFillToggle" Toggled="PasswordWebMessFillToggle_Toggled"/>
         </labs:SettingsCard>
 
-        <labs:SettingsCard Header="WebSite Permissions" Description="See The Permission Of The Websites" Margin="0,10,0,0" IsEnabled="False">
-            <labs:SettingsCard.HeaderIcon>
+        <labs:SettingsExpander Header="App Permissions" Description="See The Permission Of The App" Margin="0,10,0,0" IsEnabled="True">
+            <labs:SettingsExpander.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEA18;" />
-            </labs:SettingsCard.HeaderIcon>
-        </labs:SettingsCard>
+            </labs:SettingsExpander.HeaderIcon>
+            <labs:SettingsExpander.Items>
+                <labs:SettingsCard Header="Microphone Access" Description="Microphone Access FireBrowser" Margin="0,1,0,0">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE720;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch  />
+                </labs:SettingsCard>
+                <labs:SettingsCard Header="Camera Access" Description="Camera Access FireBrowser" Margin="0,1,0,0">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE722;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Name="CamPermission" Toggled="CamPermission_Toggled"/>
+                </labs:SettingsCard>
+            </labs:SettingsExpander.Items>
+        </labs:SettingsExpander>
     </StackPanel>
 </Page>

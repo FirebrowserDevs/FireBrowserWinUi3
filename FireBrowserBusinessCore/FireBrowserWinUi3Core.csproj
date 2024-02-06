@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="logo.ico">
+    <None Update="LogoCore.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

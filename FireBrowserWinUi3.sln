@@ -29,11 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireBrowserExceptions", "Fi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireBrowserQr", "FireBrowserQr\FireBrowserQr.csproj", "{C10AD70C-D162-4F5F-A962-F88698BD9B27}"
 EndProject
-<<<<<<< Updated upstream
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCoreDb", "DataCoreDb\DataCoreDb.csproj", "{1A737E49-6959-46B0-899A-C952D982F37D}"
-=======
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireBrowserWinUiModules", "FireBrowserWinUiModules\FireBrowserWinUiModules.csproj", "{6FA182D0-72A6-415E-BF7D-6A792B7E7F86}"
->>>>>>> Stashed changes
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataCoreDb", "DataCoreDb\DataCoreDb.csproj", "{1A737E49-6959-46B0-899A-C952D982F37D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireBrowserWinUiModules", "FireBrowserWinUiModules\FireBrowserWinUiModules.csproj", "{6FA182D0-72A6-415E-BF7D-6A792B7E7F86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -263,7 +261,6 @@ Global
 		{C10AD70C-D162-4F5F-A962-F88698BD9B27}.Release|x64.Build.0 = Release|x64
 		{C10AD70C-D162-4F5F-A962-F88698BD9B27}.Release|x86.ActiveCfg = Release|Any CPU
 		{C10AD70C-D162-4F5F-A962-F88698BD9B27}.Release|x86.Build.0 = Release|Any CPU
-<<<<<<< Updated upstream
 		{1A737E49-6959-46B0-899A-C952D982F37D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1A737E49-6959-46B0-899A-C952D982F37D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A737E49-6959-46B0-899A-C952D982F37D}.Debug|ARM64.ActiveCfg = Debug|Any CPU
@@ -276,11 +273,10 @@ Global
 		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|ARM64.ActiveCfg = Release|Any CPU
 		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|ARM64.Build.0 = Release|Any CPU
-		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|x64.ActiveCfg = Release|Any CPU
-		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|x64.Build.0 = Release|Any CPU
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|x64.ActiveCfg = Release|x64
+		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|x64.Build.0 = Release|x64
 		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|x86.ActiveCfg = Release|Any CPU
 		{1A737E49-6959-46B0-899A-C952D982F37D}.Release|x86.Build.0 = Release|Any CPU
-=======
 		{6FA182D0-72A6-415E-BF7D-6A792B7E7F86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6FA182D0-72A6-415E-BF7D-6A792B7E7F86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FA182D0-72A6-415E-BF7D-6A792B7E7F86}.Debug|ARM64.ActiveCfg = Debug|Any CPU
@@ -297,7 +293,6 @@ Global
 		{6FA182D0-72A6-415E-BF7D-6A792B7E7F86}.Release|x64.Build.0 = Release|Any CPU
 		{6FA182D0-72A6-415E-BF7D-6A792B7E7F86}.Release|x86.ActiveCfg = Release|Any CPU
 		{6FA182D0-72A6-415E-BF7D-6A792B7E7F86}.Release|x86.Build.0 = Release|Any CPU
->>>>>>> Stashed changes
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
