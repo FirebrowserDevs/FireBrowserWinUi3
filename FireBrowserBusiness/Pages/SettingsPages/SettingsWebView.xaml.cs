@@ -21,6 +21,7 @@ public sealed partial class SettingsWebView : Page
         StatusTog.IsOn = userSettings.StatusBar == "1" ? true : false;
         BrowserKeys.IsOn = userSettings.BrowserKeys == "1" ? true : false;
         BrowserScripts.IsOn = userSettings.BrowserScripts == "1" ? true : false;
+        ResourceSaver.IsOn = userSettings.ResourceSave == "1" ? true : false;
         antitracklevel();
     }
 
@@ -175,6 +176,18 @@ public sealed partial class SettingsWebView : Page
         catch (Exception ex)
         {
             Console.WriteLine("An error occurred: " + ex.Message);
+        }
+    }
+
+    private void ResourceSaver_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+
+            userSettings.ResourceSave = autoSettingValue;
+
+            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }
     }
 }

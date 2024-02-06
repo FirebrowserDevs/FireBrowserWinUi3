@@ -42,9 +42,6 @@ public sealed partial class FireBrowserTabViewItem : TabViewItem
                     }
 
                 }
-
             }
-
     }
-
 }

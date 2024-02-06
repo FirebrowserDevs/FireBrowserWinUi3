@@ -37,6 +37,7 @@
     <Content Remove="Assets\default.png" />
     <Content Remove="Assets\done.png" />
     <Content Remove="Assets\featured.png" />
+    <Content Remove="Assets\fincog.png" />
     <Content Remove="Assets\Icons\About.svg" />
     <Content Remove="Assets\Icons\Accessibility.svg" />
     <Content Remove="Assets\Icons\Home.svg" />
@@ -90,7 +91,6 @@
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="Logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -129,6 +129,7 @@
     <ProjectReference Include="..\FireBrowserQr\FireBrowserQr.csproj" />
     <ProjectReference Include="..\FireBrowserSecureConnect\FireBrowserWinUi3SecureConnect.csproj" />
     <ProjectReference Include="..\FireBrowserSetup\FireBrowserSetup.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUiModules\FireBrowserWinUiModules.csproj" />
     <ProjectReference Include="..\SecureConnectOtp\SecureConnectOtp.csproj" />
     <ProjectReference Include="..\UrlHelperWinUi3\UrlHelperWinUi3.csproj" />
   </ItemGroup>
@@ -164,6 +165,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\user.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Logo.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="LogoSetup.ico">
@@ -280,6 +284,11 @@
   </ItemGroup>
   <ItemGroup>
     <AdditionalDesignTimeBuildInput Remove="FakesAssemblies\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FireBrowserHelpers">
+      <HintPath>..\..\..\..\..\OneDrive\Bureaublad\Code\FireBrowser\FireBrowser-Uwp\src\FireBrowserHelpers\bin\x64\Debug\FireBrowserHelpers.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Update="Assets\Icons\enqryption.png">

@@ -35,6 +35,9 @@ using Windows.Storage.Streams;
 using WinRT.Interop;
 using Settings = FireBrowserMultiCore.Settings;
 using Windowing = FireBrowserBusinessCore.Helpers.Windowing;
+using FireBrowserWinUiModules.Darkmode;
+using FireBrowserWinUiModules.Read;
+using FireBrowserBusinessCore.ShareHelper;
 
 namespace FireBrowserBusiness;
 public sealed partial class MainWindow : Window
@@ -519,6 +522,7 @@ public sealed partial class MainWindow : Window
         await quickConfigurationDialog.ShowAsync();
     }
 
+
     #region cangochecks
     private bool CanGoBack()
     {
@@ -638,8 +642,9 @@ public sealed partial class MainWindow : Window
                     QRCodeFlyout.Hide();
                 }
                 break;
-            case "ReadingMode":
-                // Handle ReadingMode
+            case "ReadingMode" when TabContent.Content is WebContent:
+                string jscriptread = await ReadabilityHelper.GetReadabilityScriptAsync();
+                await (TabContent.Content as WebContent).WebViewElement.CoreWebView2.ExecuteScriptAsync(jscriptread);
                 break;
             case "AdBlock":
                 // Handle AdBlock
@@ -659,8 +664,9 @@ public sealed partial class MainWindow : Window
                 List<FavItem> favorites = fs.LoadFav(user);
                 FavoritesListView.ItemsSource = favorites;
                 break;
-            case "DarkMode" when TabContent.Content is WebContent:
-                // Handle DarkMode for WebContent
+            case "DarkMode" when TabContent.Content is WebContent:              
+                 string jscriptdark = await ForceDarkHelper.GetForceDarkScriptAsync();
+                 await (TabContent.Content as WebContent).WebViewElement.CoreWebView2.ExecuteScriptAsync(jscriptdark);        
                 break;
             case "History":
                 FetchBrowserHistory();
@@ -668,9 +674,16 @@ public sealed partial class MainWindow : Window
         }
     }
 
+    public void share(Window window)
+    {
+        ShareHelper.ShowShareUIForWindow(ShareWindowHelper.GetHwndForCurrentWindow(window));
+    }
+
     #endregion
     private async void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+
         if (TabContent?.Content is WebContent webContent)
         {
             TabWebView.NavigationStarting += (_, _) => ViewModel.CanRefresh = false;
@@ -687,11 +700,13 @@ public sealed partial class MainWindow : Window
                     {
                         if (viewedItem.Content is Frame frame)
                         {
-                            if (frame.Content is WebContent web)
+                            if (userSettings.ResourceSave != null && userSettings.ResourceSave.Equals("1"))
                             {
-                                frame.DispatcherQueue.TryEnqueue(async () =>
+                                if (frame.Content is WebContent web)
                                 {
-                                    await web.WebView.CoreWebView2?.ExecuteScriptAsync(@"(function() { 
+                                    frame.DispatcherQueue.TryEnqueue(async () =>
+                                    {
+                                        await web.WebView.CoreWebView2?.ExecuteScriptAsync(@"(function() { 
                                         try
                                         {
                                             const videos = document.querySelectorAll('video');
@@ -705,7 +720,12 @@ public sealed partial class MainWindow : Window
                                           return error.message; 
                                         }
                                     })();");
-                                });
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                // do nothing
                             }
                         }
                         return true;
@@ -739,7 +759,7 @@ public sealed partial class MainWindow : Window
                 OpenNewWindow(new Uri($"firebrowseruser://{UserName.Text}"));
                 break;
             case "Share":
-
+             
                 break;
             case "DevTools":
                 if (TabContent.Content is WebContent)

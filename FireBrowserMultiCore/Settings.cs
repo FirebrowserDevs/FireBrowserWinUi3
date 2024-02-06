@@ -43,4 +43,6 @@ public class Settings
 
     public string TrackPrevention { get; set; }
 
+    public string ResourceSave { get; set; }
+
 }

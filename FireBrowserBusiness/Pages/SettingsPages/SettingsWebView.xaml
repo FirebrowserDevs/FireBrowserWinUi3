@@ -54,18 +54,32 @@
             </labs:SettingsExpander.Items>
         </labs:SettingsExpander>
 
-        <labs:SettingsCard Header="WebView2 Cookies" Description="WebView2 Clear Cookies">
-            <labs:SettingsCard.HeaderIcon>
+        <labs:SettingsExpander Header="WebView2 Clear Settings" Description="WebView2 Clear Cache Or Cookies">
+            <labs:SettingsExpander.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8B7;"/>
-            </labs:SettingsCard.HeaderIcon>
-            <Button x:Name="ClearCookies" Content="Clear Cookies" Click="ClearCookies_Click"/>
-        </labs:SettingsCard>
+            </labs:SettingsExpander.HeaderIcon>
+            <labs:SettingsExpander.Items>
+                <labs:SettingsCard Header="WebView2 Cookies" Description="WebView2 Clear Cookies">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8B7;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                    <Button x:Name="ClearCookies" Content="Clear Cookies" Click="ClearCookies_Click"/>
+                </labs:SettingsCard>
 
-        <labs:SettingsCard Header="WebView2 Cache" Description="WebView2 Clear Cache">
+                <labs:SettingsCard Header="WebView2 Cache" Description="WebView2 Clear Cache">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8B7;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                    <Button x:Name="ClearCache" Content="Clear Cache" Click="ClearCache_Click"/>
+                </labs:SettingsCard>
+            </labs:SettingsExpander.Items>
+        </labs:SettingsExpander>
+
+        <labs:SettingsCard Header="WebView2 Resource Saver" Description="WebView2 Resource Saver Pause Vidoes if not watched">
             <labs:SettingsCard.HeaderIcon>
-                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8B7;"/>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8BE;"/>
             </labs:SettingsCard.HeaderIcon>
-            <Button x:Name="ClearCache" Content="Clear Cache" Click="ClearCache_Click"/>
+            <ToggleSwitch x:Name="ResourceSaver" Toggled="ResourceSaver_Toggled"/>
         </labs:SettingsCard>
     </StackPanel>
 </Page>

@@ -87,7 +87,7 @@ public sealed partial class WebContent : Page
         }
         else
         {
-            // Handle incognito mode scenario
+            // Handle incognito mode scenario do nothing in here because incog no need of title or icon to load
         }
     }
 
@@ -105,6 +105,7 @@ public sealed partial class WebContent : Page
         WebViewElement.CoreWebView2.Settings.IsWebMessageEnabled = (userSettings.DisableWebMess == "1") ? false : true;
 
         string disableWebMessSetting = userSettings.TrackPrevention ?? "2";
+
 
         // Map the numeric value to the corresponding tracking prevention level
         CoreWebView2TrackingPreventionLevel preventionLevel;
@@ -157,7 +158,6 @@ public sealed partial class WebContent : Page
         public static async Task EarlySync(WebView2 webView)
         {
             await webView.EnsureCoreWebView2Async();
-            // Add any additional setup or event handling here
         }
     }
 

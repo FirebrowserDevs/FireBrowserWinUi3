@@ -83,6 +83,7 @@ public static class UserFolderManager
             EqHis = "0",
             Eqsets = "0",
             TrackPrevention = "2",
+            ResourceSave = "0",
         };
 
         File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));

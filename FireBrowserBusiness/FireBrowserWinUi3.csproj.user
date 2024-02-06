@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Source>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</Source>
-    <SmallTileSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</SmallTileSource>
-    <MediumTileSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</MediumTileSource>
-    <WideTileSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</WideTileSource>
-    <LargeTileSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</LargeTileSource>
-    <AppIconSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</AppIconSource>
-    <SplashScreenSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</SplashScreenSource>
-    <PackageLogoSource>C:\Users\JPJM-\OneDrive\Bureaublad\Icon\400.png</PackageLogoSource>
+    <Source>C:\Users\JPJM-\OneDrive\Bureaublad\fwdlogosizing\pngresized-transformed.png</Source>
+    <SmallTileSource>C:\Users\JPJM-\OneDrive\Bureaublad\fwdlogosizing\pngresized-transformed.png</SmallTileSource>
+    <MediumTileSource>C:\Users\JPJM-\OneDrive\Bureaublad\fwdlogosizing\pngresized-transformed.png</MediumTileSource>
+    <WideTileSource>C:\Users\JPJM-\OneDrive\Bureaublad\fwdlogosizing\pngresized-transformed.png</WideTileSource>
+    <LargeTileSource>C:\Users\JPJM-\OneDrive\Bureaublad\fwdlogosizing\pngresized-transformed.png</LargeTileSource>
+    <AppIconSource>C:\Users\JPJM-\OneDrive\Bureaublad\fwdlogosizing\pngresized-transformed.png</AppIconSource>
+    <SplashScreenSource>C:\Users\JPJM-\OneDrive\Bureaublad\fwdlogosizing\pngresized-transformed.png</SplashScreenSource>
+    <PackageLogoSource>C:\Users\JPJM-\OneDrive\Bureaublad\fwdlogosizing\pngresized-transformed.png</PackageLogoSource>
     <ActiveDebugProfile>FireBrowserBusiness (Package)</ActiveDebugProfile>
     <UapAppxPackageBuildMode>SideloadOnly</UapAppxPackageBuildMode>
     <AppxShowAllApps>False</AppxShowAllApps>
