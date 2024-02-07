@@ -39,9 +39,10 @@ namespace FireBrowserDataCore.Actions
             {
                 if (await HistoryContext.Urls.FirstOrDefaultAsync(t => t.url == url) is HistoryItem item)
                 {
+                    string dateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     HistoryContext.Urls.Where(x => x.url == url).ExecuteUpdate(y => y.SetProperty(z => z.visit_count, z => z.visit_count + 1)
-                    .SetProperty(a=> a.last_visit_time, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
-                    .SetProperty(b=> b.title, title));
+                    .SetProperty(a => a.last_visit_time, dateTime)
+                    .SetProperty(b => b.title, title)); ;
                 }
                 else
                 {
