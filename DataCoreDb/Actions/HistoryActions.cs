@@ -39,7 +39,9 @@ namespace FireBrowserDataCore.Actions
             {
                 if (await HistoryContext.Urls.FirstOrDefaultAsync(t => t.url == url) is HistoryItem item)
                 {
-                    HistoryContext.Urls.Where(x => x.url == url).ExecuteUpdate(y => y.SetProperty(z => z.visit_count, z => z.visit_count + 1));
+                    HistoryContext.Urls.Where(x => x.url == url).ExecuteUpdate(y => y.SetProperty(z => z.visit_count, z => z.visit_count + 1)
+                    .SetProperty(a=> a.last_visit_time, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+                    .SetProperty(b=> b.title, title));
                 }
                 else
                 {
@@ -108,7 +110,7 @@ namespace FireBrowserDataCore.Actions
                                  LastVisitTime = x.last_visit_time,
                                  Hidden = x.hidden,
                                  ImageSource = new BitmapImage(new Uri($"https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url={x.url}&size=32"))
-                             }).ToList();
+                             }).OrderBy(x => x.LastVisitTime).Reverse().ToList();
 
                 return await Task.FromResult(items.ToObservableCollection<FireBrowserDatabase.HistoryItem>()); 
 

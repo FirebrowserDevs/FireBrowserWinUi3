@@ -97,7 +97,16 @@ public sealed partial class NewTab : Page
 
         if (NtpTime is not null && NtpDate is not null)
         {
-            NtpTime.Visibility = NtpDate.Visibility = Visibility.Collapsed;
+            try
+            {
+                NtpTime.Visibility = NtpDate.Visibility = Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                
+            }
+            
         }
     }
 
