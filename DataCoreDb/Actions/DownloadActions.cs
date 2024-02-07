@@ -1,5 +1,6 @@
 ﻿using FireBrowserDataCore.Actions.Contracts;
 using FireBrowserDataCore.Models;
+using FireBrowserExceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace FireBrowserDataCore.Actions
             }
             catch (Exception ex)
             {
+                ExceptionLogger.LogException(ex);
                 Console.WriteLine($"Error inserting downloaded item: {ex.Message}");
             }
         }
@@ -45,6 +47,7 @@ namespace FireBrowserDataCore.Actions
             }
             catch (Exception ex)
             {
+                ExceptionLogger.LogException(ex);
                 Console.WriteLine($"Error deleting download item: {ex.Message}");
             }
         }
