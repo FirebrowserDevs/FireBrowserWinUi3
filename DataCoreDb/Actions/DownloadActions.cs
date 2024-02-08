@@ -1,8 +1,11 @@
-﻿using FireBrowserDataCore.Actions.Contracts;
+﻿using FireBrowserBusinessCore.Helpers;
+using FireBrowserDataCore.Actions.Contracts;
 using FireBrowserDataCore.Models;
 using FireBrowserExceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -52,5 +55,25 @@ namespace FireBrowserDataCore.Actions
             }
         }
 
+        public async Task<List<DownloadItem>> GetAllDownloadItems()
+        {
+
+            try
+            {
+
+                List<DownloadItem> items = await DownloadContext.Downloads.ToListAsync();
+
+                return await Task.FromResult(items);
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                Console.WriteLine($"Error gathering History Items: {ex.Message}");
+                return await Task.FromResult(new List<DownloadItem>());
+
+            }
+
+        }
     }
 }

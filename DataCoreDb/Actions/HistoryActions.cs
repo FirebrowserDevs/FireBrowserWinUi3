@@ -52,7 +52,7 @@ namespace FireBrowserDataCore.Actions
                 await HistoryContext.SaveChangesAsync();
             }
             catch (Exception ex)
-            {
+             {
                 ExceptionLogger.LogException(ex);
                 Console.WriteLine($"Error inserting history item: {ex.Message}");
             }

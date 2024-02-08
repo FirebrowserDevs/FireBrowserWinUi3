@@ -1,9 +1,12 @@
 using FireBrowserBusiness;
+using FireBrowserDataCore.Actions;
+using FireBrowserExceptions;
 using FireBrowserMultiCore;
 using Microsoft.Data.Sqlite;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
@@ -27,39 +30,21 @@ public sealed partial class DownloadFlyout : Flyout
     {
         try
         {
+            DownloadActions downloadActions =  new DownloadActions(AuthService.CurrentUser.Username);
+            List<FireBrowserDataCore.Models.DownloadItem> items = await downloadActions.GetAllDownloadItems(); 
 
-            FireBrowserMultiCore.User user = AuthService.CurrentUser;
-            string username = user.Username;
-            string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username);
-            string databaseFolderPath = Path.Combine(userFolderPath, "Database");
-            string db = Path.Combine(databaseFolderPath, "Downloads.db");
-            // Assuming _databaseFilePath is set correctly
-
-
-            using (SqliteConnection connection = new SqliteConnection($"Filename={db}"))
-            {
-                connection.Open();
-
-                SqliteCommand selectCommand = new SqliteCommand("SELECT current_path FROM downloads", connection);
-                SqliteDataReader query = selectCommand.ExecuteReader();
-
-                while (query.Read())
-                {
-                    string filePath = query.GetString(0);
-
-                    if (!string.IsNullOrEmpty(filePath))
-                    {
-                        DownloadItem downloadItem = new(filePath);
-                        DownloadItemsListView.Items.Insert(0, downloadItem);
-                    }
-                }
-
-                connection.Close();
-            }
+            if (items.Count > 0) {
+                items.ForEach(t => {
+                    DownloadItem downloadItem = new(t.current_path);
+                    DownloadItemsListView.Items.Insert(0, downloadItem);
+                });
+            };
+            
         }
         catch (Exception ex)
         {
             // Handle any exceptions, such as file access or database errors
+            ExceptionLogger.LogException(ex);
             Console.WriteLine($"Error accessing database: {ex.Message}");
         }
     }

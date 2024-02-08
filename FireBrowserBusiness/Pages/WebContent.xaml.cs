@@ -310,9 +310,9 @@ public sealed partial class WebContent : Page
                     bitmap.SetSource(memoryStream.AsRandomAccessStream());
 
                     memoryStream.Seek(0, SeekOrigin.Begin);
-                    Windows.Storage.StorageFile file = await ApplicationData.Current.RoamingFolder.CreateFileAsync("view.png", Windows.Storage.CreationCollisionOption.ReplaceExisting);
-                    await Windows.Storage.FileIO.WriteBytesAsync(file, memoryStream.GetBuffer());
-                    memoryStream.Seek(0, SeekOrigin.Begin);
+                    //Windows.Storage.StorageFile file = await ApplicationData.Current.RoamingFolder.CreateFileAsync("view.png", Windows.Storage.CreationCollisionOption.ReplaceExisting);
+                    //await Windows.Storage.FileIO.WriteBytesAsync(file, memoryStream.GetBuffer());
+                    //memoryStream.Seek(0, SeekOrigin.Begin);
                     PictureWebElement = bitmap;
 
                     // set the active tab with the current view
