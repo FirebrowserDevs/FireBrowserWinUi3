@@ -832,59 +832,7 @@ public sealed partial class MainWindow : Window
         {
             ExceptionLogger.LogException(ex);
         }
-        //Batteries.Init();
-        //try
-        //{
-        //    string username = user.Username;
-        //    string databasePath = Path.Combine(
-        //        UserDataManager.CoreFolderPath,
-        //        UserDataManager.UsersFolderPath,
-        //        username,
-        //        "Database",
-        //        "History.db"
-        //    );
-
-        //    if (System.IO.File.Exists(databasePath))
-        //    {
-        //        using var connection = new SqliteConnection($"Data Source={databasePath};");
-        //        await connection.OpenAsync();
-
-        //        string sql = "SELECT url, title, visit_count, typed_count, hidden FROM urls ORDER BY id DESC";
-
-        //        using var command = new SqliteCommand(sql, connection);
-        //        using var reader = command.ExecuteReader();
-
-        //        browserHistory = new ObservableCollection<HistoryItem>();
-
-        //        while (reader.Read())
-        //        {
-        //            HistoryItem historyItem = new HistoryItem
-        //            {
-        //                Url = reader.GetString(0),
-        //                Title = reader.IsDBNull(1) ? null : reader.GetString(1),
-        //                VisitCount = reader.GetInt32(2),
-        //                TypedCount = reader.GetInt32(3),
-        //                Hidden = reader.GetInt32(4)
-        //            };
-
-        //            // Fetch the image source here
-        //            historyItem.ImageSource = new BitmapImage(new Uri($"https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url={historyItem.Url}&size=32"));
-
-        //            browserHistory.Add(historyItem);
-        //        }
-
-        //        // Bind the browser history items to the ListView
-        //        HistoryTemp.ItemsSource = browserHistory;
-        //    }
-        //    else
-        //    {
-        //        Debug.WriteLine("Database file does not exist at the specified path.");
-        //    }
-        //}
-        //catch (Exception ex)
-        //{
-        //    ExceptionLogger.LogException(ex);
-        //}
+       
     }
 
     #endregion

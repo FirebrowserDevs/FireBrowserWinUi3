@@ -1,8 +1,11 @@
+using FireBrowserDataCore.Actions;
+using FireBrowserExceptions;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3.Controls;
 using Microsoft.Data.Sqlite;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace FireBrowserWinUi3.Pages.TimeLinePages;
@@ -20,40 +23,41 @@ public sealed partial class DownloadsTimeLine : Page
     {
         try
         {
+            DownloadActions downloadActions = new DownloadActions(AuthService.CurrentUser.Username);
+            List<FireBrowserDataCore.Models.DownloadItem> items = await downloadActions.GetAllDownloadItems();
 
-            FireBrowserMultiCore.User user = AuthService.CurrentUser;
-            string username = user.Username;
-            string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username);
-            string databaseFolderPath = Path.Combine(userFolderPath, "Database");
-            string db = Path.Combine(databaseFolderPath, "Downloads.db");
-            // Assuming _databaseFilePath is set correctly
-
-
-            using (SqliteConnection connection = new SqliteConnection($"Filename={db}"))
+            if (items.Count > 0)
             {
-                connection.Open();
+                items.ForEach(t => {
+                    DownloadItem downloadItem = new(t.current_path);
+                    downloadItem.Handler_DownloadItem_Status += DownloadItem_Handler_DownloadItem_Status;
+                    DownloadItemsListView.Items.Insert(0, downloadItem);
+                });
+            };
 
-                SqliteCommand selectCommand = new SqliteCommand("SELECT current_path FROM downloads", connection);
-                SqliteDataReader query = selectCommand.ExecuteReader();
-
-                while (query.Read())
-                {
-                    string filePath = query.GetString(0);
-
-                    if (!string.IsNullOrEmpty(filePath))
-                    {
-                        DownloadItem downloadItem = new(filePath);
-                        DownloadItemsListView.Items.Insert(0, downloadItem);
-                    }
-                }
-
-                connection.Close();
-            }
         }
         catch (Exception ex)
         {
             // Handle any exceptions, such as file access or database errors
+            ExceptionLogger.LogException(ex);
             Console.WriteLine($"Error accessing database: {ex.Message}");
+        }
+        
+    }
+
+    private void DownloadItem_Handler_DownloadItem_Status(object sender, DownloadItem.DownloadItemStatusEventArgs e)
+    {
+        switch (e.Status)
+        {
+            case DownloadItem.DownloadItemStatusEventArgs.EnumStatus.Added:
+                break;
+            case DownloadItem.DownloadItemStatusEventArgs.EnumStatus.Removed:
+                DownloadItemsList.Items.Remove(e.DownloadedItem);
+                break;
+            case DownloadItem.DownloadItemStatusEventArgs.EnumStatus.Updated:
+                break;
+            default:
+                break;
         }
     }
 }

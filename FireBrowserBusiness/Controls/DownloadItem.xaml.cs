@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -21,10 +22,22 @@ namespace FireBrowserWinUi3.Controls;
 
 public sealed partial class DownloadItem : ListViewItem
 {
+    public class DownloadItemStatusEventArgs : EventArgs
+    {
+        public enum EnumStatus
+        {
+            Added,
+            Removed,
+            Updated
+        };
+        public EnumStatus Status { get; set; }
+        public string FilePath { get; set; }
+        public ListViewItem  DownloadedItem { get; set;  }
+    }
     private CoreWebView2DownloadOperation _downloadOperation;
     private string _filePath;
     private readonly string _databaseFilePath = "";
-
+    public event EventHandler<DownloadItemStatusEventArgs> Handler_DownloadItem_Status;
     private static DownloadsTimeLine downloadsTimeLineInstance;
 
     private int Progress { get; set; } = 0;
@@ -211,38 +224,7 @@ public sealed partial class DownloadItem : ListViewItem
 
             Debug.WriteLine($"An error occurred: {ex.Message}");
         }
-        //try
-        //{
-        //    using (var connection = new SqliteConnection($"Data Source={_databaseFilePath}"))
-        //    {
-        //        await connection.OpenAsync();
-
-        //        using (var command = connection.CreateCommand())
-        //        {
-        //            command.CommandText = @"
-        //            INSERT INTO downloads (guid, current_path, end_time, start_time)
-        //            VALUES (@guid, @currentPath, @endTime, @startTime)";
-
-        //            // Parameters for the SQL command
-        //            command.Parameters.Add("@guid", SqliteType.Text).Value = Guid.NewGuid().ToString();
-        //            command.Parameters.Add("@currentPath", SqliteType.Text).Value = _filePath;
-        //            command.Parameters.Add("@endTime", SqliteType.Text).Value = _downloadOperation.EstimatedEndTime.ToString();
-        //            command.Parameters.Add("@startTime", SqliteType.Integer).Value = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-
-        //            await command.ExecuteNonQueryAsync();
-        //        }
-        //    }
-        //}
-        //catch (SqliteException ex)
-        //{
-        //    // Handle database insertion error
-        //    Debug.WriteLine($"Database insertion error: {ex.Message}");
-        //}
-        //catch (Exception ex)
-        //{
-        //    // Handle other exceptions
-        //    Debug.WriteLine($"An error occurred: {ex.Message}");
-        //}
+       
     }
 
     private void ListViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -265,7 +247,7 @@ public sealed partial class DownloadItem : ListViewItem
     }
 
 
-    private async void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    private  void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
         try
         {
@@ -278,6 +260,9 @@ public sealed partial class DownloadItem : ListViewItem
             // Remove the item from the current ListView in MainWindow
             var window = (Application.Current as App)?.m_window as MainWindow;
             window.DownloadFlyout.DownloadItemsListView.Items.Remove(this);
+
+            //add handler to caputre events not on mainwindow 
+            Handler_DownloadItem_Status.Invoke(this, new DownloadItemStatusEventArgs() { Status = DownloadItemStatusEventArgs.EnumStatus.Removed, FilePath = _filePath, DownloadedItem = this });
         }
         catch (SqliteException ex)
         {
@@ -305,26 +290,7 @@ public sealed partial class DownloadItem : ListViewItem
         {
             Debug.WriteLine($"Database deletion error: {ex.Message}");
         }
-        //try
-        //{
-        //    using (var connection = new SqliteConnection($"Data Source={_databaseFilePath}"))
-        //    {
-        //        await connection.OpenAsync();
-
-        //        using (var command = connection.CreateCommand())
-        //        {
-        //            command.CommandText = "DELETE FROM downloads WHERE current_path = @currentPath";
-        //            command.Parameters.AddWithValue("@currentPath", _filePath);
-
-        //            await command.ExecuteNonQueryAsync();
-        //        }
-        //    }
-        //}
-        //catch (Exception ex)
-        //{
-        //    // Handle database deletion error
-        //    Debug.WriteLine($"Database deletion error: {ex.Message}");
-        //}
+       
     }
 
     private void MenuFlyoutItem_Click_1(object sender, RoutedEventArgs e)

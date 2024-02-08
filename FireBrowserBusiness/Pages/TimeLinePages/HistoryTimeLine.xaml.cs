@@ -1,4 +1,7 @@
 using FireBrowserDatabase;
+using FireBrowserDataCore.Actions;
+using FireBrowserDataCore.Models;
+using FireBrowserExceptions;
 using FireBrowserMultiCore;
 using Microsoft.Data.Sqlite;
 using Microsoft.UI.Xaml;
@@ -11,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FireBrowserWinUi3.Pages.TimeLinePages;
 public sealed partial class HistoryTimeLine : Page
@@ -22,71 +26,23 @@ public sealed partial class HistoryTimeLine : Page
     }
 
     public FireBrowserMultiCore.User user = AuthService.CurrentUser;
-    private ObservableCollection<HistoryItem> browserHistory;
+    private ObservableCollection<FireBrowserDatabase.HistoryItem> browserHistory;
 
     private async void FetchBrowserHistory()
     {
-        Batteries.Init();
+
         try
         {
-            string username = user.Username;
-            string databasePath = Path.Combine(
-                UserDataManager.CoreFolderPath,
-                UserDataManager.UsersFolderPath,
-                username,
-                "Database",
-                "History.db"
-            );
-
-            if (File.Exists(databasePath))
-            {
-                using (var connection = new SqliteConnection($"Data Source={databasePath};"))
-                {
-                    await connection.OpenAsync();
-
-                    string sql = "SELECT url, title, visit_count, last_visit_time FROM urls ORDER BY last_visit_time DESC";
-
-                    using (SqliteCommand command = new SqliteCommand(sql, connection))
-                    {
-                        using (SqliteDataReader reader = command.ExecuteReader())
-                        {
-                            browserHistory = new ObservableCollection<HistoryItem>();
-
-                            while (reader.Read())
-                            {
-                                HistoryItem historyItem = new HistoryItem
-                                {
-                                    Url = reader.GetString(0),
-                                    Title = reader.IsDBNull(1) ? null : reader.GetString(1),
-                                    VisitCount = reader.GetInt32(2),
-                                    LastVisitTime = reader.GetString(3),
-                                };
-
-                                // Fetch the image source here
-                                historyItem.ImageSource = new BitmapImage(new Uri("https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=" + historyItem.Url + "&size=32"));
-
-                                browserHistory.Add(historyItem);
-                            }
-
-                            // Bind the browser history items to the ListView
-                            BigTemp.ItemsSource = browserHistory;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Debug.WriteLine("Database file does not exist at the specified path.");
-            }
+            HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
+            var items = await historyActions.GetAllHistoryItems();
+            BigTemp.ItemsSource = items; 
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error: {ex.Message}");
+            ExceptionLogger.LogException(ex);
         }
+                
     }
-
-
-
 
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
@@ -101,7 +57,7 @@ public sealed partial class HistoryTimeLine : Page
         BigTemp.ItemsSource = null;
 
         // Filter the browser history based on the search text
-        var filteredHistory = new ObservableCollection<HistoryItem>(browserHistory
+        var filteredHistory = new ObservableCollection<FireBrowserDatabase.HistoryItem>(browserHistory
             .Where(item => item.Url.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
                            item.Title?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true));
 
@@ -114,31 +70,24 @@ public sealed partial class HistoryTimeLine : Page
         FilterBrowserHistory(searchText);
     }
 
-    private async void ClearDb()
+    private async Task ClearDb()
     {
-        string username = user.Username;
-        string databasePath = Path.Combine(
-            UserDataManager.CoreFolderPath,
-            UserDataManager.UsersFolderPath,
-            username,
-            "Database",
-            "History.db"
-        );
+        HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
+        await historyActions.DeleteAllHistoryItems();
 
         BigTemp.ItemsSource = null;
-        await DbClear.ClearTable(databasePath, "urls");
     }
 
     private async void Delete_Click(object sender, RoutedEventArgs e)
     {
-        ClearDb();
+        await ClearDb();
     }
 
     private string selectedHistoryItem;
     private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
     {
         // Get the selected HistoryItem object
-        HistoryItem historyItem = ((FrameworkElement)sender).DataContext as HistoryItem;
+        FireBrowserDatabase.HistoryItem historyItem = ((FrameworkElement)sender).DataContext as FireBrowserDatabase.HistoryItem;
         selectedHistoryItem = historyItem.Url;
 
         // Create a context menu flyout
@@ -157,21 +106,12 @@ public sealed partial class HistoryTimeLine : Page
         };
 
         // Handle the click event directly within the right-tapped event handler
-        deleteMenuItem.Click += (s, args) =>
+        deleteMenuItem.Click += async(s, args) =>
         {
-            string username = user.Username;
-            string databasePath = Path.Combine(
-                UserDataManager.CoreFolderPath,
-                UserDataManager.UsersFolderPath,
-                username,
-                "Database",
-                "History.db"
-            );
-            // Perform the deletion logic here
-            // Example: Delete data from the 'History' table where the 'Url' matches the selectedHistoryItem
-            DbClearTableData db = new();
-            db.DeleteTableData(databasePath, "urls", $"Url = '{selectedHistoryItem}'");
-            if (BigTemp.ItemsSource is ObservableCollection<HistoryItem> historyItems)
+            HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
+            await historyActions.DeleteHistoryItem(selectedHistoryItem);
+
+            if (BigTemp.ItemsSource is ObservableCollection<FireBrowserDatabase.HistoryItem> historyItems)
             {
                 var itemToRemove = historyItems.FirstOrDefault(item => item.Url == selectedHistoryItem);
                 if (itemToRemove != null)

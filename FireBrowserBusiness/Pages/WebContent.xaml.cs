@@ -4,6 +4,7 @@ using FireBrowserBusiness.Controls;
 using FireBrowserBusinessCore.Helpers;
 using FireBrowserBusinessCore.ShareHelper;
 using FireBrowserDataCore.Actions;
+using FireBrowserExceptions;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3Core.CoreUi;
@@ -304,24 +305,34 @@ public sealed partial class WebContent : Page
 
                 using (MemoryStream memoryStream = new MemoryStream())
                 {
-                    await s?.CoreWebView2?.CapturePreviewAsync(CoreWebView2CapturePreviewImageFormat.Jpeg, memoryStream.AsRandomAccessStream());
-                    memoryStream.Seek(0, SeekOrigin.Begin);
-
-                    bitmap.SetSource(memoryStream.AsRandomAccessStream());
-
-                    memoryStream.Seek(0, SeekOrigin.Begin);
-                    //Windows.Storage.StorageFile file = await ApplicationData.Current.RoamingFolder.CreateFileAsync("view.png", Windows.Storage.CreationCollisionOption.ReplaceExisting);
-                    //await Windows.Storage.FileIO.WriteBytesAsync(file, memoryStream.GetBuffer());
-                    //memoryStream.Seek(0, SeekOrigin.Begin);
-                    PictureWebElement = bitmap;
-
-                    // set the active tab with the current view
-                    MainWindow win = (Window)(Application.Current as App).m_window as MainWindow;
-                    if (win?.TabViewContainer.SelectedItem is FireBrowserTabViewItem tab)
+                    try
                     {
-                        if (win?.TabContent.Content is WebContent web)
-                            tab.BitViewWebContent = web.PictureWebElement;
+                        await s?.CoreWebView2?.CapturePreviewAsync(CoreWebView2CapturePreviewImageFormat.Jpeg, memoryStream.AsRandomAccessStream());
+                        memoryStream.Seek(0, SeekOrigin.Begin);
+
+                        bitmap.SetSource(memoryStream.AsRandomAccessStream());
+
+                        memoryStream.Seek(0, SeekOrigin.Begin);
+                        //Windows.Storage.StorageFile file = await ApplicationData.Current.RoamingFolder.CreateFileAsync("view.png", Windows.Storage.CreationCollisionOption.ReplaceExisting);
+                        //await Windows.Storage.FileIO.WriteBytesAsync(file, memoryStream.GetBuffer());
+                        //memoryStream.Seek(0, SeekOrigin.Begin);
+                        PictureWebElement = bitmap;
+
+                        // set the active tab with the current view
+                        MainWindow win = (Window)(Application.Current as App).m_window as MainWindow;
+                        if (win?.TabViewContainer.SelectedItem is FireBrowserTabViewItem tab)
+                        {
+                            if (win?.TabContent.Content is WebContent web)
+                                tab.BitViewWebContent = web.PictureWebElement;
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        ExceptionLogger.LogException(ex);
+                        Console.Write($"Error capturing preview of website:\n{ex.Message}");
+                        
+                    }
+                    
                 }
             });
 
