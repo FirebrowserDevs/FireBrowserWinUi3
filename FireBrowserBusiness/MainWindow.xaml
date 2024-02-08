@@ -262,6 +262,7 @@
         <firebrowser:FireBrowserTabViewContainer x:Name="Tabs"
                x:FieldModifier="public"
                Padding="0"
+               Grid.Row="0"
                VerticalAlignment="Stretch"
                Mode="Modern"
                TabCloseRequested="Tabs_TabCloseRequested"

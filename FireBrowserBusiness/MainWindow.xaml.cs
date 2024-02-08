@@ -38,6 +38,9 @@ using Windowing = FireBrowserBusinessCore.Helpers.Windowing;
 using FireBrowserWinUiModules.Darkmode;
 using FireBrowserWinUiModules.Read;
 using FireBrowserBusinessCore.ShareHelper;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
+using Windows.Devices.Enumeration;
 
 namespace FireBrowserBusiness;
 public sealed partial class MainWindow : Window
@@ -62,6 +65,33 @@ public sealed partial class MainWindow : Window
     {
         await FireBrowserBusinessCore.Models.Data.Init();
         FireBrowserSecureConnect.TwoFactorsAuthentification.Init();
+    }
+
+    public void setColorsTool()
+    {
+        var toolbar = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+        if(toolbar.ColorTV == "#000000")
+        {
+            Tabs.Background = new SolidColorBrush(Colors.Transparent);
+        }
+        else
+        {
+            string colorw = toolbar.ColorTV;
+            var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), colorw);
+            var brush = new SolidColorBrush(color);
+            Tabs.Background = brush;
+        }
+        if(toolbar.ColorTool == "#000000")
+        {
+            ClassicToolbar.Background = new SolidColorBrush(Colors.Transparent);
+        }
+        else
+        {
+            string colorw = toolbar.ColorTool;
+            var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), colorw);
+            var brush = new SolidColorBrush(color);
+            ClassicToolbar.Background = brush;
+        }
     }
 
     private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
@@ -238,7 +268,7 @@ public sealed partial class MainWindow : Window
 
         view.SetPresenter(fullscreen ? AppWindowPresenterKind.FullScreen : AppWindowPresenterKind.Default);
 
-        ClassicToolbar.Height = fullscreen ? 0 : 40;
+        ClassicToolbar.Height = fullscreen ? 0 : 36;
 
         TabContent.Margin = margin;
     }
@@ -259,6 +289,7 @@ public sealed partial class MainWindow : Window
     {
         LoadUsernames();
         UpdateUIBasedOnSettings();
+        setColorsTool();
     }
 
     private void LoadUserDataAndSettings()
