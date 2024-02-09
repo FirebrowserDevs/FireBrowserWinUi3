@@ -11,11 +11,9 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -33,7 +31,7 @@ public sealed partial class DownloadItem : ListViewItem
         };
         public EnumStatus Status { get; set; }
         public string FilePath { get; set; }
-        public ListViewItem  DownloadedItem { get; set;  }
+        public ListViewItem DownloadedItem { get; set; }
     }
     private CoreWebView2DownloadOperation _downloadOperation;
     private string _filePath;
@@ -225,7 +223,7 @@ public sealed partial class DownloadItem : ListViewItem
 
             Debug.WriteLine($"An error occurred: {ex.Message}");
         }
-       
+
     }
 
     private void ListViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -248,7 +246,7 @@ public sealed partial class DownloadItem : ListViewItem
     }
 
 
-    private  void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
         try
         {
@@ -261,10 +259,10 @@ public sealed partial class DownloadItem : ListViewItem
             // Remove the item from the current ListView in MainWindow
             var window = (Application.Current as App)?.m_window as MainWindow;
             if (!window.DownloadFlyout.DownloadItemsListView.Items.Remove(this))
-            { 
+            {
                 window.DownloadFlyout.DownloadItemsListView.Items.Clear();
-                window.DownloadFlyout.GetDownloadItems(); 
-            
+                window.DownloadFlyout.GetDownloadItems();
+
             };
 
             //add handler to caputre events not on mainwindow 
@@ -296,7 +294,7 @@ public sealed partial class DownloadItem : ListViewItem
         {
             Debug.WriteLine($"Database deletion error: {ex.Message}");
         }
-       
+
     }
 
     private void MenuFlyoutItem_Click_1(object sender, RoutedEventArgs e)

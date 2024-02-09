@@ -15,13 +15,11 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
-using Windows.Storage;
 using WinRT.Interop;
 using static FireBrowserBusiness.MainWindow;
 
@@ -42,7 +40,6 @@ public sealed partial class WebContent : Page
         }
 
         return null;
-
     }
     public WebContent()
     {
@@ -137,25 +134,6 @@ public sealed partial class WebContent : Page
     }
 
     Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
-
-    protected override async void OnNavigatedFrom(NavigationEventArgs e)
-    {
-        await WebViewElement.CoreWebView2?.ExecuteScriptAsync(@"(function() { 
-                try
-                {
-                    const videos = document.querySelectorAll('video');
-                    videos.forEach((video) => { video.pause();});
-                    console.log('WINUI3_CoreWebView2: YES_VIDEOS_CLOSED');
-                    return true; 
-
-                }
-                catch(error) {
-                  console.log('WINUI3_CoreWebView2: NO_VIDEOS_CLOSED');
-                  return error.message; 
-                }
-            })();");
-    }
-
     public static class WebViewUtils
     {
         public static async Task EarlySync(WebView2 webView)
@@ -210,7 +188,7 @@ public sealed partial class WebContent : Page
             window.GoFullScreenWeb(s.CoreWebView2.ContainsFullScreenElement);
         };
         s.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
-        s.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = true;
+        s.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = false;
         s.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
         s.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
         s.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
@@ -222,14 +200,7 @@ public sealed partial class WebContent : Page
         };
         s.CoreWebView2.DocumentTitleChanged += (sender, args) =>
         {
-            if (!IsIncognitoModeEnabled)
-            {
-                param.Tab.Header = WebViewElement.CoreWebView2.DocumentTitle;
-            }
-            else
-            {
-
-            }
+            if (!IsIncognitoModeEnabled) param.Tab.Header = WebViewElement.CoreWebView2.DocumentTitle;
         };
         s.CoreWebView2.PermissionRequested += (sender, args) =>
         {
@@ -239,7 +210,7 @@ public sealed partial class WebContent : Page
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                ExceptionLogger.LogException(ex);
             }
         };
         s.CoreWebView2.FaviconChanged += async (sender, args) =>
@@ -252,23 +223,13 @@ public sealed partial class WebContent : Page
                     var stream = await sender.GetFaviconAsync(0);
 
                     var iconSource = new ImageIconSource { ImageSource = bitmapImage };
-                    if (stream != null)
-                    {
-                        await bitmapImage.SetSourceAsync(stream);
-                    }
-                    else
-                    {
-                        var bitmapImage2 = new BitmapImage();
-                        await bitmapImage2.SetSourceAsync(await sender.GetFaviconAsync(CoreWebView2FaviconImageFormat.Jpeg));
-                        iconSource.ImageSource = bitmapImage2;
-                    }
-
+                    await bitmapImage.SetSourceAsync(stream ?? await sender.GetFaviconAsync(CoreWebView2FaviconImageFormat.Jpeg));
                     param.Tab.IconSource = iconSource;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // Handle any exceptions that might occur during the process
+                ExceptionLogger.LogException(ex);
             }
         };
         s.CoreWebView2.NavigationStarting += (sender, args) =>
@@ -283,7 +244,6 @@ public sealed partial class WebContent : Page
         };
         s.CoreWebView2.HistoryChanged += async (sender, args) =>
         {
-
             if ((TabViewItem)param.TabView.SelectedItem == param.Tab)
             {
                 CheckNetworkStatus();
@@ -294,14 +254,10 @@ public sealed partial class WebContent : Page
         {
             Progress.IsIndeterminate = false;
             Progress.Visibility = Visibility.Collapsed;
-            // move history to history change event caputures all navigation now 
-            //thread safe
+            //move history to history change event caputures all navigation now (thread safe)
             s?.DispatcherQueue.TryEnqueue(async () =>
             {
-                // allow webview to load the page
                 await Task.Delay(1500);
-
-                BitmapImage bitmap = new() { DecodePixelHeight = 512, DecodePixelWidth = 640 };
 
                 using (MemoryStream memoryStream = new MemoryStream())
                 {
@@ -310,39 +266,27 @@ public sealed partial class WebContent : Page
                         await s?.CoreWebView2?.CapturePreviewAsync(CoreWebView2CapturePreviewImageFormat.Jpeg, memoryStream.AsRandomAccessStream());
                         memoryStream.Seek(0, SeekOrigin.Begin);
 
+                        BitmapImage bitmap = new() { DecodePixelHeight = 512, DecodePixelWidth = 640 };
                         bitmap.SetSource(memoryStream.AsRandomAccessStream());
-
                         memoryStream.Seek(0, SeekOrigin.Begin);
-                        //Windows.Storage.StorageFile file = await ApplicationData.Current.RoamingFolder.CreateFileAsync("view.png", Windows.Storage.CreationCollisionOption.ReplaceExisting);
-                        //await Windows.Storage.FileIO.WriteBytesAsync(file, memoryStream.GetBuffer());
-                        //memoryStream.Seek(0, SeekOrigin.Begin);
+
                         PictureWebElement = bitmap;
 
-                        // set the active tab with the current view
-                        MainWindow win = (Window)(Application.Current as App).m_window as MainWindow;
-                        if (win?.TabViewContainer.SelectedItem is FireBrowserTabViewItem tab)
-                        {
-                            if (win?.TabContent.Content is WebContent web)
-                                tab.BitViewWebContent = web.PictureWebElement;
-                        }
+                        MainWindow win = (MainWindow)(Application.Current as App)?.m_window;
+                        if (win?.TabViewContainer.SelectedItem is FireBrowserTabViewItem tab && win.TabContent.Content is WebContent web)
+                            tab.BitViewWebContent = web.PictureWebElement;
                     }
                     catch (Exception ex)
                     {
                         ExceptionLogger.LogException(ex);
                         Console.Write($"Error capturing preview of website:\n{ex.Message}");
-                        
                     }
-                    
                 }
             });
-
         };
         s.CoreWebView2.SourceChanged += (sender, args) =>
         {
-            if ((TabViewItem)param.TabView.SelectedItem == param.Tab)
-            {
-                param.ViewModel.CurrentAddress = sender.Source;
-            }
+            if ((TabViewItem)param.TabView.SelectedItem == param.Tab) param.ViewModel.CurrentAddress = sender.Source;
         };
         s.CoreWebView2.NewWindowRequested += (sender, args) =>
         {
@@ -390,7 +334,6 @@ public sealed partial class WebContent : Page
         args.Handled = true;
     }
 
-
     private async void ContextMenuItem_Click(object sender, RoutedEventArgs e)
     {
         if (sender is AppBarButton button && button.Tag != null)
@@ -398,16 +341,10 @@ public sealed partial class WebContent : Page
             switch ((sender as AppBarButton).Tag)
             {
                 case "MenuBack":
-                    if (WebViewElement.CanGoBack == true)
-                    {
-                        WebViewElement.CoreWebView2.GoBack();
-                    }
+                    if (WebViewElement.CanGoBack) WebViewElement.CoreWebView2.GoBack();
                     break;
                 case "Forward":
-                    if (WebViewElement.CanGoForward == true)
-                    {
-                        WebViewElement.CoreWebView2.GoForward();
-                    }
+                    if (WebViewElement.CanGoForward) WebViewElement.CoreWebView2.GoForward();
                     break;
                 case "Source":
                     WebViewElement.CoreWebView2.OpenDevToolsWindow();
@@ -434,7 +371,6 @@ public sealed partial class WebContent : Page
         }
         Ctx.Hide();
     }
-
 
     SpeechSynthesizer synthesizer = new SpeechSynthesizer();
 
@@ -472,15 +408,8 @@ public sealed partial class WebContent : Page
                     break;
                 case "OpenInTab":
                     var newTab = mainWindow?.CreateNewTab(typeof(WebContent), new Uri(SelectionText));
-                    if (userSettings.OpenTabHandel == "1")
-                    {
-                        mainWindow?.Tabs.TabItems.Add(newTab);
-                        select();
-                    }
-                    else
-                    {
-                        mainWindow?.Tabs.TabItems.Add(newTab);
-                    }
+                    mainWindow?.Tabs.TabItems.Add(newTab);
+                    if (userSettings.OpenTabHandel == "1") select();
                     break;
                 case "OpenInWindow":
                     OpenNewWindow(new Uri(SelectionText));

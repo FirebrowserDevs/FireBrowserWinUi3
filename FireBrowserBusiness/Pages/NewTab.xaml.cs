@@ -4,7 +4,6 @@ using FireBrowserCore.ViewModel;
 using FireBrowserExceptions;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3.Controls;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -80,14 +79,17 @@ public sealed partial class NewTab : Page
 
             if (NtpTime is not null && NtpDate is not null)
             {
-                try {
+                try
+                {
                     NtpTime.Visibility = NtpDate.Visibility = Visibility.Visible;
                     (NtpTime.Text, NtpDate.Text) = (DateTime.Now.ToString("H:mm"), $"{DateTime.Today.DayOfWeek}, {DateTime.Today.ToString("MMMM d")}");
-                } catch(Exception ex) {
-                    ExceptionLogger.LogException(ex);
-                    break; 
                 }
-                
+                catch (Exception ex)
+                {
+                    ExceptionLogger.LogException(ex);
+                    break;
+                }
+
             }
             else
             {
@@ -104,9 +106,9 @@ public sealed partial class NewTab : Page
             catch (Exception ex)
             {
                 ExceptionLogger.LogException(ex);
-                
+
             }
-            
+
         }
     }
 

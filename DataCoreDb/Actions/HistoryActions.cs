@@ -1,19 +1,14 @@
-﻿using FireBrowserDataCore.Actions.Contracts;
+﻿using FireBrowserBusinessCore.Helpers;
+using FireBrowserDataCore.Actions.Contracts;
 using FireBrowserDataCore.Models;
-using FireBrowserMultiCore.Helper;
+using FireBrowserExceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Windows.ApplicationModel;
-using System.Collections.ObjectModel;
-using Microsoft.UI.Xaml.Media.Imaging;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Policy;
-using System.Xml;
-using System.Collections.Generic;
-using FireBrowserBusinessCore.Helpers;
-using FireBrowserExceptions;
 
 
 namespace FireBrowserDataCore.Actions
@@ -52,7 +47,7 @@ namespace FireBrowserDataCore.Actions
                 await HistoryContext.SaveChangesAsync();
             }
             catch (Exception ex)
-             {
+            {
                 ExceptionLogger.LogException(ex);
                 Console.WriteLine($"Error inserting history item: {ex.Message}");
             }
@@ -73,14 +68,15 @@ namespace FireBrowserDataCore.Actions
             }
         }
 
-        public async Task DeleteAllHistoryItems() {
+        public async Task DeleteAllHistoryItems()
+        {
 
             var tran = HistoryContext.Database.BeginTransaction();
 
             try
             {
                 // executesqlAsync doesn't have a default tran so add on.
-                await HistoryContext.Database.ExecuteSqlAsync($"DELETE FROM urls;"); 
+                await HistoryContext.Database.ExecuteSqlAsync($"DELETE FROM urls;");
                 await HistoryContext.SaveChangesAsync();
                 tran.Commit();
             }
@@ -88,42 +84,43 @@ namespace FireBrowserDataCore.Actions
             {
                 ExceptionLogger.LogException(ex);
                 Console.WriteLine($"Error deleting history item: {ex.Message}");
-                tran.Rollback(); 
+                tran.Rollback();
             }
 
         }
 
 
 
-        public async Task<ObservableCollection<FireBrowserDatabase.HistoryItem>> GetAllHistoryItems() {
+        public async Task<ObservableCollection<FireBrowserDatabase.HistoryItem>> GetAllHistoryItems()
+        {
 
             try
             {
 
                 List<FireBrowserDatabase.HistoryItem> items = (from x in HistoryContext.Urls
-                             select new FireBrowserDatabase.HistoryItem
-                             {
-                                 Id = x.hidden,
-                                 Url = x.url,
-                                 Title = x.title,
-                                 VisitCount = x.visit_count,
-                                 TypedCount = x.typed_count,
-                                 LastVisitTime = x.last_visit_time,
-                                 Hidden = x.hidden,
-                                 ImageSource = new BitmapImage(new Uri($"https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url={x.url}&size=32"))
-                             }).OrderBy(x => x.LastVisitTime).Reverse().ToList();
+                                                               select new FireBrowserDatabase.HistoryItem
+                                                               {
+                                                                   Id = x.hidden,
+                                                                   Url = x.url,
+                                                                   Title = x.title,
+                                                                   VisitCount = x.visit_count,
+                                                                   TypedCount = x.typed_count,
+                                                                   LastVisitTime = x.last_visit_time,
+                                                                   Hidden = x.hidden,
+                                                                   ImageSource = new BitmapImage(new Uri($"https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url={x.url}&size=32"))
+                                                               }).OrderBy(x => x.LastVisitTime).Reverse().ToList();
 
-                return await Task.FromResult(items.ToObservableCollection<FireBrowserDatabase.HistoryItem>()); 
+                return await Task.FromResult(items.ToObservableCollection<FireBrowserDatabase.HistoryItem>());
 
             }
             catch (Exception ex)
             {
                 ExceptionLogger.LogException(ex);
                 Console.WriteLine($"Error gathering History Items: {ex.Message}");
-                return await Task.FromResult(new ObservableCollection<FireBrowserDatabase.HistoryItem>()); 
-                
+                return await Task.FromResult(new ObservableCollection<FireBrowserDatabase.HistoryItem>());
+
             }
-        
+
         }
     }
 

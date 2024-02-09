@@ -2,13 +2,11 @@ using FireBrowserBusiness;
 using FireBrowserDataCore.Actions;
 using FireBrowserExceptions;
 using FireBrowserMultiCore;
-using Microsoft.Data.Sqlite;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 
 namespace FireBrowserWinUi3.Controls;
 public sealed partial class DownloadFlyout : Flyout
@@ -30,16 +28,18 @@ public sealed partial class DownloadFlyout : Flyout
     {
         try
         {
-            DownloadActions downloadActions =  new DownloadActions(AuthService.CurrentUser.Username);
-            List<FireBrowserDataCore.Models.DownloadItem> items = await downloadActions.GetAllDownloadItems(); 
+            DownloadActions downloadActions = new DownloadActions(AuthService.CurrentUser.Username);
+            List<FireBrowserDataCore.Models.DownloadItem> items = await downloadActions.GetAllDownloadItems();
 
-            if (items.Count > 0) {
-                items.ForEach(t => {
+            if (items.Count > 0)
+            {
+                items.ForEach(t =>
+                {
                     DownloadItem downloadItem = new(t.current_path);
                     DownloadItemsListView.Items.Insert(0, downloadItem);
                 });
             };
-            
+
         }
         catch (Exception ex)
         {

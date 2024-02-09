@@ -2,11 +2,9 @@ using FireBrowserDataCore.Actions;
 using FireBrowserExceptions;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3.Controls;
-using Microsoft.Data.Sqlite;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace FireBrowserWinUi3.Pages.TimeLinePages;
 public sealed partial class DownloadsTimeLine : Page
@@ -28,7 +26,8 @@ public sealed partial class DownloadsTimeLine : Page
 
             if (items.Count > 0)
             {
-                items.ForEach(t => {
+                items.ForEach(t =>
+                {
                     DownloadItem downloadItem = new(t.current_path);
                     downloadItem.Handler_DownloadItem_Status += DownloadItem_Handler_DownloadItem_Status;
                     DownloadItemsListView.Items.Insert(0, downloadItem);
@@ -42,7 +41,7 @@ public sealed partial class DownloadsTimeLine : Page
             ExceptionLogger.LogException(ex);
             Console.WriteLine($"Error accessing database: {ex.Message}");
         }
-        
+
     }
 
     private void DownloadItem_Handler_DownloadItem_Status(object sender, DownloadItem.DownloadItemStatusEventArgs e)

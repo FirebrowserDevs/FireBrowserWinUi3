@@ -28,6 +28,7 @@ public sealed partial class SettingsNewTab : Page
         Hsbl.IsOn = userSettings.Historybtn == "1" ? true : false;
         Qrbl.IsOn = userSettings.QrCode == "1" ? true : false;
         Tlbl.IsOn = userSettings.ToolIcon == "1" ? true : false;
+        Confirm.IsOn = userSettings.ConfirmCloseDlg == "1" ? true : false;
     }
 
     private void SearchengineSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -221,6 +222,18 @@ public sealed partial class SettingsNewTab : Page
             string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
 
             userSettings.ToolIcon = autoSettingValue;
+
+            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+        }
+    }
+
+    private void Confirm_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+
+            userSettings.ConfirmCloseDlg = autoSettingValue;
 
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
         }

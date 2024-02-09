@@ -2,6 +2,7 @@ using FireBrowserBusiness.Controls;
 using FireBrowserBusiness.Pages;
 using FireBrowserBusinessCore.Helpers;
 using FireBrowserBusinessCore.Models;
+using FireBrowserBusinessCore.ShareHelper;
 using FireBrowserBusinessCore.ViewModel;
 using FireBrowserDatabase;
 using FireBrowserDataCore.Actions;
@@ -12,17 +13,18 @@ using FireBrowserQr;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
 using FireBrowserWinUi3Core.CoreUi;
-using Microsoft.Data.Sqlite;
+using FireBrowserWinUiModules.Darkmode;
+using FireBrowserWinUiModules.Read;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -35,12 +37,6 @@ using Windows.Storage.Streams;
 using WinRT.Interop;
 using Settings = FireBrowserMultiCore.Settings;
 using Windowing = FireBrowserBusinessCore.Helpers.Windowing;
-using FireBrowserWinUiModules.Darkmode;
-using FireBrowserWinUiModules.Read;
-using FireBrowserBusinessCore.ShareHelper;
-using Microsoft.UI.Xaml.Markup;
-using Microsoft.UI.Xaml.Media;
-using Windows.Devices.Enumeration;
 
 namespace FireBrowserBusiness;
 public sealed partial class MainWindow : Window
@@ -70,7 +66,7 @@ public sealed partial class MainWindow : Window
     public void setColorsTool()
     {
         var toolbar = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
-        if(toolbar.ColorTV == "#000000")
+        if (toolbar.ColorTV == "#000000")
         {
             Tabs.Background = new SolidColorBrush(Colors.Transparent);
         }
@@ -81,7 +77,7 @@ public sealed partial class MainWindow : Window
             var brush = new SolidColorBrush(color);
             Tabs.Background = brush;
         }
-        if(toolbar.ColorTool == "#000000")
+        if (toolbar.ColorTool == "#000000")
         {
             ClassicToolbar.Background = new SolidColorBrush(Colors.Transparent);
         }
@@ -98,41 +94,41 @@ public sealed partial class MainWindow : Window
     {
         if (Tabs.TabItems?.Count > 1)
         {
-            try
+            Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+            if (userSettings.ConfirmCloseDlg == "1")
             {
-                args.Cancel = true;
-
-                if (Application.Current is not App currentApp || !(currentApp.m_window is MainWindow mainWindow))
-                    return;
-
-                ConfirmAppClose quickConfigurationDialog = new()
+                try
                 {
-                    XamlRoot = mainWindow.Content.XamlRoot
-                };
+                    args.Cancel = true;
 
-                quickConfigurationDialog.PrimaryButtonClick += async (_, _) =>
+                    if (!(Application.Current is App currentApp) || !(currentApp.m_window is MainWindow mainWindow))
+                        return;
+
+                    ConfirmAppClose quickConfigurationDialog = new()
+                    {
+                        XamlRoot = mainWindow.Content.XamlRoot
+                    };
+
+                    quickConfigurationDialog.PrimaryButtonClick += async (_, _) =>
+                    {
+                        quickConfigurationDialog.Hide();
+                        await Task.Delay(250);
+                        Application.Current.Exit();
+                    };
+                    await quickConfigurationDialog.ShowAsync();
+                }
+                catch (Exception ex)
                 {
-                    // Close the dialog first
-                    quickConfigurationDialog.Hide();
-                    // Delay the app exit to allow time for the dialog to close
-                    await Task.Delay(250);
-                    // Close the application synchronously after the dialog is closed
-                    Application.Current.Exit();
-                };
-                await quickConfigurationDialog.ShowAsync();
+                    ExceptionLogger.LogException(ex);
+                }
             }
-            catch (Exception ex)
-            {
-                ExceptionLogger.LogException(ex);
-            }
+            return;
         }
-        else
-        {
-            args.Cancel = false;
-        }
+        args.Cancel = false;
     }
 
     bool incog = false;
+
     private async void ArgsPassed()
     {
         TitleTop();
@@ -157,7 +153,7 @@ public sealed partial class MainWindow : Window
             var files = new List<IStorageItem> { file }.AsReadOnly();
             if (files.Count > 0)
             {
-                Tabs.TabItems.Add(CreateNewTab(typeof(WebContent), files[0]));
+                Tabs.TabItems.Add(CreateNewTab(typeof(WebContent), files[1]));
             }
             return;
         }
@@ -200,6 +196,7 @@ public sealed partial class MainWindow : Window
         var currentUsername = AuthService.CurrentUser?.Username;
         foreach (var username in AuthService.GetAllUsernames().Where(username => username != currentUsername && !username.Contains("Private")))
         {
+            UserListView.Items.Clear();
             UserListView.Items.Add(username);
         }
     }
@@ -230,7 +227,6 @@ public sealed partial class MainWindow : Window
             string s when s.Contains("http") => "This Page Is Unsecured By A Non-Valid SSL Certificate, Please Be Careful",
             _ => ""
         };
-
     }
 
 
@@ -302,7 +298,7 @@ public sealed partial class MainWindow : Window
             return;
         }
 
-        UserName.Text =  currentUser.Username ?? "DefaultUser";
+        UserName.Text = currentUser.Username ?? "DefaultUser";
     }
 
     private void UpdateUIBasedOnSettings()
@@ -695,9 +691,9 @@ public sealed partial class MainWindow : Window
                 List<FavItem> favorites = fs.LoadFav(user);
                 FavoritesListView.ItemsSource = favorites;
                 break;
-            case "DarkMode" when TabContent.Content is WebContent:              
-                 string jscriptdark = await ForceDarkHelper.GetForceDarkScriptAsync();
-                 await (TabContent.Content as WebContent).WebViewElement.CoreWebView2.ExecuteScriptAsync(jscriptdark);        
+            case "DarkMode" when TabContent.Content is WebContent:
+                string jscriptdark = await ForceDarkHelper.GetForceDarkScriptAsync();
+                await (TabContent.Content as WebContent).WebViewElement.CoreWebView2.ExecuteScriptAsync(jscriptdark);
                 break;
             case "History":
                 FetchBrowserHistory();
@@ -759,8 +755,6 @@ public sealed partial class MainWindow : Window
                     }
                     return false;
                 });
-
-
             }
 
             SmallUpdates();
@@ -775,7 +769,7 @@ public sealed partial class MainWindow : Window
     public static async void OpenNewWindow(Uri uri) => await Windows.System.Launcher.LaunchUriAsync(uri);
 
     public void ShareUi(string Url, string Title)
-    {        
+    {
         var hWnd = WindowNative.GetWindowHandle(this);
         ShareUIHelper.ShowShareUIURL(Url, Title, hWnd);
     }
@@ -792,7 +786,7 @@ public sealed partial class MainWindow : Window
                 OpenNewWindow(new Uri($"firebrowseruser://{UserName.Text}"));
                 break;
             case "Share" when TabContent.Content is WebContent:
-                    ShareUi(TabWebView.CoreWebView2.DocumentTitle, TabWebView.CoreWebView2.Source);
+                ShareUi(TabWebView.CoreWebView2.DocumentTitle, TabWebView.CoreWebView2.Source);
                 break;
             case "DevTools":
                 if (TabContent.Content is WebContent)
@@ -833,7 +827,7 @@ public sealed partial class MainWindow : Window
         HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
         await historyActions.DeleteAllHistoryItems();
 
-        HistoryTemp.ItemsSource = null; 
+        HistoryTemp.ItemsSource = null;
         //FireBrowserMultiCore.User user = AuthService.CurrentUser;
         //string username = user.Username;
         //string databasePath = Path.Combine(
@@ -856,14 +850,14 @@ public sealed partial class MainWindow : Window
         try
         {
             HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
-            var items = await  historyActions.GetAllHistoryItems();
+            var items = await historyActions.GetAllHistoryItems();
             HistoryTemp.ItemsSource = items; // browserHistory;
         }
         catch (Exception ex)
         {
             ExceptionLogger.LogException(ex);
         }
-       
+
     }
 
     #endregion
@@ -943,8 +937,6 @@ public sealed partial class MainWindow : Window
                 "History.db"
             );
 
-            //var db = new DbClearTableData();
-            //db.DeleteTableData(databasePath, "urls", $"Url = '{selectedHistoryItem}'");
             HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
             await historyActions.DeleteHistoryItem(selectedHistoryItem);
             await Task.Delay(1000);
@@ -1059,6 +1051,7 @@ public sealed partial class MainWindow : Window
     private void MainUser_Click(object sender, RoutedEventArgs e)
     {
         UserFrame.Visibility = UserFrame?.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+        LoadUsernames();
     }
 
     private void MoreTool_Click(object sender, RoutedEventArgs e)

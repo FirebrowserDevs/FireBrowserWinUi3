@@ -59,7 +59,9 @@
                             <!-- Username -->
                             <TextBlock x:FieldModifier="Public" x:Name="userName" Text="{Binding}" Grid.Column="1" VerticalAlignment="Center" Margin="10,0,10,0"/>
                             <!-- "Switch" button -->
-                            <Button IsEnabled="True" x:Name="Switch" Click="Switch_Click" Grid.Column="2" Margin="10" Style="{ThemeResource QuietButtonStyle}" Content="{firebrowser:FluentIcon Glyph=&#xE748;}"/>
+                            <Button IsEnabled="True" x:Name="Switch" Click="Switch_Click" Grid.Column="2" Margin="-20" Style="{ThemeResource QuietButtonStyle}" Content="{firebrowser:FluentIcon Glyph=&#xE748;}"/>
+
+                            <Button IsEnabled="True" x:Name="Delete" Click="Delete_Click" Grid.Column="2" Margin="10" Style="{ThemeResource QuietButtonStyle}" Content="{firebrowser:FluentIcon Glyph=&#xE74D;}"/>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
