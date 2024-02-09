@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -259,10 +260,15 @@ public sealed partial class DownloadItem : ListViewItem
 
             // Remove the item from the current ListView in MainWindow
             var window = (Application.Current as App)?.m_window as MainWindow;
-            window.DownloadFlyout.DownloadItemsListView.Items.Remove(this);
+            if (!window.DownloadFlyout.DownloadItemsListView.Items.Remove(this))
+            { 
+                window.DownloadFlyout.DownloadItemsListView.Items.Clear();
+                window.DownloadFlyout.GetDownloadItems(); 
+            
+            };
 
             //add handler to caputre events not on mainwindow 
-            Handler_DownloadItem_Status.Invoke(this, new DownloadItemStatusEventArgs() { Status = DownloadItemStatusEventArgs.EnumStatus.Removed, FilePath = _filePath, DownloadedItem = this });
+            Handler_DownloadItem_Status?.Invoke(this, new DownloadItemStatusEventArgs() { Status = DownloadItemStatusEventArgs.EnumStatus.Removed, FilePath = _filePath, DownloadedItem = this });
         }
         catch (SqliteException ex)
         {

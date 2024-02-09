@@ -52,7 +52,7 @@ public sealed partial class DownloadsTimeLine : Page
             case DownloadItem.DownloadItemStatusEventArgs.EnumStatus.Added:
                 break;
             case DownloadItem.DownloadItemStatusEventArgs.EnumStatus.Removed:
-                DownloadItemsList.Items.Remove(e.DownloadedItem);
+                DownloadItemsListView.Items.Remove(e.DownloadedItem);
                 break;
             case DownloadItem.DownloadItemStatusEventArgs.EnumStatus.Updated:
                 break;
