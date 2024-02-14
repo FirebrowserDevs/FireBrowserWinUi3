@@ -1,8 +1,6 @@
 using FireBrowserBusiness;
-using FireBrowserDataCore.Actions;
-using FireBrowserMultiCore;
-using FireBrowserWinUi3.Pages.TimeLinePages;
-using Microsoft.Data.Sqlite;
+using FireBrowserBusiness.Services;
+using FireBrowserBusiness.Services.Events;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -11,11 +9,8 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -23,26 +18,18 @@ namespace FireBrowserWinUi3.Controls;
 
 public sealed partial class DownloadItem : ListViewItem
 {
-    public class DownloadItemStatusEventArgs : EventArgs
-    {
-        public enum EnumStatus
-        {
-            Added,
-            Removed,
-            Updated
-        };
-        public EnumStatus Status { get; set; }
-        public string FilePath { get; set; }
-        public ListViewItem  DownloadedItem { get; set;  }
-    }
     private CoreWebView2DownloadOperation _downloadOperation;
     private string _filePath;
-    private readonly string _databaseFilePath = "";
-    public event EventHandler<DownloadItemStatusEventArgs> Handler_DownloadItem_Status;
-    private static DownloadsTimeLine downloadsTimeLineInstance;
+    private string _databaseFilePath;
 
+    public event EventHandler<DownloadItemStatusEventArgs> Handler_DownloadItem_Status;
     private int Progress { get; set; } = 0;
     private string EstimatedEnd { get; set; } = string.Empty;
+    /*  
+     * this is set when items are created by pages or by the service
+     * controls that don't inherit from UiElement like flyouts need extra creation steps because x:bind doesn't work.
+    */
+    public DownloadService ServiceDownloads { get; set; }
 
     public DownloadItem(string filepath)
     {
@@ -65,13 +52,6 @@ public sealed partial class DownloadItem : ListViewItem
 
         _downloadOperation = downloadOperation;
         _filePath = _downloadOperation.ResultFilePath;
-
-        FireBrowserMultiCore.User user = AuthService.CurrentUser;
-        string username = user.Username;
-        string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username);
-        string databaseFolderPath = Path.Combine(userFolderPath, "Database");
-        _databaseFilePath = Path.Combine(databaseFolderPath, "Downloads.db");
-
         _downloadOperation.BytesReceivedChanged += _downloadOperation_BytesReceivedChanged;
         _downloadOperation.StateChanged += _downloadOperation_StateChanged;
         _downloadOperation.EstimatedEndTimeChanged += _downloadOperation_EstimatedEndTimeChanged;
@@ -80,7 +60,6 @@ public sealed partial class DownloadItem : ListViewItem
 
         SetIcon();
 
-        InsertDownloadIntoDatabase();
     }
 
     private void _downloadOperation_EstimatedEndTimeChanged(CoreWebView2DownloadOperation sender, object args)
@@ -98,6 +77,7 @@ public sealed partial class DownloadItem : ListViewItem
                 subtitle.Text = resourceLoader.GetString("OpenDownload");
 
                 SetIcon();
+
                 break;
 
             case CoreWebView2DownloadState.Interrupted: //[TODO] 
@@ -130,6 +110,7 @@ public sealed partial class DownloadItem : ListViewItem
                 // Simulate the download completion state
                 SimulateDownloadCompletion(sender);
             }
+
         }
         catch { }
     }
@@ -142,6 +123,18 @@ public sealed partial class DownloadItem : ListViewItem
         // Change the state to Completed
         downloadOperation.GetType().GetMethod("OnDownloadStateChange", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
             ?.Invoke(downloadOperation, new object[] { CoreWebView2DownloadState.Completed });
+
+        // add after completion to the database use dataCore; only if file exist on disk.
+        if (ServiceDownloads is not DownloadService db && File.Exists(_filePath))
+        {
+            ServiceDownloads = App.GetService<DownloadService>();
+            await ServiceDownloads.InsertAsync(_filePath, _downloadOperation.EstimatedEndTime.ToString(), DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+        }
+        else
+        {
+            await ServiceDownloads.InsertAsync(_filePath, _downloadOperation.EstimatedEndTime.ToString(), DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+        }
+
     }
 
     private void SetIcon()
@@ -212,22 +205,6 @@ public sealed partial class DownloadItem : ListViewItem
         public string szTypeName;
     }
 
-    private async void InsertDownloadIntoDatabase()
-    {
-        try
-        {
-            DownloadActions downloadActions = new DownloadActions(AuthService.CurrentUser.Username);
-            await downloadActions.InsertDownloadItem(Guid.NewGuid().ToString(), _filePath, _downloadOperation.EstimatedEndTime.ToString(), DateTimeOffset.UtcNow.ToUnixTimeSeconds());
-
-        }
-        catch (Exception ex)
-        {
-
-            Debug.WriteLine($"An error occurred: {ex.Message}");
-        }
-       
-    }
-
     private void ListViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
     {
         if (_downloadOperation != null)
@@ -247,60 +224,4 @@ public sealed partial class DownloadItem : ListViewItem
         }
     }
 
-
-    private  void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            // Delete from the database
-            DeleteDownloadFromDatabase();
-
-            // Delete the file
-            File.Delete(_filePath); // Replace with the actual property name
-
-            // Remove the item from the current ListView in MainWindow
-            var window = (Application.Current as App)?.m_window as MainWindow;
-            if (!window.DownloadFlyout.DownloadItemsListView.Items.Remove(this))
-            { 
-                window.DownloadFlyout.DownloadItemsListView.Items.Clear();
-                window.DownloadFlyout.GetDownloadItems(); 
-            
-            };
-
-            //add handler to caputre events not on mainwindow 
-            Handler_DownloadItem_Status?.Invoke(this, new DownloadItemStatusEventArgs() { Status = DownloadItemStatusEventArgs.EnumStatus.Removed, FilePath = _filePath, DownloadedItem = this });
-        }
-        catch (SqliteException ex)
-        {
-            // Handle SQLite exceptions
-            Debug.WriteLine($"SQLite Exception: {ex.Message}");
-            // You might want to show a user-friendly message here
-        }
-        catch (Exception ex)
-        {
-            // Handle other exceptions
-            Debug.WriteLine($"An error occurred: {ex.Message}");
-            // You might want to show a user-friendly message here
-        }
-    }
-
-
-    private async void DeleteDownloadFromDatabase()
-    {
-        try
-        {
-            DownloadActions downloadActions = new DownloadActions(AuthService.CurrentUser.Username);
-            await downloadActions.DeleteDownloadItem(_filePath);
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Database deletion error: {ex.Message}");
-        }
-       
-    }
-
-    private void MenuFlyoutItem_Click_1(object sender, RoutedEventArgs e)
-    {
-        Process.Start("explorer.exe", "/select, " + _filePath);
-    }
 }

@@ -10,9 +10,9 @@ namespace FireBrowserDataCore
 
         public DbSet<DownloadItem> Downloads { get; set; }
         public string ConnectionPath { get; set; }
-        public DownloadContext(string username)
+        public DownloadContext(string username = "dizzler")
         {
-            ConnectionPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Database", "Downloads.db");
+            ConnectionPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username = "dizzler", "Database", "Downloads.db");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

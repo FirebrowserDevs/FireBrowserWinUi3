@@ -21,7 +21,6 @@ using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
-using Windows.Storage;
 using WinRT.Interop;
 using static FireBrowserBusiness.MainWindow;
 
@@ -330,9 +329,9 @@ public sealed partial class WebContent : Page
                     {
                         ExceptionLogger.LogException(ex);
                         Console.Write($"Error capturing preview of website:\n{ex.Message}");
-                        
+
                     }
-                    
+
                 }
             });
 

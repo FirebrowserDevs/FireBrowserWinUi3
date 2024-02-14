@@ -58,6 +58,7 @@
   <ItemGroup>
     <None Remove="Controls\DownloadFlyout.xaml" />
     <None Remove="Controls\DownloadItem.xaml" />
+    <None Remove="Controls\DownloadListView.xaml" />
     <None Remove="Controls\FireBrowserTabViewContainer.xaml" />
     <None Remove="Controls\FireBrowserTabViewItem.xaml" />
     <None Remove="Pages\InPrivate.xaml" />
@@ -103,8 +104,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.1" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
@@ -167,6 +170,9 @@
     <None Update="Assets\user.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\DownloadListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="Logo.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

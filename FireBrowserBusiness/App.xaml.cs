@@ -1,6 +1,9 @@
-﻿using FireBrowserBusinessCore.Helpers;
+﻿using FireBrowserBusiness.Services;
+using FireBrowserBusinessCore.Helpers;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3;
+using FireBrowserWinUi3.Services.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
@@ -14,11 +17,39 @@ using Path = System.IO.Path;
 namespace FireBrowserBusiness;
 public partial class App : Application
 {
+    public new static App Current => (App)Application.Current;
+
+    #region DependencyInjection
+
+    public IServiceProvider Services { get; }
+
+    public static T GetService<T>() where T : class
+    {
+        if ((App.Current as App)!.Services.GetService(typeof(T)) is not T service)
+        {
+            throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
+        }
+
+        return service;
+    }
+    private static IServiceProvider ConfigureServices()
+    {
+        var services = new ServiceCollection();
+
+        //services.AddDbContext<FireBrowserDataCore.HistoryContext>();
+        services.AddSingleton<DownloadService>();
+        services.AddTransient<DownloadsViewModel>();
+
+        return services.BuildServiceProvider();
+    }
+    #endregion
     public App()
     {
+        Services = ConfigureServices();
+
         this.InitializeComponent();
 
-        UrlHelperWinUi3.TLD.LoadKnownDomainsAsync();
+        UrlHelperWinUi3.TLD.LoadKnownDomainsAsync().GetAwaiter();
 
         System.Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
     }

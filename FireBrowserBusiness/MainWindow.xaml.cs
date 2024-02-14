@@ -1,7 +1,9 @@
 using FireBrowserBusiness.Controls;
 using FireBrowserBusiness.Pages;
+using FireBrowserBusiness.Services;
 using FireBrowserBusinessCore.Helpers;
 using FireBrowserBusinessCore.Models;
+using FireBrowserBusinessCore.ShareHelper;
 using FireBrowserBusinessCore.ViewModel;
 using FireBrowserDatabase;
 using FireBrowserDataCore.Actions;
@@ -12,17 +14,18 @@ using FireBrowserQr;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
 using FireBrowserWinUi3Core.CoreUi;
-using Microsoft.Data.Sqlite;
+using FireBrowserWinUiModules.Darkmode;
+using FireBrowserWinUiModules.Read;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -35,12 +38,6 @@ using Windows.Storage.Streams;
 using WinRT.Interop;
 using Settings = FireBrowserMultiCore.Settings;
 using Windowing = FireBrowserBusinessCore.Helpers.Windowing;
-using FireBrowserWinUiModules.Darkmode;
-using FireBrowserWinUiModules.Read;
-using FireBrowserBusinessCore.ShareHelper;
-using Microsoft.UI.Xaml.Markup;
-using Microsoft.UI.Xaml.Media;
-using Windows.Devices.Enumeration;
 
 namespace FireBrowserBusiness;
 public sealed partial class MainWindow : Window
@@ -48,9 +45,12 @@ public sealed partial class MainWindow : Window
     private AppWindow appWindow;
 
     public DownloadFlyout DownloadFlyout { get; set; } = new DownloadFlyout();
+    public DownloadService ServiceDownloads { get; set; }
 
     public MainWindow()
     {
+        ServiceDownloads = App.GetService<DownloadService>();
+
         InitializeComponent();
 
         ArgsPassed();
@@ -70,7 +70,7 @@ public sealed partial class MainWindow : Window
     public void setColorsTool()
     {
         var toolbar = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
-        if(toolbar.ColorTV == "#000000")
+        if (toolbar.ColorTV == "#000000")
         {
             Tabs.Background = new SolidColorBrush(Colors.Transparent);
         }
@@ -81,7 +81,7 @@ public sealed partial class MainWindow : Window
             var brush = new SolidColorBrush(color);
             Tabs.Background = brush;
         }
-        if(toolbar.ColorTool == "#000000")
+        if (toolbar.ColorTool == "#000000")
         {
             ClassicToolbar.Background = new SolidColorBrush(Colors.Transparent);
         }
@@ -302,7 +302,7 @@ public sealed partial class MainWindow : Window
             return;
         }
 
-        UserName.Text =  currentUser.Username ?? "DefaultUser";
+        UserName.Text = currentUser.Username ?? "DefaultUser";
     }
 
     private void UpdateUIBasedOnSettings()
@@ -695,9 +695,9 @@ public sealed partial class MainWindow : Window
                 List<FavItem> favorites = fs.LoadFav(user);
                 FavoritesListView.ItemsSource = favorites;
                 break;
-            case "DarkMode" when TabContent.Content is WebContent:              
-                 string jscriptdark = await ForceDarkHelper.GetForceDarkScriptAsync();
-                 await (TabContent.Content as WebContent).WebViewElement.CoreWebView2.ExecuteScriptAsync(jscriptdark);        
+            case "DarkMode" when TabContent.Content is WebContent:
+                string jscriptdark = await ForceDarkHelper.GetForceDarkScriptAsync();
+                await (TabContent.Content as WebContent).WebViewElement.CoreWebView2.ExecuteScriptAsync(jscriptdark);
                 break;
             case "History":
                 FetchBrowserHistory();
@@ -775,7 +775,7 @@ public sealed partial class MainWindow : Window
     public static async void OpenNewWindow(Uri uri) => await Windows.System.Launcher.LaunchUriAsync(uri);
 
     public void ShareUi(string Url, string Title)
-    {        
+    {
         var hWnd = WindowNative.GetWindowHandle(this);
         ShareUIHelper.ShowShareUIURL(Url, Title, hWnd);
     }
@@ -792,7 +792,7 @@ public sealed partial class MainWindow : Window
                 OpenNewWindow(new Uri($"firebrowseruser://{UserName.Text}"));
                 break;
             case "Share" when TabContent.Content is WebContent:
-                    ShareUi(TabWebView.CoreWebView2.DocumentTitle, TabWebView.CoreWebView2.Source);
+                ShareUi(TabWebView.CoreWebView2.DocumentTitle, TabWebView.CoreWebView2.Source);
                 break;
             case "DevTools":
                 if (TabContent.Content is WebContent)
@@ -833,7 +833,7 @@ public sealed partial class MainWindow : Window
         HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
         await historyActions.DeleteAllHistoryItems();
 
-        HistoryTemp.ItemsSource = null; 
+        HistoryTemp.ItemsSource = null;
         //FireBrowserMultiCore.User user = AuthService.CurrentUser;
         //string username = user.Username;
         //string databasePath = Path.Combine(
@@ -856,14 +856,14 @@ public sealed partial class MainWindow : Window
         try
         {
             HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
-            var items = await  historyActions.GetAllHistoryItems();
+            var items = await historyActions.GetAllHistoryItems();
             HistoryTemp.ItemsSource = items; // browserHistory;
         }
         catch (Exception ex)
         {
             ExceptionLogger.LogException(ex);
         }
-       
+
     }
 
     #endregion
