@@ -43,6 +43,7 @@ public sealed partial class DownloadFlyout : Flyout
                 items.ForEach(t =>
                 {
                     DownloadItem downloadItem = new(t.current_path);
+                    downloadItem.ServiceDownloads = DownloadService;
                     DownloadItemsListView.Items.Insert(0, downloadItem);
                 });
             };
