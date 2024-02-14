@@ -104,15 +104,6 @@ public sealed partial class SettingsHome : Page
         await quickConfigurationDialog.ShowAsync();
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is FrameworkElement element && element.DataContext is string username)
-        {
-            MainWindow newWindow = new();
-            newWindow.Activate();
-        }
-    }
-
     public static async void OpenNewWindow(Uri uri)
     {
         await Windows.System.Launcher.LaunchUriAsync(uri);
@@ -126,6 +117,16 @@ public sealed partial class SettingsHome : Page
             OpenNewWindow(new Uri($"firebrowseruser://{clickedUserName}"));
             Shortcut ct = new();
             ct.CreateShortcut(clickedUserName);
+        }
+    }
+
+    private void Delete_Click(object sender, RoutedEventArgs e)
+    {
+
+        if (sender is Button switchButton && switchButton.DataContext is string clickedUserName)
+        {
+            UserDataManager.DeleteUser(clickedUserName);
+            UserListView.Items.Remove(clickedUserName);
         }
     }
 }

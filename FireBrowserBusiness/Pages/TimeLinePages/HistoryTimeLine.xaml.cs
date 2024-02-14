@@ -1,18 +1,11 @@
-using FireBrowserDatabase;
 using FireBrowserDataCore.Actions;
-using FireBrowserDataCore.Models;
 using FireBrowserExceptions;
 using FireBrowserMultiCore;
-using Microsoft.Data.Sqlite;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media.Imaging;
-using SQLitePCL;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -35,13 +28,13 @@ public sealed partial class HistoryTimeLine : Page
         {
             HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
             var items = await historyActions.GetAllHistoryItems();
-            BigTemp.ItemsSource = items; 
+            BigTemp.ItemsSource = items;
         }
         catch (Exception ex)
         {
             ExceptionLogger.LogException(ex);
         }
-                
+
     }
 
     private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -106,7 +99,7 @@ public sealed partial class HistoryTimeLine : Page
         };
 
         // Handle the click event directly within the right-tapped event handler
-        deleteMenuItem.Click += async(s, args) =>
+        deleteMenuItem.Click += async (s, args) =>
         {
             HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
             await historyActions.DeleteHistoryItem(selectedHistoryItem);

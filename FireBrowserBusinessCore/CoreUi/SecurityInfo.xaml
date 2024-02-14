@@ -30,10 +30,9 @@
                 <StackPanel Grid.Row="0" MaxHeight="35">
                     <FontIcon  x:Name="SSLFlyoutIcon"
                     VerticalAlignment="Center"
-                        Margin="10,10,0,0"
+                    Margin="10,10,0,0"
                     HorizontalAlignment="Left"
-                    FontFamily="{StaticResource FluentIcons}"
-                      />
+                    FontFamily="{StaticResource FluentIcons}"/>
                     <TextBlock x:Name="SSLFlyoutHeader" HorizontalAlignment="Center" Margin="0,-20,0,0" Style="{ThemeResource BaseTextBlockStyle}" />
                     <FontIcon  x:Name="CerftIcon"
                     VerticalAlignment="Center"

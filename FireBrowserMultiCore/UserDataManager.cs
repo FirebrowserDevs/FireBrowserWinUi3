@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 namespace FireBrowserMultiCore;
@@ -33,5 +34,28 @@ public static class UserDataManager
         }
 
         File.WriteAllText(CoreFilePath, JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true }));
+    }
+
+    public static void DeleteUser(string username)
+    {
+        var userData = LoadUsers();
+        var userToDelete = userData.Users.FirstOrDefault(u => u.Username == username);
+
+        if (userToDelete != null)
+        {
+            string userFolderPath = Path.Combine(CoreFolderPath, UsersFolderPath, username);
+
+            // Delete the user folder
+            if (Directory.Exists(userFolderPath))
+            {
+                Directory.Delete(userFolderPath, true);
+            }
+
+            // Remove the user from the list
+            userData.Users.Remove(userToDelete);
+
+            // Save the updated user list
+            SaveUsers(userData.Users);
+        }
     }
 }

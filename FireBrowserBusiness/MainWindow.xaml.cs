@@ -98,41 +98,41 @@ public sealed partial class MainWindow : Window
     {
         if (Tabs.TabItems?.Count > 1)
         {
-            try
+            Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+            if (userSettings.ConfirmCloseDlg == "1")
             {
-                args.Cancel = true;
-
-                if (Application.Current is not App currentApp || !(currentApp.m_window is MainWindow mainWindow))
-                    return;
-
-                ConfirmAppClose quickConfigurationDialog = new()
+                try
                 {
-                    XamlRoot = mainWindow.Content.XamlRoot
-                };
+                    args.Cancel = true;
 
-                quickConfigurationDialog.PrimaryButtonClick += async (_, _) =>
+                    if (!(Application.Current is App currentApp) || !(currentApp.m_window is MainWindow mainWindow))
+                        return;
+
+                    ConfirmAppClose quickConfigurationDialog = new()
+                    {
+                        XamlRoot = mainWindow.Content.XamlRoot
+                    };
+
+                    quickConfigurationDialog.PrimaryButtonClick += async (_, _) =>
+                    {
+                        quickConfigurationDialog.Hide();
+                        await Task.Delay(250);
+                        Application.Current.Exit();
+                    };
+                    await quickConfigurationDialog.ShowAsync();
+                }
+                catch (Exception ex)
                 {
-                    // Close the dialog first
-                    quickConfigurationDialog.Hide();
-                    // Delay the app exit to allow time for the dialog to close
-                    await Task.Delay(250);
-                    // Close the application synchronously after the dialog is closed
-                    Application.Current.Exit();
-                };
-                await quickConfigurationDialog.ShowAsync();
+                    ExceptionLogger.LogException(ex);
+                }
             }
-            catch (Exception ex)
-            {
-                ExceptionLogger.LogException(ex);
-            }
+            return;
         }
-        else
-        {
-            args.Cancel = false;
-        }
+        args.Cancel = false;
     }
 
     bool incog = false;
+
     private async void ArgsPassed()
     {
         TitleTop();
@@ -157,7 +157,7 @@ public sealed partial class MainWindow : Window
             var files = new List<IStorageItem> { file }.AsReadOnly();
             if (files.Count > 0)
             {
-                Tabs.TabItems.Add(CreateNewTab(typeof(WebContent), files[0]));
+                Tabs.TabItems.Add(CreateNewTab(typeof(WebContent), files[1]));
             }
             return;
         }
@@ -200,6 +200,7 @@ public sealed partial class MainWindow : Window
         var currentUsername = AuthService.CurrentUser?.Username;
         foreach (var username in AuthService.GetAllUsernames().Where(username => username != currentUsername && !username.Contains("Private")))
         {
+            UserListView.Items.Clear();
             UserListView.Items.Add(username);
         }
     }
@@ -230,7 +231,6 @@ public sealed partial class MainWindow : Window
             string s when s.Contains("http") => "This Page Is Unsecured By A Non-Valid SSL Certificate, Please Be Careful",
             _ => ""
         };
-
     }
 
 
@@ -759,8 +759,6 @@ public sealed partial class MainWindow : Window
                     }
                     return false;
                 });
-
-
             }
 
             SmallUpdates();
@@ -943,8 +941,6 @@ public sealed partial class MainWindow : Window
                 "History.db"
             );
 
-            //var db = new DbClearTableData();
-            //db.DeleteTableData(databasePath, "urls", $"Url = '{selectedHistoryItem}'");
             HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
             await historyActions.DeleteHistoryItem(selectedHistoryItem);
             await Task.Delay(1000);
@@ -1059,6 +1055,7 @@ public sealed partial class MainWindow : Window
     private void MainUser_Click(object sender, RoutedEventArgs e)
     {
         UserFrame.Visibility = UserFrame?.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+        LoadUsernames();
     }
 
     private void MoreTool_Click(object sender, RoutedEventArgs e)

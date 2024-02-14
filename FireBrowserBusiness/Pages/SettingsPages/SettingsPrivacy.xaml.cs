@@ -76,6 +76,6 @@ public sealed partial class SettingsPrivacy : Page
 
     private void CamPermission_Toggled(object sender, RoutedEventArgs e)
     {
-       
+
     }
 }

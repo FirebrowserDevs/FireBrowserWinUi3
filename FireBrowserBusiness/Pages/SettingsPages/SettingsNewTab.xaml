@@ -148,5 +148,14 @@
             </labs:SettingsCard.HeaderIcon>
             <ToggleSwitch x:Name="OpenNew" Toggled="OpenNew_Toggled"/>
         </labs:SettingsCard>
+        <labs:SettingsCard VerticalAlignment="Top" Margin="0,2,0,0">
+            <labs:SettingsCard.Header>
+                Close Confirm Dialog
+            </labs:SettingsCard.Header>
+            <labs:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEC6C;"/>
+            </labs:SettingsCard.HeaderIcon>
+            <ToggleSwitch x:Name="Confirm"  Toggled="Confirm_Toggled"/>
+        </labs:SettingsCard>
     </StackPanel>
 </Page>
