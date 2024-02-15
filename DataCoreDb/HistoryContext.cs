@@ -1,4 +1,4 @@
-﻿// To learn more about WinUI, the WinUI project structure,
+// To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 using FireBrowserDataCore.Models;
@@ -15,7 +15,7 @@ namespace FireBrowserDataCore
         //public DbSet<DbUser> Users { get; set; }
 
         public string ConnectionPath { get; set; }
-        public HistoryContext(string username = "dizzler")
+        public HistoryContext(string username)
         {
             ConnectionPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Database", "History.db");
         }
