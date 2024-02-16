@@ -4,15 +4,11 @@ using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace FireBrowserWinUi3.Services.ViewModels.Interfaces
+namespace FireBrowserWinUi3.Services.ViewModels.Interfaces;
+public interface IDownloadsViewModel
 {
-    public interface IDownloadsViewModel
-    {
-        ListView DownloadItemsList { get; }
-        DownloadService DataCore { get; }
-        ObservableCollection<DownloadItem> ItemsListView { get; set; }
-        Task GetDownloadItems();
-
-
-    }
+    ListView DownloadItemsList { get; }
+    DownloadService DataCore { get; }
+    ObservableCollection<DownloadItem> ItemsListView { get; set; }
+    Task GetDownloadItems();
 }

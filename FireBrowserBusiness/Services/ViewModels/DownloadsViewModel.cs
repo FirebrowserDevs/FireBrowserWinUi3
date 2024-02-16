@@ -7,53 +7,46 @@ using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace FireBrowserWinUi3.Services.ViewModels
+namespace FireBrowserWinUi3.Services.ViewModels;
+public class DownloadsViewModel : ObservableObject, IDownloadsViewModel
 {
-    public class DownloadsViewModel : ObservableObject, IDownloadsViewModel
+
+    public ListView DownloadItemsList { get; set; }
+    public DownloadService DataCore { get; }
+    public ObservableCollection<DownloadItem> ItemsListView { get; set; }
+    public DownloadsViewModel()
     {
+        DataCore = App.GetService<DownloadService>();
+        DataCore.Handler_DownItemsChange += DataCore_Handler_DownItemsChange;
+    }
 
-        public ListView DownloadItemsList { get; set; }
-        public DownloadService DataCore { get; }
-        public ObservableCollection<DownloadItem> ItemsListView { get; set; }
-        public DownloadsViewModel()
+    private async void DataCore_Handler_DownItemsChange(object sender, FireBrowserBusiness.Services.Events.DownloadItemStatusEventArgs e)
+    {
+        ItemsListView = DataCore.DownloadItemControls;
+        await Task.Delay(200);
+        OnPropertyChanged(nameof(ItemsListView));
+        #region TODO 
+        // do something on other properties. 
+        switch (e.Status)
         {
-
-            DataCore = App.GetService<DownloadService>();
-            DataCore.Handler_DownItemsChange += DataCore_Handler_DownItemsChange;
+           case FireBrowserBusiness.Services.Events.DownloadItemStatusEventArgs.EnumStatus.Added:
+                break;
+            case FireBrowserBusiness.Services.Events.DownloadItemStatusEventArgs.EnumStatus.Removed:
+                break;
+            case FireBrowserBusiness.Services.Events.DownloadItemStatusEventArgs.EnumStatus.Updated:
+                break;
+            default:
+                break;
         }
+        #endregion
+    }
 
-        private async void DataCore_Handler_DownItemsChange(object sender, FireBrowserBusiness.Services.Events.DownloadItemStatusEventArgs e)
-        {
-            ItemsListView = DataCore.DownloadItemControls;
-            await Task.Delay(200);
-            OnPropertyChanged(nameof(ItemsListView));
-            #region TODO 
-            // do something on other properties. 
-            ////switch (e.Status)
-            ////{
-            ////    case FireBrowserBusiness.Services.Events.DownloadItemStatusEventArgs.EnumStatus.Added:
-            ////        break;
-            ////    case FireBrowserBusiness.Services.Events.DownloadItemStatusEventArgs.EnumStatus.Removed:
-            ////        break;
-            ////    case FireBrowserBusiness.Services.Events.DownloadItemStatusEventArgs.EnumStatus.Updated:
-            ////        break;
-            ////    default:
-            ////        break;
-            ////}
-            #endregion
-        }
+    public async Task GetDownloadItems()
+    {
+        if (DataCore == null) { return; }
 
-        public async Task GetDownloadItems()
-        {
-
-            if (DataCore == null) { return; }
-
-            await DataCore.UpdateAsync();
-            ItemsListView = DataCore.DownloadItemControls;
-            OnPropertyChanged(nameof(ItemsListView));
-
-        }
-
-
+        await DataCore.UpdateAsync();
+        ItemsListView = DataCore.DownloadItemControls;
+        OnPropertyChanged(nameof(ItemsListView));
     }
 }
