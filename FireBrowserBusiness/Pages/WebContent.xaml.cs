@@ -409,8 +409,16 @@ public sealed partial class WebContent : Page
                 case "WebApp":
                     break;
                 case "OpenInTab":
-                    var newTab = mainWindow?.CreateNewTab(typeof(WebContent), new Uri(SelectionText));
-                    mainWindow?.Tabs.TabItems.Add(newTab);
+                    if (IsIncognitoModeEnabled)
+                    {
+                        var newTab = mainWindow?.CreateNewIncog(typeof(WebContent), new Uri(SelectionText));
+                        mainWindow?.Tabs.TabItems.Add(newTab);
+                    }
+                    else
+                    {
+                        var newTab = mainWindow?.CreateNewTab(typeof(WebContent), new Uri(SelectionText));
+                        mainWindow?.Tabs.TabItems.Add(newTab);
+                    }                  
                     if (userSettings.OpenTabHandel == "1") select();
                     break;
                 case "OpenInWindow":
