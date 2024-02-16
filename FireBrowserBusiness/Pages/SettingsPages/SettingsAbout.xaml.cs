@@ -32,7 +32,7 @@ public sealed partial class SettingsAbout : Page
                 url = "https://github.com/FirebrowserDevs/FireBrowserWinUi3";
                 break;
             case "License":
-                url = "https://github.com/FirebrowserDevs/FireBrowser-Uwp/TEXT/main/LICENSE";
+                url = "https://github.com/FirebrowserDevs/FireBrowserWinUi3/blob/main/License.lic";
                 break;
         }
         var window = (Application.Current as App)?.m_window as MainWindow;
