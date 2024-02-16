@@ -118,6 +118,16 @@ public static class UserFolderManager
         return new Settings();
     }
 
+    public static Settings TempLoadPrivate(string user)
+    {
+        string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user, SettingsFolderName, "settings.json");
+
+        if (File.Exists(settingsFilePath))
+            return System.Text.Json.JsonSerializer.Deserialize<Settings>(File.ReadAllText(settingsFilePath)) ?? new Settings();
+
+        return new Settings();
+    }
+
     public static void SaveUserSettings(User user, Settings settings)
     {
         try
