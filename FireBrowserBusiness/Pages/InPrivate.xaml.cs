@@ -26,7 +26,7 @@ public sealed partial class InPrivate : Page
 
             userSettings.DisableJavaScript = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            UserFolderManager.TempSaveSettings("Private", userSettings);
         }
     }
 
@@ -38,7 +38,7 @@ public sealed partial class InPrivate : Page
 
             userSettings.DisableWebMess = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            UserFolderManager.TempSaveSettings("Private", userSettings);
         }
     }
 }

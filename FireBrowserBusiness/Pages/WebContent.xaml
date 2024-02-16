@@ -89,7 +89,7 @@
         </Grid>
 
         <Grid x:Name="Grid" Loaded="Grid_Loaded">
-            <ProgressBar x:Name="Progress" Canvas.ZIndex="1" IsIndeterminate="True" Height="3" VerticalAlignment="Top"/>
+            <ProgressBar x:Name="ProgressLoading" Canvas.ZIndex="1" IsIndeterminate="True" Height="3" VerticalAlignment="Top"/>
             <WebView2 
         HorizontalAlignment="Stretch" 
         VerticalAlignment="Stretch"

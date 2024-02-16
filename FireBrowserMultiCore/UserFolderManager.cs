@@ -128,6 +128,18 @@ public static class UserFolderManager
         return new Settings();
     }
 
+    public static void TempSaveSettings(string user, Settings settings)
+    {
+        try
+        {
+            string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user, SettingsFolderName, "settings.json");
+            File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Error saving user settings: " + ex.Message);
+        }
+    }
     public static void SaveUserSettings(User user, Settings settings)
     {
         try

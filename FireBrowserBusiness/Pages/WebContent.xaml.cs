@@ -234,8 +234,8 @@ public sealed partial class WebContent : Page
         };
         s.CoreWebView2.NavigationStarting += (sender, args) =>
         {
-            Progress.IsIndeterminate = true;
-            Progress.Visibility = Visibility.Visible;
+            ProgressLoading.IsIndeterminate = true;
+            ProgressLoading.Visibility = Visibility.Visible;
 
             if ((TabViewItem)param.TabView.SelectedItem == param.Tab)
             {
@@ -252,8 +252,8 @@ public sealed partial class WebContent : Page
         };
         s.CoreWebView2.NavigationCompleted += async (sender, args) =>
         {
-            Progress.IsIndeterminate = false;
-            Progress.Visibility = Visibility.Collapsed;
+            ProgressLoading.IsIndeterminate = false;
+            ProgressLoading.Visibility = Visibility.Collapsed;
             //move history to history change event caputures all navigation now (thread safe)
             s?.DispatcherQueue.TryEnqueue(async () =>
             {
