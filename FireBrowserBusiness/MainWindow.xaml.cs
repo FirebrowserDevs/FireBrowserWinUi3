@@ -478,19 +478,22 @@ public sealed partial class MainWindow : Window
     }
     public void NavigateToUrl(string uri)
     {
-        if (!(TabContent.Content is WebContent webContent))
+        try
         {
-            launchurl ??= uri;
-            TabContent.Navigate(typeof(WebContent), CreatePasser(uri));
+            if (!(TabContent.Content is WebContent webContent))
+            {
+                launchurl ??= uri;
+                TabContent.Navigate(typeof(WebContent), CreatePasser(uri));
 
-            return;
+                return;
+            }
+
+            webContent.WebViewElement.CoreWebView2.Navigate(uri.ToString());
         }
-        // 2024-02-04, change to element no CoreWebView2 sometimes. 
-        webContent.WebViewElement.Source = new(uri); // .CoreWebView2.Navigate(uri.ToString());
-
-        webContent.WebViewElement.CoreWebView2.Navigate(uri.ToString());
-
-
+        catch (Exception ex)
+        {
+            ExceptionLogger.LogException(ex);
+        }
     }
     private void UrlBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {

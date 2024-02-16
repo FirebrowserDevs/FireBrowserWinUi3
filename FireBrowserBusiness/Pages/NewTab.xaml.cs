@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 using static FireBrowserBusiness.MainWindow;
 using Settings = FireBrowserBusinessCore.Models.Settings;
 
@@ -80,16 +81,15 @@ public sealed partial class NewTab : Page
             if (NtpTime is not null && NtpDate is not null)
             {
                 try
-                {
-                    NtpTime.Visibility = NtpDate.Visibility = Visibility.Visible;
-                    (NtpTime.Text, NtpDate.Text) = (DateTime.Now.ToString("H:mm"), $"{DateTime.Today.DayOfWeek}, {DateTime.Today.ToString("MMMM d")}");
+                {                
+                   NtpTime.Visibility = NtpDate.Visibility = Visibility.Visible;
+                   (NtpTime.Text, NtpDate.Text) = (DateTime.Now.ToString("H:mm"), $"{DateTime.Today.DayOfWeek}, {DateTime.Today.ToString("MMMM d")}");                   
                 }
                 catch (Exception ex)
                 {
                     ExceptionLogger.LogException(ex);
                     break;
                 }
-
             }
             else
             {
@@ -100,17 +100,16 @@ public sealed partial class NewTab : Page
         if (NtpTime is not null && NtpDate is not null)
         {
             try
-            {
-                NtpTime.Visibility = NtpDate.Visibility = Visibility.Collapsed;
+            {              
+                NtpTime.Visibility = NtpDate.Visibility = Visibility.Collapsed;          
             }
             catch (Exception ex)
             {
                 ExceptionLogger.LogException(ex);
-
             }
-
         }
     }
+
 
     private void SetVisibilityBasedOnLightMode(bool isLightMode)
     {

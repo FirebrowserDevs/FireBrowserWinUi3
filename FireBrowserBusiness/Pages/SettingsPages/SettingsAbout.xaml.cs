@@ -29,7 +29,7 @@ public sealed partial class SettingsAbout : Page
                 url = "https://discord.gg/kYStRKBHwy";
                 break;
             case "GitHub":
-                url = "https://github.com/FirebrowserDevs/FireBrowser-Uwp";
+                url = "https://github.com/FirebrowserDevs/FireBrowserWinUi3";
                 break;
             case "License":
                 url = "https://github.com/FirebrowserDevs/FireBrowser-Uwp/TEXT/main/LICENSE";
