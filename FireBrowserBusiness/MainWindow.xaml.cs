@@ -35,6 +35,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
+using Windows.UI.StartScreen;
 using WinRT.Interop;
 using Settings = FireBrowserMultiCore.Settings;
 using Windowing = FireBrowserBusinessCore.Helpers.Windowing;

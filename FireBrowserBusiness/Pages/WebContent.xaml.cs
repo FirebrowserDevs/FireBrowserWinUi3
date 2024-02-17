@@ -418,7 +418,7 @@ public sealed partial class WebContent : Page
                     {
                         var newTab = mainWindow?.CreateNewTab(typeof(WebContent), new Uri(SelectionText));
                         mainWindow?.Tabs.TabItems.Add(newTab);
-                    }                  
+                    }
                     if (userSettings.OpenTabHandel == "1") select();
                     break;
                 case "OpenInWindow":

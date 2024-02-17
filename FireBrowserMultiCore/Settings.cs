@@ -46,4 +46,6 @@ public class Settings
     public string ResourceSave { get; set; }
 
     public string ConfirmCloseDlg { get; set; }
+    public string JumpList { get; set; }
+
 }

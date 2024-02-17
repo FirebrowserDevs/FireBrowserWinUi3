@@ -29,7 +29,7 @@ public class DownloadsViewModel : ObservableObject, IDownloadsViewModel
         // do something on other properties. 
         switch (e.Status)
         {
-           case FireBrowserBusiness.Services.Events.DownloadItemStatusEventArgs.EnumStatus.Added:
+            case FireBrowserBusiness.Services.Events.DownloadItemStatusEventArgs.EnumStatus.Added:
                 break;
             case FireBrowserBusiness.Services.Events.DownloadItemStatusEventArgs.EnumStatus.Removed:
                 break;

@@ -85,6 +85,7 @@ public static class UserFolderManager
             TrackPrevention = "2",
             ResourceSave = "0",
             ConfirmCloseDlg = "1",
+            JumpList = "0",
         };
 
         File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));

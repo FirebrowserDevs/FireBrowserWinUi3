@@ -46,19 +46,16 @@ public partial class App : Application
     #endregion
     public App()
     {
-        Services = ConfigureServices();
+        if (Directory.Exists(UserDataManager.CoreFolderPath))
+        {
+            Services = ConfigureServices();
+        }
 
         this.InitializeComponent();
-        this.UnhandledException += App_UnhandledException;
 
         UrlHelperWinUi3.TLD.LoadKnownDomainsAsync().GetAwaiter();
 
         System.Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
-    }
-
-    private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
-    {
-        ExceptionLogger.LogException(e.Exception);
     }
 
     public static string GetUsernameFromCoreFolderPath(string coreFolderPath)
