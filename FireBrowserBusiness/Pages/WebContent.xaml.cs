@@ -158,6 +158,7 @@ public sealed partial class WebContent : Page
 
         LoadSettings();
         WebView2 s = WebViewElement;
+        var keyDownListener = new KeyDownListernerWeb.KeyDownListener(s);
 
         if (param?.Param != null)
         {

@@ -29,11 +29,9 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-
                         <TextBox
                             x:Name="TextBox"
                             Width="{TemplateBinding Width}"
@@ -59,7 +57,6 @@
                             ScrollViewer.BringIntoViewOnFocusChange="False"
                             Style="{TemplateBinding TextBoxStyle}"
                             UseSystemFocusVisuals="{TemplateBinding UseSystemFocusVisuals}" />
-
                         <Popup x:Name="SuggestionsPopup">
                             <Border
                                 x:Name="SuggestionsContainer"
@@ -86,13 +83,11 @@
                                 </ListView>
                             </Border>
                         </Popup>
-
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="Orientation">
                                 <VisualState x:Name="Landscape" />
                                 <VisualState x:Name="Portrait" />
                             </VisualStateGroup>
-
                         </VisualStateManager.VisualStateGroups>
                     </Grid>
                 </ControlTemplate>
