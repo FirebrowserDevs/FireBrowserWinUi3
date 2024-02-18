@@ -18,32 +18,23 @@ public sealed partial class AddUser : ContentDialog
     {
         string enteredUsername = Userbox.Text;
 
-        // Check if the username is not empty
-        if (!string.IsNullOrWhiteSpace(enteredUsername))
-        {
-            // Create a new user
-            User newUser = new User
-            {
-                Id = Guid.NewGuid(), // Generate a new GUID for the user Id
-                Username = enteredUsername,
-                IsFirstLaunch = false,
-                UserSettings = null // You might want to initialize UserSettings based on your application logic
-            };
+        if (string.IsNullOrWhiteSpace(enteredUsername)) return;
 
-            // Add the new user to your user collection or perform any other necessary logic
-            // For demonstration purposes, let's assume 'users' is a List<User> in your AuthService
-            AuthService.AddUser(newUser);
-            UserFolderManager.CreateUserFolders(newUser);
-
-            await CopyImageToUserDirectory();
-            // Close the ContentDialog
-            Hide();
-        }
-        else
+        User newUser = new User
         {
-            return;
-        }
+            Id = Guid.NewGuid(),
+            Username = enteredUsername,
+            IsFirstLaunch = false,
+            UserSettings = null // You might want to initialize UserSettings based on your application logic
+        };
+
+        AuthService.AddUser(newUser);
+        UserFolderManager.CreateUserFolders(newUser);
+
+        await CopyImageToUserDirectory();
+        Hide();
     }
+
 
     string iImage = "";
     private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -59,10 +50,7 @@ public sealed partial class AddUser : ContentDialog
         try
         {
             StorageFolder destinationFolder = await StorageFolder.GetFolderFromPathAsync(destinationFolderPath);
-
             StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/Assets/{imageName}"));
-
-            string destinationFilePath = Path.Combine(destinationFolderPath, "profile_image.jpg"); // Replace with desired file name
             StorageFile destinationFile = await imageFile.CopyAsync(destinationFolder, "profile_image.jpg", NameCollisionOption.ReplaceExisting);
 
             Console.WriteLine("Image copied successfully!");
@@ -72,6 +60,7 @@ public sealed partial class AddUser : ContentDialog
             Console.WriteLine($"Error copying image: {ex.Message}");
         }
     }
+
     private void ProfileImage_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (ProfileImage.SelectedItem != null)

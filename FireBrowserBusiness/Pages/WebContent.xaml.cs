@@ -158,29 +158,18 @@ public sealed partial class WebContent : Page
 
         LoadSettings();
         WebView2 s = WebViewElement;
-        var keyDownListener = new KeyDownListernerWeb.KeyDownListener(s);
 
         if (param?.Param != null)
         {
             WebViewElement.CoreWebView2.Navigate(param.Param.ToString());
         }
 
-        string useragent = userSettings.Useragent;
-
-        useragent = string.IsNullOrEmpty(useragent) ? "1" : useragent;
-
+        string useragent = userSettings?.Useragent ?? "1";
         var userAgent = s?.CoreWebView2.Settings.UserAgent;
-        if (!string.IsNullOrEmpty(userAgent))
+
+        if (!string.IsNullOrEmpty(userAgent) && userAgent.Contains("Edg/"))
         {
-            var edgIndex = userAgent.IndexOf("Edg/");
-            if (edgIndex >= 0)
-            {
-                if (!string.IsNullOrEmpty(userAgent))
-                {
-                    userAgent = userAgent.Substring(0, edgIndex);
-                    s.CoreWebView2.Settings.UserAgent = userAgent;
-                }
-            }
+            s.CoreWebView2.Settings.UserAgent = userAgent.Substring(0, userAgent.IndexOf("Edg/"));
         }
 
         s.CoreWebView2.ContainsFullScreenElementChanged += (sender, args) =>

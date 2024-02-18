@@ -34,7 +34,7 @@
                         <Border x:Name="UserBorder" Visibility="Collapsed" BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}" Opacity="0.3" Margin="10,5,10,10" BorderThickness="1"/>
                         <StackPanel>
                             <Frame x:Name="UserFrame" Visibility="Collapsed">
-                                <ListView x:Name="UserListView">
+                                <ListView x:FieldModifier="Public" x:Name="UserListView">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>

@@ -3,20 +3,16 @@
     x:Class="FireBrowserMultiCore.AddUser"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:FireBrowserMultiCore"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     CornerRadius="8"
     xmlns:Helper="using:FireBrowserMultiCore.Helper"
     PrimaryButtonText="Add"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonText="Cancel"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-    Title="Add User"
-    >
-
+    Title="Add User">
     <Grid>
         <StackPanel Margin="5">
             <Button IsEnabled="True" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" BorderBrush="Transparent" Background="Transparent" Margin="0,0,0,10">

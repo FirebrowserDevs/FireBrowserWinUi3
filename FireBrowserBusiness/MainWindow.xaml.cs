@@ -35,7 +35,6 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
-using Windows.UI.StartScreen;
 using WinRT.Interop;
 using Settings = FireBrowserMultiCore.Settings;
 using Windowing = FireBrowserBusinessCore.Helpers.Windowing;
@@ -171,7 +170,7 @@ public sealed partial class MainWindow : Window
             NewTab.Visibility = Visibility.Collapsed;
             NewWindow.Visibility = Visibility.Collapsed;
             WebContent.IsIncognitoModeEnabled = true;
-            AuthService.DeleteUser("Private");
+            UserDataManager.DeleteUser("Private");
             InPrivateUser();
             incog = true;
             return;
@@ -196,12 +195,12 @@ public sealed partial class MainWindow : Window
         AuthService.CurrentUser.Username = newUser.Username;
         AuthService.Authenticate(newUser.Username);
     }
-    private void LoadUsernames()
+    public void LoadUsernames()
     {
         var currentUsername = AuthService.CurrentUser?.Username;
-        foreach (var username in AuthService.GetAllUsernames().Where(username => username != currentUsername && !username.Contains("Private")))
+        UserListView.Items.Clear();
+        foreach (var username in AuthService.GetAllUsernames().Where(u => u != currentUsername && !u.Contains("Private")))
         {
-            UserListView.Items.Clear();
             UserListView.Items.Add(username);
         }
     }

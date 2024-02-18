@@ -3,27 +3,19 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
 
-namespace FireBrowserMultiCore.Helper;
-
-public class ImageHelper : MarkupExtension
+namespace FireBrowserMultiCore.Helper
 {
-    private static readonly Dictionary<string, BitmapImage> ImageCache = new();
-
-    public string ImageName { get; set; }
-
-    protected override object ProvideValue() => LoadImage(ImageName);
-
-    public BitmapImage LoadImage(string imageName)
+    public class ImageHelper : MarkupExtension
     {
-        if (string.IsNullOrEmpty(imageName)) return null;
+        private static readonly Dictionary<string, BitmapImage> ImageCache = new();
 
-        if (!ImageCache.TryGetValue(imageName, out var cachedImage))
-        {
-            var uri = new Uri($"ms-appx:///FireBrowserMultiCore//Assets/{imageName}");
-            cachedImage = new BitmapImage(uri);
-            ImageCache[imageName] = cachedImage;
-        }
+        public string ImageName { get; set; }
 
-        return cachedImage;
+        protected override object ProvideValue() => LoadImage(ImageName);
+
+        public BitmapImage LoadImage(string imageName) =>
+            string.IsNullOrEmpty(imageName) ? null : ImageCache.TryGetValue(imageName, out var cachedImage)
+                ? cachedImage
+                : ImageCache[imageName] = new BitmapImage(new Uri($"ms-appx:///FireBrowserMultiCore//Assets/{imageName}"));
     }
 }

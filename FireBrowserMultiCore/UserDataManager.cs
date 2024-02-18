@@ -16,23 +16,15 @@ public static class UserDataManager
     public static UserDataResult LoadUsers()
     {
         if (!File.Exists(CoreFilePath))
-        {
             return new UserDataResult { Users = new List<User>(), CurrentUsername = string.Empty };
-        }
 
         var users = JsonSerializer.Deserialize<List<User>>(File.ReadAllText(CoreFilePath));
-        string currentUsername = AuthService.IsUserAuthenticated ? AuthService.CurrentUser.Username : "Guest";
-
-        return new UserDataResult { Users = users, CurrentUsername = currentUsername };
+        return new UserDataResult { Users = users, CurrentUsername = AuthService.IsUserAuthenticated ? AuthService.CurrentUser.Username : "Guest" };
     }
 
     public static void SaveUsers(List<User> users)
     {
-        if (!Directory.Exists(CoreFolderPath))
-        {
-            Directory.CreateDirectory(CoreFolderPath);
-        }
-
+        Directory.CreateDirectory(CoreFolderPath);
         File.WriteAllText(CoreFilePath, JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true }));
     }
 
@@ -45,16 +37,10 @@ public static class UserDataManager
         {
             string userFolderPath = Path.Combine(CoreFolderPath, UsersFolderPath, username);
 
-            // Delete the user folder
             if (Directory.Exists(userFolderPath))
-            {
                 Directory.Delete(userFolderPath, true);
-            }
 
-            // Remove the user from the list
             userData.Users.Remove(userToDelete);
-
-            // Save the updated user list
             SaveUsers(userData.Users);
         }
     }

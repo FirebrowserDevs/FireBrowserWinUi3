@@ -8,10 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace FireBrowserWinUi3.Pages.SettingsPages;
-
 public sealed partial class SettingsHome : Page
 {
-
     public SettingsHome()
     {
         this.InitializeComponent();
@@ -51,36 +49,13 @@ public sealed partial class SettingsHome : Page
         }
     }
 
-    private FireBrowserMultiCore.User GetUser()
-    {
-        // Check if the user is authenticated.
-        if (AuthService.IsUserAuthenticated)
-        {
-            // Return the authenticated user.
-            return AuthService.CurrentUser;
-        }
+    private FireBrowserMultiCore.User GetUser() =>
+      AuthService.IsUserAuthenticated ? AuthService.CurrentUser : null;
 
-        // If no user is authenticated, return null or handle as needed.
-        return null;
-    }
-
-    FireBrowserMultiCore.Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
     private void LoadUserDataAndSettings()
     {
-        if (GetUser() is not { } currentUser)
-        {
-            User.Text = "DefaultUser";
-            return;
-        }
-
-        if (!AuthService.IsUserAuthenticated && !AuthService.Authenticate(currentUser.Username))
-        {
-            return;
-        }
-
-        User.Text = AuthService.CurrentUser?.Username ?? "DefaultUser";
+        User.Text = GetUser()?.Username ?? "DefaultUser";
     }
-
 
     private async void Add_Click(object sender, RoutedEventArgs e)
     {
@@ -92,13 +67,9 @@ public sealed partial class SettingsHome : Page
 
         quickConfigurationDialog.PrimaryButtonClick += async (sender, args) =>
         {
-            // Handle the primary button click
-
-            // Reload the ListView items
             UserListView.Items.Clear();
             LoadUsernames();
-
-            // Optionally, you can await an asynchronous operation here if needed
+            window.LoadUsernames();
         };
 
         await quickConfigurationDialog.ShowAsync();
@@ -127,6 +98,7 @@ public sealed partial class SettingsHome : Page
         {
             UserDataManager.DeleteUser(clickedUserName);
             UserListView.Items.Remove(clickedUserName);
+            var window = (Application.Current as App)?.m_window as MainWindow;
         }
     }
 }

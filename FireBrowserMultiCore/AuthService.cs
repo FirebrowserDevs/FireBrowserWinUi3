@@ -28,46 +28,9 @@ public class AuthService
 
     public static bool IsUserAuthenticated => CurrentUser != null;
 
-    public static bool SwitchUser(string username)
-    {
-        CurrentUser = users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
-        return CurrentUser != null;
-    }
+    public static bool SwitchUser(string username) => (CurrentUser = users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase))) != null;
 
-    public static bool Authenticate(string username)
-    {
-        CurrentUser = users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
-        return CurrentUser != null;
-    }
-
-    public static bool DeleteUser(string username)
-    {
-        User userToDelete = users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
-
-        if (userToDelete != null)
-        {
-            try
-            {
-                string userFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username);
-                if (Directory.Exists(userFolderPath))
-                {
-                    Directory.Delete(userFolderPath, true);
-                }
-
-                users.Remove(userToDelete);
-                SaveUsers();
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error deleting user: {ex.Message}");
-                return false;
-            }
-        }
-
-        return false;
-    }
+    public static bool Authenticate(string username) => (CurrentUser = users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase))) != null;
 
     public static void AddUser(User newUser)
     {
@@ -78,11 +41,7 @@ public class AuthService
         }
     }
 
-    private static void SaveUsers()
-    {
-        string coreJson = JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(UserDataFilePath, coreJson);
-    }
+    private static void SaveUsers() => File.WriteAllText(UserDataFilePath, JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true }));
 
     public static List<string> GetAllUsernames() => users.Select(u => u.Username).ToList();
 
