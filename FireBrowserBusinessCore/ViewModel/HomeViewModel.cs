@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using FireBrowserBusinessCore.Models;
+using FireBrowserDatabase;
 using Microsoft.UI.Xaml;
 using System;
+using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace FireBrowserCore.ViewModel
@@ -25,6 +28,7 @@ namespace FireBrowserCore.ViewModel
         private bool _ntpTimeEnabled;
         private DispatcherTimer timer { get; set; }
 
+        public ObservableCollection<HistoryItem> HistoryItems { get; set; }
         private void UpdateUIControls()
         {
             FireBrowserMultiCore.Settings userSettings = FireBrowserMultiCore.UserFolderManager.LoadUserSettings(FireBrowserMultiCore.AuthService.CurrentUser);
@@ -37,9 +41,18 @@ namespace FireBrowserCore.ViewModel
             userSettings.NtpDateTime = NtpTimeEnabled ? "1" : "0";
             FireBrowserMultiCore.UserFolderManager.SaveUserSettings(FireBrowserMultiCore.AuthService.CurrentUser, userSettings);
 
+        }
+        public void RaisePropertyChanges([CallerMemberName] string? propertyName = null)
+        {
+            OnPropertyChanged(propertyName);
+        }
+        public HomeViewModel()
+        {
+
+            HistoryItems = new ObservableCollection<HistoryItem>();
+            HistoryItems.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HistoryItems));
 
         }
-
         public Task Intialize()
         {
 

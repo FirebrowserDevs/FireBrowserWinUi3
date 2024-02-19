@@ -6,6 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dllimg="using:Assets"
     xmlns:firebrowser="using:FireBrowserBusiness.Controls"
+    xmlns:history="using:FireBrowserDatabase"
+    xmlns:labs="using:CommunityToolkit.WinUI.Controls"
     xmlns:local="using:FireBrowserBusiness.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -38,7 +40,7 @@
                         <ToggleSwitch
                             x:Name="DateTimeToggle"
                             IsOn="{x:Bind ViewModel.NtpTimeEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Toggled="DateTimeToggle_Toggled" >
+                            Toggled="DateTimeToggle_Toggled">
                             Enable Ntp
                         </ToggleSwitch>
                     </StackPanel>
@@ -150,7 +152,7 @@
         </Button>
         <Grid
             x:Name="NtpGrid"
-            Margin="0,75,0,0"
+            Margin="0,55,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             RowSpacing="3">
@@ -175,33 +177,101 @@
         </Grid>
         <Grid
             x:Name="BigGrid"
+            Margin="2,10,2,2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            RowSpacing="4">
+            RowSpacing="12">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <AutoSuggestBox
-                x:Name="NewTabSearchBox"
-                x:Uid="SearchBar"
+            <TextBlock
                 Grid.Row="0"
-                Width="Auto"
-                Height="40"
-                MinWidth="250"
-                VerticalContentAlignment="Center"
-                x:FieldModifier="Public"
-                Background="Transparent"
-                BorderBrush="{ThemeResource SystemAltHighColor}"
-                BorderThickness="1,1,1,1"
-                CornerRadius="5"
-                PreviewKeyDown="NewTabSearchBox_PreviewKeyDown"
-                TextChanged="NewTabSearchBox_TextChanged">
-                <AutoSuggestBox.Resources>
-                    <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="{ThemeResource SystemAltHighColor}" />
-                    <SolidColorBrush x:Key="TextControlButtonForeground" Color="{ThemeResource SystemAltHighColor}" />
-                </AutoSuggestBox.Resources>
-            </AutoSuggestBox>
+                FontSize="{ThemeResource TextStyleLargeFontSize}"
+                Text="Search or enter an address" />
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <AutoSuggestBox
+                    x:Name="NewTabSearchBox"
+                    x:Uid="SearchBar"
+                    Grid.Row="0"
+                    Width="Auto"
+                    Height="40"
+                    MinWidth="250"
+                    HorizontalAlignment="Stretch"
+                    x:FieldModifier="Public"
+                    Background="Transparent"
+                    BorderBrush="{ThemeResource SystemAltHighColor}"
+                    BorderThickness="1,1,1,1"
+                    CornerRadius="5"
+                    PreviewKeyDown="NewTabSearchBox_PreviewKeyDown"
+                    TextChanged="NewTabSearchBox_TextChanged">
+                    <AutoSuggestBox.Resources>
+                        <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="{ThemeResource SystemAltHighColor}" />
+                        <SolidColorBrush x:Key="TextControlButtonForeground" Color="{ThemeResource SystemAltHighColor}" />
+                    </AutoSuggestBox.Resources>
+                </AutoSuggestBox>
+                <labs:SettingsCard
+                    Grid.Row="1"
+                    Width="Auto"
+                    MinWidth="250"
+                    Margin="2"
+                    HorizontalAlignment="Stretch"
+                    Background="Transparent"
+                    CornerRadius="5">
+                    <labs:SettingsCard.Header>
+                        Search Engine
+                    </labs:SettingsCard.Header>
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE721;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ComboBox x:Name="SearchengineSelection" SelectionChanged="SearchengineSelection_SelectionChanged">
+                        <x:String>Google</x:String>
+                        <x:String>Ask</x:String>
+                        <x:String>Baidu</x:String>
+                        <x:String>Bing</x:String>
+                        <x:String>DuckDuckGo</x:String>
+                        <x:String>Ecosia</x:String>
+                        <x:String>Startpage</x:String>
+                        <x:String>Qwant</x:String>
+                        <x:String>Qwant Lite</x:String>
+                        <x:String>Yahoo!</x:String>
+                        <x:String>Presearch</x:String>
+                    </ComboBox>
+                </labs:SettingsCard>
+            </Grid>
+
+            <TextBlock
+                Grid.Row="2"
+                FontSize="{ThemeResource TextStyleLargeFontSize}"
+                Text="History" />
+            <ListView
+                Grid.Row="3"
+                Height="180"
+                MaxWidth="600"
+                BorderBrush="Black"
+                BorderThickness="1"
+                ItemsSource="{x:Bind ViewModel.HistoryItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectionChanged="ListView_SelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="history:HistoryItem">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Height="24"
+                                HorizontalAlignment="Left"
+                                Source="{x:Bind ImageSource, Mode=OneWay}"
+                                Stretch="UniformToFill" />
+                            <AppBarSeparator />
+                            <TextBlock Text="{x:Bind Title, Mode=OneWay}" TextWrapping="WrapWholeWords" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

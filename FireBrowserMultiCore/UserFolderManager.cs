@@ -132,8 +132,12 @@ public static class UserFolderManager
     {
         try
         {
-            string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user, SettingsFolderName, "settings.json");
-            File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));
+            object objLock = new object();
+            lock (objLock)
+            {
+                string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user, SettingsFolderName, "settings.json");
+                File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));
+            }
         }
         catch (Exception ex)
         {
@@ -144,8 +148,13 @@ public static class UserFolderManager
     {
         try
         {
-            string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username, SettingsFolderName, "settings.json");
-            File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));
+            object objLock = new object();
+            lock (objLock)
+            {
+                string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username, SettingsFolderName, "settings.json");
+                File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));
+            }
+
         }
         catch (Exception ex)
         {

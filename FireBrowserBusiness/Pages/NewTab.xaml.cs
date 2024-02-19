@@ -1,6 +1,8 @@
 using FireBrowserBusinessCore.ImagesBing;
 using FireBrowserCore.Models;
 using FireBrowserCore.ViewModel;
+using FireBrowserDatabase;
+using FireBrowserDataCore.Actions;
 using FireBrowserExceptions;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3.Controls;
@@ -24,19 +26,24 @@ public sealed partial class NewTab : Page
 {
     bool isAuto;
     public HomeViewModel ViewModel { get; set; }
-
+    private HistoryActions HistoryActions { get; } = new HistoryActions(AuthService.CurrentUser.Username);
     Passer param;
     public NewTab()
     {
         ViewModel = new HomeViewModel();
         this.InitializeComponent();
         HomeSync();
+
     }
 
-    private void NewTab_Loaded(object sender, RoutedEventArgs e)
+    private async void NewTab_Loaded(object sender, RoutedEventArgs e)
     {
         //NO need to load because property is attached to viewModel, and also if you select the tab it will call the load event may we can refresh the page... 
-
+        ViewModel.HistoryItems = await HistoryActions.GetAllHistoryItems();
+        ViewModel.RaisePropertyChanges(nameof(ViewModel.HistoryItems));
+        SearchengineSelection.SelectedItem = userSettings.EngineFriendlyName;
+        NewTabSearchBox.Text = string.Empty;
+        NewTabSearchBox.Focus(FocusState.Programmatic);
         //bool isNtp = userSettings.NtpDateTime == "1";
         //DateTimeToggle.IsOn = isNtp;
         //NtpEnabled(isNtp);
@@ -237,7 +244,7 @@ public sealed partial class NewTab : Page
         }
         catch (Exception ex)
         {
-
+            ExceptionLogger.LogException(ex);
         }
     }
     private void UpdateUserSettings(Action<FireBrowserMultiCore.Settings> updateAction)
@@ -293,6 +300,79 @@ public sealed partial class NewTab : Page
         if (!isAuto && e.Key is Windows.System.VirtualKey.Enter && Application.Current is App app && app.m_window is MainWindow window)
         {
             window.FocusUrlBox(NewTabSearchBox.Text);
+        }
+    }
+
+
+    private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (Application.Current is App app && app.m_window is MainWindow window)
+        {
+            if (e.AddedItems.Count > 0)
+                window.NavigateToUrl((e.AddedItems.FirstOrDefault() as HistoryItem).Url);
+        }
+    }
+    private void SearchengineSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        try
+        {
+            string selection = e.AddedItems[0].ToString();
+            string url;
+
+            switch (selection)
+            {
+                case "Ask":
+                    url = "https://www.ask.com/web?q=";
+                    break;
+                case "Baidu":
+                    url = "https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=";
+                    break;
+                case "Bing":
+                    url = "https://www.bing.com?q=";
+                    break;
+                case "DuckDuckGo":
+                    url = "https://www.duckduckgo.com?q=";
+                    break;
+                case "Ecosia":
+                    url = "https://www.ecosia.org/search?q=";
+                    break;
+                case "Google":
+                    url = "https://www.google.com/search?q=";
+                    break;
+                case "Startpage":
+                    url = "https://www.startpage.com/search?q=";
+                    break;
+                case "Qwant":
+                    url = "https://www.qwant.com/?q=";
+                    break;
+                case "Qwant Lite":
+                    url = "https://lite.qwant.com/?q=";
+                    break;
+                case "Yahoo!":
+                    url = "https://search.yahoo.com/search?p=";
+                    break;
+                case "Presearch":
+                    url = "https://presearch.com/search?q=";
+                    break;
+                // Add other cases for different search engines.
+                default:
+                    // Handle the case when selection doesn't match any of the predefined options.
+                    url = "https://www.google.com/search?q=";
+                    break;
+            }
+
+            if (!string.IsNullOrEmpty(url))
+            {
+                userSettings.EngineFriendlyName = selection;
+                userSettings.SearchUrl = url;
+
+                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            }
+            NewTabSearchBox.Focus(FocusState.Programmatic);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error occurred: " + ex.Message);
         }
     }
 }
