@@ -24,11 +24,10 @@ namespace FireBrowserCore.ViewModel
         [ObservableProperty]
         private bool _ntpTimeEnabled;
         private DispatcherTimer timer { get; set; }
-        FireBrowserMultiCore.Settings userSettings { get; } = FireBrowserMultiCore.UserFolderManager.LoadUserSettings(FireBrowserMultiCore.AuthService.CurrentUser);
 
         private void UpdateUIControls()
         {
-
+            FireBrowserMultiCore.Settings userSettings = FireBrowserMultiCore.UserFolderManager.LoadUserSettings(FireBrowserMultiCore.AuthService.CurrentUser);
             NtpTimeEnabled = userSettings.NtpDateTime == "1";
             IsNtpTimeVisible = NtpTimeEnabled;
             NtpCoreVisibility = IsNtpTimeVisible ? Visibility.Visible : Visibility.Collapsed;
@@ -40,25 +39,24 @@ namespace FireBrowserCore.ViewModel
 
 
         }
-        public HomeViewModel()
-        {
-            UpdateUIControls();
-        }
+
         public Task Intialize()
         {
 
-            NtpCoreVisibility = IsNtpTimeVisible ? Visibility.Visible : Visibility.Collapsed;
-            OnPropertyChanged(nameof(NtpCoreVisibility));
-            if (IsNtpTimeVisible)
+            UpdateUIControls();
+
+            if (NtpTimeEnabled)
             {
                 InitClock();
             }
+
             return Task.CompletedTask;
 
         }
         private void UpdateClock()
         {
-
+            // call this to update ui if a user has turned on/off ntp to be (dis)enabled.  
+            UpdateUIControls();
             (NtpTimeText, NtpDateText) = (DateTime.Now.ToString("H:mm"), $"{DateTime.Today.DayOfWeek}, {DateTime.Today.ToString("MMMM d")}");
             OnPropertyChanged(nameof(NtpTimeText));
             OnPropertyChanged(nameof(NtpDateText));
@@ -69,7 +67,8 @@ namespace FireBrowserCore.ViewModel
             // intial time => use timer to update then after that.
             UpdateClock();
             timer = new DispatcherTimer();
-            timer.Interval = new System.TimeSpan(0, 1, 0);
+            // let refresh every four seconds and allow ui to work.
+            timer.Interval = new System.TimeSpan(0, 0, 4);
             timer.Tick += (_, _) =>
             {
                 UpdateClock();
