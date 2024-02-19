@@ -28,27 +28,34 @@ public sealed partial class NewTab : Page
     Passer param;
     public NewTab()
     {
+        ViewModel = new HomeViewModel();
         this.InitializeComponent();
+        //bool isNtp = userSettings.NtpDateTime == "1";
+        //DateTimeToggle.IsOn = isNtp;
         HomeSync();
     }
 
     private void NewTab_Loaded(object sender, RoutedEventArgs e)
     {
-        bool isNtp = userSettings.NtpDateTime == "1";
-        DateTimeToggle.IsOn = isNtp;
-        NtpEnabled(isNtp);
+        //bool isNtp = userSettings.NtpDateTime == "1";
+        //DateTimeToggle.IsOn = isNtp;
+        //NtpEnabled(isNtp);
     }
 
     FireBrowserMultiCore.Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
-    private void HomeSync()
+    private async void HomeSync()
     {
         Type.IsOn = userSettings.Auto == "1";
         Mode.IsOn = userSettings.LightMode == "1";
 
-        ViewModel = new HomeViewModel
-        {
-            BackgroundType = GetBackgroundType(userSettings.Background)
-        };
+        //ViewModel = new HomeViewModel
+        //{
+        //    BackgroundType = GetBackgroundType(userSettings.Background)
+        //};
+        ViewModel.BackgroundType = GetBackgroundType(userSettings.Background);
+        // set the ntpClock control visibility 
+        ViewModel.IsNtpTimeVisible = (bool)(userSettings.NtpDateTime == "1");
+        await ViewModel.Intialize();
 
         var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor);
         NewColor.IsEnabled = userSettings.Background == "2";
@@ -240,8 +247,34 @@ public sealed partial class NewTab : Page
         {
             updateAction.Invoke(userSettings);
             UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            UpdateNtpClock();
         }
     }
+
+    private void UpdateNtpClock()
+    {
+        try
+        {
+            int answer = Int32.Parse(userSettings.NtpDateTime);
+            switch (answer)
+            {
+                case 0:
+                    ViewModel.IsNtpTimeVisible = false;
+                    break;
+                case 1:
+                    ViewModel.IsNtpTimeVisible = true;
+
+                    break;
+            }
+            ViewModel.Intialize();
+        }
+        catch (Exception ex)
+        {
+            ExceptionLogger.LogException(ex);
+        }
+
+    }
+
     private void Type_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.Auto = Type.IsOn ? "1" : "0");
     private void Mode_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.LightMode = Mode.IsOn ? "1" : "0");
     private void NewColor_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.ColorBackground = NewColor.Text);
