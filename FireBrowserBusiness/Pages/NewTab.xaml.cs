@@ -4,6 +4,7 @@ using FireBrowserCore.ViewModel;
 using FireBrowserDatabase;
 using FireBrowserDataCore.Actions;
 using FireBrowserExceptions;
+using FireBrowserFavorites;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3.Controls;
 using Microsoft.UI;
@@ -22,9 +23,12 @@ using static FireBrowserBusiness.MainWindow;
 using Settings = FireBrowserBusinessCore.Models.Settings;
 
 namespace FireBrowserBusiness.Pages;
+
+
 public sealed partial class NewTab : Page
 {
     bool isAuto;
+
     public HomeViewModel ViewModel { get; set; }
     private HistoryActions HistoryActions { get; } = new HistoryActions(AuthService.CurrentUser.Username);
     Passer param;
@@ -38,9 +42,13 @@ public sealed partial class NewTab : Page
 
     private async void NewTab_Loaded(object sender, RoutedEventArgs e)
     {
-        //NO need to load because property is attached to viewModel, and also if you select the tab it will call the load event may we can refresh the page... 
+        //NO need to set propertys here, although we need to referesh data on each load which is as you select the tab it will call the load event may we can refresh the page... 
         ViewModel.HistoryItems = await HistoryActions.GetAllHistoryItems();
         ViewModel.RaisePropertyChanges(nameof(ViewModel.HistoryItems));
+
+        ViewModel.FavoriteItems = ViewModel.LoadFavorites();
+        ViewModel.RaisePropertyChanges(nameof(ViewModel.FavoriteItems));
+
         SearchengineSelection.SelectedItem = userSettings.EngineFriendlyName;
         NewTabSearchBox.Text = string.Empty;
         NewTabSearchBox.Focus(FocusState.Programmatic);
@@ -284,6 +292,9 @@ public sealed partial class NewTab : Page
     private void Mode_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.LightMode = Mode.IsOn ? "1" : "0");
     private void NewColor_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.ColorBackground = NewColor.Text);
     private void DateTimeToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpDateTime = DateTimeToggle.IsOn ? "1" : "0");
+    private void FavoritesToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsFavoritesToggled = FavoritesTimeToggle.IsOn ? "1" : "0");
+    private void HistoryToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsHistoryToggled = HistoryToggle.IsOn ? "1" : "0");
+
     private void NtpColorBox_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpTextColor = NtpColorBox.Text);
     private void Download_Click(object sender, RoutedEventArgs e) => DownloadImage();
 
@@ -375,4 +386,20 @@ public sealed partial class NewTab : Page
             Console.WriteLine("An error occurred: " + ex.Message);
         }
     }
+
+    private void FavoritesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (!(sender is ListView listView) || listView.ItemsSource == null) return;
+
+        if (listView.SelectedItem is FavItem item)
+        {
+            if (Application.Current is App app && app.m_window is MainWindow window)
+            {
+                if (e.AddedItems.Count > 0)
+                    window.NavigateToUrl(item.Url);
+            }
+        }
+
+    }
+
 }

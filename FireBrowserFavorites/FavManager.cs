@@ -18,7 +18,7 @@ namespace FireBrowserFavorites
                 ? JsonSerializer.Deserialize<List<FavItem>>(File.ReadAllText(favoritesFilePath)) ?? new()
                 : new();
 
-            favorites.Add(new() { Title = title, Url = url });
+            favorites.Add(new() { Title = title, Url = url, IconUrlPath = $"https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url={url}&size=32" });
 
             File.WriteAllText(favoritesFilePath, JsonSerializer.Serialize(favorites));
         }

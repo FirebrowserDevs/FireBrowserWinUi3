@@ -31,6 +31,9 @@ public class Settings
     public string OpenTabHandel { get; set; }
     public string DarkIcon { get; set; }
     public string NtpDateTime { get; set; }
+    public string IsFavoritesToggled { get; set; }
+    public string IsHistoryToggled { get; set; }
+
     public string ExitDialog { get; set; }
     public string NtpTextColor { get; set; }
 
