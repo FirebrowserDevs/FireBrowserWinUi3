@@ -43,7 +43,15 @@ public sealed partial class NewTab : Page
     private async void NewTab_Loaded(object sender, RoutedEventArgs e)
     {
         //NO need to load because property is attached to viewModel, and also if you select the tab it will call the load event may we can refresh the page... 
+        ViewModel.HistoryItems = await HistoryActions.GetAllHistoryItems();
+        ViewModel.RaisePropertyChanges(nameof(ViewModel.HistoryItems));
 
+        ViewModel.FavoriteItems = ViewModel.LoadFavorites();
+        ViewModel.RaisePropertyChanges(nameof(ViewModel.FavoriteItems));
+
+        SearchengineSelection.SelectedItem = userSettings.EngineFriendlyName;
+        NewTabSearchBox.Text = string.Empty;
+        NewTabSearchBox.Focus(FocusState.Programmatic);
         //bool isNtp = userSettings.NtpDateTime == "1";
         //DateTimeToggle.IsOn = isNtp;
         //NtpEnabled(isNtp);
