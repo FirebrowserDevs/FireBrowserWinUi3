@@ -42,16 +42,8 @@ public sealed partial class NewTab : Page
 
     private async void NewTab_Loaded(object sender, RoutedEventArgs e)
     {
-        //NO need to set propertys here, although we need to referesh data on each load which is as you select the tab it will call the load event may we can refresh the page... 
-        ViewModel.HistoryItems = await HistoryActions.GetAllHistoryItems();
-        ViewModel.RaisePropertyChanges(nameof(ViewModel.HistoryItems));
+        //NO need to load because property is attached to viewModel, and also if you select the tab it will call the load event may we can refresh the page... 
 
-        ViewModel.FavoriteItems = ViewModel.LoadFavorites();
-        ViewModel.RaisePropertyChanges(nameof(ViewModel.FavoriteItems));
-
-        SearchengineSelection.SelectedItem = userSettings.EngineFriendlyName;
-        NewTabSearchBox.Text = string.Empty;
-        NewTabSearchBox.Focus(FocusState.Programmatic);
         //bool isNtp = userSettings.NtpDateTime == "1";
         //DateTimeToggle.IsOn = isNtp;
         //NtpEnabled(isNtp);
@@ -63,10 +55,6 @@ public sealed partial class NewTab : Page
         Type.IsOn = userSettings.Auto == "1";
         Mode.IsOn = userSettings.LightMode == "1";
 
-        //ViewModel = new HomeViewModel
-        //{
-        //    BackgroundType = GetBackgroundType(userSettings.Background)
-        //};
         ViewModel.BackgroundType = GetBackgroundType(userSettings.Background);
         // set the ntpClock control visibility 
         await ViewModel.Intialize();
@@ -91,45 +79,6 @@ public sealed partial class NewTab : Page
             _ => Settings.NewTabBackground.None
         };
     }
-
-    //private async void NtpEnabled(bool isNtp)
-    //{
-    //    while (isNtp)
-    //    {
-    //        await Task.Delay(100);
-
-    //        if (NtpTime is not null && NtpDate is not null)
-    //        {
-    //            try
-    //            {
-    //                NtpTime.Visibility = NtpDate.Visibility = Visibility.Visible;
-    //                (NtpTime.Text, NtpDate.Text) = (DateTime.Now.ToString("H:mm"), $"{DateTime.Today.DayOfWeek}, {DateTime.Today.ToString("MMMM d")}");
-    //            }
-    //            catch (Exception ex)
-    //            {
-    //                ExceptionLogger.LogException(ex);
-    //                break;
-    //            }
-    //        }
-    //        else
-    //        {
-    //            break;
-    //        }
-    //    }
-
-    //    if (NtpTime is not null && NtpDate is not null)
-    //    {
-    //        try
-    //        {
-    //            NtpTime.Visibility = NtpDate.Visibility = Visibility.Collapsed;
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            ExceptionLogger.LogException(ex);
-    //        }
-    //    }
-    //}
-
 
     private void SetVisibilityBasedOnLightMode(bool isLightMode)
     {
