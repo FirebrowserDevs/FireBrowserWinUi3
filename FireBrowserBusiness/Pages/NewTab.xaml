@@ -23,7 +23,7 @@
         <Button
             x:Name="Edit"
             x:Uid="NewTabEditButton"
-            Margin="0,31,64,0"
+            Margin="0,31,92,0"
             Padding="6"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
@@ -34,9 +34,6 @@
                     <StackPanel>
                         <ToggleSwitch x:Name="Type" Toggled="Type_Toggled">
                             Enable Auto Fill TextBox
-                        </ToggleSwitch>
-                        <ToggleSwitch x:Name="Mode" Toggled="Mode_Toggled">
-                            Enable Light Mode
                         </ToggleSwitch>
                         <ToggleSwitch
                             x:Name="DateTimeToggle"
@@ -55,6 +52,43 @@
                             IsOn="{x:Bind ViewModel.IsHistoryExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Toggled="HistoryToggle_Toggled">
                             Expand History
+                        </ToggleSwitch>
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+        <Button
+     x:Name="Eay"
+     x:Uid="NewTabEayButton"
+     Margin="0,31,64,0"
+     Padding="6"
+     HorizontalAlignment="Right"
+     VerticalAlignment="Top"
+     Content="{firebrowser:FluentIcon Glyph=&#xE890;}"
+     Style="{ThemeResource QuietButtonStyle}">
+            <Button.Flyout>
+                <Flyout Placement="Bottom">
+                    <StackPanel>
+                        <ToggleSwitch x:Name="Mode" Toggled="Mode_Toggled">
+                            Enable Light Mode
+                        </ToggleSwitch>
+                        <ToggleSwitch
+                            x:Name="HistoryVisible"
+                            IsOn="{x:Bind ViewModel.IsHistoryVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Toggled="HistoryVisible_Toggled">
+                            Show History
+                        </ToggleSwitch>
+                        <ToggleSwitch
+                            x:Name="FavsVisible"
+                            IsOn="{x:Bind ViewModel.IsFavoritesVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Toggled="FavsVisible_Toggled">
+                            Show Favorites
+                        </ToggleSwitch>
+                        <ToggleSwitch
+                            x:Name="SearchVisible"
+                            IsOn="{x:Bind ViewModel.IsSearchVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Toggled="SearchVisible_Toggled">
+                            Show Search Engine
                         </ToggleSwitch>
                     </StackPanel>
                 </Flyout>
@@ -163,7 +197,6 @@
                 </Flyout>
             </Button.Flyout>
         </Button>
-
         <Grid
             x:Name="NtpGrid"
             Margin="0,25,0,0"
@@ -202,10 +235,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock
-                Grid.Row="0"
-                FontSize="{ThemeResource TextStyleLargeFontSize}"
-                Text="Search or enter an address" />
             <AutoSuggestBox
                 x:Name="NewTabSearchBox"
                 x:Uid="SearchBar"
@@ -235,7 +264,8 @@
                 Background="{ThemeResource DesktopAcrylicTransparentBrush}"
                 BorderBrush="Black"
                 BorderThickness="1"
-                CornerRadius="5">
+                CornerRadius="5"
+                 Visibility="{x:Bind ViewModel.SRCoreVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <labs:SettingsCard.Header>
                     Search Engine
                 </labs:SettingsCard.Header>
@@ -262,18 +292,21 @@
                 MinWidth="250"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
-                BorderBrush="Black"
+                BorderBrush="Transparent"
                 BorderThickness="1"
                 Orientation="Horizontal">
                 <labs:SettingsExpander
                     x:Name="FavoritesCard"
                     Width="Auto"
-                    MinWidth="250"
+                    MinWidth="250"       
                     Description="Favorites"
                     Header="My Favorites"
+                    BorderBrush="Black"
+                    BorderThickness="1"
                     HeaderIcon="{firebrowser:FluentIcon Glyph=&#xE728;}"
                     IsEnabled="{x:Bind ViewModel.IsFavoriteCardEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    IsExpanded="{x:Bind ViewModel.IsFavoriteExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    IsExpanded="{x:Bind ViewModel.IsFavoriteExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{x:Bind ViewModel.FAVCoreVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
                     <!--  TODO: This should be TwoWay bound but throws compile error in Uno.  -->
                     <labs:SettingsExpander.Items>
                         <labs:SettingsCard
@@ -284,6 +317,7 @@
                             <ListView
                                 Height="180"
                                 MinWidth="250"
+                                MaxWidth="500"
                                 BorderBrush="Black"
                                 BorderThickness="1"
                                 ItemsSource="{x:Bind ViewModel.FavoriteItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -316,9 +350,12 @@
                     Description="Histories"
                     Header="My History"
                     HeaderIcon="{firebrowser:FluentIcon Glyph=&#xE81C;}"
+                    BorderBrush="Black"
+                    BorderThickness="1"
                     IsEnabled="{x:Bind ViewModel.IsHistoryCardEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    IsExpanded="{x:Bind ViewModel.IsHistoryExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                    <!--  TODO: This should be TwoWay bound but throws compile error in Uno.  -->
+                    IsExpanded="{x:Bind ViewModel.IsHistoryExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{x:Bind ViewModel.HISCoreVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <!-- To-Do Binding Uno Twoway error -->
                     <labs:SettingsExpander.Items>
                         <labs:SettingsCard
                             Margin="2"
@@ -328,6 +365,7 @@
                             <ListView
                                 Height="180"
                                 MinWidth="250"
+                                MaxWidth="500"
                                 BorderBrush="Black"
                                 BorderThickness="1"
                                 ItemsSource="{x:Bind ViewModel.HistoryItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -350,36 +388,7 @@
                     </labs:SettingsExpander.Items>
                 </labs:SettingsExpander>
             </StackPanel>
-
-
         </Grid>
-        <!--<TextBlock
-                Grid.Row="2"
-                FontSize="{ThemeResource TextStyleLargeFontSize}"
-                Text="History" />
-            <ListView
-                Grid.Row="3"
-                Height="180"
-                MaxWidth="600"
-                BorderBrush="Black"
-                BorderThickness="1"
-                ItemsSource="{x:Bind ViewModel.HistoryItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                SelectionChanged="ListView_SelectionChanged">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="history:HistoryItem">
-                        <StackPanel Orientation="Horizontal">
-                            <Image
-                                Height="24"
-                                HorizontalAlignment="Left"
-                                Source="{x:Bind ImageSource, Mode=OneWay}"
-                                Stretch="UniformToFill" />
-                            <AppBarSeparator />
-                            <TextBlock Text="{x:Bind Title, Mode=OneWay}" TextWrapping="WrapWholeWords" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>-->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

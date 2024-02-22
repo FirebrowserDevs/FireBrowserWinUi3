@@ -1,7 +1,6 @@
 using FireBrowserMultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
 
 namespace FireBrowserWinUi3.Pages.SettingsPages;
 public sealed partial class SettingsDesign : Page

@@ -24,11 +24,9 @@ using Settings = FireBrowserBusinessCore.Models.Settings;
 
 namespace FireBrowserBusiness.Pages;
 
-
 public sealed partial class NewTab : Page
 {
     bool isAuto;
-
     public HomeViewModel ViewModel { get; set; }
     private HistoryActions HistoryActions { get; } = new HistoryActions(AuthService.CurrentUser.Username);
     Passer param;
@@ -37,12 +35,10 @@ public sealed partial class NewTab : Page
         ViewModel = new HomeViewModel();
         this.InitializeComponent();
         HomeSync();
-
     }
 
     private async void NewTab_Loaded(object sender, RoutedEventArgs e)
     {
-        //NO need to load because property is attached to viewModel, and also if you select the tab it will call the load event may we can refresh the page... 
         ViewModel.HistoryItems = await HistoryActions.GetAllHistoryItems();
         ViewModel.RaisePropertyChanges(nameof(ViewModel.HistoryItems));
 
@@ -52,9 +48,6 @@ public sealed partial class NewTab : Page
         SearchengineSelection.SelectedItem = userSettings.EngineFriendlyName;
         NewTabSearchBox.Text = string.Empty;
         NewTabSearchBox.Focus(FocusState.Programmatic);
-        //bool isNtp = userSettings.NtpDateTime == "1";
-        //DateTimeToggle.IsOn = isNtp;
-        //NtpEnabled(isNtp);
     }
 
     FireBrowserMultiCore.Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
@@ -244,14 +237,15 @@ public sealed partial class NewTab : Page
         }
 
     }
-
     private void Type_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.Auto = Type.IsOn ? "1" : "0");
     private void Mode_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.LightMode = Mode.IsOn ? "1" : "0");
     private void NewColor_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.ColorBackground = NewColor.Text);
     private void DateTimeToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpDateTime = DateTimeToggle.IsOn ? "1" : "0");
     private void FavoritesToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsFavoritesToggled = FavoritesTimeToggle.IsOn ? "1" : "0");
     private void HistoryToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsHistoryToggled = HistoryToggle.IsOn ? "1" : "0");
-
+    private void HistoryVisible_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.isHistoryVisible = HistoryVisible.IsOn ? "1" : "0");
+    private void FavsVisible_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.isFavoritesVisible = FavsVisible.IsOn ? "1" : "0");
+    private void SearchVisible_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.isSearchVisible = SearchVisible.IsOn ? "1" : "0");
     private void NtpColorBox_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpTextColor = NtpColorBox.Text);
     private void Download_Click(object sender, RoutedEventArgs e) => DownloadImage();
 
@@ -265,12 +259,11 @@ public sealed partial class NewTab : Page
 
     private void NewTabSearchBox_PreviewKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
     {
-        if (!isAuto && e.Key is Windows.System.VirtualKey.Enter && Application.Current is App app && app.m_window is MainWindow window)
+        if (!isAuto && e.Key == Windows.System.VirtualKey.Enter && Application.Current is App app && app.m_window is MainWindow window)
         {
             window.FocusUrlBox(NewTabSearchBox.Text);
         }
     }
-
 
     private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -346,17 +339,11 @@ public sealed partial class NewTab : Page
 
     private void FavoritesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (!(sender is ListView listView) || listView.ItemsSource == null) return;
+        if (!(sender is ListView listView) || listView.ItemsSource == null || !(listView.SelectedItem is FavItem item)) return;
 
-        if (listView.SelectedItem is FavItem item)
+        if (Application.Current is App app && app.m_window is MainWindow window && e.AddedItems.Count > 0)
         {
-            if (Application.Current is App app && app.m_window is MainWindow window)
-            {
-                if (e.AddedItems.Count > 0)
-                    window.NavigateToUrl(item.Url);
-            }
+            window.NavigateToUrl(item.Url);
         }
-
     }
-
 }
