@@ -7,6 +7,7 @@ using FireBrowserExceptions;
 using FireBrowserFavorites;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3.Controls;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -29,14 +30,37 @@ public sealed partial class NewTab : Page
     bool isAuto;
     public HomeViewModel ViewModel { get; set; }
     private HistoryActions HistoryActions { get; } = new HistoryActions(AuthService.CurrentUser.Username);
+    delegate void DelegateSave(User user, FireBrowserMultiCore.Settings settings);
+    DelegateSave SaveSettings { get; }
+
     Passer param;
     public NewTab()
     {
         ViewModel = new HomeViewModel();
         this.InitializeComponent();
         HomeSync();
+        SaveSettings = SaveChangesToSettings;
     }
 
+    async void SaveChangesToSettings(User user, FireBrowserMultiCore.Settings settings)
+    {
+
+        try
+        {
+            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            SettingsActions settingsActions = new SettingsActions(AuthService.IsUserAuthenticated ? AuthService.CurrentUser.Username : null);
+            await settingsActions.SettingsContext.Database.MigrateAsync();
+            await settingsActions.UpdateSettingsAsync(FireBrowserMultiCore.UserFolderManager.LoadUserSettings(FireBrowserMultiCore.AuthService.CurrentUser));
+
+        }
+        catch (Exception ex)
+        {
+            ExceptionLogger.LogException(ex);
+            Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
+
+        }
+
+    }
     private async void NewTab_Loaded(object sender, RoutedEventArgs e)
     {
         ViewModel.HistoryItems = await HistoryActions.GetAllHistoryItems();
@@ -111,8 +135,8 @@ public sealed partial class NewTab : Page
         ViewModel.BackgroundType = backgroundType;
         NewColor.IsEnabled = isNewColorEnabled;
         Download.Visibility = downloadVisibility;
-
-        UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+        SaveSettings(AuthService.CurrentUser, userSettings);
+        //UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
     }
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
@@ -210,7 +234,8 @@ public sealed partial class NewTab : Page
         if (AuthService.CurrentUser != null)
         {
             updateAction.Invoke(userSettings);
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            SaveSettings(AuthService.CurrentUser, userSettings);
+            //UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
             UpdateNtpClock();
         }
     }
@@ -326,8 +351,8 @@ public sealed partial class NewTab : Page
             {
                 userSettings.EngineFriendlyName = selection;
                 userSettings.SearchUrl = url;
-
-                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+                SaveSettings(AuthService.CurrentUser, userSettings);
+                //UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
             }
             NewTabSearchBox.Focus(FocusState.Programmatic);
         }

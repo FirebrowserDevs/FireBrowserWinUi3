@@ -29,6 +29,7 @@ public sealed partial class AddUser : ContentDialog
         };
 
         AuthService.AddUser(newUser);
+
         UserFolderManager.CreateUserFolders(newUser);
 
         await CopyImageToUserDirectory();

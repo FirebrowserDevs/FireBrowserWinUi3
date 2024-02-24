@@ -110,6 +110,7 @@ namespace FireBrowserCore.ViewModel
         }
 
 
+
         public HomeViewModel()
         {
             // TODO: add bingSearchApi -> helpers BingSearchApi == read more about JObject and JToken to parse..  foreach() or linq(). 

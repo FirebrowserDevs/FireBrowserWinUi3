@@ -20,6 +20,7 @@ public static class UserFolderManager
         }
 
         CreateSettingsFile(user.Username);
+
         CreateDatabaseFile(user.Username, "History.db", @"CREATE TABLE IF NOT EXISTS urls (
                                         id INTEGER PRIMARY KEY,
                                         last_visit_time TEXT,
@@ -38,59 +39,14 @@ public static class UserFolderManager
                                     )");
     }
 
+
+
     private static void CreateSettingsFile(string username)
     {
         string settingsFilePath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, SettingsFolderName, "settings.json");
 
-
-        var settings = new Settings
-        {
-            DisableJavaScript = "0",
-            DisablePassSave = "0",
-            DisableWebMess = "0",
-            DisableGenAutoFill = "0",
-            ColorBackground = "#000000",
-            StatusBar = "1",
-            BrowserKeys = "1",
-            BrowserScripts = "1",
-            Useragent = "WebView",
-            LightMode = "0",
-            OpSw = "1",
-            EngineFriendlyName = "Google",
-            SearchUrl = "https://www.google.com/search?q=",
-            ColorTool = "#000000",
-            ColorTV = "#000000",
-            Background = "1",
-            Auto = "0",
-            Lang = "nl-NL",
-            ReadButton = "1",
-            AdblockBtn = "1",
-            Downloads = "1",
-            Translate = "1",
-            Favorites = "1",
-            Historybtn = "1",
-            QrCode = "1",
-            FavoritesL = "1",
-            ToolIcon = "1",
-            DarkIcon = "1",
-            OpenTabHandel = "0",
-            NtpDateTime = "0",
-            ExitDialog = "0",
-            NtpTextColor = "#000000",
-            ExceptionLog = "Low",
-            Eq2fa = "1",
-            Eqfav = "0",
-            EqHis = "0",
-            Eqsets = "0",
-            TrackPrevention = "2",
-            ResourceSave = "0",
-            ConfirmCloseDlg = "1",
-            IsHistoryToggled = "0",
-            IsFavoritesToggled = "0",
-            isFavoritesVisible = "1",
-            isHistoryVisible = "1",
-            isSearchVisible = "1"
-        };
+        // produces a default settings.
+        var settings = new Settings(true).Self;
 
         File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));
     }
@@ -120,7 +76,11 @@ public static class UserFolderManager
         if (File.Exists(settingsFilePath))
             return System.Text.Json.JsonSerializer.Deserialize<Settings>(File.ReadAllText(settingsFilePath)) ?? new Settings();
 
-        return new Settings();
+        // if someone deletes the settins file after a user exists, all fails so let's create a self image... 
+        // return new Settings(): 
+        var settings = new Settings(true).Self;
+        CreateSettingsFile(user.Username);
+        return settings;
     }
 
     public static Settings TempLoadPrivate(string user)

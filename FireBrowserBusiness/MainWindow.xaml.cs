@@ -16,6 +16,7 @@ using FireBrowserWinUi3.Pages;
 using FireBrowserWinUi3Core.CoreUi;
 using FireBrowserWinUiModules.Darkmode;
 using FireBrowserWinUiModules.Read;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -55,6 +56,7 @@ public sealed partial class MainWindow : Window
 
         ArgsPassed();
         LoadUserDataAndSettings(); // Load data and settings for the new user
+        //_ = LoadSettingsDatabase();
         LoadUserSettings();
         Init();
 
@@ -303,8 +305,30 @@ public sealed partial class MainWindow : Window
         }
 
         UserName.Text = currentUser.Username ?? "DefaultUser";
+
+
     }
 
+    private async Task LoadSettingsDatabase()
+    {
+        try
+        {
+            SettingsActions settingsActions = new SettingsActions(AuthService.IsUserAuthenticated ? AuthService.CurrentUser.Username : null);
+            await settingsActions.SettingsContext.Database.MigrateAsync();
+            await settingsActions.UpdateSettingsAsync(FireBrowserMultiCore.UserFolderManager.LoadUserSettings(FireBrowserMultiCore.AuthService.CurrentUser));
+            Settings settings = await settingsActions.GetSettingsAsync();
+
+        }
+        catch (Exception ex)
+        {
+            ExceptionLogger.LogException(ex);
+            Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
+
+        }
+
+
+
+    }
     private void UpdateUIBasedOnSettings()
     {
         Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
