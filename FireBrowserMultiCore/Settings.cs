@@ -34,11 +34,6 @@ public class Settings
     public string IsFavoritesToggled { get; set; }
     public string IsHistoryToggled { get; set; }
 
-    public string isHistoryVisible { get; set; }
-
-    public string isFavoritesVisible { get; set; }
-
-    public string isSearchVisible { get; set; }
     public string ExitDialog { get; set; }
     public string NtpTextColor { get; set; }
 

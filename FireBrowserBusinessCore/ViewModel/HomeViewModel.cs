@@ -23,19 +23,7 @@ namespace FireBrowserCore.ViewModel
         [ObservableProperty]
         private Visibility _ntpCoreVisibility;
         [ObservableProperty]
-        private Visibility _SRCoreVisibility;
-        [ObservableProperty]
-        private Visibility _FAVCoreVisibility;
-        [ObservableProperty]
-        private Visibility _HISCoreVisibility;
-        [ObservableProperty]
         private bool _isNtpTimeVisible;
-        [ObservableProperty]
-        private bool _IsHistoryVisible;
-        [ObservableProperty]
-        private bool _IsFavoritesVisible;
-        [ObservableProperty]
-        private bool _IsSearchVisible;
         [ObservableProperty]
         private string _ntpTimeText;
         [ObservableProperty]
@@ -58,34 +46,20 @@ namespace FireBrowserCore.ViewModel
         private void UpdateUIControls()
         {
             FireBrowserMultiCore.Settings userSettings = FireBrowserMultiCore.UserFolderManager.LoadUserSettings(FireBrowserMultiCore.AuthService.CurrentUser);
-
-            SetVisibility(nameof(NtpCoreVisibility), userSettings.NtpDateTime == "1");
-            SetVisibility(nameof(HISCoreVisibility), userSettings.isHistoryVisible == "1");
-            SetVisibility(nameof(FAVCoreVisibility), userSettings.isFavoritesVisible == "1");
-            SetVisibility(nameof(SRCoreVisibility), userSettings.isSearchVisible == "1");
-            SetVisibility(nameof(IsNtpTimeVisible), userSettings.NtpDateTime == "1");
-
+            NtpTimeEnabled = userSettings.NtpDateTime == "1";
+            IsFavoriteExpanded = userSettings.IsFavoritesToggled == "1";
+            IsHistoryExpanded = userSettings.IsHistoryToggled == "1";
             IsNtpTimeVisible = NtpTimeEnabled;
-
+            NtpCoreVisibility = IsNtpTimeVisible ? Visibility.Visible : Visibility.Collapsed;
             OnPropertyChanged(nameof(NtpCoreVisibility));
             OnPropertyChanged(nameof(IsNtpTimeVisible));
             OnPropertyChanged(nameof(NtpTimeEnabled));
             OnPropertyChanged(nameof(IsFavoriteExpanded));
             OnPropertyChanged(nameof(IsHistoryExpanded));
-            OnPropertyChanged(nameof(IsSearchVisible));
-            OnPropertyChanged(nameof(IsHistoryVisible));
-            OnPropertyChanged(nameof(IsFavoritesVisible));
             userSettings.NtpDateTime = NtpTimeEnabled ? "1" : "0";
             FireBrowserMultiCore.UserFolderManager.SaveUserSettings(FireBrowserMultiCore.AuthService.CurrentUser, userSettings);
 
         }
-
-        private void SetVisibility(string propertyName, bool isVisible)
-        {
-            var visibilityProperty = GetType().GetProperty(propertyName + "Visibility");
-            visibilityProperty?.SetValue(this, isVisible ? Visibility.Visible : Visibility.Collapsed);
-        }
-
         public void RaisePropertyChanges([CallerMemberName] string? propertyName = null)
         {
             OnPropertyChanged(propertyName);

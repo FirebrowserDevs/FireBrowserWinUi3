@@ -85,11 +85,6 @@ public static class UserFolderManager
             TrackPrevention = "2",
             ResourceSave = "0",
             ConfirmCloseDlg = "1",
-            IsHistoryToggled = "0",
-            IsFavoritesToggled = "0",
-            isFavoritesVisible = "1",
-            isHistoryVisible = "1",
-            isSearchVisible = "1"
         };
 
         File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));
