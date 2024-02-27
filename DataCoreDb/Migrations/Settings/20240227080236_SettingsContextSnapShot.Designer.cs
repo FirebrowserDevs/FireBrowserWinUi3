@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FireBrowserDataCore.Migrations.Settings
 {
     [DbContext(typeof(SettingsContext))]
-    [Migration("20240224081237_SettingsContextModalSnapShot")]
-    partial class SettingsContextModalSnapShot
+    [Migration("20240227080236_SettingsContextSnapShot")]
+    partial class SettingsContextSnapShot
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,13 +102,25 @@ namespace FireBrowserDataCore.Migrations.Settings
                     b.Property<string>("IsFavoritesToggled")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("IsFavoritesVisible")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("IsHistoryToggled")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IsHistoryVisible")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IsSearchVisible")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Lang")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LightMode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NtpCoreVisibility")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NtpDateTime")
@@ -151,15 +163,6 @@ namespace FireBrowserDataCore.Migrations.Settings
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Useragent")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("isFavoritesVisible")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("isHistoryVisible")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("isSearchVisible")
                         .HasColumnType("TEXT");
 
                     b.HasKey("PackageName");

@@ -23,7 +23,7 @@
         <Button
             x:Name="Edit"
             x:Uid="NewTabEditButton"
-            Margin="0,31,64,0"
+            Margin="0,31,96,0"
             Padding="6"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
@@ -37,12 +37,6 @@
                         </ToggleSwitch>
                         <ToggleSwitch x:Name="Mode" Toggled="Mode_Toggled">
                             Enable Light Mode
-                        </ToggleSwitch>
-                        <ToggleSwitch
-                            x:Name="DateTimeToggle"
-                            IsOn="{x:Bind ViewModel.NtpTimeEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Toggled="DateTimeToggle_Toggled">
-                            Enable Ntp
                         </ToggleSwitch>
                         <ToggleSwitch
                             x:Name="FavoritesTimeToggle"
@@ -72,24 +66,27 @@
             <Button.Flyout>
                 <Flyout Placement="Bottom">
                     <StackPanel>
-                        <ToggleSwitch x:Name="Mode" Toggled="Mode_Toggled">
-                            Enable Light Mode
+                        <ToggleSwitch
+                            x:Name="DateTimeToggle"
+                            IsOn="{x:Bind ViewModel.NtpTimeEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Toggled="DateTimeToggle_Toggled">
+                            Show Clock
                         </ToggleSwitch>
                         <ToggleSwitch
                             x:Name="HistoryVisible"
-                            IsOn="{x:Bind ViewModel.IsHistoryVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsOn="{x:Bind ViewModel.IsHistoryCardEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Toggled="HistoryVisible_Toggled">
                             Show History
                         </ToggleSwitch>
                         <ToggleSwitch
                             x:Name="FavsVisible"
-                            IsOn="{x:Bind ViewModel.IsFavoritesVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsOn="{x:Bind ViewModel.IsFavoriteCardEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Toggled="FavsVisible_Toggled">
                             Show Favorites
                         </ToggleSwitch>
                         <ToggleSwitch
                             x:Name="SearchVisible"
-                            IsOn="{x:Bind ViewModel.IsSearchVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsOn="{x:Bind ViewModel.IsSearchBoxEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Toggled="SearchVisible_Toggled">
                             Show Search Engine
                         </ToggleSwitch>
@@ -123,8 +120,7 @@
                                     <TextBlock
                                         x:Uid="NewTabBackgroundNone"
                                         Margin="0,8,0,0"
-                                        HorizontalAlignment="Center"
-                                        d:Text="None">
+                                        HorizontalAlignment="Center">
                                         None
                                     </TextBlock>
                                 </StackPanel>
@@ -242,7 +238,8 @@
             <TextBlock
                 Grid.Row="0"
                 FontSize="{ThemeResource TextStyleLargeFontSize}"
-                Text="Search or enter an address" />
+                Text="Search or enter an address"
+                Visibility="{x:Bind ViewModel.IsSearchVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <AutoSuggestBox
                 x:Name="NewTabSearchBox"
                 x:Uid="SearchBar"
@@ -257,7 +254,8 @@
                 BorderThickness="1,1,1,1"
                 CornerRadius="5"
                 PreviewKeyDown="NewTabSearchBox_PreviewKeyDown"
-                TextChanged="NewTabSearchBox_TextChanged">
+                TextChanged="NewTabSearchBox_TextChanged"
+                Visibility="{x:Bind ViewModel.IsSearchVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <AutoSuggestBox.Resources>
                     <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="{ThemeResource SystemAltHighColor}" />
                     <SolidColorBrush x:Key="TextControlButtonForeground" Color="{ThemeResource SystemAltHighColor}" />
@@ -273,7 +271,7 @@
                 BorderBrush="Black"
                 BorderThickness="1"
                 CornerRadius="5"
-                Visibility="{x:Bind ViewModel.SRCoreVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                Visibility="{x:Bind ViewModel.IsSearchVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <labs:SettingsCard.Header>
                     Search Engine
                 </labs:SettingsCard.Header>
@@ -300,8 +298,6 @@
                 MinWidth="250"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
-                BorderBrush="Black"
-                BorderThickness="1"
                 Orientation="Horizontal">
                 <labs:SettingsExpander
                     x:Name="FavoritesCard"
@@ -312,8 +308,8 @@
                     Description="Favorites"
                     Header="My Favorites"
                     HeaderIcon="{firebrowser:FluentIcon Glyph=&#xE728;}"
-                    IsEnabled="{x:Bind ViewModel.IsFavoritesVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    IsExpanded="{x:Bind ViewModel.IsFavoriteExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    IsExpanded="{x:Bind ViewModel.IsFavoriteExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{x:Bind ViewModel.IsFavoritesVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
                     <labs:SettingsExpander.Items>
                         <labs:SettingsCard
@@ -358,8 +354,8 @@
                     Description="Histories"
                     Header="My History"
                     HeaderIcon="{firebrowser:FluentIcon Glyph=&#xE81C;}"
-                    IsEnabled="{x:Bind ViewModel.IsHistoryVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    IsExpanded="{x:Bind ViewModel.IsHistoryExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    IsExpanded="{x:Bind ViewModel.IsHistoryExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{x:Bind ViewModel.IsHistoryVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <!--  To-Do Binding Uno Twoway error  -->
                     <labs:SettingsExpander.Items>
                         <labs:SettingsCard

@@ -75,12 +75,14 @@ public static class UserFolderManager
 
         if (File.Exists(settingsFilePath))
             return System.Text.Json.JsonSerializer.Deserialize<Settings>(File.ReadAllText(settingsFilePath)) ?? new Settings();
+        else
+        {
+            // if someone deletes the settings file after a user exists, all fails so let's create a self image... 
+            var settings = new Settings(true).Self;
+            CreateSettingsFile(user.Username);
+            return settings;
+        }
 
-        // if someone deletes the settins file after a user exists, all fails so let's create a self image... 
-        // return new Settings(): 
-        var settings = new Settings(true).Self;
-        CreateSettingsFile(user.Username);
-        return settings;
     }
 
     public static Settings TempLoadPrivate(string user)

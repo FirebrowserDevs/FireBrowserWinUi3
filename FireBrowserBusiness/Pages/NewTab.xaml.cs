@@ -38,22 +38,49 @@ public sealed partial class NewTab : Page
     public NewTab()
     {
         ViewModel = new HomeViewModel();
+        ViewModel.SaveSettings = SaveChangesToSettings;
+
         this.InitializeComponent();
         HomeSync();
-        ViewModel.SaveSettings = SaveChangesToSettings;
 
     }
 
+    private async Task<FireBrowserMultiCore.Settings> LoadSettingsDatabase()
+    {
+        try
+        {
+            // databse assign to user, and migrate will create if not exists, then update with local settings. 
+
+            SettingsActions settingsActions = new SettingsActions(AuthService.IsUserAuthenticated ? AuthService.CurrentUser.Username : null);
+            await settingsActions.SettingsContext.Database.MigrateAsync();
+            await settingsActions.UpdateSettingsAsync(FireBrowserMultiCore.UserFolderManager.LoadUserSettings(FireBrowserMultiCore.AuthService.CurrentUser));
+            return await settingsActions.GetSettingsAsync();
+
+        }
+        catch (Exception ex)
+        {
+            ExceptionLogger.LogException(ex);
+            Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
+
+        }
+        return FireBrowserMultiCore.UserFolderManager.LoadUserSettings(FireBrowserMultiCore.AuthService.CurrentUser);
+    }
     async void SaveChangesToSettings(User user, FireBrowserMultiCore.Settings settings)
     {
 
         try
         {
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
-            SettingsActions settingsActions = new SettingsActions(AuthService.IsUserAuthenticated ? AuthService.CurrentUser.Username : null);
-            await settingsActions.SettingsContext.Database.MigrateAsync();
-            await settingsActions.UpdateSettingsAsync(FireBrowserMultiCore.UserFolderManager.LoadUserSettings(FireBrowserMultiCore.AuthService.CurrentUser));
+            if (!AuthService.IsUserAuthenticated) return;
 
+            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, settings);
+            SettingsActions settingsActions = new SettingsActions(AuthService.CurrentUser.Username);
+            if (!File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Settings", "Settings.db")))
+            {
+                await settingsActions.SettingsContext.Database.MigrateAsync();
+            }
+
+            await settingsActions.UpdateSettingsAsync(settings);
+            ViewModel.CoreSettings = settings;
         }
         catch (Exception ex)
         {
@@ -275,6 +302,9 @@ public sealed partial class NewTab : Page
     private void DateTimeToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpDateTime = DateTimeToggle.IsOn ? "1" : "0");
     private void FavoritesToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsFavoritesToggled = FavoritesTimeToggle.IsOn ? "1" : "0");
     private void HistoryToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsHistoryToggled = HistoryToggle.IsOn ? "1" : "0");
+    private void SearchVisible_Toggled(Object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsSearchVisible = SearchVisible.IsOn ? "1" : "0");
+    private void FavsVisible_Toggled(Object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsFavoritesVisible = FavsVisible.IsOn ? "1" : "0");
+    private void HistoryVisible_Toggled(Object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsHistoryVisible = HistoryVisible.IsOn ? "1" : "0");
 
     private void NtpColorBox_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpTextColor = NtpColorBox.Text);
     private void Download_Click(object sender, RoutedEventArgs e) => DownloadImage();
@@ -382,5 +412,6 @@ public sealed partial class NewTab : Page
         }
 
     }
+
 
 }

@@ -30,37 +30,67 @@ namespace FireBrowserCore.ViewModel
         [ObservableProperty]
         private bool _ntpTimeEnabled;
         [ObservableProperty]
-        public bool _isFavoriteCardEnabled = true;
+        private bool _isFavoriteCardEnabled = true;
         [ObservableProperty]
-        public bool _isFavoriteExpanded;
+        private bool _isFavoriteExpanded;
         [ObservableProperty]
-        public bool _isHistoryCardEnabled = true;
+        private bool _isHistoryCardEnabled = true;
         [ObservableProperty]
-        public bool _isHistoryExpanded;
+        private bool _isHistoryExpanded;
+        [ObservableProperty]
+        private bool _isSearchBoxEnabled = true;
+        [ObservableProperty]
+        private Visibility _isFavoritesVisible;
+        [ObservableProperty]
+        private Visibility _isHistoryVisible;
+        [ObservableProperty]
+        private Visibility _IsSearchVisible;
+
 
         public delegate void DelegateSaveSettings(FireBrowserMultiCore.User user, FireBrowserMultiCore.Settings settings);
         public DelegateSaveSettings SaveSettings { get; set; }
 
+        public FireBrowserMultiCore.Settings CoreSettings { get; set; }
         private DispatcherTimer timer { get; set; }
 
         public ObservableCollection<HistoryItem> HistoryItems { get; set; }
         public ObservableCollection<FavItem> FavoriteItems { get; set; }
         private void UpdateUIControls()
         {
+            // use CoreSettings to save file access -> to Settings.json every 4 seconds handle in one place usings delegate...
 
-            FireBrowserMultiCore.Settings userSettings = FireBrowserMultiCore.UserFolderManager.LoadUserSettings(FireBrowserMultiCore.AuthService.CurrentUser);
-            NtpTimeEnabled = userSettings.NtpDateTime == "1";
-            IsFavoriteExpanded = userSettings.IsFavoritesToggled == "1";
-            IsHistoryExpanded = userSettings.IsHistoryToggled == "1";
-            IsNtpTimeVisible = NtpTimeEnabled;
+
+            IsFavoritesVisible = CoreSettings.IsFavoritesVisible == "1" ? Visibility.Visible : Visibility.Collapsed;
+            CoreSettings.IsFavoritesVisible = IsFavoritesVisible == Visibility.Visible ? "1" : "0";
+
+            IsHistoryVisible = CoreSettings.IsHistoryVisible == "1" ? Visibility.Visible : Visibility.Collapsed;
+            CoreSettings.IsHistoryVisible = IsHistoryVisible == Visibility.Visible ? "1" : "0";
+
+            IsSearchVisible = CoreSettings.IsSearchVisible == "1" ? Visibility.Visible : Visibility.Collapsed;
+            CoreSettings.IsSearchVisible = IsSearchVisible == Visibility.Visible ? "1" : "0";
+
             NtpCoreVisibility = IsNtpTimeVisible ? Visibility.Visible : Visibility.Collapsed;
-            OnPropertyChanged(nameof(NtpCoreVisibility));
-            OnPropertyChanged(nameof(IsNtpTimeVisible));
+            CoreSettings.NtpCoreVisibility = NtpCoreVisibility == Visibility.Visible ? "1" : "0";
+
+            NtpTimeEnabled = CoreSettings.NtpDateTime == "1";
+            CoreSettings.NtpDateTime = NtpTimeEnabled ? "1" : "0";
+
+            IsFavoriteExpanded = CoreSettings.IsFavoritesToggled == "1";
+            CoreSettings.IsFavoritesToggled = IsFavoriteExpanded ? "1" : "0";
+
+            IsHistoryExpanded = CoreSettings.IsHistoryToggled == "1";
+            CoreSettings.IsHistoryToggled = IsHistoryExpanded ? "1" : "0";
+
+            IsNtpTimeVisible = NtpTimeEnabled;
+
+            OnPropertyChanged(nameof(IsFavoritesVisible));
+            OnPropertyChanged(nameof(IsHistoryVisible));
+            OnPropertyChanged(nameof(IsSearchVisible));
             OnPropertyChanged(nameof(NtpTimeEnabled));
             OnPropertyChanged(nameof(IsFavoriteExpanded));
             OnPropertyChanged(nameof(IsHistoryExpanded));
-            userSettings.NtpDateTime = NtpTimeEnabled ? "1" : "0";
-            FireBrowserMultiCore.UserFolderManager.SaveUserSettings(FireBrowserMultiCore.AuthService.CurrentUser, userSettings);
+            CoreSettings.NtpDateTime = NtpTimeEnabled ? "1" : "0";
+            SaveSettings(FireBrowserMultiCore.AuthService.CurrentUser, CoreSettings);
 
         }
         public void RaisePropertyChanges([CallerMemberName] string? propertyName = null)
@@ -97,6 +127,10 @@ namespace FireBrowserCore.ViewModel
 
             HistoryItems = new ObservableCollection<HistoryItem>();
             HistoryItems.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HistoryItems));
+
+            if (FireBrowserMultiCore.AuthService.IsUserAuthenticated)
+                CoreSettings = FireBrowserMultiCore.UserFolderManager.LoadUserSettings(FireBrowserMultiCore.AuthService.CurrentUser);
+
 
         }
 

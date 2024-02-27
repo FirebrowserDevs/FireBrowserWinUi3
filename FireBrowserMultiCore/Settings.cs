@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 namespace FireBrowserMultiCore;
 public class Settings
 {
+
     void DefaultSettings()
     {
         var self = this;
@@ -51,9 +52,10 @@ public class Settings
         self.ConfirmCloseDlg = "1";
         self.IsHistoryToggled = "0";
         self.IsFavoritesToggled = "0";
-        self.isFavoritesVisible = "1";
-        self.isHistoryVisible = "1";
-        self.isSearchVisible = "1";
+        self.IsFavoritesVisible = "1";
+        self.IsHistoryVisible = "1";
+        self.IsSearchVisible = "1";
+        self.NtpCoreVisibility = "1";
 
     }
 
@@ -166,10 +168,12 @@ public class Settings
     [DefaultValue("0")]
     public string IsHistoryToggled { get; set; }
     [DefaultValue("1")]
-    public string isHistoryVisible { get; set; }
+    public string IsHistoryVisible { get; set; }
     [DefaultValue("1")]
-    public string isFavoritesVisible { get; set; }
+    public string IsFavoritesVisible { get; set; }
     [DefaultValue("1")]
-    public string isSearchVisible { get; set; }
+    public string IsSearchVisible { get; set; }
+    [DefaultValue("1")]
+    public string NtpCoreVisibility { get; set; }
 
 }

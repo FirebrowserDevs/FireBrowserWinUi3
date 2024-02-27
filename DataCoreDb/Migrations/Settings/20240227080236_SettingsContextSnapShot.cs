@@ -5,7 +5,7 @@
 namespace FireBrowserDataCore.Migrations.Settings
 {
     /// <inheritdoc />
-    public partial class SettingsContextModalSnapShot : Migration
+    public partial class SettingsContextSnapShot : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,9 +58,10 @@ namespace FireBrowserDataCore.Migrations.Settings
                     ConfirmCloseDlg = table.Column<string>(type: "TEXT", nullable: true),
                     IsFavoritesToggled = table.Column<string>(type: "TEXT", nullable: true),
                     IsHistoryToggled = table.Column<string>(type: "TEXT", nullable: true),
-                    isHistoryVisible = table.Column<string>(type: "TEXT", nullable: true),
-                    isFavoritesVisible = table.Column<string>(type: "TEXT", nullable: true),
-                    isSearchVisible = table.Column<string>(type: "TEXT", nullable: true)
+                    IsHistoryVisible = table.Column<string>(type: "TEXT", nullable: true),
+                    IsFavoritesVisible = table.Column<string>(type: "TEXT", nullable: true),
+                    IsSearchVisible = table.Column<string>(type: "TEXT", nullable: true),
+                    NtpCoreVisibility = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
