@@ -28,9 +28,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FireBrowserBusinessCore\FireBrowserWinUi3Core.csproj" />
-    <ProjectReference Include="..\FireBrowserDatabase\FireBrowserDatabase.csproj" />
-    <ProjectReference Include="..\FireBrowserExceptions\FireBrowserExceptions.csproj" />
-    <ProjectReference Include="..\FireBrowserMultiCore\FireBrowserMultiCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
