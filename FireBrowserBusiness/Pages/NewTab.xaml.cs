@@ -31,7 +31,6 @@ public sealed partial class NewTab : Page
     public HomeViewModel ViewModel { get; set; }
     private HistoryActions HistoryActions { get; } = new HistoryActions(AuthService.CurrentUser.Username);
     delegate void DelegateSave(User user, FireBrowserMultiCore.Settings settings);
-    DelegateSave SaveSettings { get; }
 
     Passer param;
     public NewTab()
@@ -39,7 +38,8 @@ public sealed partial class NewTab : Page
         ViewModel = new HomeViewModel();
         this.InitializeComponent();
         HomeSync();
-        SaveSettings = SaveChangesToSettings;
+        ViewModel.SaveSettings = SaveChangesToSettings;
+
     }
 
     async void SaveChangesToSettings(User user, FireBrowserMultiCore.Settings settings)
@@ -135,7 +135,7 @@ public sealed partial class NewTab : Page
         ViewModel.BackgroundType = backgroundType;
         NewColor.IsEnabled = isNewColorEnabled;
         Download.Visibility = downloadVisibility;
-        SaveSettings(AuthService.CurrentUser, userSettings);
+        ViewModel.SaveSettings(AuthService.CurrentUser, userSettings);
         //UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
     }
     protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -234,7 +234,7 @@ public sealed partial class NewTab : Page
         if (AuthService.CurrentUser != null)
         {
             updateAction.Invoke(userSettings);
-            SaveSettings(AuthService.CurrentUser, userSettings);
+            ViewModel.SaveSettings(AuthService.CurrentUser, userSettings);
             //UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
             UpdateNtpClock();
         }
@@ -351,7 +351,7 @@ public sealed partial class NewTab : Page
             {
                 userSettings.EngineFriendlyName = selection;
                 userSettings.SearchUrl = url;
-                SaveSettings(AuthService.CurrentUser, userSettings);
+                ViewModel.SaveSettings(AuthService.CurrentUser, userSettings);
                 //UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
             }
             NewTabSearchBox.Focus(FocusState.Programmatic);

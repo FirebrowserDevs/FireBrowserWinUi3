@@ -5,7 +5,6 @@ using FireBrowserDatabase;
 using FireBrowserExceptions;
 using FireBrowserFavorites;
 using Microsoft.UI.Xaml;
-
 using System;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
@@ -51,12 +50,16 @@ namespace FireBrowserCore.ViewModel
         [ObservableProperty]
         public bool _isHistoryExpanded;
 
+        public delegate void DelegateSaveSettings(FireBrowserMultiCore.User user, FireBrowserMultiCore.Settings settings);
+        public DelegateSaveSettings SaveSettings { get; set; }
+
         private DispatcherTimer timer { get; set; }
 
         public ObservableCollection<HistoryItem> HistoryItems { get; set; }
         public ObservableCollection<FavItem> FavoriteItems { get; set; }
         private void UpdateUIControls()
         {
+
             FireBrowserMultiCore.Settings userSettings = FireBrowserMultiCore.UserFolderManager.LoadUserSettings(FireBrowserMultiCore.AuthService.CurrentUser);
 
             SetVisibility(nameof(NtpCoreVisibility), userSettings.NtpDateTime == "1");
@@ -122,6 +125,7 @@ namespace FireBrowserCore.ViewModel
             HistoryItems.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HistoryItems));
 
         }
+
 
         public Task Intialize()
         {

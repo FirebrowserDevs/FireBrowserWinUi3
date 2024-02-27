@@ -58,14 +58,14 @@
             </Button.Flyout>
         </Button>
         <Button
-     x:Name="Eay"
-     x:Uid="NewTabEayButton"
-     Margin="0,31,64,0"
-     Padding="6"
-     HorizontalAlignment="Right"
-     VerticalAlignment="Top"
-     Content="{firebrowser:FluentIcon Glyph=&#xE890;}"
-     Style="{ThemeResource QuietButtonStyle}">
+            x:Name="Eay"
+            x:Uid="NewTabEayButton"
+            Margin="0,31,64,0"
+            Padding="6"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="{firebrowser:FluentIcon Glyph=&#xE890;}"
+            Style="{ThemeResource QuietButtonStyle}">
             <Button.Flyout>
                 <Flyout Placement="Bottom">
                     <StackPanel>
@@ -265,7 +265,7 @@
                 BorderBrush="Black"
                 BorderThickness="1"
                 CornerRadius="5"
-                 Visibility="{x:Bind ViewModel.SRCoreVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                Visibility="{x:Bind ViewModel.SRCoreVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <labs:SettingsCard.Header>
                     Search Engine
                 </labs:SettingsCard.Header>
@@ -298,16 +298,15 @@
                 <labs:SettingsExpander
                     x:Name="FavoritesCard"
                     Width="Auto"
-                    MinWidth="250"       
-                    Description="Favorites"
-                    Header="My Favorites"
+                    MinWidth="250"
                     BorderBrush="Black"
                     BorderThickness="1"
+                    Description="Favorites"
+                    Header="My Favorites"
                     HeaderIcon="{firebrowser:FluentIcon Glyph=&#xE728;}"
-                    IsEnabled="{x:Bind ViewModel.IsFavoriteCardEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    IsExpanded="{x:Bind ViewModel.IsFavoriteExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{x:Bind ViewModel.FAVCoreVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
-                    <!--  TODO: This should be TwoWay bound but throws compile error in Uno.  -->
+                    IsEnabled="{x:Bind ViewModel.IsFavoritesVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    IsExpanded="{x:Bind ViewModel.IsFavoriteExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
                     <labs:SettingsExpander.Items>
                         <labs:SettingsCard
                             Margin="2"
@@ -347,15 +346,14 @@
                     x:Name="HistoryCard"
                     Width="Auto"
                     MinWidth="250"
+                    BorderBrush="Black"
+                    BorderThickness="1"
                     Description="Histories"
                     Header="My History"
                     HeaderIcon="{firebrowser:FluentIcon Glyph=&#xE81C;}"
-                    BorderBrush="Black"
-                    BorderThickness="1"
-                    IsEnabled="{x:Bind ViewModel.IsHistoryCardEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    IsExpanded="{x:Bind ViewModel.IsHistoryExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{x:Bind ViewModel.HISCoreVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                    <!-- To-Do Binding Uno Twoway error -->
+                    IsEnabled="{x:Bind ViewModel.IsHistoryVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    IsExpanded="{x:Bind ViewModel.IsHistoryExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <!--  To-Do Binding Uno Twoway error  -->
                     <labs:SettingsExpander.Items>
                         <labs:SettingsCard
                             Margin="2"
