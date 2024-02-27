@@ -31,7 +31,7 @@ namespace FireBrowserWinUi3Assets
             // Initialize cachedImage to avoid the "unassigned local variable" error
             cachedImage = null;
 
-            var uri = new Uri($"ms-appx:///FireBrowserWinUi3Assets/FireBrowserWinUi3Assets/{imageName}");
+            var uri = new Uri($"ms-appx:///FireBrowserWinUi3Assets/Assets/{imageName}");
             cachedImage = new BitmapImage(uri);
             ImageCache[imageName] = cachedImage;
 

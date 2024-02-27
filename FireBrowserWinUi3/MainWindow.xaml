@@ -15,7 +15,7 @@
     </Window.SystemBackdrop>
 
     <Window.Title>
-        FireBrowser
+        FireBrowser - WinUi3
     </Window.Title>
 
     <Grid Background="Transparent">

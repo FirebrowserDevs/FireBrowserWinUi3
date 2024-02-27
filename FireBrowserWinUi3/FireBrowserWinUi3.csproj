@@ -51,6 +51,7 @@
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\setup_image.png" />
     <Content Remove="FireBrowserWinUi3Assets\costum.png" />
     <Content Remove="FireBrowserWinUi3Assets\default.png" />
     <Content Remove="FireBrowserWinUi3Assets\featured.png" />
@@ -123,6 +124,31 @@
     <ProjectReference Include="..\FireBrowserWinUi3QrCode\FireBrowserWinUi3QrCode.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Services\FireBrowserWinUi3Services.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Setup\FireBrowserWinUi3Setup.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\costum.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\default.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\featured.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\fincog.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\setup_image.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Logo.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="LogoSetup.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Page Update="SetupWindow.xaml">
