@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="FireBrowserWinUi3.Pages.SettingsPages.SettingsPrivacy"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:labs="using:CommunityToolkit.WinUI.Controls">
+    <StackPanel>
+        <labs:SettingsCard Header="Privacy Level" Description="See You Privacy Level Here" Margin="0,10,0,0">
+            <labs:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEA18;" />
+            </labs:SettingsCard.HeaderIcon>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="TextLevel" Width="85" VerticalAlignment="Center" Visibility="Visible">Default</TextBlock>
+                <Button x:Name="Confirm" Click="Confirm_Click">Confirm Changes</Button>
+            </StackPanel>
+        </labs:SettingsCard>
+        <labs:SettingsCard Header="Disable Javascript" Description="This improves your privacy by blocking trackers but it can also break a lot sites" Margin="0,5,0,0">
+            <labs:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE943;" />
+            </labs:SettingsCard.HeaderIcon>
+            <ToggleSwitch  x:Name="DisableJavaScriptToggle" Toggled="DisableJavaScriptToggle_Toggled"/>
+        </labs:SettingsCard>
+        <labs:SettingsCard Header="Disable Genaral AutoFill" Description="This will disable autofilling in browser ( No Automaticly Fill )" Margin="0,1,0,0">
+            <labs:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8DA;" />
+            </labs:SettingsCard.HeaderIcon>
+            <ToggleSwitch  x:Name="DisableGenaralAutoFillToggle" Toggled="DisableGenaralAutoFillToggle_Toggled"/>
+        </labs:SettingsCard>
+        <labs:SettingsCard Header="Disable Web Messages" Description="This will disable Webmessages in browser" Margin="0,1,0,0">
+            <labs:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8BD;" />
+            </labs:SettingsCard.HeaderIcon>
+            <ToggleSwitch  x:Name="DisablWebMessFillToggle" Toggled="DisablWebMessFillToggle_Toggled"/>
+        </labs:SettingsCard>
+        <labs:SettingsCard Header="Disable Save Passwords" Description="This will disable browser Auto Save Password" Margin="0,1,0,0">
+            <labs:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xF427;" />
+            </labs:SettingsCard.HeaderIcon>
+            <ToggleSwitch  x:Name="PasswordWebMessFillToggle" Toggled="PasswordWebMessFillToggle_Toggled"/>
+        </labs:SettingsCard>
+
+        <labs:SettingsExpander Header="App Permissions" Description="See The Permission Of The App" Margin="0,10,0,0" IsEnabled="True">
+            <labs:SettingsExpander.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEA18;" />
+            </labs:SettingsExpander.HeaderIcon>
+            <labs:SettingsExpander.Items>
+                <labs:SettingsCard Header="Microphone Access" Description="Microphone Access FireBrowser" Margin="0,1,0,0">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE720;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch  />
+                </labs:SettingsCard>
+                <labs:SettingsCard Header="Camera Access" Description="Camera Access FireBrowser" Margin="0,1,0,0">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE722;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Name="CamPermission" Toggled="CamPermission_Toggled"/>
+                </labs:SettingsCard>
+            </labs:SettingsExpander.Items>
+        </labs:SettingsExpander>
+    </StackPanel>
+</Page>

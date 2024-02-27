@@ -1,50 +1,165 @@
-﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
+﻿using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3Core.Helpers;
+using FireBrowserWinUi3Exceptions;
+using FireBrowserWinUi3MultiCore;
+using FireBrowserWinUi3;
+using FireBrowserWinUi3.Services.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.Json;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Path = System.IO.Path;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
-namespace FireBrowserWinUi3
+namespace FireBrowserWinUi3;
+public partial class App : Application
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
-    public partial class App : Application
+    public new static App Current => (App)Application.Current;
+
+    #region DependencyInjection
+
+    public IServiceProvider Services { get; }
+
+    public static T GetService<T>() where T : class
     {
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
-        public App()
+        if ((App.Current as App)!.Services.GetService(typeof(T)) is not T service)
         {
-            this.InitializeComponent();
+            throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
         }
 
-        /// <summary>
-        /// Invoked when the application is launched.
-        /// </summary>
-        /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
-        {
-            m_window = new MainWindow();
-            m_window.Activate();
-        }
-
-        private Window m_window;
+        return service;
     }
+    private static IServiceProvider ConfigureServices()
+    {
+        var services = new ServiceCollection();
+
+        //services.AddDbContext<FireBrowserWinUi3DataCore.HistoryContext>();
+        services.AddSingleton<DownloadService>();
+        services.AddTransient<DownloadsViewModel>();
+
+        return services.BuildServiceProvider();
+    }
+    #endregion
+    public App()
+    {
+        if (Directory.Exists(UserDataManager.CoreFolderPath))
+        {
+            Services = ConfigureServices();
+        }
+
+        this.InitializeComponent();
+
+        FireBrowserWinUi3Navigator.TLD.LoadKnownDomainsAsync().GetAwaiter();
+
+        System.Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
+    }
+
+    public static string GetUsernameFromCoreFolderPath(string coreFolderPath)
+    {
+        try
+        {
+            string usrCoreFilePath = Path.Combine(coreFolderPath, "UsrCore.json");
+
+            if (File.Exists(usrCoreFilePath))
+            {
+                string jsonContent = File.ReadAllText(usrCoreFilePath);
+                var users = JsonSerializer.Deserialize<List<FireBrowserWinUi3MultiCore.User>>(jsonContent);
+
+                if (users?.Count > 0 && !string.IsNullOrWhiteSpace(users[0].Username))
+                {
+                    return users[0].Username;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error reading UsrCore.json: {ex.Message}");
+        }
+
+        return null;
+    }
+
+    public void CheckNormal()
+    {
+        string coreFolderPath = UserDataManager.CoreFolderPath;
+        string username = GetUsernameFromCoreFolderPath(coreFolderPath);
+
+        if (username != null)
+        {
+            AuthService.Authenticate(username);
+        }
+    }
+
+    protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+    {
+        if (!Directory.Exists(UserDataManager.CoreFolderPath))
+        {
+            // The "FireBrowserUserCore" folder does not exist, so proceed with application setup behavior.
+            m_window = new SetupWindow();
+        }
+        else
+        {
+            var evt = AppInstance.GetActivatedEventArgs();
+            ProtocolActivatedEventArgs protocolArgs = evt as ProtocolActivatedEventArgs;
+
+            if (protocolArgs != null && protocolArgs.Kind == ActivationKind.Protocol)
+            {
+                string url = protocolArgs.Uri.ToString();
+
+                if (url.StartsWith("http") || url.StartsWith("https"))
+                {
+                    AppArguments.UrlArgument = url; // Standard web URL
+                    CheckNormal();
+                }
+                else if (url.StartsWith("firebrowserwinui://"))
+                {
+                    AppArguments.FireBrowserArgument = url;
+                    CheckNormal();
+                }
+                else if (url.StartsWith("firebrowseruser://"))
+                {
+                    AppArguments.FireUser = url;
+
+                    // Extract the username after 'firebrowserwinuifireuser://'
+                    string usernameSegment = url.Replace("firebrowseruser://", ""); // Remove the prefix
+                    string[] urlParts = usernameSegment.Split('/', StringSplitOptions.RemoveEmptyEntries);
+                    string username = urlParts.FirstOrDefault(); // Retrieve the first segment as the username
+
+                    // Authenticate the extracted username using your authentication service
+                    if (!string.IsNullOrEmpty(username))
+                    {
+                        AuthService.Authenticate(username);
+                    }
+
+                    // No need to activate the window here
+                }
+                else if (url.StartsWith("firebrowserincog://"))
+                {
+                    AppArguments.FireBrowserIncog = url;
+                    CheckNormal(); // Custom protocol for FireBrowser
+                }
+                else if (url.Contains(".pdf"))
+                {
+                    AppArguments.FireBrowserPdf = url;
+                    CheckNormal();
+                }
+            }
+            else
+            {
+                CheckNormal();
+            }
+
+            // Activate the window after evaluating the URL and handling respective cases
+            m_window = new MainWindow();
+        }
+
+        // Activate the window outside of conditional blocks
+        m_window.Activate();
+    }
+
+    public Window m_window;
 }

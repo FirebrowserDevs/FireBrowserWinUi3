@@ -9,9 +9,30 @@
     <UseWinUI>true</UseWinUI>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>f935dc20-1cf0-11d0-adb9-00c04fd58a0b</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
 
   <ItemGroup>
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
-      <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+      <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
+      <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FireBrowserWinUi3Database\FireBrowserWinUi3Database.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3Exceptions\FireBrowserWinUi3Exceptions.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3Favorites\FireBrowserWinUi3Favorites.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3MultiCore\FireBrowserWinUi3MultiCore.csproj" />
   </ItemGroup>
 </Project>

@@ -15,18 +15,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.240109" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.240109" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.2" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -47,4 +50,83 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="FireBrowserWinUi3Assets\costum.png" />
+    <Content Remove="FireBrowserWinUi3Assets\default.png" />
+    <Content Remove="FireBrowserWinUi3Assets\featured.png" />
+    <Content Remove="FireBrowserWinUi3Assets\fincog.png" />
+    <Content Remove="FireBrowserWinUi3Assets\LargeTile.scale-100.png" />
+    <Content Remove="FireBrowserWinUi3Assets\LargeTile.scale-125.png" />
+    <Content Remove="FireBrowserWinUi3Assets\LargeTile.scale-150.png" />
+    <Content Remove="FireBrowserWinUi3Assets\LargeTile.scale-200.png" />
+    <Content Remove="FireBrowserWinUi3Assets\LargeTile.scale-400.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Segoe Fluent Icons.ttf" />
+    <Content Remove="FireBrowserWinUi3Assets\setup_image.png" />
+    <Content Remove="FireBrowserWinUi3Assets\SmallTile.scale-100.png" />
+    <Content Remove="FireBrowserWinUi3Assets\SmallTile.scale-125.png" />
+    <Content Remove="FireBrowserWinUi3Assets\SmallTile.scale-150.png" />
+    <Content Remove="FireBrowserWinUi3Assets\SmallTile.scale-200.png" />
+    <Content Remove="FireBrowserWinUi3Assets\SmallTile.scale-400.png" />
+    <Content Remove="FireBrowserWinUi3Assets\SplashScreen.scale-100.png" />
+    <Content Remove="FireBrowserWinUi3Assets\SplashScreen.scale-125.png" />
+    <Content Remove="FireBrowserWinUi3Assets\SplashScreen.scale-150.png" />
+    <Content Remove="FireBrowserWinUi3Assets\SplashScreen.scale-400.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square150x150Logo.scale-100.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square150x150Logo.scale-125.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square150x150Logo.scale-150.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square150x150Logo.scale-400.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.altform-lightunplated_targetsize-32.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.altform-unplated_targetsize-32.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.scale-100.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.scale-125.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.scale-150.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.scale-400.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.targetsize-24.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.targetsize-32.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Remove="FireBrowserWinUi3Assets\StoreLogo.backup.png" />
+    <Content Remove="FireBrowserWinUi3Assets\StoreLogo.scale-100.png" />
+    <Content Remove="FireBrowserWinUi3Assets\StoreLogo.scale-125.png" />
+    <Content Remove="FireBrowserWinUi3Assets\StoreLogo.scale-150.png" />
+    <Content Remove="FireBrowserWinUi3Assets\StoreLogo.scale-200.png" />
+    <Content Remove="FireBrowserWinUi3Assets\StoreLogo.scale-400.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Wide310x150Logo.scale-100.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Wide310x150Logo.scale-125.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Wide310x150Logo.scale-150.png" />
+    <Content Remove="FireBrowserWinUi3Assets\Wide310x150Logo.scale-400.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="SetupWindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FireBrowserWinUi3AdBlockCore\FireBrowserWinUi3AdBlockCore.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3Assets\FireBrowserWinUi3Assets.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3AuthCore\FireBrowserWinUi3AuthCore.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3Auth\FireBrowserWinUi3Auth.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3Core\FireBrowserWinUi3Core.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3Database\FireBrowserWinUi3Database.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3DataCore\FireBrowserWinUi3DataCore.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3Exceptions\FireBrowserWinUi3Exceptions.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3Favorites\FireBrowserWinUi3Favorites.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3Modules\FireBrowserWinUi3Modules.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3MultiCore\FireBrowserWinUi3MultiCore.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3Navigator\FireBrowserWinUi3Navigator.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3QrCode\FireBrowserWinUi3QrCode.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3Services\FireBrowserWinUi3Services.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3Setup\FireBrowserWinUi3Setup.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="SetupWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 </Project>

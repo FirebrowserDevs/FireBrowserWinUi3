@@ -9,9 +9,80 @@
     <UseWinUI>true</UseWinUI>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="SetupAccess.xaml" />
+    <None Remove="SetupAlgemeen.xaml" />
+    <None Remove="SetupFinish.xaml" />
+    <None Remove="SetupInit.xaml" />
+    <None Remove="SetupPrivacy.xaml" />
+    <None Remove="SetupUi.xaml" />
+    <None Remove="SetupUser.xaml" />
+    <None Remove="SetupWebView.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
-      <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+      <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
+      <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
+      <PackageReference Include="System.Drawing.Common" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FireBrowserWinUi3Assets\FireBrowserWinUi3Assets.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3MultiCore\FireBrowserWinUi3MultiCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="SetupFinish.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="SetupWebView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="SetupAccess.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="SetupPrivacy.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="SetupAlgemeen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="SetupUi.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="SetupUser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="SetupInit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="SetupInit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

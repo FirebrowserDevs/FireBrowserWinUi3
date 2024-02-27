@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="FireBrowserWinUi3.Pages.SettingsPages.SettingsWebView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:labs="using:CommunityToolkit.WinUI.Controls">
+
+    <StackPanel>
+        <labs:SettingsCard Header="WebView2 StatusBar" Description="turn on or off the default statusbar">
+            <labs:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xF168;"/>
+            </labs:SettingsCard.HeaderIcon>
+            <ToggleSwitch x:Name="StatusTog" Toggled="StatusTog_Toggled"/>
+        </labs:SettingsCard>
+
+        <labs:SettingsCard Header="WebView2 Browser Accelerator Keys" Description="turn on or off the default BrowserAcceleratorKeys">
+            <labs:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE9A9;"/>
+            </labs:SettingsCard.HeaderIcon>
+            <ToggleSwitch x:Name="BrowserKeys" Toggled="BrowserKeys_Toggled"/>
+        </labs:SettingsCard>
+
+        <labs:SettingsCard Header="WebView2 Script Dialogs" Description="turn on or off the default Scripts Dialogs">
+            <labs:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xED0E;"/>
+            </labs:SettingsCard.HeaderIcon>
+            <ToggleSwitch x:Name="BrowserScripts" Toggled="BrowserScripts_Toggled"/>
+        </labs:SettingsCard>
+
+        <labs:SettingsCard Header="WebView2 Useragent" Description="WebView2 Useragent Settings">
+            <labs:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEE57;"/>
+            </labs:SettingsCard.HeaderIcon>
+            <TextBox x:Name="Agent" Text="FireBrowser Web" TextChanged="Agent_TextChanged"/>
+        </labs:SettingsCard>
+
+        <labs:SettingsExpander Header="WebView2 Anti-Tracking" Description="WebView2 Tracking Prevention">
+            <labs:SettingsExpander.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE7EF;"/>
+            </labs:SettingsExpander.HeaderIcon>
+            <ComboBox  x:Name="PreventionLevel" SelectionChanged="PreventionLevel_SelectionChanged">
+                <x:String>None</x:String>
+                <x:String>Basic</x:String>
+                <x:String>Balanced</x:String>
+                <x:String>Strict</x:String>
+            </ComboBox>
+            <labs:SettingsExpander.Items>
+                <labs:SettingsCard>
+                    <TextBlock x:Name="Info" Text="Important Info"/>
+                </labs:SettingsCard>
+            </labs:SettingsExpander.Items>
+        </labs:SettingsExpander>
+
+        <labs:SettingsExpander Header="WebView2 Clear Settings" Description="WebView2 Clear Cache Or Cookies">
+            <labs:SettingsExpander.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8B7;"/>
+            </labs:SettingsExpander.HeaderIcon>
+            <labs:SettingsExpander.Items>
+                <labs:SettingsCard Header="WebView2 Cookies" Description="WebView2 Clear Cookies">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8B7;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                    <Button x:Name="ClearCookies" Content="Clear Cookies" Click="ClearCookies_Click"/>
+                </labs:SettingsCard>
+
+                <labs:SettingsCard Header="WebView2 Cache" Description="WebView2 Clear Cache">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8B7;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                    <Button x:Name="ClearCache" Content="Clear Cache" Click="ClearCache_Click"/>
+                </labs:SettingsCard>
+            </labs:SettingsExpander.Items>
+        </labs:SettingsExpander>
+
+        <labs:SettingsCard Header="WebView2 Resource Saver" Description="WebView2 Resource Saver Pause Vidoes if not watched">
+            <labs:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8BE;"/>
+            </labs:SettingsCard.HeaderIcon>
+            <ToggleSwitch x:Name="ResourceSaver" Toggled="ResourceSaver_Toggled"/>
+        </labs:SettingsCard>
+    </StackPanel>
+</Page>
