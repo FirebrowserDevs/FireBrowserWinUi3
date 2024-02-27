@@ -37,13 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FireBrowserDatabase\FireBrowserDatabase.csproj" />
-    <ProjectReference Include="..\FireBrowserExceptions\FireBrowserExceptions.csproj" />
-    <ProjectReference Include="..\FireBrowserFavorites\FireBrowserFavorites.csproj" />
-    <ProjectReference Include="..\FireBrowserMultiCore\FireBrowserMultiCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="LogoCore.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -122,20 +122,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Assets\Assets.csproj" />
-    <ProjectReference Include="..\DataCoreDb\DataCoreDb.csproj" />
-    <ProjectReference Include="..\FireBrowserAdBlockCore\FireBrowserAdBlockCore.csproj" />
     <ProjectReference Include="..\FireBrowserBusinessCore\FireBrowserWinUi3Core.csproj" />
-    <ProjectReference Include="..\FireBrowserDatabase\FireBrowserDatabase.csproj" />
-    <ProjectReference Include="..\FireBrowserExceptions\FireBrowserExceptions.csproj" />
-    <ProjectReference Include="..\FireBrowserFavorites\FireBrowserFavorites.csproj" />
-    <ProjectReference Include="..\FireBrowserMultiCore\FireBrowserMultiCore.csproj" />
-    <ProjectReference Include="..\FireBrowserQr\FireBrowserQr.csproj" />
-    <ProjectReference Include="..\FireBrowserSecureConnect\FireBrowserWinUi3SecureConnect.csproj" />
-    <ProjectReference Include="..\FireBrowserSetup\FireBrowserSetup.csproj" />
-    <ProjectReference Include="..\FireBrowserWinUiModules\FireBrowserWinUiModules.csproj" />
-    <ProjectReference Include="..\SecureConnectOtp\SecureConnectOtp.csproj" />
-    <ProjectReference Include="..\UrlHelperWinUi3\UrlHelperWinUi3.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\access.png">
