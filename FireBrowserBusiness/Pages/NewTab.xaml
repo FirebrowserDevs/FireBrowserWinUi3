@@ -23,7 +23,7 @@
         <Button
             x:Name="Edit"
             x:Uid="NewTabEditButton"
-            Margin="0,31,92,0"
+            Margin="0,31,64,0"
             Padding="6"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
@@ -34,6 +34,9 @@
                     <StackPanel>
                         <ToggleSwitch x:Name="Type" Toggled="Type_Toggled">
                             Enable Auto Fill TextBox
+                        </ToggleSwitch>
+                        <ToggleSwitch x:Name="Mode" Toggled="Mode_Toggled">
+                            Enable Light Mode
                         </ToggleSwitch>
                         <ToggleSwitch
                             x:Name="DateTimeToggle"
@@ -197,6 +200,7 @@
                 </Flyout>
             </Button.Flyout>
         </Button>
+
         <Grid
             x:Name="NtpGrid"
             Margin="0,25,0,0"
@@ -235,6 +239,10 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                FontSize="{ThemeResource TextStyleLargeFontSize}"
+                Text="Search or enter an address" />
             <AutoSuggestBox
                 x:Name="NewTabSearchBox"
                 x:Uid="SearchBar"
@@ -292,7 +300,7 @@
                 MinWidth="250"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
-                BorderBrush="Transparent"
+                BorderBrush="Black"
                 BorderThickness="1"
                 Orientation="Horizontal">
                 <labs:SettingsExpander
@@ -316,7 +324,6 @@
                             <ListView
                                 Height="180"
                                 MinWidth="250"
-                                MaxWidth="500"
                                 BorderBrush="Black"
                                 BorderThickness="1"
                                 ItemsSource="{x:Bind ViewModel.FavoriteItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -363,7 +370,6 @@
                             <ListView
                                 Height="180"
                                 MinWidth="250"
-                                MaxWidth="500"
                                 BorderBrush="Black"
                                 BorderThickness="1"
                                 ItemsSource="{x:Bind ViewModel.HistoryItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -386,7 +392,36 @@
                     </labs:SettingsExpander.Items>
                 </labs:SettingsExpander>
             </StackPanel>
+
+
         </Grid>
+        <!--<TextBlock
+                Grid.Row="2"
+                FontSize="{ThemeResource TextStyleLargeFontSize}"
+                Text="History" />
+            <ListView
+                Grid.Row="3"
+                Height="180"
+                MaxWidth="600"
+                BorderBrush="Black"
+                BorderThickness="1"
+                ItemsSource="{x:Bind ViewModel.HistoryItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectionChanged="ListView_SelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="history:HistoryItem">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Height="24"
+                                HorizontalAlignment="Left"
+                                Source="{x:Bind ImageSource, Mode=OneWay}"
+                                Stretch="UniformToFill" />
+                            <AppBarSeparator />
+                            <TextBlock Text="{x:Bind Title, Mode=OneWay}" TextWrapping="WrapWholeWords" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>-->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

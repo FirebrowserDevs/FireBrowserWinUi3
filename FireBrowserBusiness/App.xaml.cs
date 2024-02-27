@@ -1,5 +1,6 @@
 ﻿using FireBrowserBusiness.Services;
 using FireBrowserBusinessCore.Helpers;
+using FireBrowserExceptions;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3;
 using FireBrowserWinUi3.Services.ViewModels;
