@@ -1,8 +1,8 @@
 ﻿using FireBrowserBusiness.Services;
 using FireBrowserBusinessCore.Helpers;
-using FireBrowserExceptions;
 using FireBrowserMultiCore;
 using FireBrowserWinUi3;
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.Services.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -58,6 +58,7 @@ public partial class App : Application
         System.Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
     }
 
+
     public static string GetUsernameFromCoreFolderPath(string coreFolderPath)
     {
         try
@@ -91,6 +92,7 @@ public partial class App : Application
         if (username != null)
         {
             AuthService.Authenticate(username);
+            _ = new DatabaseServices().DatabaseCreationValidation().GetAwaiter().GetResult();
         }
     }
 

@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.Sqlite;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 
@@ -21,22 +20,22 @@ public static class UserFolderManager
 
         CreateSettingsFile(user.Username);
 
-        CreateDatabaseFile(user.Username, "History.db", @"CREATE TABLE IF NOT EXISTS urls (
-                                        id INTEGER PRIMARY KEY,
-                                        last_visit_time TEXT,
-                                        url TEXT,
-                                        title TEXT,
-                                        visit_count INTEGER NOT NULL DEFAULT 0,
-                                        typed_count INTEGER NOT NULL DEFAULT 0,
-                                        hidden INTEGER NOT NULL DEFAULT 0
-                                    )");
-        CreateDatabaseFile(user.Username, "Downloads.db", @"CREATE TABLE IF NOT EXISTS downloads (
-                                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                        guid VARCHAR(50) NOT NULL,
-                                        current_path TEXT NOT NULL,
-                                        end_time INTEGER NOT NULL,
-                                        start_time INTEGER NOT NULL
-                                    )");
+        //CreateDatabaseFile(user.Username, "History.db", @"CREATE TABLE IF NOT EXISTS urls (
+        //                                id INTEGER PRIMARY KEY,
+        //                                last_visit_time TEXT,
+        //                                url TEXT,
+        //                                title TEXT,
+        //                                visit_count INTEGER NOT NULL DEFAULT 0,
+        //                                typed_count INTEGER NOT NULL DEFAULT 0,
+        //                                hidden INTEGER NOT NULL DEFAULT 0
+        //                            )");
+        //CreateDatabaseFile(user.Username, "Downloads.db", @"CREATE TABLE IF NOT EXISTS downloads (
+        //                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+        //                                guid VARCHAR(50) NOT NULL,
+        //                                current_path TEXT NOT NULL,
+        //                                end_time INTEGER NOT NULL,
+        //                                start_time INTEGER NOT NULL
+        //                            )");
     }
 
 
@@ -51,23 +50,23 @@ public static class UserFolderManager
         File.WriteAllText(settingsFilePath, System.Text.Json.JsonSerializer.Serialize(settings));
     }
 
-    private static void CreateDatabaseFile(string username, string dbName, string sql)
-    {
-        string databaseFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, DatabaseFolderName);
-        string databaseFilePath = Path.Combine(databaseFolderPath, dbName);
+    //private static void CreateDatabaseFile(string username, string dbName, string sql)
+    //{
+    //    string databaseFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, DatabaseFolderName);
+    //    string databaseFilePath = Path.Combine(databaseFolderPath, dbName);
 
-        using var connection = new SqliteConnection($"Data Source={databaseFilePath}");
-        connection.Open();
+    //    using var connection = new SqliteConnection($"Data Source={databaseFilePath}");
+    //    connection.Open();
 
-        using var transaction = connection.BeginTransaction();
-        using var command = connection.CreateCommand();
-        command.CommandText = sql;
+    //    using var transaction = connection.BeginTransaction();
+    //    using var command = connection.CreateCommand();
+    //    command.CommandText = sql;
 
-        command.ExecuteNonQuery();
-        transaction.Commit();
+    //    command.ExecuteNonQuery();
+    //    transaction.Commit();
 
-        Console.WriteLine($"SQLite database and '{dbName}' table created successfully.");
-    }
+    //    Console.WriteLine($"SQLite database and '{dbName}' table created successfully.");
+    //}
 
     public static Settings LoadUserSettings(User user)
     {

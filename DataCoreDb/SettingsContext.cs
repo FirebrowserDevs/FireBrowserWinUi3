@@ -13,9 +13,9 @@ namespace FireBrowserDataCore
             ConnectionPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Settings", "Settings.db");
 
         }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
             optionsBuilder.UseSqlite($"Data Source={ConnectionPath}");
 
         }

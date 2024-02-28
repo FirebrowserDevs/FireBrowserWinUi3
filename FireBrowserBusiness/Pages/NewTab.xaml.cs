@@ -39,7 +39,8 @@ public sealed partial class NewTab : Page
     {
         ViewModel = new HomeViewModel();
         ViewModel.SaveSettings = SaveChangesToSettings;
-
+        // init to load controls from settings, and start clock . 
+        ViewModel.Intialize().GetAwaiter();
         this.InitializeComponent();
         HomeSync();
 
@@ -114,8 +115,6 @@ public sealed partial class NewTab : Page
         Mode.IsOn = userSettings.LightMode == "1";
 
         ViewModel.BackgroundType = GetBackgroundType(userSettings.Background);
-        // set the ntpClock control visibility 
-        await ViewModel.Intialize();
 
         var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor);
         NewColor.IsEnabled = userSettings.Background == "2";
