@@ -40,7 +40,7 @@ public sealed partial class NewTab : Page
         ViewModel = new HomeViewModel();
         ViewModel.SaveSettings = SaveChangesToSettings;
         // init to load controls from settings, and start clock . 
-        ViewModel.Intialize().GetAwaiter();
+        _ = ViewModel.Intialize().GetAwaiter();
         this.InitializeComponent();
         HomeSync();
 

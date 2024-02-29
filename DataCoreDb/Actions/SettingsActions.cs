@@ -50,5 +50,22 @@ namespace FireBrowserDataCore.Actions
             }
         }
 
+        public async Task<bool> InsertUserSettingsAsync(Settings settings)
+        {
+            try
+            {
+                SettingsContext.Settings.Add(settings); 
+                var result = await SettingsContext.SaveChangesAsync();
+                return result > 0 ? true : false;
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                Console.WriteLine($"Settings Database failed to Save data: {ex.Message}");
+                return false;
+            }
+        }
+
     }
 }
