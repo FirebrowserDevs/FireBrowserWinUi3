@@ -5,6 +5,7 @@ using FireBrowserWinUi3MultiCore;
 using FireBrowserWinUi3;
 using FireBrowserWinUi3.Services.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
-        //services.AddDbContext<FireBrowserWinUi3DataCore.HistoryContext>();
+        //services.AddDbContext<FireBrowserDataCore.HistoryContext>();
         services.AddSingleton<DownloadService>();
         services.AddTransient<DownloadsViewModel>();
 
@@ -57,6 +58,7 @@ public partial class App : Application
 
         System.Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
     }
+
 
     public static string GetUsernameFromCoreFolderPath(string coreFolderPath)
     {
@@ -83,7 +85,7 @@ public partial class App : Application
         return null;
     }
 
-    public void CheckNormal()
+    public async void CheckNormal()
     {
         string coreFolderPath = UserDataManager.CoreFolderPath;
         string username = GetUsernameFromCoreFolderPath(coreFolderPath);
@@ -91,6 +93,21 @@ public partial class App : Application
         if (username != null)
         {
             AuthService.Authenticate(username);
+            DatabaseServices dbServer = new DatabaseServices();
+
+
+            try
+            {
+                await dbServer.DatabaseCreationValidation();
+                await dbServer.InsertUserSettings();
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                Console.WriteLine($"Creating Settings for user already exists\n {ex.Message}");
+            }
+
+
         }
     }
 

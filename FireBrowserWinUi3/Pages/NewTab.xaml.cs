@@ -39,23 +39,20 @@ public sealed partial class NewTab : Page
     {
         ViewModel = new HomeViewModel();
         ViewModel.SaveSettings = SaveChangesToSettings;
-
+        // init to load controls from settings, and start clock . 
+        _ = ViewModel.Intialize().GetAwaiter();
         this.InitializeComponent();
         HomeSync();
-
     }
 
     private async Task<FireBrowserWinUi3MultiCore.Settings> LoadSettingsDatabase()
     {
         try
         {
-            // databse assign to user, and migrate will create if not exists, then update with local settings. 
-
             SettingsActions settingsActions = new SettingsActions(AuthService.IsUserAuthenticated ? AuthService.CurrentUser.Username : null);
             await settingsActions.SettingsContext.Database.MigrateAsync();
             await settingsActions.UpdateSettingsAsync(FireBrowserWinUi3MultiCore.UserFolderManager.LoadUserSettings(FireBrowserWinUi3MultiCore.AuthService.CurrentUser));
             return await settingsActions.GetSettingsAsync();
-
         }
         catch (Exception ex)
         {
@@ -67,7 +64,6 @@ public sealed partial class NewTab : Page
     }
     async void SaveChangesToSettings(User user, FireBrowserWinUi3MultiCore.Settings settings)
     {
-
         try
         {
             if (!AuthService.IsUserAuthenticated) return;
@@ -102,9 +98,6 @@ public sealed partial class NewTab : Page
         SearchengineSelection.SelectedItem = userSettings.EngineFriendlyName;
         NewTabSearchBox.Text = string.Empty;
         NewTabSearchBox.Focus(FocusState.Programmatic);
-        //bool isNtp = userSettings.NtpDateTime == "1";
-        //DateTimeToggle.IsOn = isNtp;
-        //NtpEnabled(isNtp);
     }
 
     FireBrowserWinUi3MultiCore.Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
@@ -114,8 +107,6 @@ public sealed partial class NewTab : Page
         Mode.IsOn = userSettings.LightMode == "1";
 
         ViewModel.BackgroundType = GetBackgroundType(userSettings.Background);
-        // set the ntpClock control visibility 
-        await ViewModel.Intialize();
 
         var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor);
         NewColor.IsEnabled = userSettings.Background == "2";
@@ -169,7 +160,6 @@ public sealed partial class NewTab : Page
         NewColor.IsEnabled = isNewColorEnabled;
         Download.Visibility = downloadVisibility;
         ViewModel.SaveSettings(AuthService.CurrentUser, userSettings);
-        //UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
     }
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
@@ -268,7 +258,6 @@ public sealed partial class NewTab : Page
         {
             updateAction.Invoke(userSettings);
             ViewModel.SaveSettings(AuthService.CurrentUser, userSettings);
-            //UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
             UpdateNtpClock();
         }
     }
@@ -412,6 +401,4 @@ public sealed partial class NewTab : Page
         }
 
     }
-
-
 }
