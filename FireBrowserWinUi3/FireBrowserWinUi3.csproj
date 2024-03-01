@@ -51,6 +51,7 @@
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\SegoeFluentIcons2.ttf" />
     <Content Remove="Assets\setup_image.png" />
     <Content Remove="FireBrowserWinUi3Assets\costum.png" />
     <Content Remove="FireBrowserWinUi3Assets\default.png" />
