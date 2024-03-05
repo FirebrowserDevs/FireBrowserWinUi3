@@ -43,7 +43,6 @@ public sealed partial class NewTab : Page
         _ = ViewModel.Intialize().GetAwaiter();
         this.InitializeComponent();
         HomeSync();
-
     }
 
     private async Task<FireBrowserMultiCore.Settings> LoadSettingsDatabase()
