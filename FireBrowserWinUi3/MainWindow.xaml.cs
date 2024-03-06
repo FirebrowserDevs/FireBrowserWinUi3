@@ -1,17 +1,18 @@
+using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
 using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3Core.CoreUi;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3Core.ShareHelper;
 using FireBrowserWinUi3Core.ViewModel;
-using FireBrowserDatabase;
 using FireBrowserWinUi3DataCore.Actions;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3Favorites;
 using FireBrowserWinUi3MultiCore;
+using FireBrowserWinUi3Navigator;
 using FireBrowserWinUi3QrCore;
-using FireBrowserWinUi3Core.CoreUi;
 using FireBrowserWinUiModules.Darkmode;
 using FireBrowserWinUiModules.Read;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using FireBrowserWinUi3Navigator;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -853,22 +853,19 @@ public sealed partial class MainWindow : Window
 
     private async void ClearDb()
     {
-        HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
-        await historyActions.DeleteAllHistoryItems();
+        try
+        {
+            HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
+            await historyActions.DeleteAllHistoryItems();
 
-        HistoryTemp.ItemsSource = null;
-        //FireBrowserWinUi3MultiCore.User user = AuthService.CurrentUser;
-        //string username = user.Username;
-        //string databasePath = Path.Combine(
-        //    UserDataManager.CoreFolderPath,
-        //    UserDataManager.UsersFolderPath,
-        //    username,
-        //    "Database",
-        //    "History.db"
-        //);
+            HistoryTemp.ItemsSource = null;
+        }
+        catch (Exception ex)
+        {
+            ExceptionLogger.LogException(ex);
+        }
 
-        //HistoryTemp.ItemsSource = null;
-        //await DbClear.ClearTable(databasePath, "urls");
+
     }
 
     private ObservableCollection<HistoryItem> browserHistory;
@@ -879,8 +876,8 @@ public sealed partial class MainWindow : Window
         try
         {
             HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
-            var items = await historyActions.GetAllHistoryItems();
-            HistoryTemp.ItemsSource = items; // browserHistory;
+            browserHistory = await historyActions.GetAllHistoryItems();
+            HistoryTemp.ItemsSource = browserHistory;
         }
         catch (Exception ex)
         {
