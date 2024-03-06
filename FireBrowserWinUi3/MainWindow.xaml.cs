@@ -988,6 +988,7 @@ public sealed partial class MainWindow : Window
 
     private void SearchHistoryMenuFlyout_Click(object sender, RoutedEventArgs e)
     {
+
         HistorySearchMenuItem.Visibility = HistorySearchMenuItem.Visibility == Visibility.Collapsed
             ? Visibility.Visible
             : Visibility.Collapsed;
@@ -995,6 +996,13 @@ public sealed partial class MainWindow : Window
         HistorySmallTitle.Visibility = HistorySmallTitle.Visibility == Visibility.Collapsed
             ? Visibility.Visible
             : Visibility.Collapsed;
+
+
+        if (HistorySearchMenuItem.Visibility is Visibility.Visible)
+            HistorySearchMenuItem.Focus(FocusState.Programmatic);
+
+
+
     }
 
 

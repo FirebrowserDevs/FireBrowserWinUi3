@@ -27,8 +27,8 @@ public sealed partial class HistoryTimeLine : Page
         try
         {
             HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser.Username);
-            var items = await historyActions.GetAllHistoryItems();
-            BigTemp.ItemsSource = items;
+            browserHistory = await historyActions.GetAllHistoryItems();
+            BigTemp.ItemsSource = browserHistory;
         }
         catch (Exception ex)
         {
@@ -40,6 +40,8 @@ public sealed partial class HistoryTimeLine : Page
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
         FetchBrowserHistory();
+        Ts.Focus(FocusState.Programmatic);
+
     }
 
     private void FilterBrowserHistory(string searchText)
