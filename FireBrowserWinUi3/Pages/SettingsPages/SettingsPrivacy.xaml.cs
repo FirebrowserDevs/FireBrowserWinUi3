@@ -15,17 +15,17 @@ public sealed partial class SettingsPrivacy : Page
 
     public void Stack()
     {
-        DisableJavaScriptToggle.IsOn = userSettings.DisableJavaScript == "1" ? true : false;
-        DisablWebMessFillToggle.IsOn = userSettings.DisableWebMess == "1" ? true : false;
-        DisableGenaralAutoFillToggle.IsOn = userSettings.DisableGenAutoFill == "1" ? true : false;
-        PasswordWebMessFillToggle.IsOn = userSettings.DisablePassSave == "1" ? true : false;
+        DisableJavaScriptToggle.IsOn = userSettings.DisableJavaScript;
+        DisablWebMessFillToggle.IsOn = userSettings.DisableWebMess;
+        DisableGenaralAutoFillToggle.IsOn = userSettings.DisableGenAutoFill;
+        PasswordWebMessFillToggle.IsOn = userSettings.DisablePassSave;
     }
 
     private void DisableJavaScriptToggle_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.DisableJavaScript = autoSettingValue;
 
@@ -37,7 +37,7 @@ public sealed partial class SettingsPrivacy : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.DisableGenAutoFill = autoSettingValue;
 
@@ -49,7 +49,7 @@ public sealed partial class SettingsPrivacy : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn  ;
 
             userSettings.DisableWebMess = autoSettingValue;
 
@@ -61,7 +61,7 @@ public sealed partial class SettingsPrivacy : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.DisablePassSave = autoSettingValue;
 

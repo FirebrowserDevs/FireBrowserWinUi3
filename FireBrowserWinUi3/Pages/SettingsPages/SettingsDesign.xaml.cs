@@ -16,7 +16,7 @@ public sealed partial class SettingsDesign : Page
 
     public void Init()
     {
-        AutoTog.IsOn = userSettings.Auto == "1" ? true : false;
+        AutoTog.IsOn = userSettings.Auto;
         ColorTB.Text = userSettings.ColorTool;
         ColorTV.Text = userSettings.ColorTV;
         Color.Text = userSettings.ColorBackground;
@@ -27,9 +27,9 @@ public sealed partial class SettingsDesign : Page
     {
         Type.SelectedItem = userSettings.Background switch
         {
-            "0" => "Default",
-            "1" => "Featured",
-            "2" => "Custom",
+            0 => "Default",
+            1 => "Featured",
+            2 => "Custom",
             _ => Type.SelectedItem
         };
     }
@@ -39,7 +39,7 @@ public sealed partial class SettingsDesign : Page
         if (sender is ToggleSwitch toggleSwitch)
         {
             // Assuming 'url' and 'selection' have been defined earlier
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             // Set the 'Auto' setting
             userSettings.Auto = autoSettingValue;
@@ -105,17 +105,17 @@ public sealed partial class SettingsDesign : Page
         if (selection == "Default")
         {
             Color.IsEnabled = false;
-            userSettings.Background = "0";
+            userSettings.Background = 0;
         }
         if (selection == "Featured")
         {
             Color.IsEnabled = false;
-            userSettings.Background = "1";
+            userSettings.Background = 1;
         }
         if (selection == "Custom")
         {
             Color.IsEnabled = true;
-            userSettings.Background = "2";
+            userSettings.Background = 2;
         }
 
         UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);

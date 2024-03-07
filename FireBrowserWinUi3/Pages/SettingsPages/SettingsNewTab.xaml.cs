@@ -17,18 +17,18 @@ public sealed partial class SettingsNewTab : Page
     {
         SearchengineSelection.SelectedItem = userSettings.EngineFriendlyName;
 
-        OpenNew.IsOn = userSettings.OpenTabHandel == "1" ? true : false;
-        Trbl.IsOn = userSettings.Translate == "1" ? true : false;
-        Adbl.IsOn = userSettings.AdblockBtn == "1" ? true : false;
-        Drbl.IsOn = userSettings.DarkIcon == "1" ? true : false;
-        Read.IsOn = userSettings.ReadButton == "1" ? true : false;
-        Dwbl.IsOn = userSettings.Downloads == "1" ? true : false;
-        Frbl.IsOn = userSettings.FavoritesL == "1" ? true : false;
-        FlAd.IsOn = userSettings.Favorites == "1" ? true : false;
-        Hsbl.IsOn = userSettings.Historybtn == "1" ? true : false;
-        Qrbl.IsOn = userSettings.QrCode == "1" ? true : false;
-        Tlbl.IsOn = userSettings.ToolIcon == "1" ? true : false;
-        Confirm.IsOn = userSettings.ConfirmCloseDlg == "1" ? true : false;
+        OpenNew.IsOn = userSettings.OpenTabHandel;
+        Trbl.IsOn = userSettings.Translate;
+        Adbl.IsOn = userSettings.AdblockBtn;
+        Drbl.IsOn = userSettings.DarkIcon;
+        Read.IsOn = userSettings.ReadButton         ;
+        Dwbl.IsOn = userSettings.Downloads;
+        Frbl.IsOn = userSettings.FavoritesL;
+        FlAd.IsOn = userSettings.Favorites;
+        Hsbl.IsOn = userSettings.Historybtn;
+        Qrbl.IsOn = userSettings.QrCode;
+        Tlbl.IsOn = userSettings.ToolIcon;
+        Confirm.IsOn = userSettings.ConfirmCloseDlg;
     }
 
     private void SearchengineSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -98,7 +98,7 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.OpenTabHandel = autoSettingValue;
 
@@ -111,7 +111,7 @@ public sealed partial class SettingsNewTab : Page
 
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.DarkIcon = autoSettingValue;
 
@@ -123,7 +123,7 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.Translate = autoSettingValue;
 
@@ -135,7 +135,7 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.ReadButton = autoSettingValue;
 
@@ -147,7 +147,7 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.AdblockBtn = autoSettingValue;
 
@@ -159,7 +159,7 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.Downloads = autoSettingValue;
 
@@ -171,7 +171,7 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.FavoritesL = autoSettingValue;
 
@@ -183,7 +183,7 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.Favorites = autoSettingValue;
 
@@ -195,7 +195,7 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.Historybtn = autoSettingValue;
 
@@ -207,7 +207,7 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.QrCode = autoSettingValue;
 
@@ -219,7 +219,7 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.ToolIcon = autoSettingValue;
 
@@ -231,7 +231,7 @@ public sealed partial class SettingsNewTab : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.ConfirmCloseDlg = autoSettingValue;
 

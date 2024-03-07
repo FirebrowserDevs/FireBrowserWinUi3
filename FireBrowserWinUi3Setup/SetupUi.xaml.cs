@@ -41,7 +41,7 @@ namespace FireBrowserWinUi3Setup
             if (sender is ToggleSwitch toggleSwitch)
             {
                 // Assuming 'url' and 'selection' have been defined earlier
-                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+                var autoSettingValue = toggleSwitch.IsOn;
 
                 // Load the user's settings
                 Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
@@ -90,7 +90,7 @@ namespace FireBrowserWinUi3Setup
             if (sender is ToggleSwitch toggleSwitch)
             {
                 // Assuming 'url' and 'selection' have been defined earlier
-                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+                var autoSettingValue = toggleSwitch.IsOn;
 
                 // Load the user's settings
                 Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
@@ -138,27 +138,27 @@ namespace FireBrowserWinUi3Setup
         private void Type_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string selection = e.AddedItems[0].ToString();
-            string type;
+            int type = default;
 
 
             switch (selection)
             {
                 case "Default":
-                    type = "0";
+                    type = 0;
                     Color.IsEnabled = false;
                     Image.Visibility = Visibility.Visible;
                     Image2.Visibility = Visibility.Collapsed;
                     Image3.Visibility = Visibility.Collapsed;
                     break;
                 case "Featured":
-                    type = "1";
+                    type = 1;
                     Color.IsEnabled = false;
                     Image2.Visibility = Visibility.Visible;
                     Image.Visibility = Visibility.Collapsed;
                     Image3.Visibility = Visibility.Collapsed;
                     break;
                 case "Custom":
-                    type = "2";
+                    type = 2;
                     Color.IsEnabled = true;
                     Image3.Visibility = Visibility.Visible;
                     Image.Visibility = Visibility.Collapsed;
@@ -168,13 +168,11 @@ namespace FireBrowserWinUi3Setup
                 // Add other cases for different search engines.
                 default:
                     // Handle the case when selection doesn't match any of the predefined options.
-                    type = "0";
+                    type = 0;
                     Color.IsEnabled = false;
                     break;
             }
 
-            if (!string.IsNullOrEmpty(type))
-            {
                 // Load the user's settings
                 Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
 
@@ -182,7 +180,7 @@ namespace FireBrowserWinUi3Setup
 
                 // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(GetUser(), userSettings);
-            }
+            
         }
     }
 }

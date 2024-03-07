@@ -60,26 +60,29 @@ namespace FireBrowserCore.ViewModel
             // use CoreSettings to save file access -> to Settings.json every 4 seconds handle in one place usings delegate...
 
 
-            IsFavoritesVisible = CoreSettings.IsFavoritesVisible == "1" ? Visibility.Visible : Visibility.Collapsed;
-            CoreSettings.IsFavoritesVisible = IsFavoritesVisible == Visibility.Visible ? "1" : "0";
+            IsFavoritesVisible = CoreSettings.IsFavoritesVisible  ? Visibility.Visible : Visibility.Collapsed;
+            CoreSettings.IsFavoritesVisible = IsFavoritesVisible is Visibility.Visible ? true : false; 
 
-            IsHistoryVisible = CoreSettings.IsHistoryVisible == "1" ? Visibility.Visible : Visibility.Collapsed;
-            CoreSettings.IsHistoryVisible = IsHistoryVisible == Visibility.Visible ? "1" : "0";
+            IsHistoryVisible = CoreSettings.IsHistoryVisible  ? Visibility.Visible : Visibility.Collapsed;
+            CoreSettings.IsHistoryVisible = IsHistoryVisible is Visibility.Visible ? true : false; 
 
-            IsSearchVisible = CoreSettings.IsSearchVisible == "1" ? Visibility.Visible : Visibility.Collapsed;
-            CoreSettings.IsSearchVisible = IsSearchVisible == Visibility.Visible ? "1" : "0";
+            IsSearchVisible = CoreSettings.IsSearchVisible ? Visibility.Visible : Visibility.Collapsed;
+            CoreSettings.IsSearchVisible = IsSearchVisible is Visibility.Visible ? true : false;
 
             NtpCoreVisibility = IsNtpTimeVisible ? Visibility.Visible : Visibility.Collapsed;
-            CoreSettings.NtpCoreVisibility = NtpCoreVisibility == Visibility.Visible ? "1" : "0";
+            CoreSettings.NtpCoreVisibility = NtpCoreVisibility is Visibility.Visible ? true : false;
 
-            NtpTimeEnabled = CoreSettings.NtpDateTime == "1";
-            CoreSettings.NtpDateTime = NtpTimeEnabled ? "1" : "0";
+            NtpTimeEnabled = CoreSettings.NtpDateTime;
+            CoreSettings.NtpDateTime = NtpTimeEnabled;
 
-            IsFavoriteExpanded = CoreSettings.IsFavoritesToggled == "1";
-            CoreSettings.IsFavoritesToggled = IsFavoriteExpanded ? "1" : "0";
+            IsFavoriteExpanded = CoreSettings.IsFavoritesToggled;
+            CoreSettings.IsFavoritesToggled = IsFavoriteExpanded ;
 
-            IsHistoryExpanded = CoreSettings.IsHistoryToggled == "1";
-            CoreSettings.IsHistoryToggled = IsHistoryExpanded ? "1" : "0";
+            IsHistoryExpanded = CoreSettings.IsHistoryToggled;
+            CoreSettings.IsHistoryToggled = IsHistoryExpanded;
+
+            IsSearchBoxEnabled = CoreSettings.IsSearchBoxToggled;
+            CoreSettings.IsSearchBoxToggled = IsSearchBoxEnabled;
 
             IsNtpTimeVisible = NtpTimeEnabled;
 
@@ -89,7 +92,8 @@ namespace FireBrowserCore.ViewModel
             OnPropertyChanged(nameof(NtpTimeEnabled));
             OnPropertyChanged(nameof(IsFavoriteExpanded));
             OnPropertyChanged(nameof(IsHistoryExpanded));
-            CoreSettings.NtpDateTime = NtpTimeEnabled ? "1" : "0";
+            OnPropertyChanged(nameof(IsSearchBoxEnabled));
+            CoreSettings.NtpDateTime = NtpTimeEnabled;
             SaveSettings(FireBrowserWinUi3MultiCore.AuthService.CurrentUser, CoreSettings);
 
         }

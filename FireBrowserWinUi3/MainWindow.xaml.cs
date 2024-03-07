@@ -99,7 +99,7 @@ public sealed partial class MainWindow : Window
         if (Tabs.TabItems?.Count > 1)
         {
             Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
-            if (userSettings.ConfirmCloseDlg == "1")
+            if (userSettings.ConfirmCloseDlg)
             {
                 try
                 {
@@ -331,16 +331,16 @@ public sealed partial class MainWindow : Window
     {
         Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
 
-        SetVisibility(AdBlock, userSettings.AdblockBtn != "0");
-        SetVisibility(ReadBtn, userSettings.ReadButton != "0");
-        SetVisibility(BtnTrans, userSettings.Translate != "0");
-        SetVisibility(BtnDark, userSettings.DarkIcon != "0");
-        SetVisibility(ToolBoxMore, userSettings.ToolIcon != "0");
-        SetVisibility(AddFav, userSettings.FavoritesL != "0");
-        SetVisibility(FavoritesButton, userSettings.Favorites != "0");
-        SetVisibility(DownBtn, userSettings.Downloads != "0");
-        SetVisibility(History, userSettings.Historybtn != "0");
-        SetVisibility(QrBtn, userSettings.QrCode != "0");
+        SetVisibility(AdBlock, userSettings.AdblockBtn is not false);
+        SetVisibility(ReadBtn, userSettings.ReadButton is not false);
+        SetVisibility(BtnTrans, userSettings.Translate is not false);
+        SetVisibility(BtnDark, userSettings.DarkIcon is not false);
+        SetVisibility(ToolBoxMore, userSettings.ToolIcon is not false);
+        SetVisibility(AddFav, userSettings.FavoritesL is not false);  
+        SetVisibility(FavoritesButton, userSettings.Favorites is not false);
+        SetVisibility(DownBtn, userSettings.Downloads is not false)   ;
+        SetVisibility(History, userSettings.Historybtn is not false);
+        SetVisibility(QrBtn, userSettings.QrCode is not false);
     }
 
     private void SetVisibility(UIElement element, bool isVisible)

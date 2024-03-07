@@ -14,15 +14,15 @@ public sealed partial class InPrivate : Page
 
     public void Init()
     {
-        JavToggle.IsOn = userSettings.DisableJavaScript == "1" ? true : false;
-        WebToggle.IsOn = userSettings.DisableWebMess == "1" ? true : false;
+        JavToggle.IsOn = userSettings.DisableJavaScript;
+        WebToggle.IsOn = userSettings.DisableWebMess;
     }
 
     private void ToggleSwitch_Toggled(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.DisableJavaScript = autoSettingValue;
 
@@ -34,7 +34,7 @@ public sealed partial class InPrivate : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.DisableWebMess = autoSettingValue;
 

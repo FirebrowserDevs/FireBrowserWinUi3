@@ -103,28 +103,28 @@ public sealed partial class NewTab : Page
     FireBrowserWinUi3MultiCore.Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
     private async void HomeSync()
     {
-        Type.IsOn = userSettings.Auto == "1";
-        Mode.IsOn = userSettings.LightMode == "1";
+        Type.IsOn = userSettings.Auto is true;
+        Mode.IsOn = userSettings.LightMode is true;
 
         ViewModel.BackgroundType = GetBackgroundType(userSettings.Background);
 
         var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor);
-        NewColor.IsEnabled = userSettings.Background == "2";
+        NewColor.IsEnabled = userSettings.Background is 2;
         NewColor.Text = userSettings.ColorBackground;
         NtpColorBox.Text = userSettings.NtpTextColor;
         NtpTime.Foreground = NtpDate.Foreground = new SolidColorBrush(color);
 
         GridSelect.SelectedValue = ViewModel.BackgroundType.ToString();
-        SetVisibilityBasedOnLightMode(userSettings.LightMode == "1");
+        SetVisibilityBasedOnLightMode(userSettings.LightMode is true);
     }
 
 
-    private Settings.NewTabBackground GetBackgroundType(string setting)
+    private Settings.NewTabBackground GetBackgroundType(int setting)
     {
         return setting switch
         {
-            "2" => Settings.NewTabBackground.Costum,
-            "1" => Settings.NewTabBackground.Featured,
+            2 => Settings.NewTabBackground.Costum,
+            1 => Settings.NewTabBackground.Featured,
             _ => Settings.NewTabBackground.None
         };
     }
@@ -145,14 +145,14 @@ public sealed partial class NewTab : Page
             SetAndSaveBackgroundSettings(
                 tag switch
                 {
-                    "None" => ("0", Settings.NewTabBackground.None, false, Visibility.Collapsed),
-                    "Featured" => ("1", Settings.NewTabBackground.Featured, false, Visibility.Visible),
-                    "Custom" => ("2", Settings.NewTabBackground.Costum, true, Visibility.Collapsed),
+                    "None" => (0, Settings.NewTabBackground.None, false, Visibility.Collapsed),
+                    "Featured" => (1, Settings.NewTabBackground.Featured, false, Visibility.Visible),
+                    "Custom" => (2, Settings.NewTabBackground.Costum, true, Visibility.Collapsed),
                     _ => throw new ArgumentException("Invalid selection.")
                 });
         }
     }
-    private void SetAndSaveBackgroundSettings((string, Settings.NewTabBackground, bool, Visibility) settings)
+    private void SetAndSaveBackgroundSettings((int, Settings.NewTabBackground, bool, Visibility) settings)
     {
         var (background, backgroundType, isNewColorEnabled, downloadVisibility) = settings;
         userSettings.Background = background;
@@ -266,16 +266,7 @@ public sealed partial class NewTab : Page
     {
         try
         {
-            int answer = Int32.Parse(userSettings.NtpDateTime);
-            switch (answer)
-            {
-                case 0:
-                    ViewModel.NtpTimeEnabled = false;
-                    break;
-                case 1:
-                    ViewModel.NtpTimeEnabled = true;
-                    break;
-            }
+            ViewModel.NtpTimeEnabled = userSettings.NtpDateTime;
             ViewModel.Intialize();
         }
         catch (Exception ex)
@@ -285,15 +276,15 @@ public sealed partial class NewTab : Page
 
     }
 
-    private void Type_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.Auto = Type.IsOn ? "1" : "0");
-    private void Mode_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.LightMode = Mode.IsOn ? "1" : "0");
+    private void Type_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.Auto = Type.IsOn );
+    private void Mode_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.LightMode = Mode.IsOn);
     private void NewColor_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.ColorBackground = NewColor.Text);
-    private void DateTimeToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpDateTime = DateTimeToggle.IsOn ? "1" : "0");
-    private void FavoritesToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsFavoritesToggled = FavoritesTimeToggle.IsOn ? "1" : "0");
-    private void HistoryToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsHistoryToggled = HistoryToggle.IsOn ? "1" : "0");
-    private void SearchVisible_Toggled(Object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsSearchVisible = SearchVisible.IsOn ? "1" : "0");
-    private void FavsVisible_Toggled(Object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsFavoritesVisible = FavsVisible.IsOn ? "1" : "0");
-    private void HistoryVisible_Toggled(Object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsHistoryVisible = HistoryVisible.IsOn ? "1" : "0");
+    private void DateTimeToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpDateTime = DateTimeToggle.IsOn);
+    private void FavoritesToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsFavoritesToggled = FavoritesTimeToggle.IsOn);
+    private void HistoryToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsHistoryToggled = HistoryToggle.IsOn);
+    private void SearchVisible_Toggled(Object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsSearchVisible = SearchVisible.IsOn);
+    private void FavsVisible_Toggled(Object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsFavoritesVisible = FavsVisible.IsOn);
+    private void HistoryVisible_Toggled(Object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsHistoryVisible = HistoryVisible.IsOn);
 
     private void NtpColorBox_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpTextColor = NtpColorBox.Text);
     private void Download_Click(object sender, RoutedEventArgs e) => DownloadImage();

@@ -94,22 +94,22 @@ public sealed partial class WebContent : Page
     public void LoadSettings()
     {
         //webview
-        WebViewElement.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = (userSettings.BrowserKeys == "1") ? true : false;
-        WebViewElement.CoreWebView2.Settings.IsStatusBarEnabled = (userSettings.StatusBar == "1") ? true : false;
-        WebViewElement.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = (userSettings.BrowserScripts == "1") ? true : false;
+        WebViewElement.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = userSettings.BrowserKeys;
+        WebViewElement.CoreWebView2.Settings.IsStatusBarEnabled = userSettings.StatusBar;
+        WebViewElement.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = userSettings.BrowserScripts;
 
         //privacy 
-        WebViewElement.CoreWebView2.Settings.IsScriptEnabled = (userSettings.DisableJavaScript == "1") ? false : true;
-        WebViewElement.CoreWebView2.Settings.IsPasswordAutosaveEnabled = (userSettings.DisablePassSave == "1") ? false : true;
-        WebViewElement.CoreWebView2.Settings.IsGeneralAutofillEnabled = (userSettings.DisableGenAutoFill == "1") ? false : true;
-        WebViewElement.CoreWebView2.Settings.IsWebMessageEnabled = (userSettings.DisableWebMess == "1") ? false : true;
+        WebViewElement.CoreWebView2.Settings.IsScriptEnabled = userSettings.DisableJavaScript;
+        WebViewElement.CoreWebView2.Settings.IsPasswordAutosaveEnabled = userSettings.DisablePassSave;
+        WebViewElement.CoreWebView2.Settings.IsGeneralAutofillEnabled = userSettings.DisableGenAutoFill;
+        WebViewElement.CoreWebView2.Settings.IsWebMessageEnabled = userSettings.DisableWebMess;
 
-        string disableWebMessSetting = userSettings.TrackPrevention ?? "2";
+        int disableWebMessSetting = userSettings.TrackPrevention = 2;
 
 
         // Map the numeric value to the corresponding tracking prevention level
         CoreWebView2TrackingPreventionLevel preventionLevel;
-        switch (int.Parse(disableWebMessSetting))
+        switch (disableWebMessSetting)
         {
             case 0:
                 preventionLevel = CoreWebView2TrackingPreventionLevel.None;
@@ -409,7 +409,7 @@ public sealed partial class WebContent : Page
                         var newTab = mainWindow?.CreateNewTab(typeof(WebContent), new Uri(SelectionText));
                         mainWindow?.Tabs.TabItems.Add(newTab);
                     }
-                    if (userSettings.OpenTabHandel == "1") select();
+                    if (userSettings.OpenTabHandel) select();
                     break;
                 case "OpenInWindow":
                     OpenNewWindow(new Uri(SelectionText));

@@ -37,7 +37,7 @@ namespace FireBrowserWinUi3Setup
             if (sender is ToggleSwitch toggleSwitch)
             {
                 // Assuming 'url' and 'selection' have been defined earlier
-                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+                var autoSettingValue = toggleSwitch.IsOn;
 
                 // Load the user's settings
                 Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());

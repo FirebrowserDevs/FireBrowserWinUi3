@@ -18,24 +18,21 @@ public sealed partial class SettingsWebView : Page
     public void loadinit()
     {
         Agent.Text = userSettings.Useragent;
-        StatusTog.IsOn = userSettings.StatusBar == "1" ? true : false;
-        BrowserKeys.IsOn = userSettings.BrowserKeys == "1" ? true : false;
-        BrowserScripts.IsOn = userSettings.BrowserScripts == "1" ? true : false;
-        ResourceSaver.IsOn = userSettings.ResourceSave == "1" ? true : false;
+        StatusTog.IsOn = userSettings.StatusBar;
+        BrowserKeys.IsOn = userSettings.BrowserKeys;
+        BrowserScripts.IsOn = userSettings.BrowserScripts;
+        ResourceSaver.IsOn = userSettings.ResourceSave;
         antitracklevel();
     }
 
     public void antitracklevel()
     {
         // Assuming userSettings.TrackPrevention is a string that may be null or contain a valid number (0, 1, 2, 3)
-        string trackPreventionSetting = userSettings.TrackPrevention;
-
-        // Default to "2" if the setting is null or empty
-        trackPreventionSetting = string.IsNullOrEmpty(trackPreventionSetting) ? "2" : trackPreventionSetting;
+        int trackPreventionSetting = userSettings.TrackPrevention;
 
         // Map the numeric value to the corresponding text value
         string selectedText;
-        switch (int.Parse(trackPreventionSetting))
+        switch (trackPreventionSetting)
         {
             case 0:
                 selectedText = "None";
@@ -101,7 +98,7 @@ public sealed partial class SettingsWebView : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn  ;
 
             userSettings.StatusBar = autoSettingValue;
 
@@ -113,7 +110,7 @@ public sealed partial class SettingsWebView : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.BrowserKeys = autoSettingValue;
 
@@ -125,7 +122,7 @@ public sealed partial class SettingsWebView : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.BrowserScripts = autoSettingValue;
 
@@ -138,40 +135,38 @@ public sealed partial class SettingsWebView : Page
         try
         {
             string selection = e.AddedItems[0].ToString();
-            string antitrack;
+            int antitrack;
 
             switch (selection)
             {
                 case "None":
-                    antitrack = "0";
+                    antitrack = 0;
                     Info.Text = "No Privacy Anti Tracking No Effect On Websites";
                     break;
                 case "Basic":
-                    antitrack = "1";
+                    antitrack = 1;
                     Info.Text = "Basic Privacy Anti Tracking Small Effect On Websites";
                     break;
                 case "Balanced":
-                    antitrack = "2";
+                    antitrack = 2;
                     Info.Text = "Balanced Privacy Anti Tracking High Level Works With Most Sites";
                     break;
                 case "Strict":
-                    antitrack = "3";
+                    antitrack = 3;
                     Info.Text = "Strict Privacy Anti Tracking Can Break Some Websites";
                     break;
 
                 default:
                     // Handle the case when selection doesn't match any of the predefined options.
-                    antitrack = "2";
+                    antitrack = 2;
                     break;
             }
 
-            if (!string.IsNullOrEmpty(antitrack))
-            {
-
+            
                 userSettings.TrackPrevention = antitrack;
                 // Save the modified settings back to the user's settings file
                 UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
-            }
+            
         }
         catch (Exception ex)
         {
@@ -183,7 +178,7 @@ public sealed partial class SettingsWebView : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.ResourceSave = autoSettingValue;
 

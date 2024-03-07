@@ -21,10 +21,10 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
         FireBrowserWinUi3MultiCore.Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
         public void LoadSets()
         {
-            EnqSets.IsOn = userSettings.Eqsets == "1" ? true : false;
-            Enq2fa.IsOn = userSettings.Eq2fa == "1" ? true : false;
-            EnqHis.IsOn = userSettings.EqHis == "1" ? true : false;
-            EnqFav.IsOn = userSettings.Eqfav == "1" ? true : false;
+            EnqSets.IsOn = userSettings.Eqsets;
+            Enq2fa.IsOn = userSettings.Eq2fa;
+            EnqHis.IsOn = userSettings.EqHis;
+            EnqFav.IsOn = userSettings.Eqfav;
         }
 
 
@@ -35,7 +35,7 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
             if (sender is ToggleSwitch toggleSwitch)
             {
                 // Assuming 'url' and 'selection' have been defined earlier
-                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+                var autoSettingValue = toggleSwitch.IsOn;
 
                 // Set the 'Auto' setting
                 userSettings.Eqsets = autoSettingValue;
@@ -50,7 +50,7 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
-                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+                var autoSettingValue = toggleSwitch.IsOn;
 
                 // Set the 'Auto' setting
                 userSettings.Eq2fa = autoSettingValue;
@@ -67,7 +67,7 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
             if (sender is ToggleSwitch toggleSwitch)
             {
                 // Assuming 'url' and 'selection' have been defined earlier
-                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+                var autoSettingValue = toggleSwitch.IsOn;
 
                 // Set the 'Auto' setting
                 userSettings.EqHis = autoSettingValue;
@@ -82,7 +82,7 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
             if (sender is ToggleSwitch toggleSwitch)
             {
                 // Assuming 'url' and 'selection' have been defined earlier
-                string autoSettingValue = toggleSwitch.IsOn ? "1" : "0";
+                var autoSettingValue = toggleSwitch.IsOn;
 
                 // Set the 'Auto' setting
                 userSettings.Eqfav = autoSettingValue;

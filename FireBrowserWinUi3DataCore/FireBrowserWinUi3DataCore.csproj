@@ -32,4 +32,8 @@
     <ProjectReference Include="..\FireBrowserWinUi3Exceptions\FireBrowserWinUi3Exceptions.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3MultiCore\FireBrowserWinUi3MultiCore.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\Settings\" />
+  </ItemGroup>
 </Project>

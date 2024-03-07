@@ -22,7 +22,7 @@ public sealed partial class SettingsAccess : Page
     {
         Langue.SelectedValue = userSettings.Lang;
         Logger.SelectedValue = userSettings.ExceptionLog;
-        bool isMode = userSettings.LightMode == "1";
+        bool isMode = userSettings.LightMode;
         LiteMode.IsOn = isMode;
     }
     private void LiteMode_Toggled(object sender, RoutedEventArgs e)
@@ -30,7 +30,7 @@ public sealed partial class SettingsAccess : Page
         if (sender is ToggleSwitch toggleSwitch)
         {
             isMode = toggleSwitch.IsOn;
-            string autoValue = isMode ? "1" : "0";
+            var autoValue = isMode;
 
 
             if (AuthService.CurrentUser != null)
