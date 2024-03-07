@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using FireBrowserDatabase;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.Models;
-using FireBrowserDatabase;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3Favorites;
 using Microsoft.UI.Xaml;
@@ -30,15 +30,15 @@ namespace FireBrowserCore.ViewModel
         [ObservableProperty]
         private bool _ntpTimeEnabled;
         [ObservableProperty]
-        private bool _isFavoriteCardEnabled = true;
+        private bool _isFavoriteCardEnabled;
         [ObservableProperty]
         private bool _isFavoriteExpanded;
         [ObservableProperty]
-        private bool _isHistoryCardEnabled = true;
+        private bool _isHistoryCardEnabled;
         [ObservableProperty]
         private bool _isHistoryExpanded;
         [ObservableProperty]
-        private bool _isSearchBoxEnabled = true;
+        private bool _isSearchBoxEnabled;
         [ObservableProperty]
         private Visibility _isFavoritesVisible;
         [ObservableProperty]
@@ -55,45 +55,62 @@ namespace FireBrowserCore.ViewModel
 
         public ObservableCollection<HistoryItem> HistoryItems { get; set; }
         public ObservableCollection<FavItem> FavoriteItems { get; set; }
-        private void UpdateUIControls()
+        private void LoadUISettings()
         {
-            // use CoreSettings to save file access -> to Settings.json every 4 seconds handle in one place usings delegate...
 
-
-            IsFavoritesVisible = CoreSettings.IsFavoritesVisible  ? Visibility.Visible : Visibility.Collapsed;
-            CoreSettings.IsFavoritesVisible = IsFavoritesVisible is Visibility.Visible ? true : false; 
-
-            IsHistoryVisible = CoreSettings.IsHistoryVisible  ? Visibility.Visible : Visibility.Collapsed;
-            CoreSettings.IsHistoryVisible = IsHistoryVisible is Visibility.Visible ? true : false; 
-
-            IsSearchVisible = CoreSettings.IsSearchVisible ? Visibility.Visible : Visibility.Collapsed;
-            CoreSettings.IsSearchVisible = IsSearchVisible is Visibility.Visible ? true : false;
-
-            NtpCoreVisibility = IsNtpTimeVisible ? Visibility.Visible : Visibility.Collapsed;
-            CoreSettings.NtpCoreVisibility = NtpCoreVisibility is Visibility.Visible ? true : false;
-
+            NtpCoreVisibility = CoreSettings.NtpCoreVisibility ? Visibility.Visible : Visibility.Collapsed;
+            IsNtpTimeVisible = CoreSettings.NtpDateTime;
             NtpTimeEnabled = CoreSettings.NtpDateTime;
-            CoreSettings.NtpDateTime = NtpTimeEnabled;
+
+            IsFavoritesVisible = CoreSettings.IsFavoritesVisible ? Visibility.Visible : Visibility.Collapsed;
+            IsFavoriteCardEnabled = CoreSettings.IsFavoritesVisible;
+            IsHistoryVisible = CoreSettings.IsHistoryVisible ? Visibility.Visible : Visibility.Collapsed;
+            IsHistoryCardEnabled = CoreSettings.IsHistoryVisible;
+            IsSearchVisible = CoreSettings.IsSearchVisible ? Visibility.Visible : Visibility.Collapsed;
+            IsSearchBoxEnabled = CoreSettings.IsSearchVisible;
 
             IsFavoriteExpanded = CoreSettings.IsFavoritesToggled;
-            CoreSettings.IsFavoritesToggled = IsFavoriteExpanded ;
-
             IsHistoryExpanded = CoreSettings.IsHistoryToggled;
-            CoreSettings.IsHistoryToggled = IsHistoryExpanded;
 
-            IsSearchBoxEnabled = CoreSettings.IsSearchBoxToggled;
-            CoreSettings.IsSearchBoxToggled = IsSearchBoxEnabled;
-
-            IsNtpTimeVisible = NtpTimeEnabled;
+            OnPropertyChanged(nameof(NtpCoreVisibility));
+            OnPropertyChanged(nameof(IsNtpTimeVisible));
+            OnPropertyChanged(nameof(NtpTimeEnabled));
 
             OnPropertyChanged(nameof(IsFavoritesVisible));
             OnPropertyChanged(nameof(IsHistoryVisible));
             OnPropertyChanged(nameof(IsSearchVisible));
-            OnPropertyChanged(nameof(NtpTimeEnabled));
+
+            OnPropertyChanged(nameof(IsSearchBoxEnabled));
+            OnPropertyChanged(nameof(IsFavoriteCardEnabled));
+            OnPropertyChanged(nameof(IsHistoryCardEnabled));
+
             OnPropertyChanged(nameof(IsFavoriteExpanded));
             OnPropertyChanged(nameof(IsHistoryExpanded));
-            OnPropertyChanged(nameof(IsSearchBoxEnabled));
-            CoreSettings.NtpDateTime = NtpTimeEnabled;
+
+
+
+        }
+        private void UpdateUIControls()
+        {
+            /*
+               - UI sets user settings to CoreSettings now apply property change settings back to UI. 
+               - Get visible then convert to bool for settings. */
+
+            NtpCoreVisibility = CoreSettings.NtpDateTime ? Visibility.Visible : Visibility.Collapsed;
+            NtpTimeEnabled = CoreSettings.NtpDateTime;
+
+            IsFavoriteCardEnabled = CoreSettings.IsFavoritesVisible;
+            IsHistoryCardEnabled = CoreSettings.IsHistoryVisible;
+            IsSearchBoxEnabled = CoreSettings.IsSearchVisible;
+
+            IsFavoritesVisible = IsFavoriteCardEnabled ? Visibility.Visible : Visibility.Collapsed;
+            IsHistoryVisible = IsHistoryCardEnabled ? Visibility.Visible : Visibility.Collapsed;
+            IsSearchVisible = IsSearchBoxEnabled ? Visibility.Visible : Visibility.Collapsed;
+
+            IsFavoriteExpanded = CoreSettings.IsFavoritesToggled;
+            IsHistoryExpanded = CoreSettings.IsHistoryToggled;
+
+            // - Use CoreSettings to save file access -> to Settings.json every 4 seconds handle in one place usings delegate...
             SaveSettings(FireBrowserWinUi3MultiCore.AuthService.CurrentUser, CoreSettings);
 
         }
@@ -135,6 +152,8 @@ namespace FireBrowserCore.ViewModel
             if (FireBrowserWinUi3MultiCore.AuthService.IsUserAuthenticated)
                 CoreSettings = FireBrowserWinUi3MultiCore.UserFolderManager.LoadUserSettings(FireBrowserWinUi3MultiCore.AuthService.CurrentUser);
 
+            // load ui settings from CoreSettings. 
+            LoadUISettings();
 
         }
 
@@ -147,6 +166,12 @@ namespace FireBrowserCore.ViewModel
             if (NtpTimeEnabled)
             {
                 InitClock();
+            }
+            else
+            {
+                if (timer is not null && timer.IsEnabled)
+                    timer.Stop();
+
             }
 
             return Task.CompletedTask;

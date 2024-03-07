@@ -1,12 +1,12 @@
-using FireBrowserWinUi3Core.ImagesBing;
 using FireBrowserCore.Models;
 using FireBrowserCore.ViewModel;
 using FireBrowserDatabase;
+using FireBrowserWinUi3.Controls;
+using FireBrowserWinUi3Core.ImagesBing;
 using FireBrowserWinUi3DataCore.Actions;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3Favorites;
 using FireBrowserWinUi3MultiCore;
-using FireBrowserWinUi3.Controls;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -76,7 +76,9 @@ public sealed partial class NewTab : Page
             }
 
             await settingsActions.UpdateSettingsAsync(settings);
-            ViewModel.CoreSettings = settings;
+            // get new from database. 
+            ViewModel.CoreSettings = await settingsActions.GetSettingsAsync();
+
         }
         catch (Exception ex)
         {
@@ -116,6 +118,7 @@ public sealed partial class NewTab : Page
 
         GridSelect.SelectedValue = ViewModel.BackgroundType.ToString();
         SetVisibilityBasedOnLightMode(userSettings.LightMode is true);
+        await Task.CompletedTask;
     }
 
 
@@ -257,7 +260,7 @@ public sealed partial class NewTab : Page
         if (AuthService.CurrentUser != null)
         {
             updateAction.Invoke(userSettings);
-            ViewModel.SaveSettings(AuthService.CurrentUser, userSettings);
+            ViewModel.CoreSettings = userSettings;
             UpdateNtpClock();
         }
     }
@@ -276,7 +279,7 @@ public sealed partial class NewTab : Page
 
     }
 
-    private void Type_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.Auto = Type.IsOn );
+    private void Type_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.Auto = Type.IsOn);
     private void Mode_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.LightMode = Mode.IsOn);
     private void NewColor_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.ColorBackground = NewColor.Text);
     private void DateTimeToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpDateTime = DateTimeToggle.IsOn);
