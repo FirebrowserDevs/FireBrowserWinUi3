@@ -42,7 +42,7 @@
                     Glyph="&#xEB95;"/>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Vertical">
-                    <TextBlock x:Name="SiteUrl" Margin="0,2,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="SiteUrl"  Margin="0,2,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Border BorderBrush="Red" Height="0" Margin="0,4,0,0" BorderThickness="0"/>
                     <StackPanel Orientation="Vertical" >
                         <TextBlock x:Name="Status" VerticalAlignment="Bottom" Margin="0,15,0,0" HorizontalAlignment="Left"  TextWrapping="WrapWholeWords" />

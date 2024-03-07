@@ -239,7 +239,7 @@ public sealed partial class MainWindow : Window
         var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
         var windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
         appWindow = AppWindow.GetFromWindowId(windowId);
-        appWindow.SetIcon("Logo.ico");
+        appWindow.SetIcon("logo.ico");
 
         if (!AppWindowTitleBar.IsCustomizationSupported())
             throw new Exception("Unsupported OS version.");
@@ -303,8 +303,6 @@ public sealed partial class MainWindow : Window
         }
 
         UserName.Text = currentUser.Username ?? "DefaultUser";
-
-
     }
 
     private async Task LoadSettingsDatabase()
@@ -315,17 +313,12 @@ public sealed partial class MainWindow : Window
             await settingsActions.SettingsContext.Database.MigrateAsync();
             await settingsActions.UpdateSettingsAsync(FireBrowserWinUi3MultiCore.UserFolderManager.LoadUserSettings(FireBrowserWinUi3MultiCore.AuthService.CurrentUser));
             Settings settings = await settingsActions.GetSettingsAsync();
-
         }
         catch (Exception ex)
         {
             ExceptionLogger.LogException(ex);
             Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
-
         }
-
-
-
     }
     private void UpdateUIBasedOnSettings()
     {
@@ -482,7 +475,6 @@ public sealed partial class MainWindow : Window
     }
     public Passer CreatePasser(object parameter = null)
     {
-
         return new()
         {
             Tab = Tabs.SelectedItem as FireBrowserTabViewItem,
@@ -490,7 +482,6 @@ public sealed partial class MainWindow : Window
             ViewModel = ViewModel,
             Param = parameter,
         };
-
     }
     public void SelectNewTab() => Tabs.SelectedIndex = Tabs.TabItems.Count - 1;
     public void FocusUrlBox(string text)
@@ -563,21 +554,6 @@ public sealed partial class MainWindow : Window
             ExceptionLogger.LogException(ex);
         }
     }
-
-    private async void ShowDisabledDialog()
-    {
-        var window = (Application.Current as App)?.m_window as MainWindow;
-        UI quickConfigurationDialog = new()
-        {
-            XamlRoot = window.Content.XamlRoot,
-            Content = "Disabled Until Fixed",
-            Title = "Disabled",
-            PrimaryButtonText = "OK",
-        };
-
-        await quickConfigurationDialog.ShowAsync();
-    }
-
 
     #region cangochecks
     private bool CanGoBack()
@@ -980,11 +956,7 @@ public sealed partial class MainWindow : Window
         flyout.ShowAt((FrameworkElement)sender, e.GetPosition((FrameworkElement)sender));
     }
 
-
-    private void ClearHistoryDataMenuItem_Click(object sender, RoutedEventArgs e)
-    {
-        ClearDb();
-    }
+    private void ClearHistoryDataMenuItem_Click(object sender, RoutedEventArgs e) { ClearDb(); }
 
     private void SearchHistoryMenuFlyout_Click(object sender, RoutedEventArgs e)
     {
@@ -1004,7 +976,6 @@ public sealed partial class MainWindow : Window
 
 
     }
-
 
     private void FilterBrowserHistory(string searchText)
     {
@@ -1046,7 +1017,6 @@ public sealed partial class MainWindow : Window
         FavoritesFly.Hide();
     }
 
-
     private void HistoryTemp_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (!(sender is ListView listView) || listView.ItemsSource == null) return;
@@ -1072,15 +1042,8 @@ public sealed partial class MainWindow : Window
         DownloadFlyout.ShowAt(DownBtn, options);
     }
 
-    private void OpenHistoryMenuItem_Click(object sender, RoutedEventArgs e)
-    {
-        _ = (UrlBox.Text = "firebrowser://history") + (TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine)));
-    }
-
-    private void OpenFavoritesMenu_Click(object sender, RoutedEventArgs e)
-    {
-        _ = (UrlBox.Text = "firebrowser://favorites") + (TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine)));
-    }
+    private void OpenHistoryMenuItem_Click(object sender, RoutedEventArgs e) { _ = (UrlBox.Text = "firebrowser://history") + (TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine))); }
+    private void OpenFavoritesMenu_Click(object sender, RoutedEventArgs e) { _ = (UrlBox.Text = "firebrowser://favorites") + (TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine))); }
 
     private void MainUser_Click(object sender, RoutedEventArgs e)
     {
@@ -1088,20 +1051,9 @@ public sealed partial class MainWindow : Window
         LoadUsernames();
     }
 
-    private void MoreTool_Click(object sender, RoutedEventArgs e)
-    {
-        UserFrame.Visibility = Visibility.Collapsed;
-    }
-
-    private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-    {
-        FireBrowserWinUi3Auth.TwoFactorsAuthentification.ShowFlyout(Secure);
-    }
-
-    private void MenuFlyoutItem_Click_1(object sender, RoutedEventArgs e)
-    {
-        FireBrowserWinUi3Core.Helpers.FlyoutLoad.ShowFlyout(Secure);
-    }
+    private void MoreTool_Click(object sender, RoutedEventArgs e) { UserFrame.Visibility = Visibility.Collapsed; }
+    private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e) { FireBrowserWinUi3Auth.TwoFactorsAuthentification.ShowFlyout(Secure); }
+    private void MenuFlyoutItem_Click_1(object sender, RoutedEventArgs e) { FireBrowserWinUi3Core.Helpers.FlyoutLoad.ShowFlyout(Secure); }
 
     private async void SaveQrImage_Click(object sender, RoutedEventArgs e)
     {
