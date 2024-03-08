@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace FireBrowserWinUi3MultiCore;
-public class Settings 
+public class Settings
 {
 
     void DefaultSettings()
@@ -52,7 +52,7 @@ public class Settings
         self.ConfirmCloseDlg = true;
         self.IsHistoryToggled = false;
         self.IsFavoritesToggled = false;
-        self.IsSearchBoxToggled = false; 
+        self.IsSearchBoxToggled = false;
         self.IsFavoritesVisible = true;
         self.IsHistoryVisible = true;
         self.IsSearchVisible = true;

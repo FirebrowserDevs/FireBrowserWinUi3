@@ -1,11 +1,9 @@
 ﻿using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3.Services.ViewModels;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3MultiCore;
-using FireBrowserWinUi3;
-using FireBrowserWinUi3.Services.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
@@ -54,7 +52,7 @@ public partial class App : Application
 
         this.InitializeComponent();
 
-        FireBrowserWinUi3Navigator.TLD.LoadKnownDomainsAsync().GetAwaiter();
+        FireBrowserWinUi3Navigator.TLD.LoadKnownDomainsAsync();
 
         System.Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
     }

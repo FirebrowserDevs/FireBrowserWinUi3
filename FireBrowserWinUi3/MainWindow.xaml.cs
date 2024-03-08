@@ -54,7 +54,7 @@ public sealed partial class MainWindow : Window
 
         ArgsPassed();
         LoadUserDataAndSettings(); // Load data and settings for the new user
-        //_ = LoadSettingsDatabase();
+        _ = LoadSettingsDatabase();
         LoadUserSettings();
         Init();
 
@@ -329,9 +329,9 @@ public sealed partial class MainWindow : Window
         SetVisibility(BtnTrans, userSettings.Translate is not false);
         SetVisibility(BtnDark, userSettings.DarkIcon is not false);
         SetVisibility(ToolBoxMore, userSettings.ToolIcon is not false);
-        SetVisibility(AddFav, userSettings.FavoritesL is not false);  
+        SetVisibility(AddFav, userSettings.FavoritesL is not false);
         SetVisibility(FavoritesButton, userSettings.Favorites is not false);
-        SetVisibility(DownBtn, userSettings.Downloads is not false)   ;
+        SetVisibility(DownBtn, userSettings.Downloads is not false);
         SetVisibility(History, userSettings.Historybtn is not false);
         SetVisibility(QrBtn, userSettings.QrCode is not false);
     }

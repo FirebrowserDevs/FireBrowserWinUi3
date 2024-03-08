@@ -1,6 +1,6 @@
+using FireBrowserWinUi3AuthCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using FireBrowserWinUi3AuthCore;
 using Windows.ApplicationModel.DataTransfer;
 
 // To learn more about WinUI, the WinUI project structure,

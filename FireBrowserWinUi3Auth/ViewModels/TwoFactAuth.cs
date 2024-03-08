@@ -1,5 +1,5 @@
-﻿using FireBrowserWinUi3Core.Models;
-using FireBrowserWinUi3AuthCore;
+﻿using FireBrowserWinUi3AuthCore;
+using FireBrowserWinUi3Core.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;

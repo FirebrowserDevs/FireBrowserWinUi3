@@ -173,14 +173,14 @@ namespace FireBrowserWinUi3Setup
                     break;
             }
 
-                // Load the user's settings
-                Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
+            // Load the user's settings
+            Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
 
-                userSettings.Background = type;
+            userSettings.Background = type;
 
-                // Save the modified settings back to the user's settings file
-                UserFolderManager.SaveUserSettings(GetUser(), userSettings);
-            
+            // Save the modified settings back to the user's settings file
+            UserFolderManager.SaveUserSettings(GetUser(), userSettings);
+
         }
     }
 }

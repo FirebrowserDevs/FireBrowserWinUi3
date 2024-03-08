@@ -1,5 +1,4 @@
-﻿using FireBrowserWinUi3.Services;
-using FireBrowserWinUi3.Controls;
+﻿using FireBrowserWinUi3.Controls;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
