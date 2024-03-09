@@ -1,11 +1,9 @@
 ﻿using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3.Services.ViewModels;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3MultiCore;
-using FireBrowserWinUi3;
-using FireBrowserWinUi3.Services.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
@@ -23,7 +21,7 @@ public partial class App : Application
 
     #region DependencyInjection
 
-    public IServiceProvider Services { get; }
+    public IServiceProvider Services { get; set; }
 
     public static T GetService<T>() where T : class
     {
@@ -41,16 +39,13 @@ public partial class App : Application
         //services.AddDbContext<FireBrowserDataCore.HistoryContext>();
         services.AddSingleton<DownloadService>();
         services.AddTransient<DownloadsViewModel>();
-
+        services.AddSingleton<SettingsService>();
         return services.BuildServiceProvider();
     }
     #endregion
     public App()
     {
-        if (Directory.Exists(UserDataManager.CoreFolderPath))
-        {
-            Services = ConfigureServices();
-        }
+
 
         this.InitializeComponent();
 
@@ -100,6 +95,10 @@ public partial class App : Application
             {
                 await dbServer.DatabaseCreationValidation();
                 await dbServer.InsertUserSettings();
+                if (Directory.Exists(UserDataManager.CoreFolderPath))
+                {
+                    Services = ConfigureServices();
+                }
             }
             catch (Exception ex)
             {
@@ -110,6 +109,7 @@ public partial class App : Application
 
         }
     }
+
 
     protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {

@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace FireBrowserWinUi3Core.ViewModel
+namespace FireBrowserWinUi3.ViewModels
 {
     public partial class TabViewItemViewModel : ObservableObject
     {

@@ -1,7 +1,7 @@
 using FireBrowserCore.Models;
-using FireBrowserCore.ViewModel;
 using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
+using FireBrowserWinUi3.ViewModels;
 using FireBrowserWinUi3Core.ImagesBing;
 using FireBrowserWinUi3DataCore.Actions;
 using FireBrowserWinUi3Exceptions;
@@ -77,7 +77,7 @@ public sealed partial class NewTab : Page
 
             await settingsActions.UpdateSettingsAsync(settings);
             // get new from database. 
-            ViewModel.CoreSettings = await settingsActions.GetSettingsAsync();
+            ViewModel.SettingsService.CoreSettings = await settingsActions.GetSettingsAsync();
 
         }
         catch (Exception ex)
@@ -260,7 +260,7 @@ public sealed partial class NewTab : Page
         if (AuthService.CurrentUser != null)
         {
             updateAction.Invoke(userSettings);
-            ViewModel.CoreSettings = userSettings;
+            ViewModel.SettingsService.CoreSettings = userSettings;
             UpdateNtpClock();
         }
     }

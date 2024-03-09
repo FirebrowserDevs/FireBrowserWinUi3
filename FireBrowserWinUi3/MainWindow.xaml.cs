@@ -2,11 +2,11 @@ using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
 using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3.ViewModels;
 using FireBrowserWinUi3Core.CoreUi;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3Core.ShareHelper;
-using FireBrowserWinUi3Core.ViewModel;
 using FireBrowserWinUi3DataCore.Actions;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3Favorites;
@@ -45,10 +45,13 @@ public sealed partial class MainWindow : Window
 
     public DownloadFlyout DownloadFlyout { get; set; } = new DownloadFlyout();
     public DownloadService ServiceDownloads { get; set; }
+    public SettingsService SettingsService { get; set; }
 
     public MainWindow()
     {
         ServiceDownloads = App.GetService<DownloadService>();
+        SettingsService = App.GetService<SettingsService>();
+        SettingsService.Initialize();
 
         InitializeComponent();
 
@@ -69,25 +72,25 @@ public sealed partial class MainWindow : Window
 
     public void setColorsTool()
     {
-        var toolbar = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
-        if (toolbar.ColorTV == "#000000")
+
+        if (SettingsService.CoreSettings.ColorTV == "#000000")
         {
             Tabs.Background = new SolidColorBrush(Colors.Transparent);
         }
         else
         {
-            string colorw = toolbar.ColorTV;
+            string colorw = SettingsService.CoreSettings.ColorTV;
             var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), colorw);
             var brush = new SolidColorBrush(color);
             Tabs.Background = brush;
         }
-        if (toolbar.ColorTool == "#000000")
+        if (SettingsService.CoreSettings.ColorTool == "#000000")
         {
             ClassicToolbar.Background = new SolidColorBrush(Colors.Transparent);
         }
         else
         {
-            string colorw = toolbar.ColorTool;
+            string colorw = SettingsService.CoreSettings.ColorTool;
             var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), colorw);
             var brush = new SolidColorBrush(color);
             ClassicToolbar.Background = brush;
@@ -96,13 +99,17 @@ public sealed partial class MainWindow : Window
 
     private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
     {
+
         if (Tabs.TabItems?.Count > 1)
         {
-            Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
-            if (userSettings.ConfirmCloseDlg)
+
+            if (SettingsService.CoreSettings.ConfirmCloseDlg)
             {
                 try
                 {
+                    // always save to file as well because the application loads from the settings file, although let's use enitry framwork core to manage app and Settings. 
+                    UserFolderManager.SaveUserSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+
                     args.Cancel = true;
 
                     if (!(Application.Current is App currentApp) || !(currentApp.m_window is MainWindow mainWindow))
@@ -322,18 +329,18 @@ public sealed partial class MainWindow : Window
     }
     private void UpdateUIBasedOnSettings()
     {
-        Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+        Settings coreSet = SettingsService.CoreSettings; //  UserFolderManager.LoadcoreSet(AuthService.CurrentUser);
 
-        SetVisibility(AdBlock, userSettings.AdblockBtn is not false);
-        SetVisibility(ReadBtn, userSettings.ReadButton is not false);
-        SetVisibility(BtnTrans, userSettings.Translate is not false);
-        SetVisibility(BtnDark, userSettings.DarkIcon is not false);
-        SetVisibility(ToolBoxMore, userSettings.ToolIcon is not false);
-        SetVisibility(AddFav, userSettings.FavoritesL is not false);  
-        SetVisibility(FavoritesButton, userSettings.Favorites is not false);
-        SetVisibility(DownBtn, userSettings.Downloads is not false)   ;
-        SetVisibility(History, userSettings.Historybtn is not false);
-        SetVisibility(QrBtn, userSettings.QrCode is not false);
+        SetVisibility(AdBlock, coreSet.AdblockBtn is not false);
+        SetVisibility(ReadBtn, coreSet.ReadButton is not false);
+        SetVisibility(BtnTrans, coreSet.Translate is not false);
+        SetVisibility(BtnDark, coreSet.DarkIcon is not false);
+        SetVisibility(ToolBoxMore, coreSet.ToolIcon is not false);
+        SetVisibility(AddFav, coreSet.FavoritesL is not false);
+        SetVisibility(FavoritesButton, coreSet.Favorites is not false);
+        SetVisibility(DownBtn, coreSet.Downloads is not false);
+        SetVisibility(History, coreSet.Historybtn is not false);
+        SetVisibility(QrBtn, coreSet.QrCode is not false);
     }
 
     private void SetVisibility(UIElement element, bool isVisible)
@@ -543,8 +550,8 @@ public sealed partial class MainWindow : Window
             }
             else
             {
-                Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
-                string searchurl = SearchUrl ?? $"{userSettings.SearchUrl}";
+                //Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+                string searchurl = SearchUrl ?? $"{SettingsService.CoreSettings.SearchUrl}";
                 string query = searchurl + input;
                 NavigateToUrl(query);
             }
@@ -710,7 +717,7 @@ public sealed partial class MainWindow : Window
     #endregion
     private async void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+        Settings coreSet = SettingsService.CoreSettings; // UserFolderManager.LoadcoreSet(AuthService.CurrentUser);
 
         if (TabContent?.Content is WebContent webContent)
         {
@@ -728,7 +735,7 @@ public sealed partial class MainWindow : Window
                     {
                         if (viewedItem.Content is Frame frame)
                         {
-                            if (userSettings.ResourceSave != null && userSettings.ResourceSave.Equals("1"))
+                            if (coreSet.ResourceSave != null && coreSet.ResourceSave.Equals("1"))
                             {
                                 if (frame.Content is WebContent web)
                                 {

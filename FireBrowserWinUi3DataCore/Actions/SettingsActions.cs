@@ -35,6 +35,7 @@ namespace FireBrowserWinUi3DataCore.Actions
         {
             try
             {
+                SettingsContext.ChangeTracker.Clear();
                 SettingsContext.Settings.Update(settings);
                 var result = await SettingsContext.SaveChangesAsync();
                 return result > 0 ? true : false;
