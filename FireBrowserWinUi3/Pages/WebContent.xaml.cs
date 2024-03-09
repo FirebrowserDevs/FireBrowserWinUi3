@@ -92,9 +92,9 @@ public sealed partial class WebContent : Page
     public void LoadSettings()
     {
         //webview
-        WebViewElement.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = userSettings.BrowserKeys;
-        WebViewElement.CoreWebView2.Settings.IsStatusBarEnabled = userSettings.StatusBar;
-        WebViewElement.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = userSettings.BrowserScripts;
+        WebViewElement.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = true;
+        WebViewElement.CoreWebView2.Settings.IsStatusBarEnabled = true;
+        WebViewElement.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = true;
 
         //privacy need to fix settings load true is just temp
         WebViewElement.CoreWebView2.Settings.IsScriptEnabled = true;
