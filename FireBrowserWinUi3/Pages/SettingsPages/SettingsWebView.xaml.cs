@@ -98,7 +98,7 @@ public sealed partial class SettingsWebView : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            var autoSettingValue = toggleSwitch.IsOn  ;
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.StatusBar = autoSettingValue;
 
@@ -162,11 +162,11 @@ public sealed partial class SettingsWebView : Page
                     break;
             }
 
-            
-                userSettings.TrackPrevention = antitrack;
-                // Save the modified settings back to the user's settings file
-                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
-            
+
+            userSettings.TrackPrevention = antitrack;
+            // Save the modified settings back to the user's settings file
+            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+
         }
         catch (Exception ex)
         {

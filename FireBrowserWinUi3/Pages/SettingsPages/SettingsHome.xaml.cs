@@ -1,4 +1,3 @@
-using FireBrowserWinUi3;
 using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;

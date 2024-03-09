@@ -1,4 +1,3 @@
-using FireBrowserWinUi3;
 using FireBrowserWinUi3.Services.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 

@@ -1,13 +1,11 @@
 using CommunityToolkit.WinUI.Helpers;
-using FireBrowserWinUi3;
 using FireBrowserWinUi3.Controls;
+using FireBrowserWinUi3Core.CoreUi;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.ShareHelper;
 using FireBrowserWinUi3DataCore.Actions;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3MultiCore;
-using FireBrowserWinUi3.Controls;
-using FireBrowserWinUi3Core.CoreUi;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -94,15 +92,15 @@ public sealed partial class WebContent : Page
     public void LoadSettings()
     {
         //webview
-        WebViewElement.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = userSettings.BrowserKeys;
-        WebViewElement.CoreWebView2.Settings.IsStatusBarEnabled = userSettings.StatusBar;
-        WebViewElement.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = userSettings.BrowserScripts;
+        WebViewElement.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = true;
+        WebViewElement.CoreWebView2.Settings.IsStatusBarEnabled = true;
+        WebViewElement.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = true;
 
-        //privacy 
-        WebViewElement.CoreWebView2.Settings.IsScriptEnabled = userSettings.DisableJavaScript;
-        WebViewElement.CoreWebView2.Settings.IsPasswordAutosaveEnabled = userSettings.DisablePassSave;
-        WebViewElement.CoreWebView2.Settings.IsGeneralAutofillEnabled = userSettings.DisableGenAutoFill;
-        WebViewElement.CoreWebView2.Settings.IsWebMessageEnabled = userSettings.DisableWebMess;
+        //privacy need to fix settings load true is just temp
+        WebViewElement.CoreWebView2.Settings.IsScriptEnabled = true;
+        WebViewElement.CoreWebView2.Settings.IsPasswordAutosaveEnabled = true;
+        WebViewElement.CoreWebView2.Settings.IsGeneralAutofillEnabled = true;
+        WebViewElement.CoreWebView2.Settings.IsWebMessageEnabled = true;
 
         int disableWebMessSetting = userSettings.TrackPrevention = 2;
 

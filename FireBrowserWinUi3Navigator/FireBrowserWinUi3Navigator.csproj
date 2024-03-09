@@ -14,4 +14,10 @@
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="public_domains.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

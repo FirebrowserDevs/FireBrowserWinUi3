@@ -21,7 +21,7 @@ public sealed partial class SettingsNewTab : Page
         Trbl.IsOn = userSettings.Translate;
         Adbl.IsOn = userSettings.AdblockBtn;
         Drbl.IsOn = userSettings.DarkIcon;
-        Read.IsOn = userSettings.ReadButton         ;
+        Read.IsOn = userSettings.ReadButton;
         Dwbl.IsOn = userSettings.Downloads;
         Frbl.IsOn = userSettings.FavoritesL;
         FlAd.IsOn = userSettings.Favorites;

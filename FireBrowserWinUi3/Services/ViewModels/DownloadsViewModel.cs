@@ -1,6 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using FireBrowserWinUi3;
-using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Services.ViewModels.Interfaces;
 using Microsoft.UI.Xaml.Controls;

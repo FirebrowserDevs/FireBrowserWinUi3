@@ -393,6 +393,5 @@ public sealed partial class NewTab : Page
                     window.NavigateToUrl(item.Url);
             }
         }
-
     }
 }

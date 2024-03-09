@@ -57,7 +57,7 @@ public sealed partial class MainWindow : Window
 
         ArgsPassed();
         LoadUserDataAndSettings(); // Load data and settings for the new user
-        //_ = LoadSettingsDatabase();
+        _ = LoadSettingsDatabase();
         LoadUserSettings();
         Init();
 

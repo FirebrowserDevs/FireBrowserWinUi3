@@ -49,7 +49,7 @@ public partial class App : Application
 
         this.InitializeComponent();
 
-        FireBrowserWinUi3Navigator.TLD.LoadKnownDomainsAsync().GetAwaiter();
+        FireBrowserWinUi3Navigator.TLD.LoadKnownDomainsAsync();
 
         System.Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
     }

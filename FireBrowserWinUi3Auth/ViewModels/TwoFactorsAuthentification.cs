@@ -1,8 +1,8 @@
-﻿using FireBrowserWinUi3Core.Models;
-using FireBrowserWinUi3Auth.Controls;
+﻿using FireBrowserWinUi3Auth.Controls;
 using FireBrowserWinUi3Auth.ViewModels;
-using Microsoft.UI.Xaml;
 using FireBrowserWinUi3AuthCore;
+using FireBrowserWinUi3Core.Models;
+using Microsoft.UI.Xaml;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;

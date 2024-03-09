@@ -49,7 +49,7 @@ public sealed partial class SettingsPrivacy : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            var autoSettingValue = toggleSwitch.IsOn  ;
+            var autoSettingValue = toggleSwitch.IsOn;
 
             userSettings.DisableWebMess = autoSettingValue;
 
