@@ -635,7 +635,7 @@ public sealed partial class MainWindow : Window
                 break;
             case "Refresh" when TabContent.Content is WebContent:
                 TabWebView.CoreWebView2.Reload();
-                NotificationQueue.Show("Refreshiing...", 1200);
+                NotificationQueue.Show("Refreshing...", 1200);
 
                 break;
             case "Home" when TabContent.Content is WebContent:
