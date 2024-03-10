@@ -805,15 +805,14 @@
             </StackPanel>
         </Grid>
         <InfoBar 
+            MaxWidth="480"
             HorizontalAlignment="Right"
-            Margin="5,0,5,25"
+            Margin="5,0,25,5"
             VerticalAlignment="Bottom"
-            Background="Black"
-            Opacity=".8"
-            Foreground="LimeGreen"
+            Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+            Foreground="{ThemeResource AcrylicBackgroundFillColorDefaultInverseBrush}"
             BorderBrush="{ThemeResource AppBarBorderThemeBrush}"
-            BorderThickness="1.5"
-            IsIconVisible="False">
+            BorderThickness="1.5">
             <interactivity:Interaction.Behaviors>
                 <behaviors:StackedNotificationsBehavior x:Name="NotificationQueue" />
             </interactivity:Interaction.Behaviors>

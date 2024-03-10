@@ -1,3 +1,4 @@
+using CommunityToolkit.WinUI.Behaviors;
 using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
@@ -699,7 +700,14 @@ public sealed partial class MainWindow : Window
                 FavManager fv = new FavManager();
                 fv.SaveFav(auth, FavoriteTitle.Text.ToString(), FavoriteUrl.Text.ToString());
                 AddFav.Flyout?.Hide();
-                NotificationQueue.Show($"Added to Favorites\n{FavoriteTitle.Text.ToString()}", 2400); 
+                var note = new Notification
+                {
+                    Title = $"Added To Favorites",
+                    Message = FavoriteTitle.Text.ToString(),
+                    Severity = InfoBarSeverity.Informational,
+                    Duration = TimeSpan.FromSeconds(1.5)
+                };
+                NotificationQueue.Show(note); 
                 break;
             case "Favorites":
                 FireBrowserWinUi3MultiCore.User user = AuthService.CurrentUser;
