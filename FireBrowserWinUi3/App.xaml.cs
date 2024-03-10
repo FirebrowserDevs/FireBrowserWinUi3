@@ -45,8 +45,6 @@ public partial class App : Application
     #endregion
     public App()
     {
-
-
         this.InitializeComponent();
 
         FireBrowserWinUi3Navigator.TLD.LoadKnownDomainsAsync();
