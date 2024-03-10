@@ -7,7 +7,7 @@
     xmlns:firebrowser="using:FireBrowserWinUi3.Controls"
     xmlns:firebrowserfavorites="using:FireBrowserWinUi3Favorites"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:person="using:FireBrowserWinUi3Core.Helpers"
+    xmlns:person="using:FireBrowserWinUi3Core.Helpers" xmlns:interactivity="using:Microsoft.Xaml.Interactivity" xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
     mc:Ignorable="d">
 
     <Window.SystemBackdrop>
@@ -759,7 +759,8 @@
                                     Margin="0,8,0,0"
                                     Click="ToolbarButtonClick"
                                     Content="Add Favorite"
-                                    Tag="AddFavorite" />
+                                    Tag="AddFavorite" >
+                                </Button>
                             </Grid>
                         </Flyout>
                     </Button.Flyout>
@@ -803,5 +804,19 @@
                     Style="{ThemeResource QuietButtonStyle}" />
             </StackPanel>
         </Grid>
+        <InfoBar 
+            HorizontalAlignment="Right"
+            Margin="5,0,5,25"
+            VerticalAlignment="Bottom"
+            Background="Black"
+            Opacity=".8"
+            Foreground="LimeGreen"
+            BorderBrush="{ThemeResource AppBarBorderThemeBrush}"
+            BorderThickness="1.5"
+            IsIconVisible="False">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:StackedNotificationsBehavior x:Name="NotificationQueue" />
+            </interactivity:Interaction.Behaviors>
+        </InfoBar>
     </Grid>
 </Window>

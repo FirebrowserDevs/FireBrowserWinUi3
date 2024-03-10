@@ -696,6 +696,8 @@ public sealed partial class MainWindow : Window
                 FireBrowserWinUi3MultiCore.User auth = AuthService.CurrentUser;
                 FavManager fv = new FavManager();
                 fv.SaveFav(auth, FavoriteTitle.Text.ToString(), FavoriteUrl.Text.ToString());
+                AddFav.Flyout?.Hide();
+                NotificationQueue.Show($"Added to Favorites\n{FavoriteTitle.Text.ToString()}", 2400); 
                 break;
             case "Favorites":
                 FireBrowserWinUi3MultiCore.User user = AuthService.CurrentUser;
