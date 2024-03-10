@@ -225,9 +225,15 @@
         <Grid
             x:Name="BigGrid"
             Width="Auto"
+            MaxHeight="480"
             Margin="2,96,2,2"
+            Padding="15"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
+            BorderBrush="Black"
+            BorderThickness="1.5"
+            CornerRadius="6"
             RowSpacing="24">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -303,6 +309,7 @@
                     x:Name="FavoritesCard"
                     Width="Auto"
                     MinWidth="250"
+                    Margin="5"
                     BorderBrush="Black"
                     BorderThickness="1"
                     Description="Favorites"

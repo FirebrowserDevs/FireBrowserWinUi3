@@ -47,13 +47,8 @@ namespace FireBrowserWinUi3.ViewModels
         [ObservableProperty]
         private Visibility _IsSearchVisible;
 
-
-        public delegate void DelegateSaveSettings(FireBrowserWinUi3MultiCore.User user, FireBrowserWinUi3MultiCore.Settings settings);
-        public DelegateSaveSettings SaveSettings { get; set; }
-
         public SettingsService SettingsService { get; set; }
-
-        private DispatcherTimer timer { get; set; }
+private DispatcherTimer timer { get; set; }
 
         public ObservableCollection<HistoryItem> HistoryItems { get; set; }
         public ObservableCollection<FavItem> FavoriteItems { get; set; }
@@ -153,7 +148,7 @@ namespace FireBrowserWinUi3.ViewModels
 
             // LOAD settings service 
             SettingsService = App.GetService<SettingsService>();
-
+            SettingsService.Initialize(); 
             // load ui settings from CoreSettings. 
             LoadUISettings();
 

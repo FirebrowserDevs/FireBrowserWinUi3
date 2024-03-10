@@ -1,6 +1,7 @@
 using FireBrowserCore.Models;
 using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.ViewModels;
 using FireBrowserWinUi3Core.ImagesBing;
 using FireBrowserWinUi3DataCore.Actions;
@@ -32,64 +33,29 @@ public sealed partial class NewTab : Page
 
     public HomeViewModel ViewModel { get; set; }
     private HistoryActions HistoryActions { get; } = new HistoryActions(AuthService.CurrentUser.Username);
-    delegate void DelegateSave(User user, FireBrowserWinUi3MultiCore.Settings settings);
+    FireBrowserWinUi3MultiCore.Settings userSettings { get; set; } 
+    SettingsService  SettingsService { get; }
 
     Passer param;
     public NewTab()
     {
         ViewModel = new HomeViewModel();
-        ViewModel.SaveSettings = SaveChangesToSettings;
         // init to load controls from settings, and start clock . 
         _ = ViewModel.Intialize().GetAwaiter();
+        // assign to ViewModel, and or new instance.  
+        ViewModel.SettingsService.Initialize(); 
+        userSettings = ViewModel.SettingsService.CoreSettings; 
+
         this.InitializeComponent();
-        HomeSync();
+        
     }
 
-    private async Task<FireBrowserWinUi3MultiCore.Settings> LoadSettingsDatabase()
-    {
-        try
-        {
-            SettingsActions settingsActions = new SettingsActions(AuthService.IsUserAuthenticated ? AuthService.CurrentUser.Username : null);
-            await settingsActions.SettingsContext.Database.MigrateAsync();
-            await settingsActions.UpdateSettingsAsync(FireBrowserWinUi3MultiCore.UserFolderManager.LoadUserSettings(FireBrowserWinUi3MultiCore.AuthService.CurrentUser));
-            return await settingsActions.GetSettingsAsync();
-        }
-        catch (Exception ex)
-        {
-            ExceptionLogger.LogException(ex);
-            Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
-
-        }
-        return FireBrowserWinUi3MultiCore.UserFolderManager.LoadUserSettings(FireBrowserWinUi3MultiCore.AuthService.CurrentUser);
-    }
-    async void SaveChangesToSettings(User user, FireBrowserWinUi3MultiCore.Settings settings)
-    {
-        try
-        {
-            if (!AuthService.IsUserAuthenticated) return;
-
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, settings);
-            SettingsActions settingsActions = new SettingsActions(AuthService.CurrentUser.Username);
-            if (!File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Settings", "Settings.db")))
-            {
-                await settingsActions.SettingsContext.Database.MigrateAsync();
-            }
-
-            await settingsActions.UpdateSettingsAsync(settings);
-            // get new from database. 
-            ViewModel.SettingsService.CoreSettings = await settingsActions.GetSettingsAsync();
-
-        }
-        catch (Exception ex)
-        {
-            ExceptionLogger.LogException(ex);
-            Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
-
-        }
-
-    }
     private async void NewTab_Loaded(object sender, RoutedEventArgs e)
     {
+        // round-robin if one or more newTab's are open apply settings. 
+        await ViewModel.Intialize();
+        userSettings = ViewModel.SettingsService.CoreSettings; 
+
         //NO need to load because property is attached to viewModel, and also if you select the tab it will call the load event may we can refresh the page... 
         ViewModel.HistoryItems = await HistoryActions.GetAllHistoryItems();
         ViewModel.RaisePropertyChanges(nameof(ViewModel.HistoryItems));
@@ -100,9 +66,12 @@ public sealed partial class NewTab : Page
         SearchengineSelection.SelectedItem = userSettings.EngineFriendlyName;
         NewTabSearchBox.Text = string.Empty;
         NewTabSearchBox.Focus(FocusState.Programmatic);
+
+        HomeSync(); 
+        
     }
 
-    FireBrowserWinUi3MultiCore.Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+    
     private async void HomeSync()
     {
         Type.IsOn = userSettings.Auto is true;
@@ -155,14 +124,14 @@ public sealed partial class NewTab : Page
                 });
         }
     }
-    private void SetAndSaveBackgroundSettings((int, Settings.NewTabBackground, bool, Visibility) settings)
+    private async void SetAndSaveBackgroundSettings((int, Settings.NewTabBackground, bool, Visibility) settings)
     {
         var (background, backgroundType, isNewColorEnabled, downloadVisibility) = settings;
         userSettings.Background = background;
         ViewModel.BackgroundType = backgroundType;
         NewColor.IsEnabled = isNewColorEnabled;
         Download.Visibility = downloadVisibility;
-        ViewModel.SaveSettings(AuthService.CurrentUser, userSettings);
+        await ViewModel.SettingsService?.SaveChangesToSettings(AuthService.CurrentUser, userSettings);
     }
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
@@ -317,7 +286,7 @@ public sealed partial class NewTab : Page
                 window.NavigateToUrl((e.AddedItems.FirstOrDefault() as HistoryItem).Url);
         }
     }
-    private void SearchengineSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void SearchengineSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         try
         {
@@ -370,7 +339,7 @@ public sealed partial class NewTab : Page
             {
                 userSettings.EngineFriendlyName = selection;
                 userSettings.SearchUrl = url;
-                ViewModel.SaveSettings(AuthService.CurrentUser, userSettings);
+                await ViewModel.SettingsService?.SaveChangesToSettings(AuthService.CurrentUser, userSettings);
                 //UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
             }
             NewTabSearchBox.Focus(FocusState.Programmatic);
