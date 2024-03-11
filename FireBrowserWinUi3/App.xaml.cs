@@ -1,5 +1,7 @@
-﻿using FireBrowserWinUi3.Services;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.Services.ViewModels;
+using FireBrowserWinUi3.ViewModels;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3MultiCore;
@@ -35,11 +37,17 @@ public partial class App : Application
     private static IServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
-
+        
+        services.AddSingleton<WeakReferenceMessenger>();
+        services.AddSingleton<IMessenger, WeakReferenceMessenger>(provider =>
+            provider.GetRequiredService<WeakReferenceMessenger>());
         //services.AddDbContext<FireBrowserDataCore.HistoryContext>();
         services.AddSingleton<DownloadService>();
         services.AddTransient<DownloadsViewModel>();
+         
         services.AddSingleton<SettingsService>();
+        
+        services.AddTransient<HomeViewModel>();
         return services.BuildServiceProvider();
     }
     #endregion

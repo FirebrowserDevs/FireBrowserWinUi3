@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using FireBrowserDatabase;
 using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3.Services.Contracts;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3Exceptions;
@@ -136,7 +138,8 @@ private DispatcherTimer timer { get; set; }
 
 
 
-        public HomeViewModel()
+        public HomeViewModel(IMessenger messenger)
+            :base(messenger)  
         {
             // TODO: add bingSearchApi -> helpers BingSearchApi == read more about JObject and JToken to parse..  foreach() or linq(). 
 

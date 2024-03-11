@@ -327,6 +327,7 @@
                             <ListView
                                 Height="180"
                                 MinWidth="250"
+                                Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
                                 BorderBrush="Black"
                                 BorderThickness="1"
                                 ItemsSource="{x:Bind ViewModel.FavoriteItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -373,6 +374,7 @@
                             <ListView
                                 Height="180"
                                 MinWidth="250"
+                                Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
                                 BorderBrush="Black"
                                 BorderThickness="1"
                                 ItemsSource="{x:Bind ViewModel.HistoryItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

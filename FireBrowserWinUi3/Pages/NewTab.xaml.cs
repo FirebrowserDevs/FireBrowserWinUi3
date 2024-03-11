@@ -39,7 +39,7 @@ public sealed partial class NewTab : Page
     Passer param;
     public NewTab()
     {
-        ViewModel = new HomeViewModel();
+        ViewModel = App.GetService<HomeViewModel>();
         // init to load controls from settings, and start clock . 
         _ = ViewModel.Intialize().GetAwaiter();
         // assign to ViewModel, and or new instance.  
