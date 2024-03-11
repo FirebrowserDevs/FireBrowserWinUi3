@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3.Services.ViewModels;
 using FireBrowserWinUi3.ViewModels;
 using FireBrowserWinUi3Core.Helpers;
@@ -48,6 +49,7 @@ public partial class App : Application
         services.AddSingleton<SettingsService>();
         
         services.AddTransient<HomeViewModel>();
+        services.AddTransient<MainWindowViewModel>();
         return services.BuildServiceProvider();
     }
     #endregion
@@ -104,6 +106,7 @@ public partial class App : Application
                 if (Directory.Exists(UserDataManager.CoreFolderPath))
                 {
                     Services = ConfigureServices();
+                    
                 }
             }
             catch (Exception ex)
@@ -182,6 +185,11 @@ public partial class App : Application
 
         // Activate the window outside of conditional blocks
         m_window.Activate();
+        if (AuthService.IsUserAuthenticated)
+        {
+            IMessenger messenger = App.GetService<IMessenger>();
+            messenger?.Send(new Message_Settings_Actions($"Welcome {AuthService.CurrentUser.Username} to our FireBrowser"));
+        }
     }
 
     public Window m_window;

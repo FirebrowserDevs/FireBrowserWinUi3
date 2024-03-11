@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using FireBrowserDatabase;
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.Services.Contracts;
+using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3Exceptions;
@@ -126,6 +127,7 @@ private DispatcherTimer timer { get; set; }
             {
                 FavManager fs = new FavManager();
                 favorites = fs.LoadFav(FireBrowserWinUi3MultiCore.AuthService.CurrentUser).ToObservableCollection();
+                
                 return favorites.ToObservableCollection();
             }
             catch (Exception ex)
@@ -133,7 +135,7 @@ private DispatcherTimer timer { get; set; }
                 ExceptionLogger.LogException(ex);
                 return new ObservableCollection<FavItem>();
             }
-
+            
         }
 
 
@@ -166,6 +168,7 @@ private DispatcherTimer timer { get; set; }
             if (NtpTimeEnabled)
             {
                 InitClock();
+
             }
 
             return Task.CompletedTask;

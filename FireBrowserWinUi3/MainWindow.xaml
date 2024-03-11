@@ -3,11 +3,13 @@
     x:Class="FireBrowserWinUi3.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:firebrowser="using:FireBrowserWinUi3.Controls"
     xmlns:firebrowserfavorites="using:FireBrowserWinUi3Favorites"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:person="using:FireBrowserWinUi3Core.Helpers" xmlns:interactivity="using:Microsoft.Xaml.Interactivity" xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
+    xmlns:person="using:FireBrowserWinUi3Core.Helpers"
     mc:Ignorable="d">
 
     <Window.SystemBackdrop>
@@ -759,8 +761,7 @@
                                     Margin="0,8,0,0"
                                     Click="ToolbarButtonClick"
                                     Content="Add Favorite"
-                                    Tag="AddFavorite" >
-                                </Button>
+                                    Tag="AddFavorite" />
                             </Grid>
                         </Flyout>
                     </Button.Flyout>
@@ -804,17 +805,17 @@
                     Style="{ThemeResource QuietButtonStyle}" />
             </StackPanel>
         </Grid>
-        <InfoBar 
+        <InfoBar
             MaxWidth="480"
-            HorizontalAlignment="Right"
             Margin="5,0,25,5"
+            HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
-            Foreground="{ThemeResource AcrylicBackgroundFillColorDefaultInverseBrush}"
             BorderBrush="{ThemeResource AppBarBorderThemeBrush}"
-            BorderThickness="1.5">
+            BorderThickness="1.5"
+            Foreground="{ThemeResource AcrylicBackgroundFillColorDefaultInverseBrush}">
             <interactivity:Interaction.Behaviors>
-                <behaviors:StackedNotificationsBehavior x:Name="NotificationQueue" />
+                <behaviors:StackedNotificationsBehavior x:Name="NotificationQueue" x:FieldModifier="Public" />
             </interactivity:Interaction.Behaviors>
         </InfoBar>
     </Grid>

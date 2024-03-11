@@ -1,8 +1,12 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Behaviors;
 using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
 using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3.Services.Messages;
+using FireBrowserWinUi3.Services.ViewModels;
 using FireBrowserWinUi3.ViewModels;
 using FireBrowserWinUi3Core.CoreUi;
 using FireBrowserWinUi3Core.Helpers;
@@ -40,6 +44,7 @@ using Settings = FireBrowserWinUi3MultiCore.Settings;
 using Windowing = FireBrowserWinUi3Core.Helpers.Windowing;
 
 namespace FireBrowserWinUi3;
+
 public sealed partial class MainWindow : Window
 {
     private AppWindow appWindow;
@@ -47,13 +52,13 @@ public sealed partial class MainWindow : Window
     public DownloadFlyout DownloadFlyout { get; set; } = new DownloadFlyout();
     public DownloadService ServiceDownloads { get; set; }
     public SettingsService SettingsService { get; set; }
-
+    public MainWindowViewModel ViewModelMain { get; set; } 
     public MainWindow()
     {
         ServiceDownloads = App.GetService<DownloadService>();
         SettingsService = App.GetService<SettingsService>();
         SettingsService.Initialize();
-
+        
         InitializeComponent();
 
         ArgsPassed();
@@ -61,9 +66,13 @@ public sealed partial class MainWindow : Window
         _ = LoadSettingsDatabase();
         LoadUserSettings();
         Init();
-
+        
+        ViewModelMain = App.GetService<MainWindowViewModel>();  
+        ViewModelMain.IsActive = true;
+        ViewModelMain.MainView = this; 
         appWindow.Closing += AppWindow_Closing;
     }
+
 
     public async void Init()
     {
@@ -309,7 +318,6 @@ public sealed partial class MainWindow : Window
             UserName.Text = "DefaultUser";
             return;
         }
-
         UserName.Text = currentUser.Username ?? "DefaultUser";
     }
 
