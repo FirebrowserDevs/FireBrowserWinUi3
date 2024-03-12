@@ -41,7 +41,7 @@ public class Settings
         self.OpenTabHandel = false;
         self.NtpDateTime = false;
         self.ExitDialog = false;
-        self.NtpTextColor = "#000000";
+        self.NtpTextColor = "#FFFFFF";
         self.ExceptionLog = "Low";
         self.Eq2fa = true;
         self.Eqfav = false;
