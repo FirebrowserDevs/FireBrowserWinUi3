@@ -39,7 +39,7 @@ public class Settings
         self.ToolIcon = true;
         self.DarkIcon = true;
         self.OpenTabHandel = false;
-        self.NtpDateTime = false;
+        self.NtpDateTime = true;
         self.ExitDialog = false;
         self.NtpTextColor = "#FFFFFF";
         self.ExceptionLog = "Low";
