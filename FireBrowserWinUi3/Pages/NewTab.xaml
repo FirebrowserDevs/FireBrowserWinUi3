@@ -173,7 +173,6 @@
                                         Margin="0,5,0,0"
                                         x:FieldModifier="Public"
                                         ColorChanged="NewColor_TextChanged"
-                                        IsAlphaEnabled="False"
                                         IsDoubleTapEnabled="True"
                                         IsMoreButtonVisible="True" />
                                 </Flyout>
@@ -203,7 +202,6 @@
                                         Margin="0,5,0,0"
                                         x:FieldModifier="Public"
                                         ColorChanged="NtpColorPicker_ColorChanged"
-                                        IsAlphaEnabled="False"
                                         IsDoubleTapEnabled="True"
                                         IsMoreButtonVisible="True" />
                                 </Flyout>
@@ -279,7 +277,9 @@
             BorderThickness="1.5"
             CornerRadius="6"
             RowSpacing="24">
+
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -441,7 +441,26 @@
                     </labs:SettingsExpander.Items>
                 </labs:SettingsExpander>
             </StackPanel>
-
+            <StackPanel
+                Grid.Row="4"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <Button
+                    Margin="4"
+                    Padding="0"
+                    Background="Transparent"
+                    BorderBrush="Transparent">
+                    <Image
+                        Width="20"
+                        Height="20"
+                        Source="{dllimg:ImageLoader ImageName=Logo.png}" />
+                </Button>
+                <TextBlock
+                    x:Uid="AppName"
+                    VerticalAlignment="Center"
+                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+            </StackPanel>
 
         </Grid>
         <!--<TextBlock
