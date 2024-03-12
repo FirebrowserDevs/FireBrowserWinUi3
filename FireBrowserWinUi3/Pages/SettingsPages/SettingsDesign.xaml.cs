@@ -1,8 +1,10 @@
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3MultiCore;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
 using System.Threading.Tasks;
 
 namespace FireBrowserWinUi3.Pages.SettingsPages;
@@ -22,10 +24,7 @@ public sealed partial class SettingsDesign : Page
     public void Init()
     {
         AutoTog.IsOn = SettingsService.CoreSettings.Auto;
-        ColorTBPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), SettingsService.CoreSettings.ColorTool); 
-        ColorTVPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), SettingsService.CoreSettings.ColorTV);
-        ColorNtpPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), SettingsService.CoreSettings.NtpTextColor);
-        ColorBackGroundPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), SettingsService.CoreSettings.ColorBackground);
+        
     }
 
     public void Check()
