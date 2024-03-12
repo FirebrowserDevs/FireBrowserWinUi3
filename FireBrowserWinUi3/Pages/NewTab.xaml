@@ -454,7 +454,7 @@
                     <Image
                         Width="20"
                         Height="20"
-                        Source="{dllimg:ImageLoader ImageName=Logo.png}" />
+                        Source="{dllimg:ImageLoader ImageName=LogoApp.png}" />
                 </Button>
                 <TextBlock
                     x:Uid="AppName"

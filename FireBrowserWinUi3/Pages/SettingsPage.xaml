@@ -18,42 +18,42 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem Tag="SettingsHome" Content="Home">
                     <NavigationViewItem.Icon>
-                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3Assets/Icons/Home.png"/>
+                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3/Icons/Home.png"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="Design" Content="Design and Themes (New)">
                     <NavigationViewItem.Icon>
-                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3Assets/Icons/Style.png"/>
+                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3/Icons/Style.png"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="Privacy" Content="Privacy">
                     <NavigationViewItem.Icon>
-                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3Assets/Icons/Privacy.png"/>
+                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3/Icons/Privacy.png"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="WebView"  Content="WebView">
                     <NavigationViewItem.Icon>
-                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3Assets/Icons/Webset.png"/>
+                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3/Icons/Webset.png"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="NewTab"  Content="New Tab">
                     <NavigationViewItem.Icon>
-                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3Assets/Icons/Tabs.png"/>
+                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3/Icons/Tabs.png"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="Enqryption"  Content="Enqryption">
                     <NavigationViewItem.Icon>
-                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3Assets/Icons/enqryption.png"/>
+                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3/Icons/enqryption.png"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="Accessibility"  Content="Accessibility">
                     <NavigationViewItem.Icon>
-                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3Assets/Icons/Accessibility.png"/>
+                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3/Icons/Accessibility.png"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="About"  Content="About">
                     <NavigationViewItem.Icon>
-                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3Assets/Icons/About.png"/>
+                        <ImageIcon Source="ms-appx:///FireBrowserWinUi3/Icons/About.png"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
