@@ -156,20 +156,64 @@
                                 </StackPanel>
                             </GridViewItem>
                         </GridView>
-                        <TextBlock FontWeight="Bold" Text="New-Tab Background Color ( ReOpen Or Apply To Change )" />
-                        <TextBox
+                        <TextBlock FontWeight="Bold" Text="New-Tab Background Color" />
+                        <Button
+                            x:Name="NewColor"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="0,4,0,4"
+                            x:FieldModifier="Public"
+                            Content="{firebrowser:FluentIcon Glyph=&#xE790;}"
+                            IsEnabled="True"
+                            Style="{ThemeResource QuietButtonStyle}">
+                            <Button.Flyout>
+                                <Flyout>
+                                    <ColorPicker
+                                        x:Name="NewColorPicker"
+                                        Margin="0,5,0,0"
+                                        x:FieldModifier="Public"
+                                        ColorChanged="NewColor_TextChanged"
+                                        IsAlphaEnabled="False"
+                                        IsDoubleTapEnabled="True"
+                                        IsMoreButtonVisible="True" />
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                        <!--<TextBox
                             x:Name="NewColor"
                             Margin="0,5,0,0"
                             x:FieldModifier="Public"
                             IsEnabled="True"
-                            TextChanged="NewColor_TextChanged" />
+                            TextChanged="NewColor_TextChanged" />-->
 
                         <TextBlock FontWeight="Bold" Text="Ntp Text Color" />
-                        <TextBox
+                        <Button
+                            x:Name="NtpColorBox"
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="0,4,0,4"
+                            x:FieldModifier="Public"
+                            Content="{firebrowser:FluentIcon Glyph=&#xE790;}"
+                            IsEnabled="True"
+                            Style="{ThemeResource QuietButtonStyle}">
+                            <Button.Flyout>
+                                <Flyout>
+                                    <ColorPicker
+                                        x:Name="NtpColorPicker"
+                                        Margin="0,5,0,0"
+                                        x:FieldModifier="Public"
+                                        ColorChanged="NtpColorPicker_ColorChanged"
+                                        IsAlphaEnabled="False"
+                                        IsDoubleTapEnabled="True"
+                                        IsMoreButtonVisible="True" />
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                        <!--<TextBox
                             x:Name="NtpColorBox"
                             Margin="0,5,0,0"
                             x:FieldModifier="Public"
-                            TextChanged="NtpColorBox_TextChanged" />
+                            TextChanged="NtpColorBox_TextChanged" />-->
 
                         <Button
                             x:Name="Download"
@@ -226,7 +270,7 @@
             x:Name="BigGrid"
             Width="Auto"
             MaxHeight="480"
-            Margin="2,96,2,2"
+            Margin="12,96,2,12"
             Padding="15"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"

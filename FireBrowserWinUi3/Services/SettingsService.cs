@@ -1,4 +1,6 @@
-﻿using FireBrowserWinUi3.Services.Contracts;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using FireBrowserWinUi3.Services.Contracts;
+using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3DataCore.Actions;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3MultiCore;
@@ -15,10 +17,11 @@ namespace FireBrowserWinUi3.Services
         public SettingsActions Actions { get; set; }
         public Settings CoreSettings { get; set; }
         #endregion
-
+        internal IMessenger Messenger { get; set; } 
         public SettingsService()
         {
             Initialize();
+            Messenger = App.GetService<IMessenger>();   
         }
 
         public async void Initialize()
@@ -45,6 +48,7 @@ namespace FireBrowserWinUi3.Services
         {
             try
             {
+                
                 if (!AuthService.IsUserAuthenticated) return;
 
                 UserFolderManager.SaveUserSettings(AuthService.CurrentUser, settings);
@@ -56,6 +60,13 @@ namespace FireBrowserWinUi3.Services
                 await Actions?.UpdateSettingsAsync(settings);
                 // get new from database. 
                 CoreSettings = await Actions?.GetSettingsAsync();
+                
+                var obj = new object(); 
+                lock (obj) {
+                    Messenger?.Send(new Message_Settings_Actions(EnumMessageStatus.Settings));
+                }  
+
+                
 
             }
             catch (Exception ex)

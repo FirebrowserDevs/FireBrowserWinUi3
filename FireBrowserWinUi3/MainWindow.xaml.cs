@@ -63,7 +63,6 @@ public sealed partial class MainWindow : Window
 
         ArgsPassed();
         LoadUserDataAndSettings(); // Load data and settings for the new user
-        _ = LoadSettingsDatabase();
         LoadUserSettings();
         Init();
         
@@ -302,11 +301,12 @@ public sealed partial class MainWindow : Window
         TextFull.Text = fullscreen ? "Exit FullScreen" : "Full Screen";
     }
 
-    private void LoadUserSettings()
+    public Task LoadUserSettings()
     {
         LoadUsernames();
         UpdateUIBasedOnSettings();
         setColorsTool();
+        return Task.CompletedTask;  
     }
 
     private void LoadUserDataAndSettings()
@@ -321,21 +321,6 @@ public sealed partial class MainWindow : Window
         UserName.Text = currentUser.Username ?? "DefaultUser";
     }
 
-    private async Task LoadSettingsDatabase()
-    {
-        try
-        {
-            SettingsActions settingsActions = new SettingsActions(AuthService.IsUserAuthenticated ? AuthService.CurrentUser.Username : null);
-            await settingsActions.SettingsContext.Database.MigrateAsync();
-            await settingsActions.UpdateSettingsAsync(FireBrowserWinUi3MultiCore.UserFolderManager.LoadUserSettings(FireBrowserWinUi3MultiCore.AuthService.CurrentUser));
-            Settings settings = await settingsActions.GetSettingsAsync();
-        }
-        catch (Exception ex)
-        {
-            ExceptionLogger.LogException(ex);
-            Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
-        }
-    }
     private void UpdateUIBasedOnSettings()
     {
         Settings coreSet = SettingsService.CoreSettings; //  UserFolderManager.LoadcoreSet(AuthService.CurrentUser);
@@ -435,10 +420,15 @@ public sealed partial class MainWindow : Window
     private void Tabs_Loaded(object sender, RoutedEventArgs e)
     {
         Apptitlebar.SizeChanged += Apptitlebar_SizeChanged;
+        Apptitlebar_LayoutUpdated(sender, e);   
     }
 
     private void Apptitlebar_SizeChanged(object sender, SizeChangedEventArgs e)
     {
+        try
+        {
+
+        
         double scaleAdjustment = GetScaleAdjustment();
         Apptitlebar.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity));
         var customDragRegionPosition = Apptitlebar.TransformToVisual(null).TransformPoint(new Windows.Foundation.Point(0, 0));
@@ -457,6 +447,12 @@ public sealed partial class MainWindow : Window
         }
 
         appWindow.TitleBar?.SetDragRectangles(dragRects);
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
     }
 
     private void Apptitlebar_LayoutUpdated(object sender, object e)
@@ -1116,6 +1112,8 @@ public sealed partial class MainWindow : Window
     private void SwitchName_Click(object sender, RoutedEventArgs e)
     {
         if (!(sender is Button switchButton && switchButton.DataContext is string clickedUserName)) return;
-        OpenNewWindow(new Uri($"firebrowseruser://{clickedUserName}")); new Shortcut().CreateShortcut(clickedUserName);
+        OpenNewWindow(new Uri($"firebrowseruser://{clickedUserName}")); _ = new Shortcut().CreateShortcut(clickedUserName);
     }
+
+    
 }

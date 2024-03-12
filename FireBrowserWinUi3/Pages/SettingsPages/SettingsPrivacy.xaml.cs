@@ -1,3 +1,4 @@
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -6,66 +7,68 @@ namespace FireBrowserWinUi3.Pages.SettingsPages;
 
 public sealed partial class SettingsPrivacy : Page
 {
-    Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+    SettingsService SettingsService { get; set; }       
+    
     public SettingsPrivacy()
     {
+        SettingsService = App.GetService<SettingsService>();    
         this.InitializeComponent();
         Stack();
     }
 
     public void Stack()
     {
-        DisableJavaScriptToggle.IsOn = userSettings.DisableJavaScript;
-        DisablWebMessFillToggle.IsOn = userSettings.DisableWebMess;
-        DisableGenaralAutoFillToggle.IsOn = userSettings.DisableGenAutoFill;
-        PasswordWebMessFillToggle.IsOn = userSettings.DisablePassSave;
+        DisableJavaScriptToggle.IsOn = SettingsService.CoreSettings.DisableJavaScript;
+        DisablWebMessFillToggle.IsOn = SettingsService.CoreSettings.DisableWebMess;
+        DisableGenaralAutoFillToggle.IsOn = SettingsService.CoreSettings.DisableGenAutoFill;
+        PasswordWebMessFillToggle.IsOn = SettingsService.CoreSettings.DisablePassSave;
     }
 
-    private void DisableJavaScriptToggle_Toggled(object sender, RoutedEventArgs e)
+    private async void DisableJavaScriptToggle_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.DisableJavaScript = autoSettingValue;
+            SettingsService.CoreSettings.DisableJavaScript = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void DisableGenaralAutoFillToggle_Toggled(object sender, RoutedEventArgs e)
+    private async void DisableGenaralAutoFillToggle_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.DisableGenAutoFill = autoSettingValue;
+            SettingsService.CoreSettings.DisableGenAutoFill = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void DisablWebMessFillToggle_Toggled(object sender, RoutedEventArgs e)
+    private async void DisablWebMessFillToggle_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.DisableWebMess = autoSettingValue;
+            SettingsService.CoreSettings.DisableWebMess = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void PasswordWebMessFillToggle_Toggled(object sender, RoutedEventArgs e)
+    private async void PasswordWebMessFillToggle_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.DisablePassSave = autoSettingValue;
+            SettingsService.CoreSettings.DisablePassSave = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 

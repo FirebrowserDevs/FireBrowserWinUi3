@@ -1,13 +1,19 @@
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
+using System.Threading.Tasks;
 
 namespace FireBrowserWinUi3.Pages.SettingsPages;
 public sealed partial class SettingsDesign : Page
 {
-    Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+    SettingsService  SettingsService { get; set; }  
+    
     public SettingsDesign()
     {
+        SettingsService = App.GetService<SettingsService>();
+        
         this.InitializeComponent();
         Init();
         Check();
@@ -15,16 +21,16 @@ public sealed partial class SettingsDesign : Page
 
     public void Init()
     {
-        AutoTog.IsOn = userSettings.Auto;
-        ColorTB.Text = userSettings.ColorTool;
-        ColorTV.Text = userSettings.ColorTV;
-        Color.Text = userSettings.ColorBackground;
-        ColorNtp.Text = userSettings.NtpTextColor;
+        AutoTog.IsOn = SettingsService.CoreSettings.Auto;
+        ColorTBPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), SettingsService.CoreSettings.ColorTool); 
+        ColorTVPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), SettingsService.CoreSettings.ColorTV);
+        ColorNtpPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), SettingsService.CoreSettings.NtpTextColor);
+        ColorBackGroundPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), SettingsService.CoreSettings.ColorBackground);
     }
 
     public void Check()
     {
-        Type.SelectedItem = userSettings.Background switch
+        Type.SelectedItem = SettingsService.CoreSettings.Background switch
         {
             0 => "Default",
             1 => "Featured",
@@ -33,7 +39,7 @@ public sealed partial class SettingsDesign : Page
         };
     }
 
-    private void AutoTog_Toggled(object sender, RoutedEventArgs e)
+    private async void AutoTog_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
@@ -41,98 +47,86 @@ public sealed partial class SettingsDesign : Page
             var autoSettingValue = toggleSwitch.IsOn;
 
             // Set the 'Auto' setting
-            userSettings.Auto = autoSettingValue;
+            SettingsService.CoreSettings.Auto = autoSettingValue;
 
             // Save the modified settings back to the user's settings file
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+            
         }
     }
 
-    private void ColorTB_TextChanged(object sender, TextChangedEventArgs e)
-    {
-
-        if (AuthService.CurrentUser != null)
-        {
-            // Update the "ColorBackground" setting for the current user
-            userSettings.ColorTool = ColorTB.Text.ToString();
-
-            // Save the modified settings back to the user's settings file
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
-        }
-        else
-        {
-            // Handle the case when there is no authenticated user.
-        }
-    }
-
-    private void ColorTV_TextChanged(object sender, TextChangedEventArgs e)
-    {
-
-        if (AuthService.CurrentUser != null)
-        {
-            // Update the "ColorBackground" setting for the current user
-            userSettings.ColorTV = ColorTV.Text.ToString();
-
-            // Save the modified settings back to the user's settings file
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
-        }
-        else
-        {
-            // Handle the case when there is no authenticated user.
-        }
-    }
-
-    private void Color_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (AuthService.CurrentUser != null)
-        {
-            // Update the "ColorBackground" setting for the current user
-            userSettings.ColorBackground = Color.Text.ToString();
-
-            // Save the modified settings back to the user's settings file
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
-        }
-        else
-        {
-            // Handle the case when there is no authenticated user.
-        }
-    }
-
-    private void Type_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void Type_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         string selection = e.AddedItems[0].ToString();
         if (selection == "Default")
         {
             Color.IsEnabled = false;
-            userSettings.Background = 0;
+            SettingsService.CoreSettings.Background = 0;
         }
         if (selection == "Featured")
         {
             Color.IsEnabled = false;
-            userSettings.Background = 1;
+            SettingsService.CoreSettings.Background = 1;
         }
         if (selection == "Custom")
         {
             Color.IsEnabled = true;
-            userSettings.Background = 2;
+            SettingsService.CoreSettings.Background = 2;
         }
 
-        UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+        await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
     }
 
-    private void ColorNtp_TextChanged(object sender, TextChangedEventArgs e)
+    private async void ColorTBPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
     {
         if (AuthService.CurrentUser != null)
         {
             // Update the "ColorBackground" setting for the current user
-            userSettings.NtpTextColor = ColorNtp.Text.ToString();
+            SettingsService.CoreSettings.ColorTool = XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), ColorTBPicker.Color).ToString();
 
             // Save the modified settings back to the user's settings file
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
-        else
+        
+    }
+
+    private async void ColorTVPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+    {
+        if (AuthService.CurrentUser != null)
         {
-            // Handle the case when there is no authenticated user.
+            // Update the "ColorBackground" setting for the current user
+            SettingsService.CoreSettings.ColorTV = XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), ColorTVPicker.Color).ToString();
+
+            // Save the modified settings back to the user's settings file
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
+        
+    }
+
+    private async void ColorNtpPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+    {
+        if (AuthService.CurrentUser != null)
+        {
+            // Update the "ColorBackground" setting for the current user
+            SettingsService.CoreSettings.NtpTextColor = XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), ColorNtpPicker.Color).ToString();
+
+            // Save the modified settings back to the user's settings file
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+        }
+        
+    }
+
+    private async void ColorBackGroundPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+    {
+        if (AuthService.CurrentUser != null)
+        {
+            // Update the "ColorBackground" setting for the current user
+            SettingsService.CoreSettings.ColorBackground = XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), ColorBackGroundPicker.Color).ToString();
+
+            // Save the modified settings back to the user's settings file
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+
+        }
+        
     }
 }

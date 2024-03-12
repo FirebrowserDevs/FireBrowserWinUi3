@@ -20,17 +20,36 @@ public partial class MainWindowViewModel : ObservableRecipient
 
     private void ReceivedStatus(object recipient, Message_Settings_Actions message)
     {
-        var note = new Notification
+        switch (message.Status)
         {
-            Title = "Fire Broswer WinUi3\n",
-            Message = $"Welcomes, {AuthService.CurrentUser.Username.ToUpperInvariant()} !",
-            Severity = InfoBarSeverity.Informational,
-            IsIconVisible = true,
-            Duration = TimeSpan.FromSeconds(5),
-            
-        };
+            case EnumMessageStatus.Added:
+                break;
+            case EnumMessageStatus.Login:
+                var note = new Notification
+                {
+                    Title = "Fire Broswer WinUi3\n",
+                    Message = $"Welcomes, {AuthService.CurrentUser.Username.ToUpperInvariant()} !",
+                    Severity = InfoBarSeverity.Informational,
+                    IsIconVisible = true,
+                    Duration = TimeSpan.FromSeconds(5),
+
+                };
+                MainView.NotificationQueue.Show(note);
+                break;
+            case EnumMessageStatus.Logout:
+                break;
+            case EnumMessageStatus.Removed:
+                break;
+            case EnumMessageStatus.Settings:
+                MainView.LoadUserSettings();    
+                break;
+            case EnumMessageStatus.Updated:
+                break;
+            default:
+                break;
+        }
         
-        MainView.NotificationQueue.Show(note);
+        
 
 
     }

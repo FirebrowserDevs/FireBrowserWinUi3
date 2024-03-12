@@ -1,3 +1,4 @@
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -7,28 +8,29 @@ using System;
 namespace FireBrowserWinUi3.Pages.SettingsPages;
 public sealed partial class SettingsWebView : Page
 {
-    Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+    SettingsService SettingsService { get; set; }
     WebView2 Web = new WebView2();
     public SettingsWebView()
     {
+        SettingsService = App.GetService<SettingsService>();    
         this.InitializeComponent();
         loadinit();
     }
 
     public void loadinit()
     {
-        Agent.Text = userSettings.Useragent;
-        StatusTog.IsOn = userSettings.StatusBar;
-        BrowserKeys.IsOn = userSettings.BrowserKeys;
-        BrowserScripts.IsOn = userSettings.BrowserScripts;
-        ResourceSaver.IsOn = userSettings.ResourceSave;
+        Agent.Text = SettingsService.CoreSettings.Useragent;
+        StatusTog.IsOn = SettingsService.CoreSettings.StatusBar;
+        BrowserKeys.IsOn = SettingsService.CoreSettings.BrowserKeys;
+        BrowserScripts.IsOn = SettingsService.CoreSettings.BrowserScripts;
+        ResourceSaver.IsOn = SettingsService.CoreSettings.ResourceSave;
         antitracklevel();
     }
 
     public void antitracklevel()
     {
-        // Assuming userSettings.TrackPrevention is a string that may be null or contain a valid number (0, 1, 2, 3)
-        int trackPreventionSetting = userSettings.TrackPrevention;
+        // Assuming SettingsService.CoreSettings.TrackPrevention is a string that may be null or contain a valid number (0, 1, 2, 3)
+        int trackPreventionSetting = SettingsService.CoreSettings.TrackPrevention;
 
         // Map the numeric value to the corresponding text value
         string selectedText;
@@ -61,7 +63,7 @@ public sealed partial class SettingsWebView : Page
         Web.CoreWebView2.CookieManager.DeleteAllCookies();
     }
 
-    private async void ClearCache_Click(object sender, RoutedEventArgs e)
+    private void ClearCache_Click(object sender, RoutedEventArgs e)
     {
         ClearAutofillData();
     }
@@ -85,52 +87,52 @@ public sealed partial class SettingsWebView : Page
         }
     }
 
-    private void Agent_TextChanged(object sender, TextChangedEventArgs e)
+    private async void Agent_TextChanged(object sender, TextChangedEventArgs e)
     {
         string autoSettingValue = Agent.Text.ToString();
 
-        userSettings.Useragent = autoSettingValue;
+        SettingsService.CoreSettings.Useragent = autoSettingValue;
 
-        UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+        await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
     }
 
-    private void StatusTog_Toggled(object sender, RoutedEventArgs e)
+    private async void StatusTog_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.StatusBar = autoSettingValue;
+            SettingsService.CoreSettings.StatusBar = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void BrowserKeys_Toggled(object sender, RoutedEventArgs e)
+    private async void BrowserKeys_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.BrowserKeys = autoSettingValue;
+            SettingsService.CoreSettings.BrowserKeys = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void BrowserScripts_Toggled(object sender, RoutedEventArgs e)
+    private async void BrowserScripts_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.BrowserScripts = autoSettingValue;
+            SettingsService.CoreSettings.BrowserScripts = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void PreventionLevel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void PreventionLevel_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         try
         {
@@ -163,10 +165,9 @@ public sealed partial class SettingsWebView : Page
             }
 
 
-            userSettings.TrackPrevention = antitrack;
+            SettingsService.CoreSettings.TrackPrevention = antitrack;
             // Save the modified settings back to the user's settings file
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
-
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
         catch (Exception ex)
         {
@@ -174,15 +175,15 @@ public sealed partial class SettingsWebView : Page
         }
     }
 
-    private void ResourceSaver_Toggled(object sender, RoutedEventArgs e)
+    private async void ResourceSaver_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.ResourceSave = autoSettingValue;
+            SettingsService.CoreSettings.ResourceSave = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 }

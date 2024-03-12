@@ -1,3 +1,4 @@
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -12,25 +13,26 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
     /// </summary>
     public sealed partial class SettingsEnqryption : Page
     {
+        SettingsService SettingsService { get; set; }   
         public SettingsEnqryption()
         {
+            SettingsService = App.GetService<SettingsService>();    
             this.InitializeComponent();
             LoadSets();
         }
 
-        FireBrowserWinUi3MultiCore.Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
         public void LoadSets()
         {
-            EnqSets.IsOn = userSettings.Eqsets;
-            Enq2fa.IsOn = userSettings.Eq2fa;
-            EnqHis.IsOn = userSettings.EqHis;
-            EnqFav.IsOn = userSettings.Eqfav;
+            EnqSets.IsOn = SettingsService.CoreSettings.Eqsets;
+            Enq2fa.IsOn = SettingsService.CoreSettings.Eq2fa;
+            EnqHis.IsOn = SettingsService.CoreSettings.EqHis;
+            EnqFav.IsOn = SettingsService.CoreSettings.Eqfav;
         }
 
 
 
 
-        private void EnqSets_Toggled(object sender, RoutedEventArgs e)
+        private async void EnqSets_Toggled(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
@@ -38,10 +40,11 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
                 var autoSettingValue = toggleSwitch.IsOn;
 
                 // Set the 'Auto' setting
-                userSettings.Eqsets = autoSettingValue;
+                SettingsService.CoreSettings.Eqsets = autoSettingValue;
 
                 // Save the modified settings back to the user's settings file
-                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+                await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+                
             }
         }
 
@@ -53,16 +56,15 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
                 var autoSettingValue = toggleSwitch.IsOn;
 
                 // Set the 'Auto' setting
-                userSettings.Eq2fa = autoSettingValue;
-
+                SettingsService.CoreSettings.Eq2fa = autoSettingValue;
 
 
                 // Save the modified settings back to the user's settings file
-                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+                await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
             }
         }
 
-        private void EnqHis_Toggled(object sender, RoutedEventArgs e)
+        private async void EnqHis_Toggled(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
@@ -70,14 +72,14 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
                 var autoSettingValue = toggleSwitch.IsOn;
 
                 // Set the 'Auto' setting
-                userSettings.EqHis = autoSettingValue;
+                SettingsService.CoreSettings.EqHis = autoSettingValue;
 
                 // Save the modified settings back to the user's settings file
-                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+                await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
             }
         }
 
-        private void EnqFav_Toggled(object sender, RoutedEventArgs e)
+        private async void EnqFav_Toggled(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
@@ -85,10 +87,10 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
                 var autoSettingValue = toggleSwitch.IsOn;
 
                 // Set the 'Auto' setting
-                userSettings.Eqfav = autoSettingValue;
+                SettingsService.CoreSettings.Eqfav = autoSettingValue;
 
                 // Save the modified settings back to the user's settings file
-                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+                await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
             }
         }
     }

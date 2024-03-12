@@ -1,3 +1,4 @@
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -10,22 +11,23 @@ public sealed partial class SettingsAccess : Page
 {
     bool isMode;
 
-    FireBrowserWinUi3MultiCore.Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+    SettingsService SettingsService { get; set; }    
     public SettingsAccess()
     {
         this.InitializeComponent();
+        SettingsService = App.GetService<SettingsService>();    
         LoadUserDataAndSettings();
         id();
     }
 
     private void LoadUserDataAndSettings()
     {
-        Langue.SelectedValue = userSettings.Lang;
-        Logger.SelectedValue = userSettings.ExceptionLog;
-        bool isMode = userSettings.LightMode;
+        Langue.SelectedValue = SettingsService.CoreSettings.Lang;
+        Logger.SelectedValue = SettingsService.CoreSettings.ExceptionLog;
+        bool isMode = (bool)SettingsService.CoreSettings.LightMode;
         LiteMode.IsOn = isMode;
     }
-    private void LiteMode_Toggled(object sender, RoutedEventArgs e)
+    private async void LiteMode_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
@@ -36,10 +38,10 @@ public sealed partial class SettingsAccess : Page
             if (AuthService.CurrentUser != null)
             {
                 // Update the "Auto" setting for the current user
-                userSettings.LightMode = autoValue;
+                SettingsService.CoreSettings.LightMode = autoValue;
 
                 // Save the modified settings back to the user's settings file
-                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+                await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
             }
             else
             {
@@ -48,7 +50,7 @@ public sealed partial class SettingsAccess : Page
         }
     }
 
-    private void Langue_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void Langue_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         string selection = e.AddedItems[0].ToString();
         string langSetting = selection switch
@@ -59,10 +61,10 @@ public sealed partial class SettingsAccess : Page
         };
 
         // Update the "Auto" setting for the current user
-        userSettings.Lang = langSetting;
+        SettingsService.CoreSettings.Lang = langSetting;
 
         // Save the modified settings back to the user's settings file
-        UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+        await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings); 
     }
 
     private async void id()
@@ -116,7 +118,7 @@ public sealed partial class SettingsAccess : Page
         await ToggleLaunchOnStartup(LaunchOnStartupToggle.IsChecked ?? false);
     }
 
-    private void Logger_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void Logger_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         string selection = e.AddedItems[0].ToString();
         string langSetting = selection switch
@@ -127,9 +129,9 @@ public sealed partial class SettingsAccess : Page
         };
 
         // Update the "Auto" setting for the current user
-        userSettings.ExceptionLog = langSetting;
+        SettingsService.CoreSettings.ExceptionLog = langSetting;
 
         // Save the modified settings back to the user's settings file
-        UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+        await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings); 
     }
 }

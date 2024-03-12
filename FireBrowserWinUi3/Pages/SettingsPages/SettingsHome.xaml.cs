@@ -1,3 +1,4 @@
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
@@ -9,8 +10,10 @@ using System.Linq;
 namespace FireBrowserWinUi3.Pages.SettingsPages;
 public sealed partial class SettingsHome : Page
 {
+    SettingsService SettingsService { get; set; }
     public SettingsHome()
     {
+        SettingsService = App.GetService<SettingsService>();    
         this.InitializeComponent();
         LoadUserDataAndSettings();
         LoadUsernames();
@@ -80,13 +83,13 @@ public sealed partial class SettingsHome : Page
     }
 
 
-    private void Switch_Click(object sender, RoutedEventArgs e)
+    private async void Switch_Click(object sender, RoutedEventArgs e)
     {
         if (sender is Button switchButton && switchButton.DataContext is string clickedUserName)
         {
             OpenNewWindow(new Uri($"firebrowseruser://{clickedUserName}"));
             Shortcut ct = new();
-            ct.CreateShortcut(clickedUserName);
+            await ct.CreateShortcut(clickedUserName);
         }
     }
 

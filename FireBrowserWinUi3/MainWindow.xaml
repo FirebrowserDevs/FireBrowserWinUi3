@@ -598,8 +598,7 @@
                 <Grid
                     x:Name="Apptitlebar"
                     MinWidth="175"
-                    IsHitTestVisible="False"
-                    LayoutUpdated="Apptitlebar_LayoutUpdated" />
+                    IsHitTestVisible="False" />
             </firebrowser:FireBrowserTabViewContainer.TabStripFooter>
         </firebrowser:FireBrowserTabViewContainer>
         <Grid

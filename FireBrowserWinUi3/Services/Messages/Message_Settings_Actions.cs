@@ -10,7 +10,10 @@ namespace FireBrowserWinUi3.Services.Messages
     public enum EnumMessageStatus
     {
         Added,
+        Login,
+        Logout,
         Removed,
+        Settings,
         Updated
     };
     public record class Message_Settings_Actions(string _payload, EnumMessageStatus _status)
@@ -24,9 +27,10 @@ namespace FireBrowserWinUi3.Services.Messages
         public Message_Settings_Actions(EnumMessageStatus _status) : this(null, _status) {
 
             Payload = this._payload;    
-            Status = this._status;
+            Status = _status;
         }
-        public EnumMessageStatus Status {  get; }
-        public string Payload { get; }
+
+        public EnumMessageStatus Status { get; } = _status;
+        public string Payload { get; } = _payload; 
     }
 }

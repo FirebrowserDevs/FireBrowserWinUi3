@@ -1,3 +1,4 @@
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -6,32 +7,33 @@ using System;
 namespace FireBrowserWinUi3.Pages.SettingsPages;
 public sealed partial class SettingsNewTab : Page
 {
-    Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
+    SettingsService SettingsService { get; set; }   
     public SettingsNewTab()
     {
+        SettingsService = App.GetService<SettingsService>();    
         this.InitializeComponent();
         loadsets();
     }
 
     public void loadsets()
     {
-        SearchengineSelection.SelectedItem = userSettings.EngineFriendlyName;
+        SearchengineSelection.SelectedItem = SettingsService.CoreSettings.EngineFriendlyName;
 
-        OpenNew.IsOn = userSettings.OpenTabHandel;
-        Trbl.IsOn = userSettings.Translate;
-        Adbl.IsOn = userSettings.AdblockBtn;
-        Drbl.IsOn = userSettings.DarkIcon;
-        Read.IsOn = userSettings.ReadButton;
-        Dwbl.IsOn = userSettings.Downloads;
-        Frbl.IsOn = userSettings.FavoritesL;
-        FlAd.IsOn = userSettings.Favorites;
-        Hsbl.IsOn = userSettings.Historybtn;
-        Qrbl.IsOn = userSettings.QrCode;
-        Tlbl.IsOn = userSettings.ToolIcon;
-        Confirm.IsOn = userSettings.ConfirmCloseDlg;
+        OpenNew.IsOn = SettingsService.CoreSettings.OpenTabHandel;
+        Trbl.IsOn = SettingsService.CoreSettings.Translate;
+        Adbl.IsOn = SettingsService.CoreSettings.AdblockBtn;
+        Drbl.IsOn = SettingsService.CoreSettings.DarkIcon;
+        Read.IsOn = SettingsService.CoreSettings.ReadButton;
+        Dwbl.IsOn = SettingsService.CoreSettings.Downloads;
+        Frbl.IsOn = SettingsService.CoreSettings.FavoritesL;
+        FlAd.IsOn = SettingsService.CoreSettings.Favorites;
+        Hsbl.IsOn = SettingsService.CoreSettings.Historybtn;
+        Qrbl.IsOn = SettingsService.CoreSettings.QrCode;
+        Tlbl.IsOn = SettingsService.CoreSettings.ToolIcon;
+        Confirm.IsOn = SettingsService.CoreSettings.ConfirmCloseDlg;
     }
 
-    private void SearchengineSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void SearchengineSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         try
         {
@@ -82,10 +84,10 @@ public sealed partial class SettingsNewTab : Page
 
             if (!string.IsNullOrEmpty(url))
             {
-                userSettings.EngineFriendlyName = selection;
-                userSettings.SearchUrl = url;
+                SettingsService.CoreSettings.EngineFriendlyName = selection;
+                SettingsService.CoreSettings.SearchUrl = url;
 
-                UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+                await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
             }
         }
         catch (Exception ex)
@@ -94,148 +96,148 @@ public sealed partial class SettingsNewTab : Page
         }
     }
 
-    private void OpenNew_Toggled(object sender, RoutedEventArgs e)
+    private async void OpenNew_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.OpenTabHandel = autoSettingValue;
+            SettingsService.CoreSettings.OpenTabHandel = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void Drbl_Toggled(object sender, RoutedEventArgs e)
+    private async void Drbl_Toggled(object sender, RoutedEventArgs e)
     {
 
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.DarkIcon = autoSettingValue;
+            SettingsService.CoreSettings.DarkIcon = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void Trbl_Toggled(object sender, RoutedEventArgs e)
+    private async void Trbl_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.Translate = autoSettingValue;
+            SettingsService.CoreSettings.Translate = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void Read_Toggled(object sender, RoutedEventArgs e)
+    private async void Read_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.ReadButton = autoSettingValue;
+            SettingsService.CoreSettings.ReadButton = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void Adbl_Toggled(object sender, RoutedEventArgs e)
+    private async void Adbl_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.AdblockBtn = autoSettingValue;
+            SettingsService.CoreSettings.AdblockBtn = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void Dwbl_Toggled(object sender, RoutedEventArgs e)
+    private async void Dwbl_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.Downloads = autoSettingValue;
+            SettingsService.CoreSettings.Downloads = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void Frbl_Toggled(object sender, RoutedEventArgs e)
+    private async void Frbl_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.FavoritesL = autoSettingValue;
+            SettingsService.CoreSettings.FavoritesL = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void FlAd_Toggled(object sender, RoutedEventArgs e)
+    private async void FlAd_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.Favorites = autoSettingValue;
+            SettingsService.CoreSettings.Favorites = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void Hsbl_Toggled(object sender, RoutedEventArgs e)
+    private async void Hsbl_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.Historybtn = autoSettingValue;
+            SettingsService.CoreSettings.Historybtn = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void Qrbl_Toggled(object sender, RoutedEventArgs e)
+    private async void Qrbl_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.QrCode = autoSettingValue;
+            SettingsService.CoreSettings.QrCode = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void Tlbl_Toggled(object sender, RoutedEventArgs e)
+    private async void Tlbl_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.ToolIcon = autoSettingValue;
+            SettingsService.CoreSettings.ToolIcon = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
-    private void Confirm_Toggled(object sender, RoutedEventArgs e)
+    private async void Confirm_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            userSettings.ConfirmCloseDlg = autoSettingValue;
+            SettingsService.CoreSettings.ConfirmCloseDlg = autoSettingValue;
 
-            UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 }

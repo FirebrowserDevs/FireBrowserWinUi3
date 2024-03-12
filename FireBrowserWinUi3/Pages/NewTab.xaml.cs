@@ -33,8 +33,8 @@ public sealed partial class NewTab : Page
 
     public HomeViewModel ViewModel { get; set; }
     private HistoryActions HistoryActions { get; } = new HistoryActions(AuthService.CurrentUser.Username);
-    FireBrowserWinUi3MultiCore.Settings userSettings { get; set; } 
-    SettingsService  SettingsService { get; }
+    FireBrowserWinUi3MultiCore.Settings userSettings { get; set; }
+    SettingsService SettingsService { get; }
 
     Passer param;
     public NewTab()
@@ -43,18 +43,18 @@ public sealed partial class NewTab : Page
         // init to load controls from settings, and start clock . 
         _ = ViewModel.Intialize().GetAwaiter();
         // assign to ViewModel, and or new instance.  
-        ViewModel.SettingsService.Initialize(); 
-        userSettings = ViewModel.SettingsService.CoreSettings; 
+        ViewModel.SettingsService.Initialize();
+        userSettings = ViewModel.SettingsService.CoreSettings;
 
         this.InitializeComponent();
-        
+
     }
 
     private async void NewTab_Loaded(object sender, RoutedEventArgs e)
     {
         // round-robin if one or more newTab's are open apply settings. 
         await ViewModel.Intialize();
-        userSettings = ViewModel.SettingsService.CoreSettings; 
+        userSettings = ViewModel.SettingsService.CoreSettings;
 
         //NO need to load because property is attached to viewModel, and also if you select the tab it will call the load event may we can refresh the page... 
         ViewModel.HistoryItems = await HistoryActions.GetAllHistoryItems();
@@ -66,26 +66,27 @@ public sealed partial class NewTab : Page
         SearchengineSelection.SelectedItem = userSettings.EngineFriendlyName;
         NewTabSearchBox.Text = string.Empty;
         NewTabSearchBox.Focus(FocusState.Programmatic);
-
-        HomeSync(); 
         
+        HomeSync();
+
     }
 
-    
+
     private async void HomeSync()
     {
         Type.IsOn = userSettings.Auto is true;
         Mode.IsOn = userSettings.LightMode is true;
 
         ViewModel.BackgroundType = GetBackgroundType(userSettings.Background);
+        ViewModel.RaisePropertyChanges(nameof(ViewModel.BackgroundType));   
 
         var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor);
         NewColor.IsEnabled = userSettings.Background is 2;
-        NewColor.Text = userSettings.ColorBackground;
-        NtpColorBox.Text = userSettings.NtpTextColor;
+        NewColorPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.ColorBackground);
+        NtpColorPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor) ;
         NtpTime.Foreground = NtpDate.Foreground = new SolidColorBrush(color);
-
-        GridSelect.SelectedValue = ViewModel.BackgroundType.ToString();
+        GridSelect.SelectedIndex = userSettings.Background;
+        //GridSelect.SelectedValue = ViewModel.BackgroundType.ToString();
         SetVisibilityBasedOnLightMode(userSettings.LightMode is true);
         await Task.CompletedTask;
     }
@@ -250,15 +251,30 @@ public sealed partial class NewTab : Page
 
     private void Type_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.Auto = Type.IsOn);
     private void Mode_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.LightMode = Mode.IsOn);
-    private void NewColor_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.ColorBackground = NewColor.Text);
+    private void NewColor_TextChanged(ColorPicker sender, ColorChangedEventArgs args) {
+        
+        var newColor = userSettings.ColorBackground = XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), NewColorPicker.Color).ToString();
+        UpdateUserSettings(userSettings => userSettings.ColorBackground = newColor);
+        SetAndSaveBackgroundSettings((2, Settings.NewTabBackground.Costum, true, Visibility.Collapsed));
+        ViewModel.RaisePropertyChanges(nameof(ViewModel.BackgroundType));
+        
+        
+    }
+    //private void NewColor_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.ColorBackground = NewColor.Text);
     private void DateTimeToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpDateTime = DateTimeToggle.IsOn);
     private void FavoritesToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsFavoritesToggled = FavoritesTimeToggle.IsOn);
     private void HistoryToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsHistoryToggled = HistoryToggle.IsOn);
     private void SearchVisible_Toggled(Object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsSearchVisible = SearchVisible.IsOn);
     private void FavsVisible_Toggled(Object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsFavoritesVisible = FavsVisible.IsOn);
     private void HistoryVisible_Toggled(Object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsHistoryVisible = HistoryVisible.IsOn);
-
-    private void NtpColorBox_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpTextColor = NtpColorBox.Text);
+    private void NtpColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+    {
+        var newColor = userSettings.NtpTextColor = XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), NtpColorPicker.Color).ToString();
+        UpdateUserSettings(userSettings => userSettings.NtpTextColor = newColor);
+        NtpTime.Foreground = NtpDate.Foreground = new SolidColorBrush(NtpColorPicker.Color);
+        
+    }
+    //private void NtpColorBox_TextChanged(object sender, TextChangedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpTextColor = NtpColorBox.Text);
     private void Download_Click(object sender, RoutedEventArgs e) => DownloadImage();
 
     private void NewTabSearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -363,4 +379,6 @@ public sealed partial class NewTab : Page
             }
         }
     }
+
+  
 }

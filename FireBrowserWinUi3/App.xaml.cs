@@ -188,7 +188,7 @@ public partial class App : Application
         if (AuthService.IsUserAuthenticated)
         {
             IMessenger messenger = App.GetService<IMessenger>();
-            messenger?.Send(new Message_Settings_Actions($"Welcome {AuthService.CurrentUser.Username} to our FireBrowser"));
+            messenger?.Send(new Message_Settings_Actions($"Welcome {AuthService.CurrentUser.Username} to our FireBrowser", EnumMessageStatus.Login));
         }
     }
 
