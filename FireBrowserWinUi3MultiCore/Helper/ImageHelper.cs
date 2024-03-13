@@ -16,6 +16,6 @@ namespace FireBrowserWinUi3MultiCore.Helper
         public BitmapImage LoadImage(string imageName) =>
             string.IsNullOrEmpty(imageName) ? null : ImageCache.TryGetValue(imageName, out var cachedImage)
                 ? cachedImage
-                : ImageCache[imageName] = new BitmapImage(new Uri($"ms-appx:///FireBrowserWinUi3MultiCore//FireBrowserWinUi3Assets/{imageName}"));
+                : ImageCache[imageName] = new BitmapImage(new Uri($"ms-appx:///FireBrowserWinUi3MultiCore//Assets/{imageName}"));
     }
 }

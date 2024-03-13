@@ -89,7 +89,7 @@ namespace FireBrowserWinUi3Setup
             {
                 StorageFolder destinationFolder = await StorageFolder.GetFolderFromPathAsync(destinationFolderPath);
 
-                StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/Assets/{imageName}"));
+                StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///FireBrowserWinUi3Assets/Assets/{imageName}"));
 
                 string destinationFilePath = Path.Combine(destinationFolderPath, "profile_image.jpg"); // Replace with desired file name
                 StorageFile destinationFile = await imageFile.CopyAsync(destinationFolder, "profile_image.jpg", NameCollisionOption.ReplaceExisting);
