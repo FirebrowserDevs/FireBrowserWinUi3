@@ -75,6 +75,13 @@
             </labs:SettingsExpander.Items>
         </labs:SettingsExpander>
 
+        <labs:SettingsCard Header="WebView2 AdBlocker" Description="turn on or off the default Adblocker">
+            <labs:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEA18;"/>
+            </labs:SettingsCard.HeaderIcon>
+            <ToggleSwitch x:Name="AdBlocker" Toggled="AdBlocker_Toggled"/>
+        </labs:SettingsCard>
+
         <labs:SettingsCard Header="WebView2 Resource Saver" Description="WebView2 Resource Saver Pause Vidoes if not watched">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8BE;"/>

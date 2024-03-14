@@ -34,14 +34,7 @@ namespace FireBrowserWinUi3Setup
         {
             countdownSeconds--;
 
-            if (countdownSeconds <= 0)
-            {
-                Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
-            }
-            else
-            {
-
-            }
+            if (countdownSeconds <= 0) Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
         }
     }
 }

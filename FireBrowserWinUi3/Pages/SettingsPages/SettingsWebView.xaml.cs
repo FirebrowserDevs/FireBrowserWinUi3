@@ -186,4 +186,16 @@ public sealed partial class SettingsWebView : Page
             await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
+
+    private async void AdBlocker_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var autoSettingValue = toggleSwitch.IsOn;
+
+            SettingsService.CoreSettings.AdblockBtn = autoSettingValue;
+
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+        }
+    }
 }

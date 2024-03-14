@@ -57,7 +57,6 @@ public class Settings
         self.IsHistoryVisible = true;
         self.IsSearchVisible = true;
         self.NtpCoreVisibility = true;
-
     }
 
     [JsonIgnore]
@@ -141,6 +140,8 @@ public class Settings
     [DefaultValue(false)]
     public bool OpenTabHandel { get; set; }
     [DefaultValue(false)]
+
+
     public bool NtpDateTime { get; set; }
 
     [DefaultValue(false)]
