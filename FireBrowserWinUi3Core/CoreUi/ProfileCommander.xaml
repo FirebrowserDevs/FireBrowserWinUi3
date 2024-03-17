@@ -58,6 +58,25 @@
                         </StackPanel>
                     </Expander>
                 </StackPanel>
+                <Button x:Name="Info" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTipService.ToolTip="Tips" Padding="10" CornerRadius="48" Margin="0">
+                    <Button.Content>
+                        <FontIcon Glyph="&#xE946;" FontSize="12"/>
+                    </Button.Content>
+                    <Button.Flyout>
+                        <Flyout Placement="Bottom">
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="Margin" Value="0,0,0,0"/>
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <StackPanel>
+                                <TextBlock>Quick Search Youtube with youtube:</TextBlock>
+                                <TextBlock>Quick Search Engine with search:</TextBlock>
+                                <TextBlock>Enter 192 then it will autofill http://192</TextBlock>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
             </Grid>
         </Grid>
     </Grid>

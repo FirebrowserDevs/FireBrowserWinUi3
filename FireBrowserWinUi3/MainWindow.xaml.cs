@@ -3,6 +3,7 @@ using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
 using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3.Services.ViewModels;
 using FireBrowserWinUi3.ViewModels;
 using FireBrowserWinUi3Core.CoreUi;
@@ -333,6 +334,10 @@ public sealed partial class MainWindow : Window
         SetVisibility(DownBtn, coreSet.Downloads is not false);
         SetVisibility(History, coreSet.Historybtn is not false);
         SetVisibility(QrBtn, coreSet.QrCode is not false);
+        SetVisibility(BackBtn, coreSet.BackButton is not false);
+        SetVisibility(ForwBtn, coreSet.ForwardButton is not false);
+        SetVisibility(ReloadBtn, coreSet.RefreshButton is not false);
+        SetVisibility(HomeBtn, coreSet.HomeButton is not false);
     }
 
     private void SetVisibility(UIElement element, bool isVisible)
@@ -1117,5 +1122,27 @@ public sealed partial class MainWindow : Window
     {
         var options = new Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowOptions { Placement = Microsoft.UI.Xaml.Controls.Primitives.FlyoutPlacementMode.Bottom };
         Commander.ShowAt(Profile, options);
+    }
+
+    private void UrlBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    {
+        if (UrlBox.Text.Contains("youtube:"))
+        {
+            UrlBox.Text = "https://www.youtube.com/results?search_query=";
+            UrlBox.Focus(FocusState.Keyboard);
+            NotificationQueue.Show("Autofill Trigger Youtube Quick Search", 2500);
+        }
+        if (UrlBox.Text.Equals("192"))
+        {
+            UrlBox.Text = "http://192.";
+            UrlBox.Focus(FocusState.Keyboard);
+            NotificationQueue.Show("Autofill Local Site http://...", 2500);
+        }
+        if (UrlBox.Text.Equals("search:"))
+        {
+            UrlBox.Text = $"{SettingsService.CoreSettings.SearchUrl}";
+            UrlBox.Focus(FocusState.Keyboard);
+            NotificationQueue.Show($"Autofill Search Quick {SettingsService.CoreSettings.EngineFriendlyName}", 2500);
+        }
     }
 }

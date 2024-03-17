@@ -594,21 +594,25 @@
             </Grid.ColumnDefinitions>
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                 <Button
+                    x:Name="BackBtn"
                     Click="ToolbarButtonClick"
                     Content="{firebrowser:FluentIcon Glyph=&#xE72B;}"
                     Style="{StaticResource QuietButtonStyle}"
                     Tag="Back" />
                 <Button
+                    x:Name="ForwBtn"
                     Click="ToolbarButtonClick"
                     Content="{firebrowser:FluentIcon Glyph=&#xE72A;}"
                     Style="{StaticResource QuietButtonStyle}"
                     Tag="Forward" />
                 <Button
+                    x:Name="ReloadBtn"
                     Click="ToolbarButtonClick"
                     Content="{firebrowser:FluentIcon Glyph=&#xE72C;}"
                     Style="{StaticResource QuietButtonStyle}"
                     Tag="Refresh" />
                 <Button
+                    x:Name="HomeBtn"
                     Click="ToolbarButtonClick"
                     Content="{firebrowser:FluentIcon Glyph=&#xE80F;}"
                     Style="{StaticResource QuietButtonStyle}"
@@ -625,6 +629,7 @@
                     Padding="32,5,5,0"
                     x:FieldModifier="Public"
                     CornerRadius="5"
+                    TextChanged="UrlBox_TextChanged"
                     QuerySubmitted="UrlBox_QuerySubmitted"
                     Style="{ThemeResource PortalBarStyle}"
                     Text="{x:Bind ViewModel.CurrentAddress, Mode=OneWay}" />

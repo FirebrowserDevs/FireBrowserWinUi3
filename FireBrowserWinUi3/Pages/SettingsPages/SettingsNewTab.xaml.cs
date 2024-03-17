@@ -275,7 +275,7 @@ public sealed partial class SettingsNewTab : Page
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-           SettingsService.CoreSettings.RefreshButton = autoSettingValue;
+           SettingsService.CoreSettings.HomeButton = autoSettingValue;
 
            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
@@ -287,7 +287,7 @@ public sealed partial class SettingsNewTab : Page
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            SettingsService.CoreSettings.HomeButton = autoSettingValue;
+            SettingsService.CoreSettings.RefreshButton = autoSettingValue;
 
             await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
