@@ -9,26 +9,41 @@
     xmlns:labs="using:CommunityToolkit.WinUI.Controls">
 
     <StackPanel>
-        <labs:SettingsCard Header="WebView2 StatusBar" Description="turn on or off the default statusbar">
+        <labs:SettingsExpander Header="WebView2 Tools" Description="Here You Can Set WebView2 Stuff">
+            <labs:SettingsExpander.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
+            </labs:SettingsExpander.HeaderIcon>
+            <labs:SettingsExpander.Items>
+                <labs:SettingsCard Header="WebView2 StatusBar" Description="turn on or off the default statusbar">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xF168;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Name="StatusTog" Toggled="StatusTog_Toggled"/>
+                </labs:SettingsCard>
+
+                <labs:SettingsCard Header="WebView2 Browser Accelerator Keys" Description="turn on or off the default BrowserAcceleratorKeys">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE9A9;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Name="BrowserKeys" Toggled="BrowserKeys_Toggled"/>
+                </labs:SettingsCard>
+
+                <labs:SettingsCard Header="WebView2 Script Dialogs" Description="turn on or off the default Scripts Dialogs">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xED0E;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Name="BrowserScripts" Toggled="BrowserScripts_Toggled"/>
+                </labs:SettingsCard>
+            </labs:SettingsExpander.Items>
+        </labs:SettingsExpander>
+
+        <labs:SettingsCard Header="WebView2 Picture-in-Picture" Description="Automatically enable the PiP player when the selected tab change">
             <labs:SettingsCard.HeaderIcon>
-                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xF168;"/>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE714;"/>
             </labs:SettingsCard.HeaderIcon>
-            <ToggleSwitch x:Name="StatusTog" Toggled="StatusTog_Toggled"/>
+            <ToggleSwitch x:Name="PipModeTg" Toggled="PipModeTg_Toggled"/>
         </labs:SettingsCard>
 
-        <labs:SettingsCard Header="WebView2 Browser Accelerator Keys" Description="turn on or off the default BrowserAcceleratorKeys">
-            <labs:SettingsCard.HeaderIcon>
-                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE9A9;"/>
-            </labs:SettingsCard.HeaderIcon>
-            <ToggleSwitch x:Name="BrowserKeys" Toggled="BrowserKeys_Toggled"/>
-        </labs:SettingsCard>
-
-        <labs:SettingsCard Header="WebView2 Script Dialogs" Description="turn on or off the default Scripts Dialogs">
-            <labs:SettingsCard.HeaderIcon>
-                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xED0E;"/>
-            </labs:SettingsCard.HeaderIcon>
-            <ToggleSwitch x:Name="BrowserScripts" Toggled="BrowserScripts_Toggled"/>
-        </labs:SettingsCard>
 
         <labs:SettingsCard Header="WebView2 Useragent" Description="WebView2 Useragent Settings">
             <labs:SettingsCard.HeaderIcon>

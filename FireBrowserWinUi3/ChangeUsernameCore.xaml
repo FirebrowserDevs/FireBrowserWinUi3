@@ -20,7 +20,7 @@
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Please Wait.. Changing Username Of Your Profile It Will Auto Restart</TextBlock>
-            <Button x:Name="ManaulRestart" Click="ManaulRestart_Click">Only Use If Auto Restart Fails</Button>
+            <Button x:Name="ManaulRestart" Click="ManaulRestart_Click">(Manaully Restart) Only Use If Auto Restart Fails</Button>
         </StackPanel>
     </Grid>
 </Window>

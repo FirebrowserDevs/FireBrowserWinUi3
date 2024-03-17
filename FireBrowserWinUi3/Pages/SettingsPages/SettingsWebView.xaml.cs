@@ -24,6 +24,7 @@ public sealed partial class SettingsWebView : Page
         BrowserKeys.IsOn = SettingsService.CoreSettings.BrowserKeys;
         BrowserScripts.IsOn = SettingsService.CoreSettings.BrowserScripts;
         ResourceSaver.IsOn = SettingsService.CoreSettings.ResourceSave;
+        //PipModeTg.IsOn = SettingsService.CoreSettings.PipMode;
         antitracklevel();
     }
 
@@ -196,6 +197,19 @@ public sealed partial class SettingsWebView : Page
             SettingsService.CoreSettings.AdblockBtn = autoSettingValue;
 
             await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+        }
+    }
+
+
+    private void PipModeTg_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var autoSettingValue = toggleSwitch.IsOn;
+
+            //SettingsService.CoreSettings.PipMode = autoSettingValue;
+
+            //await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 }

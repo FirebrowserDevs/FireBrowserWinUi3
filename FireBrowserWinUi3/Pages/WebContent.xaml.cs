@@ -395,6 +395,7 @@ public sealed partial class WebContent : Page
                     ConvertTextToSpeech(SelectionText);
                     break;
                 case "WebApp":
+                    _ = WebViewElement.ExecuteScriptAsync("document.querySelector(\"video\").requestPictureInPicture();");
                     break;
                 case "OpenInTab":
                     if (IsIncognitoModeEnabled)
