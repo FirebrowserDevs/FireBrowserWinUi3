@@ -1,9 +1,11 @@
 using FireBrowserWinUi3MultiCore.Helper;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.System;
 
 namespace FireBrowserWinUi3MultiCore;
 
@@ -28,11 +30,20 @@ public sealed partial class AddUser : ContentDialog
             UserSettings = null // You might want to initialize UserSettings based on your application logic
         };
 
+        List<FireBrowserWinUi3MultiCore.User> users = new List<FireBrowserWinUi3MultiCore.User>();
+        users.Add(newUser);
+
         AuthService.AddUser(newUser);
 
         UserFolderManager.CreateUserFolders(newUser);
 
-        await CopyImageToUserDirectory();
+        UserDataManager.SaveUsers(users);
+
+
+        string destinationFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, newUser.ToString());
+
+        CopyImageAsync(iImage.ToString(), destinationFolderPath);
+
         Hide();
     }
 
@@ -43,23 +54,18 @@ public sealed partial class AddUser : ContentDialog
         Hide();
     }
 
-    private async Task CopyImageToUserDirectory()
+    public async Task CopyImageAsync(string iImage, string destinationFolderPath)
     {
-        string imageName = $"{iImage}"; // Replace this with the actual image name
-        string destinationFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, Userbox.Text.ToString());
+        ImageHelper imgLoader = new ImageHelper();
+        imgLoader.ImageName = iImage;
+        imgLoader.LoadImage($"{iImage}");
 
-        try
-        {
-            StorageFolder destinationFolder = await StorageFolder.GetFolderFromPathAsync(destinationFolderPath);
-            StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///FireBrowserWinUi3Assets/FireBrowserWinUi3Assets/{imageName}"));
-            StorageFile destinationFile = await imageFile.CopyAsync(destinationFolder, "profile_image.jpg", NameCollisionOption.ReplaceExisting);
+        StorageFolder destinationFolder = await StorageFolder.GetFolderFromPathAsync(destinationFolderPath);
 
-            Console.WriteLine("Image copied successfully!");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error copying image: {ex.Message}");
-        }
+        StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///FireBrowserWinUi3MultiCore/Assets/{iImage}"));
+        StorageFile destinationFile = await imageFile.CopyAsync(destinationFolder, "profile_image.jpg", NameCollisionOption.ReplaceExisting);
+
+        Console.WriteLine("Image copied successfully!");
     }
 
     private void ProfileImage_SelectionChanged(object sender, SelectionChangedEventArgs e)

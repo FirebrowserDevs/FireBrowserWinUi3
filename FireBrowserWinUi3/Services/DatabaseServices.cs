@@ -3,6 +3,7 @@ using FireBrowserWinUi3DataCore.Actions;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ public class DatabaseServices : IDatabaseService
 {
     public async Task<Task> InsertUserSettings()
     {
-
+        Batteries_V2.Init();
         if (!AuthService.IsUserAuthenticated) return Task.FromResult(false); ;
 
         try
