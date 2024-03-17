@@ -82,6 +82,9 @@
                         <x:String>butterfly</x:String>
                         <x:String>present</x:String>
                         <x:String>crayon</x:String>
+                        <x:String>ball</x:String>
+                        <x:String>bot</x:String>
+                        <x:String>starfish</x:String>
                     </ComboBox>
 
                     <TextBox MaxLength="25" x:Name="UserName" TextChanged="UserName_TextChanged" PlaceholderText="Username Here" Margin="0,5,0,0"/>

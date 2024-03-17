@@ -86,7 +86,7 @@ public sealed partial class NewTab : Page
         NtpColorPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor) ;
         NtpTime.Foreground = NtpDate.Foreground = new SolidColorBrush(color);
         GridSelect.SelectedIndex = userSettings.Background;
-        //GridSelect.SelectedValue = ViewModel.BackgroundType.ToString();
+        GridSelect.SelectedValue = ViewModel.BackgroundType.ToString();
         SetVisibilityBasedOnLightMode(userSettings.LightMode is true);
         await Task.CompletedTask;
     }
@@ -154,6 +154,7 @@ public sealed partial class NewTab : Page
                 return new SolidColorBrush(Colors.Transparent);
 
             case Settings.NewTabBackground.Costum:
+
                 var color = colorString == "#000000" ?
                                 Colors.Transparent :
                                 (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), colorString);
@@ -162,6 +163,7 @@ public sealed partial class NewTab : Page
             case Settings.NewTabBackground.Featured:
                 try
                 {
+
                     var images = System.Text.Json.JsonSerializer.Deserialize<ImageRoot>(client.GetStringAsync(new Uri("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1")).Result);
 
                     if (images != null && images.images != null && images.images.Any())

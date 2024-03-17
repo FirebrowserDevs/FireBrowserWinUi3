@@ -1,6 +1,5 @@
 using CommunityToolkit.WinUI.Helpers;
 using FireBrowserWinUi3.Controls;
-using FireBrowserWinUi3AdBlockCore.AdBlocker;
 using FireBrowserWinUi3Core.CoreUi;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.ShareHelper;

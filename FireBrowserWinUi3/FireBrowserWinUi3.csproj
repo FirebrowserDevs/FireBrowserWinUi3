@@ -107,6 +107,7 @@
     <Content Remove="FireBrowserWinUi3Assets\Wide310x150Logo.scale-400.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="ChangeUsernameCore.xaml" />
     <None Remove="SetupWindow.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +172,9 @@
     <None Update="Assets\setup_image.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="ChangeUsernameCore.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="Logo.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

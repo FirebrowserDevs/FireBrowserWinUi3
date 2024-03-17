@@ -30,9 +30,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FireBrowserWinUi3Assets\FireBrowserWinUi3Assets.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Database\FireBrowserWinUi3Database.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Exceptions\FireBrowserWinUi3Exceptions.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Favorites\FireBrowserWinUi3Favorites.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3MultiCore\FireBrowserWinUi3MultiCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="CoreUi\ProfileCommander.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="CoreUi\ProfileCommander.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Remove="CoreUi\ProfileCommander.xaml" />
   </ItemGroup>
 </Project>

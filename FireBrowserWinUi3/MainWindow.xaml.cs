@@ -1,11 +1,8 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Behaviors;
 using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
 using FireBrowserWinUi3.Services;
-using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3.Services.ViewModels;
 using FireBrowserWinUi3.ViewModels;
 using FireBrowserWinUi3Core.CoreUi;
@@ -20,7 +17,6 @@ using FireBrowserWinUi3Navigator;
 using FireBrowserWinUi3QrCore;
 using FireBrowserWinUiModules.Darkmode;
 using FireBrowserWinUiModules.Read;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -48,8 +44,9 @@ namespace FireBrowserWinUi3;
 public sealed partial class MainWindow : Window
 {
     private AppWindow appWindow;
-
     public DownloadFlyout DownloadFlyout { get; set; } = new DownloadFlyout();
+
+    public ProfileCommander Commander { get; set; } = new ProfileCommander();
     public DownloadService ServiceDownloads { get; set; }
     public SettingsService SettingsService { get; set; }
     public MainWindowViewModel ViewModelMain { get; set; } 
@@ -65,8 +62,8 @@ public sealed partial class MainWindow : Window
         LoadUserDataAndSettings(); // Load data and settings for the new user
         LoadUserSettings();
         Init();
-        
-        ViewModelMain = App.GetService<MainWindowViewModel>();  
+
+        ViewModelMain = App.GetService<MainWindowViewModel>();
         ViewModelMain.IsActive = true;
         ViewModelMain.MainView = this; 
         appWindow.Closing += AppWindow_Closing;
@@ -82,7 +79,7 @@ public sealed partial class MainWindow : Window
     public void setColorsTool()
     {
 
-        if (SettingsService.CoreSettings.ColorTV == "#000000")
+        if (SettingsService.CoreSettings.ColorTV == "#FF000000")
         {
             Tabs.Background = new SolidColorBrush(Colors.Transparent);
         }
@@ -93,7 +90,7 @@ public sealed partial class MainWindow : Window
             var brush = new SolidColorBrush(color);
             Tabs.Background = brush;
         }
-        if (SettingsService.CoreSettings.ColorTool == "#000000")
+        if (SettingsService.CoreSettings.ColorTool == "#FF000000")
         {
             ClassicToolbar.Background = new SolidColorBrush(Colors.Transparent);
         }
@@ -1115,5 +1112,9 @@ public sealed partial class MainWindow : Window
         OpenNewWindow(new Uri($"firebrowseruser://{clickedUserName}")); _ = new Shortcut().CreateShortcut(clickedUserName);
     }
 
-    
+    private void Profile_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    {
+        var options = new Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowOptions { Placement = Microsoft.UI.Xaml.Controls.Primitives.FlyoutPlacementMode.Bottom };
+        Commander.ShowAt(Profile, options);
+    }
 }

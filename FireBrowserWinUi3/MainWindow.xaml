@@ -570,28 +570,8 @@
                     Width="32"
                     Height="32"
                     Margin="5,0,0,0"
-                    ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}">
-                    <PersonPicture.ContextFlyout>
-                        <Flyout AreOpenCloseAnimationsEnabled="True" Placement="BottomEdgeAlignedLeft">
-                            <StackPanel Margin="0,2,0,0" Orientation="Vertical">
-                                <Button
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Left"
-                                    Background="Transparent"
-                                    BorderBrush="Transparent"
-                                    Click="TabMenuClick"
-                                    Tag="Settings">
-                                    <StackPanel Orientation="Horizontal">
-                                        <FontIcon
-                                            FontFamily="{StaticResource FluentIcons}"
-                                            FontSize="18"
-                                            Glyph="&#xE713;" />
-                                        <TextBlock Margin="10,0,0,0" Text="Settings" />
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-                        </Flyout>
-                    </PersonPicture.ContextFlyout>
+                    ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}"
+                    Tapped="Profile_Tapped">
                 </PersonPicture>
             </firebrowser:FireBrowserTabViewContainer.TabStripHeader>
             <firebrowser:FireBrowserTabViewContainer.TabStripFooter>

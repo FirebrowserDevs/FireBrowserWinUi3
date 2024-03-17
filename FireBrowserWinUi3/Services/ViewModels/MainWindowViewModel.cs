@@ -27,11 +27,11 @@ public partial class MainWindowViewModel : ObservableRecipient
             case EnumMessageStatus.Login:
                 var note = new Notification
                 {
-                    Title = "Fire Broswer WinUi3\n",
+                    Title = "FireBroswerWinUi3 \n",
                     Message = $"Welcomes, {AuthService.CurrentUser.Username.ToUpperInvariant()} !",
                     Severity = InfoBarSeverity.Informational,
                     IsIconVisible = true,
-                    Duration = TimeSpan.FromSeconds(5),
+                    Duration = TimeSpan.FromSeconds(3),
 
                 };
                 MainView.NotificationQueue.Show(note);

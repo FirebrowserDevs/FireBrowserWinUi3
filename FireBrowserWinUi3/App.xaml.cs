@@ -129,68 +129,78 @@ public partial class App : Application
         }
         else
         {
-            var evt = AppInstance.GetActivatedEventArgs();
-            ProtocolActivatedEventArgs protocolArgs = evt as ProtocolActivatedEventArgs;
+            // Check if the changeusername.json file exists
+            string tempFolderPath = Path.GetTempPath();
+            string changeUsernameFilePath = Path.Combine(tempFolderPath, "changeusername.json");
 
-            if (protocolArgs != null && protocolArgs.Kind == ActivationKind.Protocol)
+            if (File.Exists(changeUsernameFilePath))
             {
-                string url = protocolArgs.Uri.ToString();
-
-                if (url.StartsWith("http") || url.StartsWith("https"))
-                {
-                    AppArguments.UrlArgument = url; // Standard web URL
-                    CheckNormal();
-                }
-                else if (url.StartsWith("firebrowserwinui://"))
-                {
-                    AppArguments.FireBrowserArgument = url;
-                    CheckNormal();
-                }
-                else if (url.StartsWith("firebrowseruser://"))
-                {
-                    AppArguments.FireUser = url;
-
-                    // Extract the username after 'firebrowserwinuifireuser://'
-                    string usernameSegment = url.Replace("firebrowseruser://", ""); // Remove the prefix
-                    string[] urlParts = usernameSegment.Split('/', StringSplitOptions.RemoveEmptyEntries);
-                    string username = urlParts.FirstOrDefault(); // Retrieve the first segment as the username
-
-                    // Authenticate the extracted username using your authentication service
-                    if (!string.IsNullOrEmpty(username))
-                    {
-                        AuthService.Authenticate(username);
-                    }
-
-                    // No need to activate the window here
-                }
-                else if (url.StartsWith("firebrowserincog://"))
-                {
-                    AppArguments.FireBrowserIncog = url;
-                    CheckNormal(); // Custom protocol for FireBrowser
-                }
-                else if (url.Contains(".pdf"))
-                {
-                    AppArguments.FireBrowserPdf = url;
-                    CheckNormal();
-                }
+                m_window = new ChangeUsernameCore();
             }
             else
             {
-                CheckNormal();
-            }
+                var evt = AppInstance.GetActivatedEventArgs();
+                ProtocolActivatedEventArgs protocolArgs = evt as ProtocolActivatedEventArgs;
 
-            // Activate the window after evaluating the URL and handling respective cases
-            m_window = new MainWindow();
-            if (AuthService.IsUserAuthenticated)
-            {
-                IMessenger messenger = App.GetService<IMessenger>();
-                messenger?.Send(new Message_Settings_Actions($"Welcome {AuthService.CurrentUser.Username} to our FireBrowser", EnumMessageStatus.Login));
+                if (protocolArgs != null && protocolArgs.Kind == ActivationKind.Protocol)
+                {
+                    string url = protocolArgs.Uri.ToString();
+
+                    if (url.StartsWith("http") || url.StartsWith("https"))
+                    {
+                        AppArguments.UrlArgument = url; // Standard web URL
+                        CheckNormal();
+                    }
+                    else if (url.StartsWith("firebrowserwinui://"))
+                    {
+                        AppArguments.FireBrowserArgument = url;
+                        CheckNormal();
+                    }
+                    else if (url.StartsWith("firebrowseruser://"))
+                    {
+                        AppArguments.FireUser = url;
+
+                        // Extract the username after 'firebrowserwinuifireuser://'
+                        string usernameSegment = url.Replace("firebrowseruser://", ""); // Remove the prefix
+                        string[] urlParts = usernameSegment.Split('/', StringSplitOptions.RemoveEmptyEntries);
+                        string username = urlParts.FirstOrDefault(); // Retrieve the first segment as the username
+
+                        // Authenticate the extracted username using your authentication service
+                        if (!string.IsNullOrEmpty(username))
+                        {
+                            AuthService.Authenticate(username);
+                        }
+
+                        // No need to activate the window here
+                    }
+                    else if (url.StartsWith("firebrowserincog://"))
+                    {
+                        AppArguments.FireBrowserIncog = url;
+                        CheckNormal(); // Custom protocol for FireBrowser
+                    }
+                    else if (url.Contains(".pdf"))
+                    {
+                        AppArguments.FireBrowserPdf = url;
+                        CheckNormal();
+                    }
+                }
+                else
+                {
+                    CheckNormal();
+                }
+
+                // Activate the window after evaluating the URL and handling respective cases
+                m_window = new MainWindow();
+                if (AuthService.IsUserAuthenticated)
+                {
+                    IMessenger messenger = App.GetService<IMessenger>();
+                    messenger?.Send(new Message_Settings_Actions($"Welcome {AuthService.CurrentUser.Username} to our FireBrowser", EnumMessageStatus.Login));
+                }
             }
         }
 
         // Activate the window outside of conditional blocks
         m_window.Activate();
-        
     }
 
     public Window m_window;

@@ -46,4 +46,41 @@ public class AuthService
     public static List<string> GetAllUsernames() => users.Select(u => u.Username).ToList();
 
     public static void Logout() => CurrentUser = null;
+
+    public static bool ChangeUsername(string oldUsername, string newUsername)
+    {
+        // Find the user with the old username
+        User userToChange = users.FirstOrDefault(u => u.Username.Equals(oldUsername, StringComparison.OrdinalIgnoreCase));
+        if (userToChange == null)
+        {
+            // User with old username not found
+            return false;
+        }
+
+        // Check if the new username already exists
+        if (users.Any(u => u.Username.Equals(newUsername, StringComparison.OrdinalIgnoreCase)))
+        {
+            // New username already exists, cannot change
+            return false;
+        }
+
+        // Update the username
+        userToChange.Username = newUsername;
+
+        string tempFolderPath = Path.GetTempPath();
+        string changeUsernameFilePath = Path.Combine(tempFolderPath, "changeusername.json");
+        var changeUsernameData = new { OldUsername = oldUsername, NewUsername = newUsername, Changed = true };
+        File.WriteAllText(changeUsernameFilePath, JsonSerializer.Serialize(changeUsernameData));
+
+        // Save the updated user list
+        SaveUsers();
+
+        // If the current user is the one whose username was changed, update CurrentUser
+        if (CurrentUser != null && CurrentUser.Username.Equals(oldUsername, StringComparison.OrdinalIgnoreCase))
+        {
+            CurrentUser = userToChange;
+        }
+
+        return true;
+    }
 }
