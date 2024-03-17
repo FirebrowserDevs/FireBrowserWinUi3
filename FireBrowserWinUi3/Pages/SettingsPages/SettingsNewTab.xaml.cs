@@ -30,6 +30,10 @@ public sealed partial class SettingsNewTab : Page
         Hsbl.IsOn = SettingsService.CoreSettings.Historybtn;
         Qrbl.IsOn = SettingsService.CoreSettings.QrCode;
         Tlbl.IsOn = SettingsService.CoreSettings.ToolIcon;
+     //   BackSettings.IsOn = SettingsService.CoreSettings.BackButton;
+       // ForwardSettings.IsOn = SettingsService.CoreSettings.ForwardButton;
+       // ReloadSettings.IsOn = SettingsService.CoreSettings.RefreshButton;
+       // HomeSettings.IsOn = SettingsService.CoreSettings.HomeButton;
         Confirm.IsOn = SettingsService.CoreSettings.ConfirmCloseDlg;
     }
 
@@ -238,6 +242,54 @@ public sealed partial class SettingsNewTab : Page
             SettingsService.CoreSettings.ConfirmCloseDlg = autoSettingValue;
 
             await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+        }
+    }
+
+    private async void BackSettings_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var autoSettingValue = toggleSwitch.IsOn;
+
+            //SettingsService.CoreSettings.BackButton = autoSettingValue;
+
+           // await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+        }
+    }
+
+    private async void ForwardSettings_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var autoSettingValue = toggleSwitch.IsOn;
+
+          //  SettingsService.CoreSettings.ForwardButton = autoSettingValue;
+
+           // await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+        }
+    }
+
+    private async void HomeSettings_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var autoSettingValue = toggleSwitch.IsOn;
+
+           // SettingsService.CoreSettings.RefreshButton = autoSettingValue;
+
+           // await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+        }
+    }
+
+    private async void ReloadSettings_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            var autoSettingValue = toggleSwitch.IsOn;
+
+           // SettingsService.CoreSettings.HomeButton = autoSettingValue;
+
+           // await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 }

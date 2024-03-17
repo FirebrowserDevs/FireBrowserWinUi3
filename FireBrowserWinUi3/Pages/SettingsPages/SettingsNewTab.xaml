@@ -31,6 +31,52 @@
         </labs:SettingsCard>
         <labs:SettingsExpander VerticalAlignment="Top" Margin="0,2,0,0">
             <labs:SettingsExpander.Header>
+                Navigation Icons
+            </labs:SettingsExpander.Header>
+            <labs:SettingsExpander.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE759;"/>
+            </labs:SettingsExpander.HeaderIcon>
+            <labs:SettingsExpander.Items>
+                <labs:SettingsCard>
+                    <ToggleSwitch x:Name="BackSettings" Toggled="BackSettings_Toggled"/>
+                    <labs:SettingsCard.Header>
+                        Back 
+                    </labs:SettingsCard.Header>
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE72B;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                </labs:SettingsCard>
+                <labs:SettingsCard>
+                    <ToggleSwitch x:Name="ForwardSettings" Toggled="ForwardSettings_Toggled"/>
+                    <labs:SettingsCard.Header>
+                        Forward 
+                    </labs:SettingsCard.Header>
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE72A;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                </labs:SettingsCard>
+                <labs:SettingsCard>
+                    <ToggleSwitch x:Name="ReloadSettings" Toggled="ReloadSettings_Toggled"/>
+                    <labs:SettingsCard.Header>
+                        Refresh 
+                    </labs:SettingsCard.Header>
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE72C;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                </labs:SettingsCard>
+                <labs:SettingsCard>
+                    <ToggleSwitch x:Name="HomeSettings" Toggled="HomeSettings_Toggled"/>
+                    <labs:SettingsCard.Header>
+                        Home 
+                    </labs:SettingsCard.Header>
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE80F;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                </labs:SettingsCard>
+            </labs:SettingsExpander.Items>
+        </labs:SettingsExpander>
+        <labs:SettingsExpander VerticalAlignment="Top" Margin="0,2,0,0">
+            <labs:SettingsExpander.Header>
                 Toolbar icons
             </labs:SettingsExpander.Header>
             <labs:SettingsExpander.HeaderIcon>
