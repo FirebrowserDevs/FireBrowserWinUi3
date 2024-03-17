@@ -182,6 +182,7 @@ public sealed partial class MainWindow : Window
             foreach (var control in controlsToDisable) control.IsEnabled = false;
             NewTab.Visibility = Visibility.Collapsed;
             NewWindow.Visibility = Visibility.Collapsed;
+            Profile.IsEnabled = false;
             WebContent.IsIncognitoModeEnabled = true;
             UserDataManager.DeleteUser("Private");
             InPrivateUser();

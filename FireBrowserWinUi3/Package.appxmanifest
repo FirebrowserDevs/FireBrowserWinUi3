@@ -55,11 +55,41 @@
 				  Enabled="true"
 				  DisplayName="FireBrowser WinUi3" />
 			</uap5:Extension>
+			<uap:Extension Category="windows.protocol">
+				<uap:Protocol Name="firebrowseruser">
+					<uap:DisplayName>Firebrowser User</uap:DisplayName>
+				</uap:Protocol>
+			</uap:Extension>
+			<uap:Extension Category="windows.protocol">
+				<uap:Protocol Name="http">
+					<uap:DisplayName>FireBrowser Http</uap:DisplayName>
+				</uap:Protocol>
+			</uap:Extension>
+			<uap:Extension Category="windows.protocol">
+				<uap:Protocol Name="https">
+					<uap:DisplayName>FireBrowser Https</uap:DisplayName>
+				</uap:Protocol>
+			</uap:Extension>
+			<uap:Extension Category="windows.protocol">
+				<uap:Protocol Name="firebrowserwinui">
+					<uap:DisplayName>FireBrowserWinUi3 Launch</uap:DisplayName>
+				</uap:Protocol>
+			</uap:Extension>
+			<uap:Extension Category="windows.protocol">
+				<uap:Protocol Name="firebrowserincog">
+					<uap:DisplayName>FireBrowser WinUi3 Incognito</uap:DisplayName>
+				</uap:Protocol>
+			</uap:Extension>
 		</Extensions>
     </Application>
   </Applications>
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
+    <Capability Name="privateNetworkClientServer"/>
+    <Capability Name="internetClient"/>
+    <Capability Name="internetClientServer"/>
+    <uap3:Capability Name="backgroundMediaPlayback"/>
+    <DeviceCapability Name="bluetooth"/>
   </Capabilities>
 </Package>

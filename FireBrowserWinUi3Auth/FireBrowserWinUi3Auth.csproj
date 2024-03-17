@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240311000" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
       <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="8.0.0" />
   </ItemGroup>

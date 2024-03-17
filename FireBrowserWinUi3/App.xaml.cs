@@ -20,43 +20,59 @@ using Path = System.IO.Path;
 namespace FireBrowserWinUi3;
 public partial class App : Application
 {
+
+    string changeUsernameFilePath = Path.Combine(Path.GetTempPath(), "changeusername.json");
     public new static App Current => (App)Application.Current;
 
     #region DependencyInjection
 
-    public IServiceProvider Services { get; set; }
+    public IServiceProvider Services { get; private set; }
 
     public static T GetService<T>() where T : class
     {
-        if ((App.Current as App)!.Services.GetService(typeof(T)) is not T service)
+        if (App.Current == null || !(App.Current is App app) || app.Services == null)
+        {
+            throw new NullReferenceException("Application or Services are not properly initialized.");
+        }
+
+        if (app.Services.GetService(typeof(T)) is not T service)
         {
             throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
         }
 
         return service;
     }
+
+    private void InitializeServices()
+    {
+        Services = ConfigureServices();
+    }
+
     private static IServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
-        
+
         services.AddSingleton<WeakReferenceMessenger>();
         services.AddSingleton<IMessenger, WeakReferenceMessenger>(provider =>
             provider.GetRequiredService<WeakReferenceMessenger>());
         //services.AddDbContext<FireBrowserDataCore.HistoryContext>();
         services.AddSingleton<DownloadService>();
         services.AddTransient<DownloadsViewModel>();
-         
+
         services.AddSingleton<SettingsService>();
-        
+
         services.AddTransient<HomeViewModel>();
         services.AddTransient<MainWindowViewModel>();
+
         return services.BuildServiceProvider();
     }
+
     #endregion
+
     public App()
     {
         this.InitializeComponent();
-
+        InitializeServices();
         FireBrowserWinUi3Navigator.TLD.LoadKnownDomainsAsync();
 
         System.Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
@@ -128,11 +144,7 @@ public partial class App : Application
             m_window = new SetupWindow();
         }
         else
-        {
-            // Check if the changeusername.json file exists
-            string tempFolderPath = Path.GetTempPath();
-            string changeUsernameFilePath = Path.Combine(tempFolderPath, "changeusername.json");
-
+        { 
             if (File.Exists(changeUsernameFilePath))
             {
                 m_window = new ChangeUsernameCore();
