@@ -34,7 +34,7 @@
                     <AppBarButton.Flyout>
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Read Aloud" Icon="{firebrowser:FluentIcon Glyph=&#xEFA9;}" IsEnabled="True" Tag="Read" Click="ContextClicked_Click"/>
-                            <MenuFlyoutItem Text="Create WebApp" Icon="{firebrowser:FluentIcon Glyph=&#xECAA;}" IsEnabled="True" Tag="WebApp" Click="ContextClicked_Click" />
+                            <MenuFlyoutItem Text="Create WebApp" Icon="{firebrowser:FluentIcon Glyph=&#xECAA;}" IsEnabled="False" Tag="WebApp" Click="ContextClicked_Click" />
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>

@@ -99,8 +99,23 @@ namespace FireBrowserWinUi3DataCore.Migrations.Settings
                     b.Property<bool>("IsFavoritesToggled")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsFavoritesVisible")
+                    b.Property<bool>("BackButton")
                         .HasColumnType("INTEGER");
+
+                    b.Property<bool>("ForwardButton")
+                      .HasColumnType("INTEGER");
+
+                    b.Property<bool>("RefreshButton")
+                      .HasColumnType("INTEGER");
+
+                    b.Property<bool>("HomeButton")
+                      .HasColumnType("INTEGER");
+
+                    b.Property<bool>("PipMode")
+                      .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsFavoritesVisible")
+                      .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsHistoryToggled")
                         .HasColumnType("INTEGER");

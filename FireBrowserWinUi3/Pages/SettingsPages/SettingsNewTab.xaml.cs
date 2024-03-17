@@ -30,10 +30,10 @@ public sealed partial class SettingsNewTab : Page
         Hsbl.IsOn = SettingsService.CoreSettings.Historybtn;
         Qrbl.IsOn = SettingsService.CoreSettings.QrCode;
         Tlbl.IsOn = SettingsService.CoreSettings.ToolIcon;
-     //   BackSettings.IsOn = SettingsService.CoreSettings.BackButton;
-       // ForwardSettings.IsOn = SettingsService.CoreSettings.ForwardButton;
-       // ReloadSettings.IsOn = SettingsService.CoreSettings.RefreshButton;
-       // HomeSettings.IsOn = SettingsService.CoreSettings.HomeButton;
+        BackSettings.IsOn = SettingsService.CoreSettings.BackButton;
+        ForwardSettings.IsOn = SettingsService.CoreSettings.ForwardButton;
+        ReloadSettings.IsOn = SettingsService.CoreSettings.RefreshButton;
+        HomeSettings.IsOn = SettingsService.CoreSettings.HomeButton;
         Confirm.IsOn = SettingsService.CoreSettings.ConfirmCloseDlg;
     }
 
@@ -251,9 +251,9 @@ public sealed partial class SettingsNewTab : Page
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-            //SettingsService.CoreSettings.BackButton = autoSettingValue;
+            SettingsService.CoreSettings.BackButton = autoSettingValue;
 
-           // await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
@@ -263,9 +263,9 @@ public sealed partial class SettingsNewTab : Page
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-          //  SettingsService.CoreSettings.ForwardButton = autoSettingValue;
+           SettingsService.CoreSettings.ForwardButton = autoSettingValue;
 
-           // await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+           await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
@@ -275,9 +275,9 @@ public sealed partial class SettingsNewTab : Page
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-           // SettingsService.CoreSettings.RefreshButton = autoSettingValue;
+           SettingsService.CoreSettings.RefreshButton = autoSettingValue;
 
-           // await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+           await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
@@ -287,9 +287,9 @@ public sealed partial class SettingsNewTab : Page
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-           // SettingsService.CoreSettings.HomeButton = autoSettingValue;
+            SettingsService.CoreSettings.HomeButton = autoSettingValue;
 
-           // await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 }

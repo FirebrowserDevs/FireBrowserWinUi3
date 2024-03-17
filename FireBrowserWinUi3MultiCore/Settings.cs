@@ -57,11 +57,11 @@ public class Settings
         self.IsHistoryVisible = true;
         self.IsSearchVisible = true;
         self.NtpCoreVisibility = true;
-       // self.BackButton = true;
-       // self.ForwardButton = true;
-       // self.RefreshButton = true;
-       // self.HomeButton = true;
-       // self.PipMode = false;
+        self.BackButton = true;
+        self.ForwardButton = true;
+        self.RefreshButton = true;
+        self.HomeButton = true;
+        self.PipMode = false;
     }
 
     [JsonIgnore]
@@ -145,16 +145,16 @@ public class Settings
     public bool OpenTabHandel { get; set; }
     [DefaultValue(false)]
 
-    // public bool BackButton { get; set; }
-    //  [DefaultValue(true)]
-    // public bool ForwardButton { get; set; }
-    // [DefaultValue(true)]
-    // public bool RefreshButton { get; set; }
-    // [DefaultValue(true)]
-    // public bool HomeButton { get; set; }
-    // [DefaultValue(true)]
-    // public bool PipMode { get; set; }
-    // [DefaultValue(false)]
+     public bool BackButton { get; set; }
+      [DefaultValue(true)]
+     public bool ForwardButton { get; set; }
+     [DefaultValue(true)]
+     public bool RefreshButton { get; set; }
+     [DefaultValue(true)]
+     public bool HomeButton { get; set; }
+     [DefaultValue(true)]
+     public bool PipMode { get; set; }
+     [DefaultValue(false)]
 
     public bool NtpDateTime { get; set; }
 

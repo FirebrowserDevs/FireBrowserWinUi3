@@ -62,7 +62,12 @@ namespace FireBrowserWinUi3DataCore.Migrations.Settings
                     IsHistoryVisible = table.Column<bool>(type: "INTEGER", nullable: false),
                     IsFavoritesVisible = table.Column<bool>(type: "INTEGER", nullable: false),
                     IsSearchVisible = table.Column<bool>(type: "INTEGER", nullable: false),
-                    NtpCoreVisibility = table.Column<bool>(type: "INTEGER", nullable: false)
+                    NtpCoreVisibility = table.Column<bool>(type: "INTEGER", nullable: false),
+                    PipMode = table.Column<bool>(type: "INTEGER", nullable: false),
+                    HomeButton = table.Column<bool>(type: "INTEGER", nullable: true),
+                    RefreshButton = table.Column<bool>(type: "INTEGER", nullable: true),
+                    ForwardButton = table.Column<bool>(type: "INTEGER", nullable: true),
+                    BackButton = table.Column<bool>(type: "INTEGER", nullable: true),
                 },
                 constraints: table =>
                 {
