@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.WinUI.Helpers;
 using FireBrowserDatabase;
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.Services.Contracts;
@@ -9,7 +10,10 @@ using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3Favorites;
 using FireBrowserWinUi3QrCore.Extensions;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
@@ -50,6 +54,8 @@ namespace FireBrowserWinUi3.ViewModels
         private Visibility _isHistoryVisible;
         [ObservableProperty]
         private Visibility _IsSearchVisible;
+        [ObservableProperty]
+        private Brush _brushNtp = new SolidColorBrush(Colors.Ivory); 
 
         public SettingsService SettingsService { get; set; }
 private DispatcherTimer timer { get; set; }
@@ -72,6 +78,7 @@ private DispatcherTimer timer { get; set; }
 
             IsFavoriteExpanded = SettingsService.CoreSettings.IsFavoritesToggled;
             IsHistoryExpanded = SettingsService.CoreSettings.IsHistoryToggled;
+            BrushNtp = new SolidColorBrush((Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), SettingsService.CoreSettings.NtpTextColor));
 
             OnPropertyChanged(nameof(NtpCoreVisibility));
             OnPropertyChanged(nameof(IsNtpTimeVisible));

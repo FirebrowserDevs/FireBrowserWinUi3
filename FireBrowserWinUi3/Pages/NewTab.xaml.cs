@@ -80,11 +80,11 @@ public sealed partial class NewTab : Page
         ViewModel.BackgroundType = GetBackgroundType(userSettings.Background);
         ViewModel.RaisePropertyChanges(nameof(ViewModel.BackgroundType));   
 
-        var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor);
+        //var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor);
         NewColor.IsEnabled = userSettings.Background is 2;
         NewColorPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.ColorBackground);
         NtpColorPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor) ;
-        NtpTime.Foreground = NtpDate.Foreground = new SolidColorBrush(color);
+        //NtpTime.Foreground = NtpDate.Foreground = new SolidColorBrush(color);
         GridSelect.SelectedIndex = userSettings.Background;
         SetVisibilityBasedOnLightMode(userSettings.LightMode is true);
         await Task.CompletedTask;
@@ -270,7 +270,7 @@ public sealed partial class NewTab : Page
     {
         var newColor = userSettings.NtpTextColor = XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), NtpColorPicker.Color).ToString();
         UpdateUserSettings(userSettings => userSettings.NtpTextColor = newColor);
-        NtpTime.Foreground = NtpDate.Foreground = new SolidColorBrush(NtpColorPicker.Color);
+        ViewModel.BrushNtp = new SolidColorBrush(NtpColorPicker.Color);
         
     }
     private void Download_Click(object sender, RoutedEventArgs e) => DownloadImage();

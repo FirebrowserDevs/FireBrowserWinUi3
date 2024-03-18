@@ -254,6 +254,7 @@
                 Grid.Row="0"
                 FontSize="68"
                 FontWeight="SemiBold"
+                Foreground="{x:Bind ViewModel.BrushNtp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Text="{x:Bind ViewModel.NtpTimeText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 TextAlignment="Center"
                 Visibility="{x:Bind ViewModel.NtpCoreVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -261,6 +262,7 @@
                 x:Name="NtpDate"
                 Grid.Row="1"
                 HorizontalAlignment="Center"
+                Foreground="{x:Bind ViewModel.BrushNtp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Text="{x:Bind ViewModel.NtpDateText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Visibility="{x:Bind ViewModel.NtpCoreVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
