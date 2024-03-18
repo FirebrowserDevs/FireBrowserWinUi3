@@ -86,7 +86,6 @@ public sealed partial class NewTab : Page
         NtpColorPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor) ;
         NtpTime.Foreground = NtpDate.Foreground = new SolidColorBrush(color);
         GridSelect.SelectedIndex = userSettings.Background;
-        GridSelect.SelectedValue = ViewModel.BackgroundType.ToString();
         SetVisibilityBasedOnLightMode(userSettings.LightMode is true);
         await Task.CompletedTask;
     }
@@ -257,9 +256,8 @@ public sealed partial class NewTab : Page
         
         var newColor = userSettings.ColorBackground = XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), NewColorPicker.Color).ToString();
         UpdateUserSettings(userSettings => userSettings.ColorBackground = newColor);
-        SetAndSaveBackgroundSettings((2, Settings.NewTabBackground.Costum, true, Visibility.Collapsed));
+        // raise a change to backgroundtype so that the x:Bind on GridMain will show new backgroundColor {x:Bind local:NewTab.GetGridBackgroundAsync(ViewModel.BackgroundType, userSettings), Mode=OneWay}
         ViewModel.RaisePropertyChanges(nameof(ViewModel.BackgroundType));
-        
         
     }
     private void DateTimeToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpDateTime = DateTimeToggle.IsOn);

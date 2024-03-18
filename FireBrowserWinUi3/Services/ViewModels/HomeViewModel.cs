@@ -8,6 +8,7 @@ using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3Favorites;
+using FireBrowserWinUi3QrCore.Extensions;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.ObjectModel;
