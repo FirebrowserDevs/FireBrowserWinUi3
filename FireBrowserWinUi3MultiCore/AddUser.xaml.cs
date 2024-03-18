@@ -39,7 +39,7 @@ public sealed partial class AddUser : ContentDialog
 
         string destinationFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, Userbox.Text.ToString());
 
-        CopyImageAsync(iImage.ToString(), destinationFolderPath);
+        await  CopyImageAsync(iImage.ToString(), destinationFolderPath);
 
         Hide();
     }
@@ -67,8 +67,7 @@ public sealed partial class AddUser : ContentDialog
 
     private void ProfileImage_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        ProfileImage.SelectedItem = "clippy";
-
+        
         if (ProfileImage.SelectedItem != null)
         { // Assuming 'userImageName' contains the name of the user's image file
             string userImageName = ProfileImage.SelectedItem.ToString() + ".png"; // Replace this with the actual user's image name

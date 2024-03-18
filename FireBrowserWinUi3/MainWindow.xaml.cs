@@ -1,4 +1,5 @@
 using CommunityToolkit.WinUI.Behaviors;
+using CommunityToolkit.WinUI.UI;
 using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
@@ -6,7 +7,7 @@ using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3.Services.ViewModels;
 using FireBrowserWinUi3.ViewModels;
-using FireBrowserWinUi3Core.CoreUi;
+using FireBrowserWinUi3Assets;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3Core.ShareHelper;
@@ -14,6 +15,7 @@ using FireBrowserWinUi3DataCore.Actions;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3Favorites;
 using FireBrowserWinUi3MultiCore;
+using FireBrowserWinUi3MultiCore.Helper;
 using FireBrowserWinUi3Navigator;
 using FireBrowserWinUi3QrCore;
 using FireBrowserWinUiModules.Darkmode;
@@ -47,7 +49,7 @@ public sealed partial class MainWindow : Window
     private AppWindow appWindow;
     public DownloadFlyout DownloadFlyout { get; set; } = new DownloadFlyout();
 
-    public ProfileCommander Commander { get; set; } = new ProfileCommander();
+    public ProfileCommander Commander { get; set; } 
     public DownloadService ServiceDownloads { get; set; }
     public SettingsService SettingsService { get; set; }
     public MainWindowViewModel ViewModelMain { get; set; } 
@@ -56,17 +58,23 @@ public sealed partial class MainWindow : Window
         ServiceDownloads = App.GetService<DownloadService>();
         SettingsService = App.GetService<SettingsService>();
         SettingsService.Initialize();
-        
-        InitializeComponent();
+        ViewModelMain = App.GetService<MainWindowViewModel>();
+        ViewModelMain.IsActive = true;
+        ViewModelMain.MainView = this;
+        ViewModelMain.ProfileImage = new ImageHelper().LoadImage("profile_image.jpg");
+       
 
+        // Use the LoadImage method to get the image
+        Commander = new ProfileCommander(ViewModelMain);
+
+        InitializeComponent();
+        
         ArgsPassed();
         LoadUserDataAndSettings(); // Load data and settings for the new user
         LoadUserSettings();
         Init();
 
-        ViewModelMain = App.GetService<MainWindowViewModel>();
-        ViewModelMain.IsActive = true;
-        ViewModelMain.MainView = this; 
+        
         appWindow.Closing += AppWindow_Closing;
     }
 
@@ -122,7 +130,7 @@ public sealed partial class MainWindow : Window
                     if (!(Application.Current is App currentApp) || !(currentApp.m_window is MainWindow mainWindow))
                         return;
 
-                    ConfirmAppClose quickConfigurationDialog = new()
+                    FireBrowserWinUi3Core.CoreUi.ConfirmAppClose quickConfigurationDialog = new()
                     {
                         XamlRoot = mainWindow.Content.XamlRoot
                     };
@@ -183,7 +191,7 @@ public sealed partial class MainWindow : Window
             foreach (var control in controlsToDisable) control.IsEnabled = false;
             NewTab.Visibility = Visibility.Collapsed;
             NewWindow.Visibility = Visibility.Collapsed;
-            Profile.IsEnabled = false;
+            //Profile.IsEnabled = false;
             WebContent.IsIncognitoModeEnabled = true;
             UserDataManager.DeleteUser("Private");
             InPrivateUser();
@@ -1112,10 +1120,11 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    private void SwitchName_Click(object sender, RoutedEventArgs e)
+    private async void SwitchName_Click(object sender, RoutedEventArgs e)
     {
         if (!(sender is Button switchButton && switchButton.DataContext is string clickedUserName)) return;
-        OpenNewWindow(new Uri($"firebrowseruser://{clickedUserName}")); _ = new Shortcut().CreateShortcut(clickedUserName);
+        OpenNewWindow(new Uri($"firebrowseruser://{clickedUserName}")); 
+        await new Shortcut().CreateShortcut(clickedUserName);
     }
 
     private void Profile_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)

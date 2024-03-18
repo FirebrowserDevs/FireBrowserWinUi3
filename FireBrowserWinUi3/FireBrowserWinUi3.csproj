@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="ChangeUsernameCore.xaml" />
+    <None Remove="Controls\ProfileCommander.xaml" />
     <None Remove="SetupWindow.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +188,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\ProfileCommander.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="SetupWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

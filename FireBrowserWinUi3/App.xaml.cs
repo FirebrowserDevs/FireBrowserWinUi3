@@ -79,7 +79,7 @@ public partial class App : Application
     }
 
 
-    public static string GetUsernameFromCoreFolderPath(string coreFolderPath)
+    public static string GetUsernameFromCoreFolderPath(string coreFolderPath, string userName = null)
     {
         try
         {
@@ -92,6 +92,9 @@ public partial class App : Application
 
                 if (users?.Count > 0 && !string.IsNullOrWhiteSpace(users[0].Username))
                 {
+                    if (userName != null) { 
+                        return users.Single(t=> t.Username.ToLower() == userName.ToLower()).Username;   
+                    }
                     return users[0].Username;
                 }
             }
@@ -104,10 +107,10 @@ public partial class App : Application
         return null;
     }
 
-    public async void CheckNormal()
+    public async void CheckNormal(string userName = null)
     {
         string coreFolderPath = UserDataManager.CoreFolderPath;
-        string username = GetUsernameFromCoreFolderPath(coreFolderPath);
+        string username = GetUsernameFromCoreFolderPath(coreFolderPath, userName);
 
         if (username != null)
         {
@@ -180,7 +183,7 @@ public partial class App : Application
                         // Authenticate the extracted username using your authentication service
                         if (!string.IsNullOrEmpty(username))
                         {
-                            AuthService.Authenticate(username);
+                            CheckNormal(username);
                         }
 
                         // No need to activate the window here

@@ -15,6 +15,7 @@ namespace FireBrowserWinUi3.Services
     {
         #region MemberProps
         public SettingsActions Actions { get; set; }
+        public User CurrentUser { get; set; }   
         public Settings CoreSettings { get; set; }
         #endregion
         internal IMessenger Messenger { get; set; } 
@@ -32,6 +33,7 @@ namespace FireBrowserWinUi3.Services
 
                 if (AuthService.IsUserAuthenticated)
                 {
+                    CurrentUser = AuthService.CurrentUser ?? null;
                     Actions = new SettingsActions(AuthService.CurrentUser.Username);
                     CoreSettings = await Actions?.GetSettingsAsync();
                 }

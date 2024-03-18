@@ -78,7 +78,10 @@ private DispatcherTimer timer { get; set; }
 
             IsFavoriteExpanded = SettingsService.CoreSettings.IsFavoritesToggled;
             IsHistoryExpanded = SettingsService.CoreSettings.IsHistoryToggled;
-            BrushNtp = new SolidColorBrush((Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), SettingsService.CoreSettings.NtpTextColor));
+            if (SettingsService.CoreSettings.NtpTextColor != null) {
+                BrushNtp =  new SolidColorBrush((Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), SettingsService.CoreSettings.NtpTextColor));
+            }
+            
 
             OnPropertyChanged(nameof(NtpCoreVisibility));
             OnPropertyChanged(nameof(IsNtpTimeVisible));

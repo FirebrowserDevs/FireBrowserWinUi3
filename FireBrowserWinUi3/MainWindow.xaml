@@ -8,6 +8,7 @@
     xmlns:firebrowser="using:FireBrowserWinUi3.Controls"
     xmlns:firebrowserfavorites="using:FireBrowserWinUi3Favorites"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:local="using:FireBrowserWinUi3"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:person="using:FireBrowserWinUi3Core.Helpers"
     mc:Ignorable="d">
@@ -22,7 +23,10 @@
 
     <Grid Background="Transparent">
         <Grid.Resources>
-            <Flyout x:Name="MoreFlyout" Placement="Bottom">
+            <Flyout
+                x:Name="MoreFlyout"
+                x:FieldModifier="Public"
+                Placement="Bottom">
                 <StackPanel Width="250">
                     <StackPanel Name="menuheader">
                         <Button
@@ -35,7 +39,12 @@
                             Click="MainUser_Click"
                             IsEnabled="True">
                             <StackPanel Orientation="Horizontal">
-                                <PersonPicture Width="45" ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}" />
+                                <PersonPicture
+                                    x:Name="MainUserPicture"
+                                    Width="32"
+                                    Height="32"
+                                    x:FieldModifier="Public"
+                                    ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}" />
                                 <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
                                     <TextBlock
                                         x:Name="UserName"
@@ -295,6 +304,7 @@
                     </StackPanel>
                 </StackPanel>
             </Flyout>
+
             <Flyout x:Name="HistoryFly" Placement="Bottom">
                 <MenuFlyoutItem x:Name="HistoryMenuItem" Text="History">
                     <MenuFlyoutItem.Icon>
@@ -571,8 +581,7 @@
                     Height="32"
                     Margin="5,0,0,0"
                     ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}"
-                    Tapped="Profile_Tapped">
-                </PersonPicture>
+                    Tapped="Profile_Tapped" />
             </firebrowser:FireBrowserTabViewContainer.TabStripHeader>
             <firebrowser:FireBrowserTabViewContainer.TabStripFooter>
                 <Grid
@@ -629,10 +638,10 @@
                     Padding="32,5,5,0"
                     x:FieldModifier="Public"
                     CornerRadius="5"
-                    TextChanged="UrlBox_TextChanged"
                     QuerySubmitted="UrlBox_QuerySubmitted"
                     Style="{ThemeResource PortalBarStyle}"
-                    Text="{x:Bind ViewModel.CurrentAddress, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.CurrentAddress, Mode=OneWay}"
+                    TextChanged="UrlBox_TextChanged" />
                 <Button
                     x:Name="Secure"
                     x:FieldModifier="Public"
@@ -787,6 +796,7 @@
                     Content="{firebrowser:FluentIcon Glyph=&#xE712;}"
                     Flyout="{StaticResource MoreFlyout}"
                     Style="{ThemeResource QuietButtonStyle}" />
+
             </StackPanel>
         </Grid>
         <InfoBar
