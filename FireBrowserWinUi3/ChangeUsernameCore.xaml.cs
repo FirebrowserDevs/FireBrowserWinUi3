@@ -1,4 +1,4 @@
-using CommunityToolkit.WinUI.UI;
+using FireBrowserWinUi3Core.Helpers;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -6,7 +6,6 @@ using System;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
-
 
 namespace FireBrowserWinUi3;
 
@@ -18,12 +17,19 @@ public sealed partial class ChangeUsernameCore : Window
 
     public ChangeUsernameCore()
     {
+        this.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(500, 500, 850, 500));
+        Windowing.Center(this);
+        this.AppWindow.SetPresenter(AppWindowPresenterKind.Overlapped);
+        this.AppWindow.MoveInZOrderAtTop();
+        this.AppWindow.ShowOnceWithRequestedStartupState();
+
         this.InitializeComponent();
-        this.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(850,850,850,850));
+
         title();
         ChangeUsername();
         SetupRestartTimer();
     }
+
 
     public void title()
     {
@@ -101,7 +107,7 @@ public sealed partial class ChangeUsernameCore : Window
     {
         restartTimer = new DispatcherTimer();
         restartTimer.Tick += RestartTimer_Tick;
-        restartTimer.Interval = TimeSpan.FromSeconds(2); // Set the interval to 2 seconds
+        restartTimer.Interval = TimeSpan.FromSeconds(4); // Set the interval to 2 seconds too short
         restartTimer.Start();
     }
 

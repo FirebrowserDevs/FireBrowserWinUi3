@@ -1,5 +1,10 @@
-﻿using System;
+﻿using Microsoft.UI;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
+using System;
 using System.Runtime.InteropServices;
+using Windows.Graphics;
+using WinRT.Interop;
 
 namespace FireBrowserWinUi3Core.Helpers;
 public class Windowing
@@ -14,4 +19,19 @@ public class Windowing
 
     [DllImport("Shcore.dll", SetLastError = true)]
     public static extern int GetDpiForMonitor(IntPtr hmonitor, Windowing.Monitor_DPI_Type dpiType, out uint dpiX, out uint dpiY);
+
+    public static void Center(Window window)
+    {
+        IntPtr hWnd = WindowNative.GetWindowHandle(window);
+        WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
+
+        if (AppWindow.GetFromWindowId(windowId) is AppWindow appWindow &&
+            DisplayArea.GetFromWindowId(windowId, DisplayAreaFallback.Nearest) is DisplayArea displayArea)
+        {
+            PointInt32 CenteredPosition = appWindow.Position;
+            CenteredPosition.X = (displayArea.WorkArea.Width - appWindow.Size.Width) / 2;
+            CenteredPosition.Y = (displayArea.WorkArea.Height - appWindow.Size.Height) / 2;
+            appWindow.Move(CenteredPosition);
+        }
+    }
 }

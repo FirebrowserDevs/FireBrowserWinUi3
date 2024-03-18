@@ -92,8 +92,9 @@ public partial class App : Application
 
                 if (users?.Count > 0 && !string.IsNullOrWhiteSpace(users[0].Username))
                 {
-                    if (userName != null) { 
-                        return users.Single(t=> t.Username.ToLower() == userName.ToLower()).Username;   
+                    if (userName != null)
+                    {
+                        return users.Single(t => t.Username.Equals(userName, StringComparison.CurrentCultureIgnoreCase)).Username;
                     }
                     return users[0].Username;
                 }
@@ -125,7 +126,7 @@ public partial class App : Application
                 if (Directory.Exists(UserDataManager.CoreFolderPath))
                 {
                     Services = ConfigureServices();
-                    
+
                 }
             }
             catch (Exception ex)
@@ -147,7 +148,7 @@ public partial class App : Application
             m_window = new SetupWindow();
         }
         else
-        { 
+        {
             if (File.Exists(changeUsernameFilePath))
             {
                 m_window = new ChangeUsernameCore();
