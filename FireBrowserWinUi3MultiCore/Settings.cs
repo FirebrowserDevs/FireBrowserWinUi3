@@ -5,7 +5,6 @@ using System.Text.Json.Serialization;
 namespace FireBrowserWinUi3MultiCore;
 public class Settings
 {
-
     void DefaultSettings()
     {
         var self = this;
@@ -77,7 +76,6 @@ public class Settings
 
         if (LoadDefaults)
             DefaultSettings();
-
     }
     public Settings() { }
 

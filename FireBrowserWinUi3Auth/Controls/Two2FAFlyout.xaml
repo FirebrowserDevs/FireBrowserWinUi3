@@ -27,11 +27,23 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" VerticalAlignment="Center" Margin="12,4,5,0">
-            <TextBlock Grid.Row="0" FontSize="16"
-             Style="{ThemeResource BodyStrongTextBlockStyle}"
-             Text="2Factor Auth"/>
-            <Button Click="Button_Click" Content="&#xE710;" FontFamily="Segoe Fluent Icons" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <!-- Left column for TextBlock -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Right column for Buttons -->
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" FontSize="16"
+               Style="{ThemeResource BodyStrongTextBlockStyle}"
+               Text="2Factor Auth"/>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="Repair" Click="Repair_Click" Content="&#xE90F;" FontFamily="Segoe Fluent Icons" Background="Transparent" ToolTipService.ToolTip="If 2Fa fails repair it (In Testing)"  BorderThickness="0"/>
+                <Button x:Name="Add" Click="Button_Click" Content="&#xE710;" FontFamily="Segoe Fluent Icons" Background="Transparent" ToolTipService.ToolTip="Add 2fa details" BorderThickness="0"/>
+            </StackPanel>
         </Grid>
+
 
         <Grid Grid.Row="1" CornerRadius="3" Margin="6" 
         Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}" 

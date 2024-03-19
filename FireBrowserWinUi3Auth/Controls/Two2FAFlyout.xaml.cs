@@ -39,5 +39,10 @@ namespace FireBrowserWinUi3Auth.Controls
             package.SetText(twoFactAuth.Code);
             Clipboard.SetContent(package);
         }
+
+        private async void Repair_Click(object sender, RoutedEventArgs e)
+        {
+            FireBrowserWinUi3Core.Helpers.TwoFactorsAuthentification.Repair();        
+        }
     }
 }
