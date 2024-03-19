@@ -23,7 +23,7 @@
         Background="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}"
         BorderBrush="MintCream"
         BorderThickness="1"
-        CornerRadius="15">
+        CornerRadius="5">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />

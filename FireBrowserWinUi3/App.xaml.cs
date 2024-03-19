@@ -224,13 +224,12 @@ public partial class App : Application
 
                 
             }
-        }
-        
-        m_window = new MainWindow();
-        if (AuthService.IsUserAuthenticated)
-        {
-            IMessenger messenger = App.GetService<IMessenger>();
-            messenger?.Send(new Message_Settings_Actions($"Welcome {AuthService.CurrentUser.Username} to our FireBrowser", EnumMessageStatus.Login));
+            m_window = new MainWindow();
+            if (AuthService.IsUserAuthenticated)
+            {
+                IMessenger messenger = App.GetService<IMessenger>();
+                messenger?.Send(new Message_Settings_Actions($"Welcome {AuthService.CurrentUser.Username} to our FireBrowser", EnumMessageStatus.Login));
+            }
         }
         // Activate the window outside of conditional blocks
         m_window.Activate();
