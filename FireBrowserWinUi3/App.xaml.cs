@@ -24,7 +24,6 @@ using Path = System.IO.Path;
 namespace FireBrowserWinUi3;
 public partial class App : Application
 {
-
     string changeUsernameFilePath = Path.Combine(Path.GetTempPath(), "changeusername.json");
     public new static App Current => (App)Application.Current;
 
@@ -87,22 +86,9 @@ public partial class App : Application
     {
         try
         {
-            string usrCoreFilePath = Path.Combine(coreFolderPath, "UsrCore.json");
+            var users = JsonSerializer.Deserialize<List<FireBrowserWinUi3MultiCore.User>>(File.ReadAllText(Path.Combine(coreFolderPath, "UsrCore.json")));
 
-            if (File.Exists(usrCoreFilePath))
-            {
-                string jsonContent = File.ReadAllText(usrCoreFilePath);
-                var users = JsonSerializer.Deserialize<List<FireBrowserWinUi3MultiCore.User>>(jsonContent);
-
-                if (users?.Count > 0 && !string.IsNullOrWhiteSpace(users[0].Username))
-                {
-                    if (userName != null)
-                    {
-                        return users.Single(t => t.Username.Equals(userName, StringComparison.CurrentCultureIgnoreCase)).Username;
-                    }
-                    return users[0].Username;
-                }
-            }
+            return users?.FirstOrDefault(u => !string.IsNullOrWhiteSpace(u.Username) && (userName == null || u.Username.Equals(userName, StringComparison.CurrentCultureIgnoreCase)))?.Username;
         }
         catch (Exception ex)
         {
@@ -111,6 +97,7 @@ public partial class App : Application
 
         return null;
     }
+
 
     public async void CheckNormal(string userName = null)
     {
@@ -122,7 +109,6 @@ public partial class App : Application
             AuthService.Authenticate(username);
             DatabaseServices dbServer = new DatabaseServices();
 
-
             try
             {
                 await dbServer.DatabaseCreationValidation();
@@ -130,7 +116,6 @@ public partial class App : Application
                 if (Directory.Exists(UserDataManager.CoreFolderPath))
                 {
                     Services = ConfigureServices();
-
                 }
             }
             catch (Exception ex)
@@ -138,8 +123,6 @@ public partial class App : Application
                 ExceptionLogger.LogException(ex);
                 Console.WriteLine($"Creating Settings for user already exists\n {ex.Message}");
             }
-
-
         }
     }
 
@@ -148,7 +131,6 @@ public partial class App : Application
     {
         if (!Directory.Exists(UserDataManager.CoreFolderPath))
         {
-            // The "FireBrowserUserCore" folder does not exist, so proceed with application setup behavior.
             m_window = new SetupWindow();
         }
         else
@@ -180,7 +162,7 @@ public partial class App : Application
                     {
                         AppArguments.FireUser = url;
 
-                        // Extract the username after 'firebrowserwinuifireuser://'
+                        // Extract the username after 'firebrowseruser://'
                         string usernameSegment = url.Replace("firebrowseruser://", ""); // Remove the prefix
                         string[] urlParts = usernameSegment.Split('/', StringSplitOptions.RemoveEmptyEntries);
                         string username = urlParts.FirstOrDefault(); // Retrieve the first segment as the username
@@ -211,7 +193,7 @@ public partial class App : Application
                     WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
                     AppWindow appWindow = AppWindow.GetFromWindowId(wndId);
                     if (appWindow != null) { 
-                        appWindow.MoveAndResize(new Windows.Graphics.RectInt32(500, 500, 420, 500));
+                        appWindow.MoveAndResize(new Windows.Graphics.RectInt32(600, 600, 420, 500));
                         appWindow.MoveInZOrderAtTop();
                         appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
                         appWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
@@ -220,9 +202,7 @@ public partial class App : Application
                     Windowing.Center(m_window);
                     m_window.Activate();
                     return; 
-                }
-
-                
+                }               
             }
             m_window = new MainWindow();
             if (AuthService.IsUserAuthenticated)

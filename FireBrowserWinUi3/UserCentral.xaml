@@ -42,7 +42,7 @@
         <ListView
             x:Name="UserListView"
             Grid.Row="1"
-            MinHeight="300"
+            MinHeight="350"
             Padding="4"
             x:FieldModifier="Public"
             Background="{ThemeResource AccentControlElevationBorderBrush}"

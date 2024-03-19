@@ -63,7 +63,6 @@ public sealed partial class MainWindow : Window
         ViewModelMain.MainView = this;
         ViewModelMain.ProfileImage = new ImageHelper().LoadImage("profile_image.jpg");
        
-
         // Use the LoadImage method to get the image
         Commander = new ProfileCommander(ViewModelMain);
 
