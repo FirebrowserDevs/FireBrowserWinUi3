@@ -13,7 +13,6 @@ namespace FireBrowserWinUi3Auth
     {
         private static readonly DispatcherTimer loginTimer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(5) };
         private static bool userAuthenticated = false;
-
         internal static ObservableCollection<TwoFactAuth> Items { get; } = new ObservableCollection<TwoFactAuth>();
 
         public static XamlRoot XamlRoot { get; set; }
