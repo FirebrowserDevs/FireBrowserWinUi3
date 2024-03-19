@@ -111,6 +111,7 @@
     <None Remove="ChangeUsernameCore.xaml" />
     <None Remove="Controls\ProfileCommander.xaml" />
     <None Remove="SetupWindow.xaml" />
+    <None Remove="UserCentral.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Logo.ico" />
@@ -177,6 +178,9 @@
     <None Update="Assets\setup_image.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="UserCentral.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="ChangeUsernameCore.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

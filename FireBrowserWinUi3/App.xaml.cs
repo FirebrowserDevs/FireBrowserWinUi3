@@ -7,7 +7,10 @@ using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +18,7 @@ using System.Linq;
 using System.Text.Json;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using WinRT.Interop;
 using Path = System.IO.Path;
 
 namespace FireBrowserWinUi3;
@@ -202,19 +206,32 @@ public partial class App : Application
                 }
                 else
                 {
-                    CheckNormal();
+                    m_window = new UserCentral();
+                    IntPtr hWnd = WindowNative.GetWindowHandle(m_window);
+                    WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
+                    AppWindow appWindow = AppWindow.GetFromWindowId(wndId);
+                    if (appWindow != null) { 
+                        appWindow.MoveAndResize(new Windows.Graphics.RectInt32(500, 500, 420, 500));
+                        appWindow.MoveInZOrderAtTop();
+                        appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                        appWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
+                        appWindow.SetIcon("ms-appx:///logo.ico");
+                    }
+                    Windowing.Center(m_window);
+                    m_window.Activate();
+                    return; 
                 }
 
-                // Activate the window after evaluating the URL and handling respective cases
-                m_window = new MainWindow();
-                if (AuthService.IsUserAuthenticated)
-                {
-                    IMessenger messenger = App.GetService<IMessenger>();
-                    messenger?.Send(new Message_Settings_Actions($"Welcome {AuthService.CurrentUser.Username} to our FireBrowser", EnumMessageStatus.Login));
-                }
+                
             }
         }
-
+        
+        m_window = new MainWindow();
+        if (AuthService.IsUserAuthenticated)
+        {
+            IMessenger messenger = App.GetService<IMessenger>();
+            messenger?.Send(new Message_Settings_Actions($"Welcome {AuthService.CurrentUser.Username} to our FireBrowser", EnumMessageStatus.Login));
+        }
         // Activate the window outside of conditional blocks
         m_window.Activate();
     }

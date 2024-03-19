@@ -1,4 +1,3 @@
-using FireBrowserWinUi3Core.Helpers;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -18,7 +17,7 @@ public sealed partial class ChangeUsernameCore : Window
     public ChangeUsernameCore()
     {
         this.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(500, 500, 850, 500));
-        Windowing.Center(this);
+        FireBrowserWinUi3Core.Helpers.Windowing.Center(this);
         this.AppWindow.SetPresenter(AppWindowPresenterKind.Overlapped);
         this.AppWindow.MoveInZOrderAtTop();
         this.AppWindow.ShowOnceWithRequestedStartupState();
