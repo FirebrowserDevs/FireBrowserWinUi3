@@ -27,7 +27,7 @@
                         TextAlignment="Center">
                         FireBrowserUser
                     </TextBlock>
-                    <StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Button
                             Margin="0,20"
                             HorizontalAlignment="Center"
@@ -59,6 +59,18 @@
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Width="48" Height="32" Margin="5,0,0,0" ToolTipService.ToolTip="Google Sign-In" ToolTipService.Placement="Bottom">
+                                <Grid>
+                                    <Image Source="ms-appx:///Assets//Google.png" Width="14" Height="14"/>
+                                </Grid>
+                            </Button>
+                            <Button Width="48" Height="32" Margin="5,0,0,0" ToolTipService.ToolTip="Microsoft Sign-In" ToolTipService.Placement="Bottom">
+                                <Grid>
+                                    <Image Source="ms-appx:///Assets//Microsoft.png" Width="14" Height="14"/>
+                                </Grid>
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
                     <Expander
                         HorizontalAlignment="Stretch"
