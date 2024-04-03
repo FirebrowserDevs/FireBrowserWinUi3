@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace FireBrowserWinUi3.Services.ViewModels;
 public class DownloadsViewModel : ObservableObject, IDownloadsViewModel
 {
-
     public ListView DownloadItemsList { get; set; }
     public DownloadService DataCore { get; }
     public ObservableCollection<DownloadItem> ItemsListView { get; set; }

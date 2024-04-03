@@ -18,7 +18,6 @@ public class DatabaseServices : IDatabaseService
 
         try
         {
-
             SettingsActions settingsActions = new SettingsActions(AuthService.CurrentUser.Username);
             if (!File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Settings", "Settings.db")))
             {
@@ -29,7 +28,6 @@ public class DatabaseServices : IDatabaseService
                 if (await settingsActions.GetSettingsAsync() is null)
                     await settingsActions.InsertUserSettingsAsync(FireBrowserWinUi3MultiCore.UserFolderManager.LoadUserSettings(FireBrowserWinUi3MultiCore.AuthService.CurrentUser));
             }
-
         }
         catch (Exception ex)
         {
@@ -46,7 +44,6 @@ public class DatabaseServices : IDatabaseService
 
         try
         {
-
             SettingsActions settingsActions = new SettingsActions(AuthService.CurrentUser.Username);
             if (!File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Settings", "Settings.db")))
             {
@@ -54,7 +51,6 @@ public class DatabaseServices : IDatabaseService
             }
             if (File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Settings", "Settings.db")))
                 await settingsActions.SettingsContext.Database.CanConnectAsync();
-
         }
         catch (Exception ex)
         {
@@ -62,10 +58,8 @@ public class DatabaseServices : IDatabaseService
             Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
         }
 
-
         try
         {
-
             HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser?.Username);
             if (!File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "History.db")))
             {
@@ -73,18 +67,15 @@ public class DatabaseServices : IDatabaseService
             }
             if (File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "History.db")))
                 await historyActions.HistoryContext.Database.CanConnectAsync();
-
         }
         catch (Exception ex)
         {
             ExceptionLogger.LogException(ex);
             Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
-
         }
 
         try
         {
-
             DownloadActions settingsActions = new DownloadActions(AuthService.CurrentUser.Username);
             if (!File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "Downloads.db")))
             {

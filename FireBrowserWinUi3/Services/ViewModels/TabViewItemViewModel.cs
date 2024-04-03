@@ -1,9 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace FireBrowserWinUi3.ViewModels
+namespace FireBrowserWinUi3.ViewModels;
+public partial class TabViewItemViewModel : ObservableObject
 {
-    public partial class TabViewItemViewModel : ObservableObject
-    {
-        [ObservableProperty] public bool _IsTooltipEnabled;
-    }
+    [ObservableProperty] public bool _IsTooltipEnabled;
 }

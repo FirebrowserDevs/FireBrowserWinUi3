@@ -7,10 +7,10 @@ using System;
 namespace FireBrowserWinUi3.Pages.SettingsPages;
 public sealed partial class SettingsNewTab : Page
 {
-    SettingsService SettingsService { get; set; }   
+    SettingsService SettingsService { get; set; }
     public SettingsNewTab()
     {
-        SettingsService = App.GetService<SettingsService>();    
+        SettingsService = App.GetService<SettingsService>();
         this.InitializeComponent();
         loadsets();
     }
@@ -263,9 +263,9 @@ public sealed partial class SettingsNewTab : Page
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-           SettingsService.CoreSettings.ForwardButton = autoSettingValue;
+            SettingsService.CoreSettings.ForwardButton = autoSettingValue;
 
-           await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 
@@ -275,9 +275,9 @@ public sealed partial class SettingsNewTab : Page
         {
             var autoSettingValue = toggleSwitch.IsOn;
 
-           SettingsService.CoreSettings.HomeButton = autoSettingValue;
+            SettingsService.CoreSettings.HomeButton = autoSettingValue;
 
-           await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
         }
     }
 

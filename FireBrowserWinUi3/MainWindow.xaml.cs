@@ -1,13 +1,10 @@
 using CommunityToolkit.WinUI.Behaviors;
-using CommunityToolkit.WinUI.UI;
 using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Pages;
 using FireBrowserWinUi3.Services;
-using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3.Services.ViewModels;
 using FireBrowserWinUi3.ViewModels;
-using FireBrowserWinUi3Assets;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3Core.ShareHelper;
@@ -49,10 +46,10 @@ public sealed partial class MainWindow : Window
     private AppWindow appWindow;
     public DownloadFlyout DownloadFlyout { get; set; } = new DownloadFlyout();
 
-    public ProfileCommander Commander { get; set; } 
+    public ProfileCommander Commander { get; set; }
     public DownloadService ServiceDownloads { get; set; }
     public SettingsService SettingsService { get; set; }
-    public MainWindowViewModel ViewModelMain { get; set; } 
+    public MainWindowViewModel ViewModelMain { get; set; }
     public MainWindow()
     {
         ServiceDownloads = App.GetService<DownloadService>();
@@ -62,18 +59,17 @@ public sealed partial class MainWindow : Window
         ViewModelMain.IsActive = true;
         ViewModelMain.MainView = this;
         ViewModelMain.ProfileImage = new ImageHelper().LoadImage("profile_image.jpg");
-       
+
         // Use the LoadImage method to get the image
         Commander = new ProfileCommander(ViewModelMain);
 
         InitializeComponent();
-        
+
         ArgsPassed();
         LoadUserDataAndSettings(); // Load data and settings for the new user
         LoadUserSettings();
         Init();
 
-        
         appWindow.Closing += AppWindow_Closing;
     }
 
@@ -86,7 +82,6 @@ public sealed partial class MainWindow : Window
 
     public void setColorsTool()
     {
-
         if (SettingsService.CoreSettings.ColorTV == "#FF000000")
         {
             Tabs.Background = new SolidColorBrush(Colors.Transparent);
@@ -312,7 +307,7 @@ public sealed partial class MainWindow : Window
         LoadUsernames();
         UpdateUIBasedOnSettings();
         setColorsTool();
-        return Task.CompletedTask;  
+        return Task.CompletedTask;
     }
 
     private void LoadUserDataAndSettings()
@@ -430,7 +425,7 @@ public sealed partial class MainWindow : Window
     private void Tabs_Loaded(object sender, RoutedEventArgs e)
     {
         Apptitlebar.SizeChanged += Apptitlebar_SizeChanged;
-        Apptitlebar_LayoutUpdated(sender, e);   
+        Apptitlebar_LayoutUpdated(sender, e);
     }
 
     private void Apptitlebar_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -438,25 +433,25 @@ public sealed partial class MainWindow : Window
         try
         {
 
-        
-        double scaleAdjustment = GetScaleAdjustment();
-        Apptitlebar.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity));
-        var customDragRegionPosition = Apptitlebar.TransformToVisual(null).TransformPoint(new Windows.Foundation.Point(0, 0));
 
-        var dragRects = new Windows.Graphics.RectInt32[2];
+            double scaleAdjustment = GetScaleAdjustment();
+            Apptitlebar.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity));
+            var customDragRegionPosition = Apptitlebar.TransformToVisual(null).TransformPoint(new Windows.Foundation.Point(0, 0));
 
-        for (int i = 0; i < 2; i++)
-        {
-            dragRects[i] = new Windows.Graphics.RectInt32
+            var dragRects = new Windows.Graphics.RectInt32[2];
+
+            for (int i = 0; i < 2; i++)
             {
-                X = (int)((customDragRegionPosition.X + (i * Apptitlebar.ActualWidth / 2)) * scaleAdjustment),
-                Y = (int)(customDragRegionPosition.Y * scaleAdjustment),
-                Height = (int)((Apptitlebar.ActualHeight - customDragRegionPosition.Y) * scaleAdjustment),
-                Width = (int)((Apptitlebar.ActualWidth / 2) * scaleAdjustment)
-            };
-        }
+                dragRects[i] = new Windows.Graphics.RectInt32
+                {
+                    X = (int)((customDragRegionPosition.X + (i * Apptitlebar.ActualWidth / 2)) * scaleAdjustment),
+                    Y = (int)(customDragRegionPosition.Y * scaleAdjustment),
+                    Height = (int)((Apptitlebar.ActualHeight - customDragRegionPosition.Y) * scaleAdjustment),
+                    Width = (int)((Apptitlebar.ActualWidth / 2) * scaleAdjustment)
+                };
+            }
 
-        appWindow.TitleBar?.SetDragRectangles(dragRects);
+            appWindow.TitleBar?.SetDragRectangles(dragRects);
         }
         catch (Exception)
         {
@@ -721,7 +716,7 @@ public sealed partial class MainWindow : Window
                     Severity = InfoBarSeverity.Informational,
                     Duration = TimeSpan.FromSeconds(1.5)
                 };
-                NotificationQueue.Show(note); 
+                NotificationQueue.Show(note);
                 break;
             case "Favorites":
                 FireBrowserWinUi3MultiCore.User user = AuthService.CurrentUser;
@@ -1122,7 +1117,7 @@ public sealed partial class MainWindow : Window
     private async void SwitchName_Click(object sender, RoutedEventArgs e)
     {
         if (!(sender is Button switchButton && switchButton.DataContext is string clickedUserName)) return;
-        OpenNewWindow(new Uri($"firebrowseruser://{clickedUserName}")); 
+        OpenNewWindow(new Uri($"firebrowseruser://{clickedUserName}"));
         await new Shortcut().CreateShortcut(clickedUserName);
     }
 

@@ -395,7 +395,7 @@ public sealed partial class WebContent : Page
                     ConvertTextToSpeech(SelectionText);
                     break;
                 case "WebApp":
-                 
+
                     break;
                 case "OpenInTab":
                     if (IsIncognitoModeEnabled)

@@ -10,7 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -192,7 +191,8 @@ public partial class App : Application
                     IntPtr hWnd = WindowNative.GetWindowHandle(m_window);
                     WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
                     AppWindow appWindow = AppWindow.GetFromWindowId(wndId);
-                    if (appWindow != null) { 
+                    if (appWindow != null)
+                    {
                         appWindow.MoveAndResize(new Windows.Graphics.RectInt32(600, 600, 420, 500));
                         appWindow.MoveInZOrderAtTop();
                         appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
@@ -201,8 +201,8 @@ public partial class App : Application
                     }
                     Windowing.Center(m_window);
                     m_window.Activate();
-                    return; 
-                }               
+                    return;
+                }
             }
             m_window = new MainWindow();
             if (AuthService.IsUserAuthenticated)

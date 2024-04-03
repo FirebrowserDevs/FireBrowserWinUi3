@@ -465,33 +465,6 @@
             </StackPanel>
 
         </Grid>
-        <!--<TextBlock
-                Grid.Row="2"
-                FontSize="{ThemeResource TextStyleLargeFontSize}"
-                Text="History" />
-            <ListView
-                Grid.Row="3"
-                Height="180"
-                MaxWidth="600"
-                BorderBrush="Black"
-                BorderThickness="1"
-                ItemsSource="{x:Bind ViewModel.HistoryItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                SelectionChanged="ListView_SelectionChanged">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="history:HistoryItem">
-                        <StackPanel Orientation="Horizontal">
-                            <Image
-                                Height="24"
-                                HorizontalAlignment="Left"
-                                Source="{x:Bind ImageSource, Mode=OneWay}"
-                                Stretch="UniformToFill" />
-                            <AppBarSeparator />
-                            <TextBlock Text="{x:Bind Title, Mode=OneWay}" TextWrapping="WrapWholeWords" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>-->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

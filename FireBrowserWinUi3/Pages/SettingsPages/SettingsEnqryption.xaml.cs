@@ -13,10 +13,10 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
     /// </summary>
     public sealed partial class SettingsEnqryption : Page
     {
-        SettingsService SettingsService { get; set; }   
+        SettingsService SettingsService { get; set; }
         public SettingsEnqryption()
         {
-            SettingsService = App.GetService<SettingsService>();    
+            SettingsService = App.GetService<SettingsService>();
             this.InitializeComponent();
             LoadSets();
         }
@@ -44,7 +44,7 @@ namespace FireBrowserWinUi3.Pages.SettingsPages
 
                 // Save the modified settings back to the user's settings file
                 await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-                
+
             }
         }
 

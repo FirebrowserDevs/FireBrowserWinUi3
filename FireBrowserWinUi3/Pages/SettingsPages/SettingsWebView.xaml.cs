@@ -12,7 +12,7 @@ public sealed partial class SettingsWebView : Page
     WebView2 Web = new WebView2();
     public SettingsWebView()
     {
-        SettingsService = App.GetService<SettingsService>();    
+        SettingsService = App.GetService<SettingsService>();
         this.InitializeComponent();
         loadinit();
     }

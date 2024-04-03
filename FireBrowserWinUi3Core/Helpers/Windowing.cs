@@ -96,7 +96,8 @@ public class Windowing
         SW_FORCEMINIMIZE = 11,
     }
 
-    public static void HideWindow(IntPtr hWnd) {
+    public static void HideWindow(IntPtr hWnd)
+    {
         ShowWindow(hWnd, WindowShowStyle.SW_HIDE);
     }
     public static void MaximizeWindow(IntPtr hWnd)

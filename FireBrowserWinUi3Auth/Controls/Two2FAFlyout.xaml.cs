@@ -42,7 +42,7 @@ namespace FireBrowserWinUi3Auth.Controls
 
         private async void Repair_Click(object sender, RoutedEventArgs e)
         {
-            FireBrowserWinUi3Core.Helpers.TwoFactorsAuthentification.Repair();        
+            FireBrowserWinUi3Core.Helpers.TwoFactorsAuthentification.Repair();
         }
     }
 }

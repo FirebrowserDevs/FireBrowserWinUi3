@@ -7,7 +7,7 @@ namespace FireBrowserWinUi3Core.Helpers;
 public static class EncryptionHelpers
 {
     // Your additional entropy
-    private static readonly byte[] AdditionalEntropy = { 9, 6, 4, 1, 5 };
+    private static readonly byte[] AdditionalEntropy = { 9, 6, 4, 1, 5, 7, 8, 2 };
 
     public static byte[] ProtectString(string str)
     {

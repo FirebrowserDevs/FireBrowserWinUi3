@@ -13,7 +13,7 @@ public sealed partial class SettingsHome : Page
     SettingsService SettingsService { get; set; }
     public SettingsHome()
     {
-        SettingsService = App.GetService<SettingsService>();    
+        SettingsService = App.GetService<SettingsService>();
         this.InitializeComponent();
         LoadUserDataAndSettings();
         LoadUsernames();

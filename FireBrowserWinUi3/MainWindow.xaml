@@ -8,7 +8,6 @@
     xmlns:firebrowser="using:FireBrowserWinUi3.Controls"
     xmlns:firebrowserfavorites="using:FireBrowserWinUi3Favorites"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:local="using:FireBrowserWinUi3"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:person="using:FireBrowserWinUi3Core.Helpers"
     mc:Ignorable="d">

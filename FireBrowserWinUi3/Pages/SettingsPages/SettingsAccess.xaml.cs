@@ -11,11 +11,11 @@ public sealed partial class SettingsAccess : Page
 {
     bool isMode;
 
-    SettingsService SettingsService { get; set; }    
+    SettingsService SettingsService { get; set; }
     public SettingsAccess()
     {
         this.InitializeComponent();
-        SettingsService = App.GetService<SettingsService>();    
+        SettingsService = App.GetService<SettingsService>();
         LoadUserDataAndSettings();
         id();
     }
@@ -64,7 +64,7 @@ public sealed partial class SettingsAccess : Page
         SettingsService.CoreSettings.Lang = langSetting;
 
         // Save the modified settings back to the user's settings file
-        await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings); 
+        await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
     }
 
     private async void id()
@@ -132,6 +132,6 @@ public sealed partial class SettingsAccess : Page
         SettingsService.CoreSettings.ExceptionLog = langSetting;
 
         // Save the modified settings back to the user's settings file
-        await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings); 
+        await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
     }
 }

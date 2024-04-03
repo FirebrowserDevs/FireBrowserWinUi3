@@ -3,9 +3,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Behaviors;
 using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3MultiCore;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Runtime.CompilerServices;
@@ -14,7 +12,7 @@ namespace FireBrowserWinUi3.Services.ViewModels;
 
 public partial class MainWindowViewModel : ObservableRecipient
 {
-    internal MainWindow MainView { get; set;  }
+    internal MainWindow MainView { get; set; }
     [ObservableProperty]
     private BitmapImage _profileImage;
     public MainWindowViewModel(IMessenger messenger) : base(messenger)
@@ -57,9 +55,5 @@ public partial class MainWindowViewModel : ObservableRecipient
             default:
                 break;
         }
-        
-        
-
-
     }
 }

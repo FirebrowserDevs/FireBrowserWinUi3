@@ -1,9 +1,7 @@
 ﻿using System.Threading.Tasks;
 
-namespace FireBrowserWinUi3.Services.Contracts
+namespace FireBrowserWinUi3.Services.Contracts;
+public interface IDatabaseService
 {
-    public interface IDatabaseService
-    {
-        Task<Task> DatabaseCreationValidation();
-    }
+    Task<Task> DatabaseCreationValidation();
 }

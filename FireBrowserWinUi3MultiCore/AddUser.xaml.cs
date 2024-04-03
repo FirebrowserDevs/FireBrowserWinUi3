@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.System;
 
 namespace FireBrowserWinUi3MultiCore;
 
@@ -39,7 +38,7 @@ public sealed partial class AddUser : ContentDialog
 
         string destinationFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, Userbox.Text.ToString());
 
-        await  CopyImageAsync(iImage.ToString(), destinationFolderPath);
+        await CopyImageAsync(iImage.ToString(), destinationFolderPath);
 
         Hide();
     }
@@ -67,7 +66,7 @@ public sealed partial class AddUser : ContentDialog
 
     private void ProfileImage_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        
+
         if (ProfileImage.SelectedItem != null)
         { // Assuming 'userImageName' contains the name of the user's image file
             string userImageName = ProfileImage.SelectedItem.ToString() + ".png"; // Replace this with the actual user's image name

@@ -3,12 +3,12 @@ using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.ViewModels;
+using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.ImagesBing;
 using FireBrowserWinUi3DataCore.Actions;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3Favorites;
 using FireBrowserWinUi3MultiCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -25,7 +25,6 @@ using static FireBrowserWinUi3.MainWindow;
 using Settings = FireBrowserWinUi3Core.Models.Settings;
 
 namespace FireBrowserWinUi3.Pages;
-
 
 public sealed partial class NewTab : Page
 {
@@ -47,7 +46,6 @@ public sealed partial class NewTab : Page
         userSettings = ViewModel.SettingsService.CoreSettings;
 
         this.InitializeComponent();
-
     }
 
     private async void NewTab_Loaded(object sender, RoutedEventArgs e)
@@ -66,9 +64,8 @@ public sealed partial class NewTab : Page
         SearchengineSelection.SelectedItem = userSettings.EngineFriendlyName;
         NewTabSearchBox.Text = string.Empty;
         NewTabSearchBox.Focus(FocusState.Programmatic);
-        
-        HomeSync();
 
+        HomeSync();
     }
 
 
@@ -78,18 +75,17 @@ public sealed partial class NewTab : Page
         Mode.IsOn = userSettings.LightMode is true;
 
         ViewModel.BackgroundType = GetBackgroundType(userSettings.Background);
-        ViewModel.RaisePropertyChanges(nameof(ViewModel.BackgroundType));   
+        ViewModel.RaisePropertyChanges(nameof(ViewModel.BackgroundType));
 
         //var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor);
         NewColor.IsEnabled = userSettings.Background is 2;
         NewColorPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.ColorBackground);
-        NtpColorPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor) ;
+        NtpColorPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor);
         //NtpTime.Foreground = NtpDate.Foreground = new SolidColorBrush(color);
         GridSelect.SelectedIndex = userSettings.Background;
         SetVisibilityBasedOnLightMode(userSettings.LightMode is true);
         await Task.CompletedTask;
     }
-
 
     private Settings.NewTabBackground GetBackgroundType(int setting)
     {
@@ -138,14 +134,13 @@ public sealed partial class NewTab : Page
         base.OnNavigatedTo(e);
         param = e.Parameter as Passer;
     }
-    private class ImageRoot
-    {
-        public ImageTab[] images { get; set; }
-    }
+
+    private static readonly HttpClient client = new HttpClient();
+
     public static Brush GetGridBackgroundAsync(Settings.NewTabBackground backgroundType, FireBrowserWinUi3MultiCore.Settings userSettings)
     {
         string colorString = userSettings.ColorBackground.ToString();
-        var client = new HttpClient();
+       
 
         switch (backgroundType)
         {
@@ -162,18 +157,34 @@ public sealed partial class NewTab : Page
             case Settings.NewTabBackground.Featured:
                 try
                 {
-
-                    var images = System.Text.Json.JsonSerializer.Deserialize<ImageRoot>(client.GetStringAsync(new Uri("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1")).Result);
-
-                    if (images != null && images.images != null && images.images.Any())
+                    HttpResponseMessage response = client.GetAsync("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1").Result;
+                    if (response.IsSuccessStatusCode)
                     {
-                        BitmapImage btpImg = new BitmapImage(new Uri("https://bing.com" + images.images[0].url));
+                        string jsonResponse = response.Content.ReadAsStringAsync().Result;
 
-                        return new ImageBrush()
+                        // Deserialize the response
+                        var images = System.Text.Json.JsonSerializer.Deserialize<ImageRoot>(jsonResponse);
+
+                        if (images != null && images.images != null && images.images.Any())
                         {
-                            ImageSource = btpImg,
-                            Stretch = Stretch.UniformToFill
-                        };
+                            BitmapImage btpImg = new BitmapImage(new Uri("https://bing.com" + images.images[0].url));
+
+                            return new ImageBrush()
+                            {
+                                ImageSource = btpImg,
+                                Stretch = Stretch.UniformToFill
+                            };
+                        }
+                        else
+                        {
+                            // Handle case when images are null or empty
+                            return null;
+                        }
+                    }
+                    else
+                    {
+                        // Handle unsuccessful response
+                        return null;
                     }
                 }
                 catch (Exception ex)
@@ -185,6 +196,11 @@ public sealed partial class NewTab : Page
         }
 
         return new SolidColorBrush();
+    }
+
+    private class ImageRoot
+    {
+        public ImageTab[] images { get; set; }
     }
     private async Task DownloadImage()
     {
@@ -247,18 +263,16 @@ public sealed partial class NewTab : Page
         {
             ExceptionLogger.LogException(ex);
         }
-
     }
 
     private void Type_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.Auto = Type.IsOn);
     private void Mode_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.LightMode = Mode.IsOn);
-    private void NewColor_TextChanged(ColorPicker sender, ColorChangedEventArgs args) {
-        
+    private void NewColor_TextChanged(ColorPicker sender, ColorChangedEventArgs args)
+    {
         var newColor = userSettings.ColorBackground = XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), NewColorPicker.Color).ToString();
         UpdateUserSettings(userSettings => userSettings.ColorBackground = newColor);
         // raise a change to backgroundtype so that the x:Bind on GridMain will show new backgroundColor {x:Bind local:NewTab.GetGridBackgroundAsync(ViewModel.BackgroundType, userSettings), Mode=OneWay}
         ViewModel.RaisePropertyChanges(nameof(ViewModel.BackgroundType));
-        
     }
     private void DateTimeToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.NtpDateTime = DateTimeToggle.IsOn);
     private void FavoritesToggle_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsFavoritesToggled = FavoritesTimeToggle.IsOn);
@@ -271,7 +285,6 @@ public sealed partial class NewTab : Page
         var newColor = userSettings.NtpTextColor = XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), NtpColorPicker.Color).ToString();
         UpdateUserSettings(userSettings => userSettings.NtpTextColor = newColor);
         ViewModel.BrushNtp = new SolidColorBrush(NtpColorPicker.Color);
-        
     }
     private void Download_Click(object sender, RoutedEventArgs e) => DownloadImage();
 
@@ -377,6 +390,4 @@ public sealed partial class NewTab : Page
             }
         }
     }
-
-  
 }
