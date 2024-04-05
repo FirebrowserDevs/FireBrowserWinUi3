@@ -72,11 +72,6 @@ public sealed partial class SettingsPrivacy : Page
         }
     }
 
-    private void Confirm_Click(object sender, RoutedEventArgs e)
-    {
-        Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
-    }
-
     private void CamPermission_Toggled(object sender, RoutedEventArgs e)
     {
 

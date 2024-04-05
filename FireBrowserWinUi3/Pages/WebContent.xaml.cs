@@ -1,5 +1,6 @@
 using CommunityToolkit.WinUI.Helpers;
 using FireBrowserWinUi3.Controls;
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3Core.CoreUi;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.ShareHelper;
@@ -18,6 +19,7 @@ using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
+using Windows.UI.WebUI;
 using WinRT.Interop;
 using static FireBrowserWinUi3.MainWindow;
 
@@ -30,9 +32,11 @@ public sealed partial class WebContent : Page
     public BitmapImage PictureWebElement { get; set; }
     public WebView2 WebView { get; set; }
     private FireBrowserWinUi3MultiCore.User GetUser() => AuthService.IsUserAuthenticated ? AuthService.CurrentUser : null;
+    SettingsService SettingsService { get; set; }
 
     public WebContent()
     {
+        SettingsService = App.GetService<SettingsService>();
         this.InitializeComponent();
         Init();
         WebView = this.WebViewElement;
@@ -78,53 +82,16 @@ public sealed partial class WebContent : Page
 
     public void LoadSettings()
     {
-        //webview
-        WebViewElement.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = userSettings.BrowserKeys;
-        WebViewElement.CoreWebView2.Settings.IsStatusBarEnabled = userSettings.StatusBar;
-
-        //privacy need to fix settings load true is just temp
-        WebViewElement.CoreWebView2.Settings.IsScriptEnabled = userSettings.BrowserScripts;
-        WebViewElement.CoreWebView2.Settings.IsPasswordAutosaveEnabled = userSettings.DisablePassSave;
-        WebViewElement.CoreWebView2.Settings.IsGeneralAutofillEnabled = userSettings.DisableGenAutoFill;
-        WebViewElement.CoreWebView2.Settings.IsWebMessageEnabled = userSettings.DisableWebMess;
-
-        int disableWebMessSetting = userSettings.TrackPrevention = 2;
-
-
-        // Map the numeric value to the corresponding tracking prevention level
-        CoreWebView2TrackingPreventionLevel preventionLevel;
-        switch (disableWebMessSetting)
-        {
-            case 0:
-                preventionLevel = CoreWebView2TrackingPreventionLevel.None;
-                break;
-            case 1:
-                preventionLevel = CoreWebView2TrackingPreventionLevel.Basic;
-                break;
-            case 2:
-                preventionLevel = CoreWebView2TrackingPreventionLevel.Balanced;
-                break;
-            case 3:
-                preventionLevel = CoreWebView2TrackingPreventionLevel.Strict;
-                break;
-            default:
-                // You may want to handle unexpected values here
-                preventionLevel = CoreWebView2TrackingPreventionLevel.Balanced;
-                break;
-        }
-
-        // Set the PreferredTrackingPreventionLevel
-        WebViewElement.CoreWebView2.Profile.PreferredTrackingPreventionLevel = preventionLevel;
+        if (SettingsService.CoreSettings.DisableJavaScript == true) { WebViewElement.CoreWebView2.Settings.IsScriptEnabled = false; } else { WebViewElement.CoreWebView2.Settings.IsScriptEnabled = true; }
+        if (SettingsService.CoreSettings.DisablePassSave == true) { WebViewElement.CoreWebView2.Settings.IsPasswordAutosaveEnabled = false; } else { WebViewElement.CoreWebView2.Settings.IsPasswordAutosaveEnabled = true; }
+        if (SettingsService.CoreSettings.DisableGenAutoFill == true) { WebViewElement.CoreWebView2.Settings.IsGeneralAutofillEnabled = false; } else { WebViewElement.CoreWebView2.Settings.IsGeneralAutofillEnabled = true; }
+        if (SettingsService.CoreSettings.DisableWebMess == true) { WebViewElement.CoreWebView2.Settings.IsWebMessageEnabled = false; } else { WebViewElement.CoreWebView2.Settings.IsWebMessageEnabled = true; }
+        if (SettingsService.CoreSettings.BrowserKeys == true) { WebViewElement.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = true; } else { WebViewElement.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false; }
+        if (SettingsService.CoreSettings.StatusBar == true) { WebViewElement.CoreWebView2.Settings.IsStatusBarEnabled = true; } else { WebViewElement.CoreWebView2.Settings.IsStatusBarEnabled = false; }
+        if (SettingsService.CoreSettings.BrowserScripts == true) { WebViewElement.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = true; } else { WebViewElement.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = false; }
     }
 
     Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
-    public static class WebViewUtils
-    {
-        public static async Task EarlySync(WebView2 webView)
-        {
-            await webView.EnsureCoreWebView2Async();
-        }
-    }
 
     public void ShareUi(string url, string title)
     {
@@ -137,9 +104,10 @@ public sealed partial class WebContent : Page
         base.OnNavigatedTo(e);
         param = e.Parameter as Passer;
 
-        await WebViewUtils.EarlySync(WebViewElement);
+        await WebViewElement.EnsureCoreWebView2Async();
 
         LoadSettings();
+
         WebView2 s = WebViewElement;
 
         if (param?.Param != null) WebViewElement.CoreWebView2.Navigate(param.Param.ToString());
@@ -158,7 +126,7 @@ public sealed partial class WebContent : Page
             window.GoFullScreenWeb(s.CoreWebView2.ContainsFullScreenElement);
         };
         s.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
-        s.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = true;
+        s.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = false;
         s.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
         s.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
         s.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
