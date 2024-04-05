@@ -190,7 +190,7 @@ public sealed partial class WebContent : Page
             //move history to history change event caputures all navigation now (thread safe)
             s?.DispatcherQueue.TryEnqueue(async () =>
             {
-                await Task.Delay(1500);
+                await Task.Delay(1000);
 
                 using (MemoryStream memoryStream = new MemoryStream())
                 {
