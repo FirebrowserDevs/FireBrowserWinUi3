@@ -121,7 +121,7 @@ public sealed partial class UserCentral : Window
                     messenger?.Send(new Message_Settings_Actions($"Welcome {AuthService.CurrentUser.Username} to our FireBrowser", EnumMessageStatus.Login));
                 }
 
-                await Task.Delay(500);
+                await Task.Delay(125);
                 this.Close();
             }
 
