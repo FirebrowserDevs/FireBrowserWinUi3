@@ -21,7 +21,8 @@ namespace FireBrowserWinUi3.Controls
     /// </summary>
     /// 
 
-
+    //TODO: look at this auth through google.  Need our own google develpor app registration. but how do we like set a cookie in webview.chrome.cookies ?? webview2.corewebview2.cookiemanager add (google auth) ??
+    // https://github.com/googlesamples/oauth-apps-for-windows.git
     public sealed partial class ProfileCommander : Flyout
     {
         private SettingsService SettingsService { get; set; }
