@@ -91,8 +91,6 @@ public sealed partial class WebContent : Page
         if (SettingsService.CoreSettings.BrowserScripts == true) { WebViewElement.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = true; } else { WebViewElement.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = false; }
     }
 
-    Settings userSettings = UserFolderManager.LoadUserSettings(AuthService.CurrentUser);
-
     public void ShareUi(string url, string title)
     {
         var hWnd = WindowNative.GetWindowHandle((Application.Current as App)?.m_window as MainWindow);
@@ -112,7 +110,7 @@ public sealed partial class WebContent : Page
 
         if (param?.Param != null) WebViewElement.CoreWebView2.Navigate(param.Param.ToString());
 
-        string useragent = userSettings?.Useragent ?? "1";
+        string useragent = SettingsService.CoreSettings?.Useragent ?? "1";
         var userAgent = s?.CoreWebView2.Settings.UserAgent;
 
         if (!string.IsNullOrEmpty(userAgent) && userAgent.Contains("Edg/"))
@@ -315,7 +313,7 @@ public sealed partial class WebContent : Page
         if (string.IsNullOrWhiteSpace(text)) return;
 
         var synthesisStream = await new SpeechSynthesizer().SynthesizeSsmlToStreamAsync(
-            $"<speak version='1.0' xml:lang='{userSettings.Lang}'><voice name='Microsoft Server Speech Text to Speech Voice ({userSettings.Lang}, HannaRUS)'>{text}</voice></speak>");
+            $"<speak version='1.0' xml:lang='{SettingsService.CoreSettings.Lang}'><voice name='Microsoft Server Speech Text to Speech Voice ({SettingsService.CoreSettings.Lang}, HannaRUS)'>{text}</voice></speak>");
 
         var mediaPlayer = new MediaPlayer
         {
@@ -354,7 +352,7 @@ public sealed partial class WebContent : Page
                         var newTab = mainWindow?.CreateNewTab(typeof(WebContent), new Uri(SelectionText));
                         mainWindow?.Tabs.TabItems.Add(newTab);
                     }
-                    if (userSettings.OpenTabHandel) select();
+                    if (SettingsService.CoreSettings.OpenTabHandel) select();
                     break;
                 case "OpenInWindow":
                     OpenNewWindow(new Uri(SelectionText));
