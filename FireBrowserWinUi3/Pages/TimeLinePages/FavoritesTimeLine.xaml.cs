@@ -1,6 +1,8 @@
+using FireBrowserWinUi3.Services.ViewModels;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Favorites;
 using FireBrowserWinUi3MultiCore;
+using Microsoft.Data.Sqlite;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -29,8 +31,7 @@ public sealed partial class FavoritesTimeLine : Page
 
     public async void LoadFavs()
     {
-        List<FavItem> favorites = fs.LoadFav(user);
-
+        List<FavItem> favorites = fs.LoadFav();
         FavoritesListView.ItemsSource = favorites;
     }
 
@@ -38,7 +39,7 @@ public sealed partial class FavoritesTimeLine : Page
     {
         TextBox textbox = sender as TextBox;
 
-        List<FavItem> favorites = fs.LoadFav(user);
+        List<FavItem> favorites = fs.LoadFav();
         // Get all ListView items with the submitted search query
         var SearchResults = from s in favorites where s.Title.Contains(textbox.Text, StringComparison.OrdinalIgnoreCase) select s;
         // Set SearchResults as ItemSource for HistoryListView
@@ -57,65 +58,13 @@ public sealed partial class FavoritesTimeLine : Page
         ctmtext = item.Title;
         ctmurl = item.Url;
     }
-
-    private async void ClearFavs()
-    {
-        string username = user.Username;
-        string databasePath = Path.Combine(
-            UserDataManager.CoreFolderPath,
-            UserDataManager.UsersFolderPath,
-            username,
-            "Database",
-            "favorites.json"
-        );
-
-        FavoritesListView.ItemsSource = null;
-        File.Delete(databasePath);
-    }
-
-    private async void RemoveFavorite(FavItem selectedItem)
-    {
-        string username = user.Username;
-        string databasePath = Path.Combine(
-            UserDataManager.CoreFolderPath,
-            UserDataManager.UsersFolderPath,
-            username,
-            "Database",
-            "favorites.json"
-        );
-
-        // Read the JSON content from the file
-        string jsonContent = File.ReadAllText(databasePath);
-
-        // Deserialize JSON content into a list of FavItem
-        List<FavItem> favoritesList = JsonSerializer.Deserialize<List<FavItem>>(jsonContent);
-
-        // Find and remove the selected item from the list
-        if (selectedItem != null)
-        {
-            favoritesList.Remove(selectedItem);
-
-            // Serialize the updated list back to JSON
-            string updatedJsonContent = JsonSerializer.Serialize(favoritesList, new JsonSerializerOptions
-            {
-                WriteIndented = true // Use this option if you want indented output
-            });
-
-            File.WriteAllText(databasePath, updatedJsonContent);
-
-            // Update your UI or perform any other necessary actions
-            FavoritesListView.ItemsSource = favoritesList;
-        }
-        else
-        {
-            // Handle the case where the selected item is null (optional)
-            Console.WriteLine("Selected item is null.");
-        }
-    }
+  
 
     private void Button_Click(object sender, RoutedEventArgs e)
     {
-        ClearFavs();
+        FavManager fs = new FavManager();
+        fs.ClearFavs();
+        LoadFavs();
     }
     private async void FavContextItem_Click(object sender, RoutedEventArgs e)
     {
@@ -131,14 +80,13 @@ public sealed partial class FavoritesTimeLine : Page
                 ClipBoard.WriteStringToClipboard(ctmtext);
                 break;
             case "DeleteSingleRecord":
-                // Assuming ctmurl and ctmtext represent the URL and title of the selected item
+                FavManager fs = new FavManager();
                 FavItem selectedItem = new FavItem { Url = ctmurl, Title = ctmtext };
-                RemoveFavorite(selectedItem);
+                fs.RemoveFavorite(selectedItem);
+                LoadFavs();
                 break;
                 // Add other cases as needed
         }
         FavoritesContextMenu.Hide();
     }
-
-
 }

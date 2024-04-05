@@ -3,6 +3,9 @@ using FireBrowserWinUi3.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace FireBrowserWinUi3.Controls;
 public sealed partial class FireBrowserTabViewItem : TabViewItem
@@ -24,6 +27,13 @@ public sealed partial class FireBrowserTabViewItem : TabViewItem
     typeof(FireBrowserTabViewItem),
     null);
 
+    public WebView2 MainWebView
+    {
+        get;
+        set;
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
 
     private void TabViewItem_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {

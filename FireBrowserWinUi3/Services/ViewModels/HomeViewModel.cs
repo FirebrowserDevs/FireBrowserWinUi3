@@ -124,7 +124,7 @@ public partial class HomeViewModel : ObservableRecipient
         try
         {
             FavManager fs = new FavManager();
-            favorites = fs.LoadFav(FireBrowserWinUi3MultiCore.AuthService.CurrentUser).ToObservableCollection();
+            favorites = fs.LoadFav().ToObservableCollection();
 
             return favorites.ToObservableCollection();
         }

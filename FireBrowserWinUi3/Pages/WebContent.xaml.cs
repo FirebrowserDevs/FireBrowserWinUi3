@@ -81,7 +81,6 @@ public sealed partial class WebContent : Page
         //webview
         WebViewElement.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = userSettings.BrowserKeys;
         WebViewElement.CoreWebView2.Settings.IsStatusBarEnabled = userSettings.StatusBar;
-        WebViewElement.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = userSettings.DisableJavaScript;
 
         //privacy need to fix settings load true is just temp
         WebViewElement.CoreWebView2.Settings.IsScriptEnabled = userSettings.BrowserScripts;
@@ -159,7 +158,7 @@ public sealed partial class WebContent : Page
             window.GoFullScreenWeb(s.CoreWebView2.ContainsFullScreenElement);
         };
         s.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
-        s.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = false;
+        s.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = true;
         s.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
         s.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
         s.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
@@ -167,7 +166,13 @@ public sealed partial class WebContent : Page
         {
             args.GetDeferral();
             var window = (Application.Current as App)?.m_window as MainWindow;
-            await UIScript.ShowDialog($"{sender.DocumentTitle} says", args.Message, window.Content.XamlRoot);
+            UIScript ui = new UIScript($"{sender.DocumentTitle} says", args.Message, window.Content.XamlRoot);
+            var result = await ui.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                sender.Reload();
+            }
         };
         s.CoreWebView2.DocumentTitleChanged += (sender, args) =>
         {

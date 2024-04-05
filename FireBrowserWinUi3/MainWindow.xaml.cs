@@ -32,6 +32,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
+using Windows.Security.Credentials.UI;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
@@ -506,6 +507,11 @@ public sealed partial class MainWindow : Window
         UrlBox.Text = text;
         UrlBox.Focus(FocusState.Programmatic);
     }
+
+    public void FocusWebView()
+    {
+        TabWebView.Focus(FocusState.Programmatic);
+    }
     public void NavigateToUrl(string uri)
     {
         try
@@ -705,9 +711,8 @@ public sealed partial class MainWindow : Window
                 FavoriteUrl.Text = TabWebView.CoreWebView2.Source;
                 break;
             case "AddFavorite":
-                FireBrowserWinUi3MultiCore.User auth = AuthService.CurrentUser;
                 FavManager fv = new FavManager();
-                fv.SaveFav(auth, FavoriteTitle.Text.ToString(), FavoriteUrl.Text.ToString());
+                fv.SaveFav(FavoriteTitle.Text.ToString(), FavoriteUrl.Text.ToString());
                 AddFav.Flyout?.Hide();
                 var note = new Notification
                 {
@@ -719,9 +724,8 @@ public sealed partial class MainWindow : Window
                 NotificationQueue.Show(note);
                 break;
             case "Favorites":
-                FireBrowserWinUi3MultiCore.User user = AuthService.CurrentUser;
                 FavManager fs = new FavManager();
-                List<FavItem> favorites = fs.LoadFav(user);
+                List<FavItem> favorites = fs.LoadFav();
                 FavoritesListView.ItemsSource = favorites;
                 break;
             case "DarkMode" when TabContent.Content is WebContent:
@@ -745,23 +749,31 @@ public sealed partial class MainWindow : Window
             TabWebView.NavigationStarting += (_, _) => ViewModel.CanRefresh = false;
             TabWebView.NavigationCompleted += (_, _) => ViewModel.CanRefresh = true;
 
-            await TabWebView.EnsureCoreWebView2Async();
+
+            await TabWebView.EnsureCoreWebView2Async();                    
+
             // 2014-02-04 added to stop a video from playing when selection is made to a different tab / save on memory resources. 
             if (e.RemovedItems.Count > 0)
-            {
+            {              
+
                 e.RemovedItems.All((tab) =>
                 {
 
                     if (tab is FireBrowserTabViewItem viewedItem)
                     {
+                        //need pip mode automaticcly open en close 
                         if (viewedItem.Content is Frame frame)
                         {
+                           
                             if (coreSet.ResourceSave != null && coreSet.ResourceSave.Equals("1"))
                             {
+                              
                                 if (frame.Content is WebContent web)
                                 {
+                                 
                                     frame.DispatcherQueue.TryEnqueue(async () =>
                                     {
+                                       
                                         await web.WebView.CoreWebView2?.ExecuteScriptAsync(@"(function() { 
                                         try
                                         {
@@ -781,7 +793,8 @@ public sealed partial class MainWindow : Window
                             }
                             else
                             {
-                                // do nothing
+                               
+                           
                             }
                         }
                         return true;
@@ -1080,7 +1093,27 @@ public sealed partial class MainWindow : Window
     }
 
     private void MoreTool_Click(object sender, RoutedEventArgs e) { UserFrame.Visibility = Visibility.Collapsed; }
-    private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e) { FireBrowserWinUi3Auth.TwoFactorsAuthentification.ShowFlyout(Secure); }
+    private async void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            // Prompt the user for biometric or PIN authentication
+            var authResult = await UserConsentVerifier.RequestVerificationAsync("Authenticate to open the 2fa data");
+
+            if (authResult == UserConsentVerificationResult.Verified)
+            {
+                FireBrowserWinUi3Auth.TwoFactorsAuthentification.ShowFlyout(Secure);
+            }
+            else
+            {
+                Console.WriteLine("User authentication failed.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error authenticating: {ex.Message}");
+        }
+    }
     private void MenuFlyoutItem_Click_1(object sender, RoutedEventArgs e) { FireBrowserWinUi3Core.Helpers.FlyoutLoad.ShowFlyout(Secure); }
 
     private async void SaveQrImage_Click(object sender, RoutedEventArgs e)
