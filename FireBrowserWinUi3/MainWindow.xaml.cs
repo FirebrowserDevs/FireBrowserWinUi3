@@ -25,6 +25,7 @@ using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -520,7 +521,8 @@ public sealed partial class MainWindow : Window
             {
                 launchurl ??= uri;
                 TabContent.Navigate(typeof(WebContent), CreatePasser(uri));
-
+                // newTab is not browsing to new site.
+                DispatcherQueue.TryEnqueue(async () => await MainWinSaveResources());
                 return;
             }
 
@@ -740,6 +742,54 @@ public sealed partial class MainWindow : Window
 
 
     #endregion
+
+    private async Task MainWinSaveResources()
+    {
+        if (SettingsService?.CoreSettings?.ResourceSave == false)
+            return;
+
+
+        var list = TabViewContainer?.TabItems?.ToList();
+
+        list!.ForEach(async (tab) =>
+        {
+            var CurrentTab = tab as FireBrowserTabViewItem;
+
+            // covers all tabs.- in future if we are selecting desired tab that's playing we could add a check NO TO Stop video from playing hence were selecting that tab.
+
+            if (CurrentTab?.Content is Frame frame)
+            {
+                if (frame?.Content is WebContent web)
+                {
+                    if (web.WebView?.Source is not null)
+                    {
+                        await web.WebView.EnsureCoreWebView2Async();
+                        await web.WebView.CoreWebView2!.ExecuteScriptAsync(
+                                        @"(function() { 
+                                try
+                                {
+                                    const videos = document.querySelectorAll('video');
+                                    videos.forEach((video) => { video.pause();});
+                                    console.log('WINUI3_CoreWebView2: YES_VIDEOS_CLOSED');
+                                    return true; 
+
+                                }
+                                catch(error) {
+                                    console.log('WINUI3_CoreWebView2: NO_VIDEOS_CLOSED');
+                                    return error.message; 
+                                }
+                            })();");
+
+                    }
+
+                }
+            }
+
+        });
+
+        await Task.CompletedTask;
+
+    }
     private async void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         Settings coreSet = SettingsService.CoreSettings; // UserFolderManager.LoadcoreSet(AuthService.CurrentUser);
@@ -750,11 +800,11 @@ public sealed partial class MainWindow : Window
             TabWebView.NavigationCompleted += (_, _) => ViewModel.CanRefresh = true;
 
 
-            await TabWebView.EnsureCoreWebView2Async();                    
+            await TabWebView.EnsureCoreWebView2Async();
 
             // 2014-02-04 added to stop a video from playing when selection is made to a different tab / save on memory resources. 
             if (e.RemovedItems.Count > 0)
-            {              
+            {
 
                 e.RemovedItems.All((tab) =>
                 {
@@ -762,42 +812,7 @@ public sealed partial class MainWindow : Window
                     if (tab is FireBrowserTabViewItem viewedItem)
                     {
                         //need pip mode automaticcly open en close 
-                        if (viewedItem.Content is Frame frame)
-                        {
-                           
-                            if (coreSet.ResourceSave != null && coreSet.ResourceSave.Equals("1"))
-                            {
-                              
-                                if (frame.Content is WebContent web)
-                                {
-                                 
-                                    frame.DispatcherQueue.TryEnqueue(async () =>
-                                    {
-                                       
-                                        await web.WebView.CoreWebView2?.ExecuteScriptAsync(@"(function() { 
-                                        try
-                                        {
-                                            const videos = document.querySelectorAll('video');
-                                            videos.forEach((video) => { video.pause();});
-                                            console.log('WINUI3_CoreWebView2: YES_VIDEOS_CLOSED');
-                                            return true; 
-
-                                        }
-                                        catch(error) {
-                                          console.log('WINUI3_CoreWebView2: NO_VIDEOS_CLOSED');
-                                          return error.message; 
-                                        }
-                                    })();");
-                                    });
-                                }
-                            }
-                            else
-                            {
-                               
-                           
-                            }
-                        }
-                        return true;
+                        DispatcherQueue.TryEnqueue(async () => await MainWinSaveResources());
                     }
                     return false;
                 });
