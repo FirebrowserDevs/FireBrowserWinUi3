@@ -761,6 +761,7 @@ public sealed partial class MainWindow : Window
             {
                 if (frame?.Content is WebContent web)
                 {
+                    // webview needs a source to have a CoreWebView 
                     if (web.WebView?.Source is not null)
                     {
                         await web.WebView.EnsureCoreWebView2Async();
