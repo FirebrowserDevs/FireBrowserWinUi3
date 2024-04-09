@@ -188,6 +188,8 @@ public sealed partial class MainWindow : Window
             NewWindow.Visibility = Visibility.Collapsed;
             //Profile.IsEnabled = false;
             WebContent.IsIncognitoModeEnabled = true;
+            Profile.IsEnabled = false;
+            AddFav.IsEnabled = false;
             UserDataManager.DeleteUser("Private");
             InPrivateUser();
             incog = true;

@@ -77,11 +77,14 @@ public sealed partial class UserCentral : Window
 
                 if (users?.Count > 0 && !string.IsNullOrWhiteSpace(users[0].Username))
                 {
-
                     List<UserExtend> userExtends = new List<UserExtend>();
                     foreach (var user in users)
                     {
-                        userExtends.Add(new UserExtend(user));
+                        // Check if the username contains "private"
+                        if (user.Username != null && !user.Username.Contains("Private"))
+                        {
+                            userExtends.Add(new UserExtend(user));
+                        }
                     }
                     return userExtends;
                 }
@@ -94,6 +97,7 @@ public sealed partial class UserCentral : Window
 
         return null;
     }
+
 
     private async void UserListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
