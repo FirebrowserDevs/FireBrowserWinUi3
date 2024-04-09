@@ -3,7 +3,6 @@ using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.ViewModels;
-using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.ImagesBing;
 using FireBrowserWinUi3DataCore.Actions;
 using FireBrowserWinUi3Exceptions;
@@ -140,7 +139,7 @@ public sealed partial class NewTab : Page
     public static Brush GetGridBackgroundAsync(Settings.NewTabBackground backgroundType, FireBrowserWinUi3MultiCore.Settings userSettings)
     {
         string colorString = userSettings.ColorBackground.ToString();
-       
+
 
         switch (backgroundType)
         {

@@ -25,7 +25,6 @@ using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -523,6 +522,7 @@ public sealed partial class MainWindow : Window
                 TabContent.Navigate(typeof(WebContent), CreatePasser(uri));
                 // newTab is not browsing to new site.
                 DispatcherQueue.TryEnqueue(async () => await MainWinSaveResources());
+
                 return;
             }
 
@@ -742,6 +742,7 @@ public sealed partial class MainWindow : Window
 
 
     #endregion
+
 
     private async Task MainWinSaveResources()
     {

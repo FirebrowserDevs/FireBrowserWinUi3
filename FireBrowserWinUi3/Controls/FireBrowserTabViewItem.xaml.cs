@@ -4,8 +4,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 
 namespace FireBrowserWinUi3.Controls;
 public sealed partial class FireBrowserTabViewItem : TabViewItem

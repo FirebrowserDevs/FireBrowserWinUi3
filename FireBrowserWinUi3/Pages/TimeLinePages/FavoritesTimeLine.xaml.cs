@@ -1,17 +1,13 @@
-using FireBrowserWinUi3.Services.ViewModels;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Favorites;
 using FireBrowserWinUi3MultiCore;
-using Microsoft.Data.Sqlite;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
 using Windows.System;
 
 namespace FireBrowserWinUi3.Pages.TimeLinePages;
@@ -58,7 +54,7 @@ public sealed partial class FavoritesTimeLine : Page
         ctmtext = item.Title;
         ctmurl = item.Url;
     }
-  
+
 
     private void Button_Click(object sender, RoutedEventArgs e)
     {
