@@ -78,7 +78,7 @@
 			<uap:Extension Category="windows.protocol">
 				<uap:Protocol Name="firebrowserincog">
 					<uap:DisplayName>FireBrowser WinUi3 Incognito</uap:DisplayName>
-					<uap:Logo>Assets\Icons\Incog.png</uap:Logo>
+					<uap:Logo>Assets\Icons\IncogTs.png</uap:Logo>
 				</uap:Protocol>
 			</uap:Extension>
 		</Extensions>

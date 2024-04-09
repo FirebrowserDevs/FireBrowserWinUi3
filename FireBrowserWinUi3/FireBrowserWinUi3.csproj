@@ -62,7 +62,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\Google.png" />
-    <Content Remove="Assets\Icons\Incog.png" />
     <Content Remove="Assets\Microsoft.png" />
     <Content Remove="Assets\SegoeFluentIcons2.ttf" />
     <Content Remove="Assets\setup_image.png" />
