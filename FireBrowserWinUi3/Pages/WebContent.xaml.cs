@@ -88,6 +88,33 @@ public sealed partial class WebContent : Page
         if (SettingsService.CoreSettings.BrowserKeys == true) { WebViewElement.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = true; } else { WebViewElement.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false; }
         if (SettingsService.CoreSettings.StatusBar == true) { WebViewElement.CoreWebView2.Settings.IsStatusBarEnabled = true; } else { WebViewElement.CoreWebView2.Settings.IsStatusBarEnabled = false; }
         if (SettingsService.CoreSettings.BrowserScripts == true) { WebViewElement.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = true; } else { WebViewElement.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = false; }
+
+        int disableWebMessSetting = SettingsService.CoreSettings.TrackPrevention;
+
+        // Map the numeric value to the corresponding tracking prevention level
+        CoreWebView2TrackingPreventionLevel preventionLevel;
+        switch (disableWebMessSetting)
+        {
+            case 0:
+                preventionLevel = CoreWebView2TrackingPreventionLevel.None;
+                break;
+            case 1:
+                preventionLevel = CoreWebView2TrackingPreventionLevel.Basic;
+                break;
+            case 2:
+                preventionLevel = CoreWebView2TrackingPreventionLevel.Balanced;
+                break;
+            case 3:
+                preventionLevel = CoreWebView2TrackingPreventionLevel.Strict;
+                break;
+            default:
+                // You may want to handle unexpected values here
+                preventionLevel = CoreWebView2TrackingPreventionLevel.Balanced;
+                break;
+        }
+
+        // Set the PreferredTrackingPreventionLevel
+        WebViewElement.CoreWebView2.Profile.PreferredTrackingPreventionLevel = preventionLevel;
     }
 
     public void ShareUi(string url, string title)
