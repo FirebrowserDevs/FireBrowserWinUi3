@@ -5,45 +5,34 @@ using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace FireBrowserWinUi3.Services.ViewModels;
-public class DownloadsViewModel : ObservableObject, IDownloadsViewModel
+namespace FireBrowserWinUi3.Services.ViewModels
 {
-    public ListView DownloadItemsList { get; set; }
-    public DownloadService DataCore { get; }
-    public ObservableCollection<DownloadItem> ItemsListView { get; set; }
-    public DownloadsViewModel()
+    public class DownloadsViewModel : ObservableObject, IDownloadsViewModel
     {
-        DataCore = App.GetService<DownloadService>();
-        DataCore.Handler_DownItemsChange += DataCore_Handler_DownItemsChange;
-    }
+        public ListView DownloadItemsList { get; set; }
+        public DownloadService DataCore { get; }
+        public ObservableCollection<DownloadItem> ItemsListView { get; set; }
 
-    private async void DataCore_Handler_DownItemsChange(object sender, FireBrowserWinUi3.Services.Events.DownloadItemStatusEventArgs e)
-    {
-        ItemsListView = DataCore.DownloadItemControls;
-        await Task.Delay(200);
-        OnPropertyChanged(nameof(ItemsListView));
-        #region TODO 
-        // do something on other properties. 
-        switch (e.Status)
+        public DownloadsViewModel()
         {
-            case FireBrowserWinUi3.Services.Events.DownloadItemStatusEventArgs.EnumStatus.Added:
-                break;
-            case FireBrowserWinUi3.Services.Events.DownloadItemStatusEventArgs.EnumStatus.Removed:
-                break;
-            case FireBrowserWinUi3.Services.Events.DownloadItemStatusEventArgs.EnumStatus.Updated:
-                break;
-            default:
-                break;
+            DataCore = App.GetService<DownloadService>();
+            DataCore.Handler_DownItemsChange += DataCore_Handler_DownItemsChange;
         }
-        #endregion
-    }
 
-    public async Task GetDownloadItems()
-    {
-        if (DataCore == null) { return; }
+        private async void DataCore_Handler_DownItemsChange(object sender, FireBrowserWinUi3.Services.Events.DownloadItemStatusEventArgs e)
+        {
+            ItemsListView = DataCore.DownloadItemControls;
+            OnPropertyChanged(nameof(ItemsListView));
+            await Task.Delay(200);
+        }
 
-        await DataCore.UpdateAsync();
-        ItemsListView = DataCore.DownloadItemControls;
-        OnPropertyChanged(nameof(ItemsListView));
+        public async Task GetDownloadItems()
+        {
+            if (DataCore == null) return;
+
+            await DataCore.UpdateAsync();
+            ItemsListView = DataCore.DownloadItemControls;
+            OnPropertyChanged(nameof(ItemsListView));
+        }
     }
 }

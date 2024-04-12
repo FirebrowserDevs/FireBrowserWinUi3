@@ -9,14 +9,13 @@ namespace FireBrowserWinUi3MultiCore
     public class AuthService
     {
         private static readonly string UserDataFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FireBrowserUserCore", "UsrCore.json");
-        private static readonly List<User> users = LoadUsersFromJson();
+        private static List<User> users = LoadUsersFromJson();
 
         private static List<User> LoadUsersFromJson()
         {
             try
             {
-                string userDataJson = File.ReadAllText(UserDataFilePath);
-                return JsonSerializer.Deserialize<List<User>>(userDataJson) ?? new List<User>();
+                return File.Exists(UserDataFilePath) ? JsonSerializer.Deserialize<List<User>>(File.ReadAllText(UserDataFilePath)) ?? new List<User>() : new List<User>();
             }
             catch (Exception ex)
             {
@@ -42,7 +41,17 @@ namespace FireBrowserWinUi3MultiCore
             }
         }
 
-        private static void SaveUsers() => File.WriteAllText(UserDataFilePath, JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true }));
+        private static void SaveUsers()
+        {
+            try
+            {
+                File.WriteAllText(UserDataFilePath, JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true }));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving user data: {ex.Message}");
+            }
+        }
 
         public static List<string> GetAllUsernames() => users.Select(u => u.Username).ToList();
 
