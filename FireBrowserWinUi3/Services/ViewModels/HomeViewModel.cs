@@ -50,15 +50,12 @@ public partial class HomeViewModel : ObservableRecipient
     private Visibility _IsSearchVisible;
     [ObservableProperty]
     private Brush _brushNtp = new SolidColorBrush(Colors.Ivory);
-
     public SettingsService SettingsService { get; set; }
     private DispatcherTimer timer { get; set; }
-
     public ObservableCollection<HistoryItem> HistoryItems { get; set; }
     public ObservableCollection<FavItem> FavoriteItems { get; set; }
     private void LoadUISettings()
     {
-
         NtpCoreVisibility = SettingsService.CoreSettings.NtpCoreVisibility ? Visibility.Visible : Visibility.Collapsed;
         IsNtpTimeVisible = SettingsService.CoreSettings.NtpDateTime;
         NtpTimeEnabled = SettingsService.CoreSettings.NtpDateTime;
@@ -94,7 +91,6 @@ public partial class HomeViewModel : ObservableRecipient
     }
     private async void UpdateUIControls()
     {
-
         NtpCoreVisibility = SettingsService.CoreSettings.NtpDateTime ? Visibility.Visible : Visibility.Collapsed;
         NtpTimeEnabled = SettingsService.CoreSettings.NtpDateTime;
 
@@ -138,7 +134,6 @@ public partial class HomeViewModel : ObservableRecipient
     public HomeViewModel(IMessenger messenger)
         : base(messenger)
     {
-        // TODO: add bingSearchApi -> helpers BingSearchApi == read more about JObject and JToken to parse..  foreach() or linq(). 
 
         FavoriteItems = new ObservableCollection<FavItem>();
         FavoriteItems.CollectionChanged += (s, e) => OnPropertyChanged(nameof(FavoriteItems));
@@ -151,32 +146,22 @@ public partial class HomeViewModel : ObservableRecipient
         SettingsService.Initialize();
         // load ui settings from CoreSettings. 
         LoadUISettings();
-
     }
-
 
     public Task Intialize()
     {
-
         UpdateUIControls();
-
         if (NtpTimeEnabled)
         {
             InitClock();
-
         }
-
         return Task.CompletedTask;
-
     }
     private void UpdateClock()
     {
-        // call this to update ui if a user has turned on/off ntp to be (dis)enabled.  
-        // UpdateUIControls(); - no need to update controls here because it's fired through Initilaze from view when there is a UpdateUserSettings
         (NtpTimeText, NtpDateText) = (DateTime.Now.ToString("H:mm"), $"{DateTime.Today.DayOfWeek}, {DateTime.Today.ToString("MMMM d")}");
         OnPropertyChanged(nameof(NtpTimeText));
         OnPropertyChanged(nameof(NtpDateText));
-
     }
     private void InitClock()
     {
@@ -190,7 +175,6 @@ public partial class HomeViewModel : ObservableRecipient
             UpdateClock();
         };
         timer.Start();
-
     }
 
     public Settings.NewTabBackground BackgroundType

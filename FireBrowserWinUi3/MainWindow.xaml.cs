@@ -36,8 +36,10 @@ using Windows.Security.Credentials.UI;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
+using Windows.System;
 using WinRT.Interop;
 using Settings = FireBrowserWinUi3MultiCore.Settings;
+using User = FireBrowserWinUi3MultiCore.User;
 using Windowing = FireBrowserWinUi3Core.Helpers.Windowing;
 
 namespace FireBrowserWinUi3;
@@ -46,7 +48,6 @@ public sealed partial class MainWindow : Window
 {
     private AppWindow appWindow;
     public DownloadFlyout DownloadFlyout { get; set; } = new DownloadFlyout();
-
     public ProfileCommander Commander { get; set; }
     public DownloadService ServiceDownloads { get; set; }
     public SettingsService SettingsService { get; set; }
@@ -61,7 +62,6 @@ public sealed partial class MainWindow : Window
         ViewModelMain.MainView = this;
         ViewModelMain.ProfileImage = new ImageHelper().LoadImage("profile_image.jpg");
 
-        // Use the LoadImage method to get the image
         Commander = new ProfileCommander(ViewModelMain);
 
         InitializeComponent();
@@ -435,8 +435,6 @@ public sealed partial class MainWindow : Window
     {
         try
         {
-
-
             double scaleAdjustment = GetScaleAdjustment();
             Apptitlebar.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity));
             var customDragRegionPosition = Apptitlebar.TransformToVisual(null).TransformPoint(new Windows.Foundation.Point(0, 0));
@@ -458,7 +456,6 @@ public sealed partial class MainWindow : Window
         }
         catch (Exception)
         {
-
             throw;
         }
     }

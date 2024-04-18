@@ -34,7 +34,7 @@ namespace FireBrowserWinUi3.Services.ViewModels
             switch (message.Status)
             {
                 case EnumMessageStatus.Login:
-                    ShowLoginNotification();
+                    //ShowLoginNotification(); disabled using 20mb+ ram 
                     break;
                 case EnumMessageStatus.Settings:
                     MainView.LoadUserSettings();

@@ -79,7 +79,8 @@
                                                 <PersonPicture
                                                     Width="24"
                                                     Height="24"
-                                                    Margin="6" />
+                                                    Margin="6" 
+                                                     ProfilePicture="{Binding PicturePath, Mode=OneWay}"/>
                                                 <!--  Username  -->
                                                 <TextBlock
                                                     Grid.Column="1"
