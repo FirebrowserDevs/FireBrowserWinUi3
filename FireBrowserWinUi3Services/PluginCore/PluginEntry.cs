@@ -23,8 +23,13 @@ namespace FireBrowserWinUi3Services.PluginCore
             this.Name = p.Name;
             this.Description = p.Description;
 
-            Plugin.Initialize(null);
-            //form = (UserControl)Plugin.DynamicValues[1];  dynamiccontrols dont work yet
+            var response = p.Initialize(null);
+
+            // Check if the response contains a form
+            if (response is IPluginCore.RpResponse formResponse)
+            {
+                form = formResponse.Form;
+            }
         }
     }
 }
