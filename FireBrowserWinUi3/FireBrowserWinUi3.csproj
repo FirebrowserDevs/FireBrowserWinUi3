@@ -17,9 +17,9 @@
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <GenerateTestArtifacts>False</GenerateTestArtifacts>
     <AppxBundle>Never</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
@@ -121,6 +121,7 @@
   <ItemGroup>
     <None Remove="ChangeUsernameCore.xaml" />
     <None Remove="Controls\ProfileCommander.xaml" />
+    <None Remove="Pages\Pluginss.xaml" />
     <None Remove="SetupWindow.xaml" />
     <None Remove="UserCentral.xaml" />
   </ItemGroup>
@@ -195,6 +196,9 @@
     <None Update="Assets\setup_image.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Pages\Pluginss.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="UserCentral.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

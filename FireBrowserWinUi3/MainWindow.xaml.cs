@@ -551,6 +551,10 @@ public sealed partial class MainWindow : Window
                         Tabs.TabItems.Add(CreateNewTab(typeof(SettingsPage)));
                         SelectNewTab();
                         break;
+                    case "firebrowser://modules":
+                        Tabs.TabItems.Add(CreateNewTab(typeof(Pluginss)));
+                        SelectNewTab();
+                        break;
                     case "firebrowser://vault":
                         //Tabs.TabItems.Add(CreateNewTab(typeof(SecureVault)));
                         //SelectNewTab();
@@ -857,7 +861,7 @@ public sealed partial class MainWindow : Window
                 }
                 break;
             case "Settings":
-                Tabs.TabItems.Add(CreateNewTab(typeof(SettingsPage)));
+                Tabs.TabItems.Add(CreateNewTab(typeof(Pluginss)));
                 SelectNewTab();
                 break;
             case "FullScreen":
