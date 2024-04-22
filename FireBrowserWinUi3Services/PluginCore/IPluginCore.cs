@@ -15,19 +15,28 @@ namespace FireBrowserWinUi3Services.PluginCore
 
         public class PluginResponse
         {
-            public String Message { get; set; } = "";
-            public Boolean HasError { get; set; } = false;
-            public String MessageID { get; set; } = "";
-           
+            public string Message { get; set; } = "";
+            public bool HasError { get; set; } = false;
+            public string MessageID { get; set; } = "";
         }
 
         public class RpResponse : PluginResponse
         {
             public UserControl Form { get; set; }
 
-            public RpResponse(UserControl form)
+            public RpResponse(PluginEntry entry)
             {
-                Form = form;
+                // Check if the entry is a XamlPluginEntry
+                if (entry is XamlPluginEntry xamlEntry)
+                {
+                    // If it's a XamlPluginEntry, extract the UserControl
+                    Form = xamlEntry.form;
+                }
+                else
+                {
+                    // If it's a regular PluginEntry, extract the form directly
+                    Form = entry.form;
+                }
             }
         }
     }
