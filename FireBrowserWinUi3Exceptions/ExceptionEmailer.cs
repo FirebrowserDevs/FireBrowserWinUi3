@@ -15,7 +15,7 @@ namespace FireBrowserWinUi3Exceptions
         {
             try
             {
-                StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync("firebrowserwinui.log", CreationCollisionOption.OpenIfExists);
+                StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync("firebrowserwinui.flog", CreationCollisionOption.OpenIfExists);
 
                 using (StreamWriter writer = new StreamWriter(await file.OpenStreamForWriteAsync()))
                 {

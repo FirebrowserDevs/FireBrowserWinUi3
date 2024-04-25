@@ -1,32 +1,38 @@
+using FireBrowserWinUi3Exceptions;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace FireBrowserWinUi3Navigator;
-
-public class TLD
+namespace FireBrowserWinUi3Navigator
 {
-    public static string KnownDomains { get; set; }
-
-    public static async Task LoadKnownDomainsAsync()
+    public class TLD
     {
-        try
-        {
-            var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:////public_domains.txt"));
-            KnownDomains = await new FireTxtReader().ReadTextFile(file);
-        }
-        catch (FileNotFoundException ex)
-        {
-            // Handle the case where the file is not found
-            Debug.WriteLine("File not found: " + ex.Message);
-        }
-        catch (Exception ex)
-        {
-            // Handle other exceptions
-            Debug.WriteLine("An error occurred: " + ex.Message);
-        }
-    }
+        public static string KnownDomains { get; set; }
 
-    public static string GetTLDfromURL(string url) => url[(url.LastIndexOf(".") + 1)..];
+        public static async Task LoadKnownDomainsAsync()
+        {
+            try
+            {
+                var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///public_domains.txt"));
+                KnownDomains = await new FireTxtReader().ReadTextFile(file);
+            }
+            catch (FileNotFoundException ex) when (HandleFileNotFoundException(ex))
+            {
+                Debug.WriteLine("File not found: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+        }
+
+        private static bool HandleFileNotFoundException(FileNotFoundException ex)
+        {
+            ExceptionLogger.LogException(ex);
+            return true; // Return true to suppress the exception
+        }
+
+        public static string GetTLDfromURL(string url) => url[(url.LastIndexOf(".") + 1)..];
+    }
 }

@@ -196,6 +196,13 @@ public partial class App : Application
                         appWindow.MoveAndResize(new Windows.Graphics.RectInt32(600, 600, 420, 500));
                         appWindow.MoveInZOrderAtTop();
                         appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                        var titleBar = appWindow.TitleBar;
+                        titleBar.ExtendsContentIntoTitleBar = true;
+                        var btnColor = Colors.Transparent;
+                        titleBar.BackgroundColor = btnColor;
+                        titleBar.ForegroundColor = btnColor;
+                        titleBar.ButtonBackgroundColor = btnColor;
+                        titleBar.ButtonInactiveBackgroundColor = btnColor;
                         appWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
                         appWindow.SetIcon("ms-appx:///logo.ico");
                     }

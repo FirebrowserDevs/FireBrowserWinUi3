@@ -64,6 +64,8 @@ public sealed partial class UserCentral : Window
         ViewModel.RaisePropertyChanges(nameof(ViewModel.Users));
         UserListView.ItemsSource = ViewModel.Users;
     }
+
+
     public List<UserExtend> GetUsernameFromCoreFolderPath(string coreFolderPath, string userName = null)
     {
         try

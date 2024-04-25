@@ -9,6 +9,8 @@ public sealed partial class SetupUi : Page
     public SetupUi()
     {
         this.InitializeComponent();
+        ColorTV.Text = "#000000";
+        ColorTB.Text = "#000000";
     }
 
     private FireBrowserWinUi3MultiCore.User GetUser()

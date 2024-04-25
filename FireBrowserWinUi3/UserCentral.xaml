@@ -5,7 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dllimg="using:FireBrowserWinUi3Assets"
-    xmlns:firebrowser="using:FireBrowserWinUi3.Controls"
     xmlns:firebrowserwinui3="using:FireBrowserWinUi3"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -21,7 +20,6 @@
     <Grid
         Margin="0,32,0,0"
         Background="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}"
-        BorderBrush="MintCream"
         BorderThickness="1"
         CornerRadius="5">
 
@@ -54,9 +52,7 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
-                            <!--  For the profile picture  -->
                             <ColumnDefinition Width="*" />
-                            <!--  For the username  -->
                         </Grid.ColumnDefinitions>
 
                         <PersonPicture
@@ -69,7 +65,6 @@
                             Grid.Column="1"
                             Margin="5,0,5,0"
                             VerticalAlignment="Center"
-                            Foreground="WhiteSmoke"
                             Text="{Binding FireUser.Username, Mode=OneWay}" />
                         <!--  "Switch" button  -->
                     </Grid>

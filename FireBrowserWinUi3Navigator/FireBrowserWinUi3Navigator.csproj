@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FireBrowserWinUi3Exceptions\FireBrowserWinUi3Exceptions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="public_domains.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

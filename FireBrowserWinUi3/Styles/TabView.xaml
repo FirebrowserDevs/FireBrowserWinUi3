@@ -310,7 +310,7 @@
                             Margin="{ThemeResource TabViewItemSeparatorMargin}"
                             HorizontalAlignment="Right"
                             BorderBrush="{ThemeResource TabViewItemSeparator}"
-                            BorderThickness="1" />
+                            BorderThickness="0" />
 
                         <Grid
                             x:Name="TabContainer"

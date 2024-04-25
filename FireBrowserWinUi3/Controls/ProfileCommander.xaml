@@ -16,10 +16,7 @@
                 HorizontalAlignment="Left">
                 <StackPanel>
                     <TextBlock HorizontalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}">Your Profile</TextBlock>
-                    <PersonPicture
-                        x:Name="RootImage"
-                        Margin="0,10"
-                        ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}" />
+                    <PersonPicture x:Name="RootImage" ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}" Margin="0,10"/>
                     <TextBlock
                         x:Name="UsernameDisplay"
                         Margin="0,0,0,5"

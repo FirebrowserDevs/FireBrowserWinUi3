@@ -219,9 +219,17 @@ public sealed partial class MainWindow : Window
     {
         var currentUsername = AuthService.CurrentUser?.Username;
         UserListView.Items.Clear();
-        foreach (var username in AuthService.GetAllUsernames().Where(u => u != currentUsername && !u.Contains("Private")))
+
+        if (currentUsername != null && currentUsername.Contains("Private"))
         {
-            UserListView.Items.Add(username);
+            UserListView.IsEnabled = false;
+        }
+        else
+        {
+            foreach (var username in AuthService.GetAllUsernames().Where(u => u != currentUsername && !u.Contains("Private")))
+            {
+                UserListView.Items.Add(username);
+            }
         }
     }
 
@@ -292,7 +300,6 @@ public sealed partial class MainWindow : Window
 
         TabContent.Margin = margin;
     }
-
 
     public void GoFullScreen(bool fullscreen)
     {
@@ -409,6 +416,7 @@ public sealed partial class MainWindow : Window
 
         return newItem;
     }
+
 
     public Frame TabContent => (Tabs.SelectedItem as FireBrowserTabViewItem)?.Content as Frame;
     public WebView2 TabWebView => (TabContent?.Content as WebContent)?.WebViewElement;
@@ -752,7 +760,6 @@ public sealed partial class MainWindow : Window
         if (SettingsService?.CoreSettings?.ResourceSave == false)
             return;
 
-
         var list = TabViewContainer?.TabItems?.ToList();
 
         list!.ForEach(async (tab) =>
@@ -784,16 +791,12 @@ public sealed partial class MainWindow : Window
                                     return error.message; 
                                 }
                             })();");
-
                     }
-
                 }
             }
-
         });
 
         await Task.CompletedTask;
-
     }
     private async void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -804,16 +807,13 @@ public sealed partial class MainWindow : Window
             TabWebView.NavigationStarting += (_, _) => ViewModel.CanRefresh = false;
             TabWebView.NavigationCompleted += (_, _) => ViewModel.CanRefresh = true;
 
-
             await TabWebView.EnsureCoreWebView2Async();
 
             // 2014-02-04 added to stop a video from playing when selection is made to a different tab / save on memory resources. 
             if (e.RemovedItems.Count > 0)
             {
-
                 e.RemovedItems.All((tab) =>
                 {
-
                     if (tab is FireBrowserTabViewItem viewedItem)
                     {
                         //need pip mode automaticcly open en close 
@@ -861,7 +861,7 @@ public sealed partial class MainWindow : Window
                 }
                 break;
             case "Settings":
-                Tabs.TabItems.Add(CreateNewTab(typeof(Pluginss)));
+                Tabs.TabItems.Add(CreateNewTab(typeof(SettingsPage)));
                 SelectNewTab();
                 break;
             case "FullScreen":
@@ -884,7 +884,6 @@ public sealed partial class MainWindow : Window
                 break;
         }
     }
-
 
     #region database
 
@@ -958,7 +957,6 @@ public sealed partial class MainWindow : Window
         return newItem;
     }
 
-
     private void Tabs_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
     {
         if (!(args.Tab?.Content is Frame tabContent)) return;
@@ -970,7 +968,6 @@ public sealed partial class MainWindow : Window
 
         (sender as TabView)?.TabItems?.Remove(args.Tab);
     }
-
 
     private string selectedHistoryItem;
     private void Grid_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
@@ -1016,9 +1013,7 @@ public sealed partial class MainWindow : Window
 
         flyout.ShowAt((FrameworkElement)sender, e.GetPosition((FrameworkElement)sender));
     }
-
     private void ClearHistoryDataMenuItem_Click(object sender, RoutedEventArgs e) { ClearDb(); }
-
     private void SearchHistoryMenuFlyout_Click(object sender, RoutedEventArgs e)
     {
 
@@ -1034,10 +1029,7 @@ public sealed partial class MainWindow : Window
         if (HistorySearchMenuItem.Visibility is Visibility.Visible)
             HistorySearchMenuItem.Focus(FocusState.Programmatic);
 
-
-
     }
-
     private void FilterBrowserHistory(string searchText)
     {
         if (browserHistory == null) return;
@@ -1102,16 +1094,13 @@ public sealed partial class MainWindow : Window
         var options = new Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowOptions { Placement = Microsoft.UI.Xaml.Controls.Primitives.FlyoutPlacementMode.Bottom };
         DownloadFlyout.ShowAt(DownBtn, options);
     }
-
     private void OpenHistoryMenuItem_Click(object sender, RoutedEventArgs e) { _ = (UrlBox.Text = "firebrowser://history") + (TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine))); }
     private void OpenFavoritesMenu_Click(object sender, RoutedEventArgs e) { _ = (UrlBox.Text = "firebrowser://favorites") + (TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine))); }
-
     private void MainUser_Click(object sender, RoutedEventArgs e)
     {
         UserFrame.Visibility = UserFrame?.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         LoadUsernames();
     }
-
     private void MoreTool_Click(object sender, RoutedEventArgs e) { UserFrame.Visibility = Visibility.Collapsed; }
     private async void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
@@ -1135,7 +1124,6 @@ public sealed partial class MainWindow : Window
         }
     }
     private void MenuFlyoutItem_Click_1(object sender, RoutedEventArgs e) { FireBrowserWinUi3Core.Helpers.FlyoutLoad.ShowFlyout(Secure); }
-
     private async void SaveQrImage_Click(object sender, RoutedEventArgs e)
     {
         if (TabContent.Content is WebContent webContent)
@@ -1166,7 +1154,6 @@ public sealed partial class MainWindow : Window
             }
         }
     }
-
     private async void SwitchName_Click(object sender, RoutedEventArgs e)
     {
         if (!(sender is Button switchButton && switchButton.DataContext is string clickedUserName)) return;

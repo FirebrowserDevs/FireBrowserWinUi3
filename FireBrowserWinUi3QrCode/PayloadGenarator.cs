@@ -1923,7 +1923,6 @@ public static class PayloadGenerator
 
     public class OneTimePassword : Payload
     {
-        //https://github.com/google/google-authenticator/wiki/Key-Uri-Format
         public OneTimePasswordAuthType Type { get; set; } = OneTimePasswordAuthType.TOTP;
         public string Secret { get; set; }
 
@@ -1976,8 +1975,6 @@ public static class PayloadGenerator
             }
         }
 
-        // Note: Issuer:Label must only contain 1 : if either of the Issuer or the Label has a : then it is invalid.
-        // Defaults are 6 digits and 30 for Period
         private string HMACToString()
         {
             var sb = new StringBuilder("otpauth://hotp/");
@@ -2335,8 +2332,6 @@ public static class PayloadGenerator
 
     public class SlovenianUpnQr : Payload
     {
-        //Keep in mind, that the ECC level has to be set to "M", version to 15 and ECI to EciMode.Iso8859_2 when generating a SlovenianUpnQr!
-        //SlovenianUpnQr specification: https://www.upn-qr.si/uploads/files/NavodilaZaProgramerjeUPNQR.pdf
 
         private string _payerName = "";
         private string _payerAddress = "";
@@ -2433,17 +2428,6 @@ public static class PayloadGenerator
 
     public class RussiaPaymentOrder : Payload
     {
-        // Specification of RussianPaymentOrder
-        //https://docs.cntd.ru/document/1200110981
-        //https://roskazna.gov.ru/upload/iblock/5fa/gost_r_56042_2014.pdf
-        //https://sbqr.ru/standard/files/standart.pdf
-
-        // Specification of data types described in the above standard
-        // https://gitea.sergeybochkov.com/bochkov/emuik/src/commit/d18f3b550f6415ea4a4a5e6097eaab4661355c72/template/ed
-
-        // Tool for QR validation
-        // https://www.sbqr.ru/validator/index.html
-
         //base
         private CharacterSets characterSet;
         private MandatoryFields mFields;
@@ -2795,12 +2779,6 @@ public static class PayloadGenerator
                 get { return _taxPaytKind; }
                 set { _taxPaytKind = ValidateInput(value, "TaxPaytKind", @"^.{1,2}$"); }
             }
-
-            /**************************************************************************
-             * The following fiels are no further specified in the standard
-             * document (https://sbqr.ru/standard/files/standart.pdf) thus there
-             * is no addition input validation implemented.
-             * **************************************************************************/
 
             /// <summary>
             /// Payer's surname

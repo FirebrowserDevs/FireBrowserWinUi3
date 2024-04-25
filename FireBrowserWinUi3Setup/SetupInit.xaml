@@ -65,7 +65,7 @@
                VerticalAlignment="Center"
                Orientation="Vertical"
                Spacing="10">
-                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="Welcome to FireBrowser" 
+                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="Welcome to FireBrowser WinUi" 
                           TextWrapping="Wrap"/>
                     <TextBlock
                    FontSize="15"
