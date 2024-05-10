@@ -18,7 +18,15 @@
                     <TextBlock Text="Browser account" FontSize="12"/>
                 </StackPanel>
             </StackPanel>
-            <labs:SettingsCard Margin="0,10,0,0" VerticalAlignment="Bottom">
+            <labs:SettingsCard Margin="0,5,0,0" VerticalAlignment="Bottom">
+                <labs:SettingsCard.Header>
+                    Check Update For Internal Components
+                </labs:SettingsCard.Header>
+                <Button x:Name="PatchBtn" Click="PatchBtn_Click">
+                   Check For Updates
+                </Button>
+            </labs:SettingsCard>
+            <labs:SettingsCard Margin="0,5,0,0" VerticalAlignment="Bottom">
                 <labs:SettingsCard.Header>
                     Reset App
                 </labs:SettingsCard.Header>
@@ -69,7 +77,7 @@
         </StackPanel>
         <TextBlock VerticalAlignment="Bottom">
           ALPHA V3 RELEASE EXPECT BUGS 
-          V0.0.8.00336ap Build: 101.2357 FrameWork: WinUi3
+          V0.0.8.00339ap Build: 101.2358 FrameWork: WinUi3
           Contact: firebrowserdevs@gmail.com
         </TextBlock>
     </Grid>

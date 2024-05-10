@@ -1,0 +1,39 @@
+<ContentDialog
+    x:Class="FireBrowserWinUi3.Pages.Patch.PatchUpdate"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FireBrowserWinUi3.Pages.Patch"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    PrimaryButtonText="Update"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    CornerRadius="10"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Padding="20">
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="The following DLLs need to be updated" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+            <TextBlock x:Name="DllListTextBlock" TextWrapping="Wrap"/>
+            <TextBlock Text="The app will restart and update in 5 seconds" FontSize="12" Margin="0,10,0,0"/>
+        </StackPanel>
+        <ProgressRing x:Name="LoadingRing"/>
+    </Grid>
+
+    <ContentDialog.PrimaryButtonStyle>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource SystemAccentColor}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="CornerRadius" Value="5" />
+        </Style>
+    </ContentDialog.PrimaryButtonStyle>
+
+    <ContentDialog.SecondaryButtonStyle>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+            <Setter Property="CornerRadius" Value="5" />
+        </Style>
+    </ContentDialog.SecondaryButtonStyle>
+</ContentDialog>

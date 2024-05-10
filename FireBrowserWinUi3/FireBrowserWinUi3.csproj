@@ -122,6 +122,7 @@
   <ItemGroup>
     <None Remove="ChangeUsernameCore.xaml" />
     <None Remove="Controls\ProfileCommander.xaml" />
+    <None Remove="Pages\Patch\PatchUpdate.xaml" />
     <None Remove="Pages\Pluginss.xaml" />
     <None Remove="SetupWindow.xaml" />
     <None Remove="UserCentral.xaml" />
@@ -130,6 +131,7 @@
     <Content Include="Logo.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FireBrowserUpdate\FireBrowserUpdate.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3AdBlockCore\FireBrowserWinUi3AdBlockCore.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Assets\FireBrowserWinUi3Assets.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3AuthCore\FireBrowserWinUi3AuthCore.csproj" />
@@ -145,6 +147,11 @@
     <ProjectReference Include="..\FireBrowserWinUi3QrCode\FireBrowserWinUi3QrCode.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Services\FireBrowserWinUi3Services.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Setup\FireBrowserWinUi3Setup.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FireBrowserUpdate">
+      <HintPath>..\FireBrowserUpdate\bin\x64\Release\net8.0-windows\FireBrowserUpdate.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Update="Assets\costum.png">
@@ -197,6 +204,10 @@
     <None Update="Assets\setup_image.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Pages\Patch\PatchUpdate.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\Pluginss.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

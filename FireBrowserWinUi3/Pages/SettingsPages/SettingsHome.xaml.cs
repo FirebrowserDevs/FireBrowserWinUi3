@@ -1,11 +1,15 @@
+using FireBrowserWinUi3.Pages.Patch;
 using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3Core.CoreUi;
 using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 
 namespace FireBrowserWinUi3.Pages.SettingsPages;
 public sealed partial class SettingsHome : Page
@@ -102,5 +106,112 @@ public sealed partial class SettingsHome : Page
             UserListView.Items.Remove(clickedUserName);
             var window = (Application.Current as App)?.m_window as MainWindow;
         }
+    }
+
+ 
+
+    public void Run()
+    {
+        // URL of the JSON file containing the server versions
+        string jsonUrl = "https://frcloud.000webhostapp.com/data.json";
+
+        // Local file names
+        string[] localFileNames = {
+                "FireBrowserWinUi3AdBlockCore.dll",
+                "FireBrowserWinUi3Setup.dll",
+                "FireBrowserWinUi3QrCore.dll",
+                "FireBrowserWinUi3Navigator.dll",
+                "FireBrowserWinUi3MultiCore.dll",
+                "FireBrowserWinUi3Modules.dll",
+                "FireBrowserWinUi3Favorites.dll",
+                "FireBrowserWinUi3Exceptions.dll",
+                "FireBrowserWinUi3DataCore.dll",
+                "FireBrowserWinUi3Database.dll",
+                "FireBrowserWinUi3Core.dll",
+                "FireBrowserWinUi3Auth.dll",
+                "FireBrowserWinUi3AuthCore.dll",
+                "FireBrowserWinUi3Assets.dll"
+            };
+
+        try
+        {
+            // Download the JSON file
+            WebClient webClient = new WebClient();
+            string jsonContent = webClient.DownloadString(jsonUrl);
+
+            System.Diagnostics.Debug.WriteLine("JSON content downloaded successfully.");
+
+            // Parse JSON content
+            dynamic data = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonContent);
+
+            System.Diagnostics.Debug.WriteLine("JSON content parsed successfully.");
+
+            // Create a dictionary to store server versions
+            Dictionary<string, string> serverVersions = new Dictionary<string, string>();
+
+            // Add server versions from JSON data
+            foreach (var item in data)
+            {
+                string dllFileName = item.Name + ".dll";
+                if (Array.Exists(localFileNames, name => name.Equals(dllFileName, StringComparison.OrdinalIgnoreCase)))
+                {
+                    serverVersions[dllFileName] = item.Value;
+                }
+            }
+
+            System.Diagnostics.Debug.WriteLine("Server versions added successfully.");
+
+            // Get files in the startup folder
+            string[] dllFiles = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll");
+
+            System.Diagnostics.Debug.WriteLine("DLL files retrieved successfully.");
+
+            // Create a list to store names of files to be written to patch.core
+            List<string> filesToPatch = new List<string>();
+
+            // Compare versions
+            foreach (var serverVersion in serverVersions)
+            {
+                string dllFileName = serverVersion.Key;
+                string serverFileVersion = serverVersion.Value;
+
+                string dllFilePath = Array.Find(dllFiles, f => Path.GetFileName(f).Equals(dllFileName, StringComparison.OrdinalIgnoreCase));
+                if (dllFilePath != null)
+                {
+                    // Get version of the DLL file
+                    var versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(dllFilePath);
+                    Version versionFromDll = new Version(versionInfo.FileVersion);
+
+                    // Compare versions
+                    Version serverVersionParsed = new Version(serverFileVersion);
+                    if (serverVersionParsed > versionFromDll)
+                    {
+                        // Add DLL name to the list
+                        filesToPatch.Add(dllFileName);
+                    }
+                }
+            }
+
+            System.Diagnostics.Debug.WriteLine("Versions compared successfully.");
+
+            // Write names of files to be patched to patch.core
+            string patchCoreFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "patch.core");
+            File.WriteAllLines(patchCoreFilePath, filesToPatch);
+
+            System.Diagnostics.Debug.WriteLine("Patch file created successfully.");
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"An error occurred: {ex.Message}");
+        }
+    }
+
+
+
+    private void PatchBtn_Click(object sender, RoutedEventArgs e)
+    {
+          PatchUpdate dlg = new PatchUpdate();
+        dlg.XamlRoot = this.XamlRoot;
+        dlg.ShowAsync();
     }
 }
