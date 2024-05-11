@@ -118,6 +118,7 @@ namespace FireBrowserWinUi3.Pages.Patch
             }
             catch (Exception ex)
             {
+                PrimaryButtonText = "OK"; // Change the button text to OK
                 ShowErrorMessage($"An error occurred while comparing versions: {ex.Message}");
             }
             finally
