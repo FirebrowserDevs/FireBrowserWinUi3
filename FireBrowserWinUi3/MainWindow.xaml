@@ -810,7 +810,7 @@
             BorderThickness="1.5"
             Foreground="{ThemeResource AcrylicBackgroundFillColorDefaultInverseBrush}">
             <interactivity:Interaction.Behaviors>
-                <behaviors:StackedNotificationsBehavior x:Name="NotificationQueue" x:FieldModifier="Public" />
+                <behaviors:StackedNotificationsBehavior x:Name="NotificationQueue" x:FieldModifier="public" />
             </interactivity:Interaction.Behaviors>
         </InfoBar>
     </Grid>
