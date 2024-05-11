@@ -663,7 +663,7 @@ public sealed partial class MainWindow : Window
                 break;
             case "Refresh" when TabContent.Content is WebContent:
                 TabWebView.CoreWebView2.Reload();
-                NotificationQueue.Show("Refreshing...", 1200);
+                //NotificationQueue.Show("Refreshing...", 1200);
 
                 break;
             case "Home" when TabContent.Content is WebContent:
@@ -734,7 +734,7 @@ public sealed partial class MainWindow : Window
                     Severity = InfoBarSeverity.Informational,
                     Duration = TimeSpan.FromSeconds(1.5)
                 };
-                NotificationQueue.Show(note);
+                //NotificationQueue.Show(note);
                 break;
             case "Favorites":
                 FavManager fs = new FavManager();
@@ -1173,19 +1173,19 @@ public sealed partial class MainWindow : Window
         {
             UrlBox.Text = "https://www.youtube.com/results?search_query=";
             UrlBox.Focus(FocusState.Keyboard);
-            NotificationQueue.Show("Autofill Trigger Youtube Quick Search", 2500);
+            //NotificationQueue.Show("Autofill Trigger Youtube Quick Search", 2500);
         }
         if (UrlBox.Text.Equals("192"))
         {
             UrlBox.Text = "http://192.";
             UrlBox.Focus(FocusState.Keyboard);
-            NotificationQueue.Show("Autofill Local Site http://...", 2500);
+            //NotificationQueue.Show("Autofill Local Site http://...", 2500);
         }
         if (UrlBox.Text.Equals("search:"))
         {
             UrlBox.Text = $"{SettingsService.CoreSettings.SearchUrl}";
             UrlBox.Focus(FocusState.Keyboard);
-            NotificationQueue.Show($"Autofill Search Quick {SettingsService.CoreSettings.EngineFriendlyName}", 2500);
+            //NotificationQueue.Show($"Autofill Search Quick {SettingsService.CoreSettings.EngineFriendlyName}", 2500);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace FireBrowserWinUi3.Services.ViewModels
                 IsIconVisible = true,
                 Duration = TimeSpan.FromSeconds(3)
             };
-            MainView.NotificationQueue.Show(note);
+            //MainView.NotificationQueue.Show(note);
         }
     }
 }
