@@ -137,7 +137,7 @@
                     </labs:SettingsCard>
                     <labs:SettingsCard Header="ErrorTek (jpbandroid)">
                         <labs:SettingsCard.HeaderIcon>
-                            <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
+                            <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xE775;"/>
                         </labs:SettingsCard.HeaderIcon>
                     </labs:SettingsCard>
                 </labs:SettingsExpander.Items>
