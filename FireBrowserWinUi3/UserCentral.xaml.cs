@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.Messaging;
 using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3MultiCore;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -100,7 +102,6 @@ public sealed partial class UserCentral : Window
         return null;
     }
 
-
     private async void UserListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var _user = UserListView.SelectedItem as UserExtend;
@@ -114,6 +115,7 @@ public sealed partial class UserCentral : Window
                 App.Current.CheckNormal(_user.FireUser.Username);
                 App.Current.m_window = new MainWindow();
                 App.Current.m_window.AppWindow.MoveInZOrderAtTop();
+               
                 Windowing.Center(App.Current.m_window);
                 IntPtr hWnd = WindowNative.GetWindowHandle(this);
                 Windowing.HideWindow(hWnd);

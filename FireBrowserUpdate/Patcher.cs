@@ -101,7 +101,5 @@ namespace FireBrowserUpdate
             // Close the current application
             Application.Exit();
         }
-
-
     }
 }
