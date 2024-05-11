@@ -21,7 +21,7 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 	<UseRidGraph>true</UseRidGraph>
 	<GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
-	<PackageCertificateThumbprint>64814F1E4E033773E28817CC6A57B70F131EA1F4</PackageCertificateThumbprint>
+	<PackageCertificateThumbprint>A4FEA4DBFE8442DD796CD59C4BC59612050DE20A</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="FakesAssemblies\**" />
