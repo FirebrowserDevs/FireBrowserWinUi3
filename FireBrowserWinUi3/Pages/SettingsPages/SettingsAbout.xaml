@@ -47,7 +47,7 @@
                     <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
                 </labs:SettingsExpander.HeaderIcon>
                 <labs:SettingsExpander.Header>
-                    Contributors (4)
+                    Contributors (8)
                 </labs:SettingsExpander.Header>
                 <labs:SettingsExpander.Items>
                     <labs:SettingsCard Header="Jakub">
@@ -66,6 +66,26 @@
                         </labs:SettingsCard.HeaderIcon>
                     </labs:SettingsCard>
                     <labs:SettingsCard Header="Blindside - Labs">
+                        <labs:SettingsCard.HeaderIcon>
+                            <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
+                        </labs:SettingsCard.HeaderIcon>
+                    </labs:SettingsCard>
+                    <labs:SettingsCard Header="jpbandroid">
+                        <labs:SettingsCard.HeaderIcon>
+                            <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
+                        </labs:SettingsCard.HeaderIcon>
+                    </labs:SettingsCard>
+                    <labs:SettingsCard Header="FireCube">
+                        <labs:SettingsCard.HeaderIcon>
+                            <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
+                        </labs:SettingsCard.HeaderIcon>
+                    </labs:SettingsCard>
+                    <labs:SettingsCard Header="JohnDizzle">
+                        <labs:SettingsCard.HeaderIcon>
+                            <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
+                        </labs:SettingsCard.HeaderIcon>
+                    </labs:SettingsCard>
+                    <labs:SettingsCard Header="eligamii">
                         <labs:SettingsCard.HeaderIcon>
                             <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
                         </labs:SettingsCard.HeaderIcon>
