@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <UseRidGraph>true</UseRidGraph>
@@ -9,8 +9,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>AnyCPU;x64</Platforms>
     <RuntimeIdentifiers>win-x86;win-x64;</RuntimeIdentifiers>
-    <PublishProfile>win-$(Platform).pubxml</PublishProfile>
-    <UseWinUI>true</UseWinUI>
+	<UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <ApplicationIcon>Logo.ico</ApplicationIcon>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
