@@ -70,7 +70,7 @@
                             <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
                         </labs:SettingsCard.HeaderIcon>
                     </labs:SettingsCard>
-                    <labs:SettingsCard Header="jpbandroid">
+                    <labs:SettingsCard Header="ErrorTek (jpbandroid)">
                         <labs:SettingsCard.HeaderIcon>
                             <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
                         </labs:SettingsCard.HeaderIcon>
