@@ -83,7 +83,7 @@ public sealed partial class MainWindow : Window
 
     public void setColorsTool()
     {
-        if (SettingsService.CoreSettings.ColorTV == "#FF000000")
+        if (SettingsService.CoreSettings.ColorTV == "#000000" || SettingsService.CoreSettings.ColorTV == "#FF000000")
         {
             Tabs.Background = new SolidColorBrush(Colors.Transparent);
         }
@@ -94,7 +94,7 @@ public sealed partial class MainWindow : Window
             var brush = new SolidColorBrush(color);
             Tabs.Background = brush;
         }
-        if (SettingsService.CoreSettings.ColorTool == "#FF000000")
+        if (SettingsService.CoreSettings.ColorTool == "#000000" || SettingsService.CoreSettings.ColorTool == "#FF000000")
         {
             ClassicToolbar.Background = new SolidColorBrush(Colors.Transparent);
         }
