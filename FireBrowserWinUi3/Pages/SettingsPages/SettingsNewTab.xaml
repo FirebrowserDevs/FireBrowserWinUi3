@@ -122,7 +122,7 @@
                 <labs:SettingsCard>
                     <ToggleSwitch x:Name="Qrbl" Toggled="Qrbl_Toggled"/>
                     <labs:SettingsCard.Header>
-                        Qr
+                        QR
                     </labs:SettingsCard.Header>
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xED14;"/>
@@ -177,7 +177,7 @@
                 <labs:SettingsCard>
                     <ToggleSwitch x:Name="Adbl" Toggled="Adbl_Toggled"/>
                     <labs:SettingsCard.Header>
-                        Basic Adblock
+                        Basic AdBlock
                     </labs:SettingsCard.Header>
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEA18;"/>
@@ -187,7 +187,7 @@
         </labs:SettingsExpander>
         <labs:SettingsCard VerticalAlignment="Top" Margin="0,2,0,0">
             <labs:SettingsCard.Header>
-                Handler Open In New Tab
+                Open in new tab
             </labs:SettingsCard.Header>
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEC6C;"/>
@@ -196,7 +196,7 @@
         </labs:SettingsCard>
         <labs:SettingsCard VerticalAlignment="Top" Margin="0,2,0,0">
             <labs:SettingsCard.Header>
-                Close Confirm Dialog
+                Close confirm dialog
             </labs:SettingsCard.Header>
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEC6C;"/>

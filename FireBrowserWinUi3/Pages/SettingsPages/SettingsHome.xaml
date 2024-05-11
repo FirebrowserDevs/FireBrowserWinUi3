@@ -20,7 +20,7 @@
             </StackPanel>
             <labs:SettingsCard Margin="0,5,0,0" VerticalAlignment="Bottom">
                 <labs:SettingsCard.Header>
-                    Check Update For Internal Components
+                    Check for internal component updates
                 </labs:SettingsCard.Header>
                 <Button x:Name="PatchBtn" Click="PatchBtn_Click">
                    Check For Updates

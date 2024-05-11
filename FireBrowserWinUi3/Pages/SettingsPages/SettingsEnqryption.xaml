@@ -14,10 +14,10 @@
     IsOpen="True"
     Severity="Warning"
     Title="alpha features"
-    Message="These Futures Are Worked on may not work as intended yet" />
+    Message="These features are currently being worked on, so may not work as intended yet!" />
         <labs:SettingsCard VerticalAlignment="Top" Margin="0,5,0,0">
             <labs:SettingsCard.Header>
-                Enqryption Settings ** Note StartUp Slower  **
+                Enqryption Settings ** Note: startup may be slower with these settings enabled **
             </labs:SettingsCard.Header>
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE72E;"/>
@@ -26,7 +26,7 @@
         </labs:SettingsCard>
         <labs:SettingsCard VerticalAlignment="Top" Margin="0,2,0,0">
             <labs:SettingsCard.Header>
-                Enqryption 2FA ** Note 2FA Small Impact  **
+                Enqryption 2FA ** Note: 2FA may have a small impact **
             </labs:SettingsCard.Header>
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE72E;"/>
@@ -35,7 +35,7 @@
         </labs:SettingsCard>
         <labs:SettingsCard VerticalAlignment="Top" Margin="0,2,0,0">
             <labs:SettingsCard.Header>
-                Enqryption History ** Note StartUp Slower  **
+                Enqryption History ** Note: startup may be slower  **
             </labs:SettingsCard.Header>
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE72E;"/>
@@ -44,7 +44,7 @@
         </labs:SettingsCard>
         <labs:SettingsCard VerticalAlignment="Top" Margin="0,2,0,0">
             <labs:SettingsCard.Header>
-                Enqryption Favorites ** Note StartUp Slower  **
+                Enqryption Favorites ** Note: startup may be slower  **
             </labs:SettingsCard.Header>
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE72E;"/>

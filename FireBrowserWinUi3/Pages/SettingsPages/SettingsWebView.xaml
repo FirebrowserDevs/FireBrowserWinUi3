@@ -9,26 +9,26 @@
     xmlns:labs="using:CommunityToolkit.WinUI.Controls">
 
     <StackPanel>
-        <labs:SettingsExpander Header="WebView2 Tools" Description="Here You Can Set WebView2 Stuff">
+        <labs:SettingsExpander Header="WebView2 Tools" Description="You can set WebView2 preferences here">
             <labs:SettingsExpander.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
             </labs:SettingsExpander.HeaderIcon>
             <labs:SettingsExpander.Items>
-                <labs:SettingsCard Header="WebView2 StatusBar" Description="turn on or off the default statusbar">
+                <labs:SettingsCard Header="WebView2 StatusBar" Description="Turn the default statusbar on or off">
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xF168;"/>
                     </labs:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="StatusTog" Toggled="StatusTog_Toggled"/>
                 </labs:SettingsCard>
 
-                <labs:SettingsCard Header="WebView2 Browser Accelerator Keys" Description="turn on or off the default BrowserAcceleratorKeys">
+                <labs:SettingsCard Header="WebView2 Browser Accelerator Keys" Description="Turn the default BrowserAcceleratorKeys on or off">
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE9A9;"/>
                     </labs:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="BrowserKeys" Toggled="BrowserKeys_Toggled"/>
                 </labs:SettingsCard>
 
-                <labs:SettingsCard Header="WebView2 Script Dialogs" Description="turn on or off the default Scripts Dialogs">
+                <labs:SettingsCard Header="WebView2 Script Dialogs" Description="Turn the default Script Dialogs on or off">
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xED0E;"/>
                     </labs:SettingsCard.HeaderIcon>
@@ -37,7 +37,7 @@
             </labs:SettingsExpander.Items>
         </labs:SettingsExpander>
 
-        <labs:SettingsCard Header="WebView2 Picture-in-Picture" Description="Automatically enable the PiP player when the selected tab change">
+        <labs:SettingsCard Header="WebView2 Picture-in-Picture" Description="Automatically enable the PiP player when tab selection is changed">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE714;"/>
             </labs:SettingsCard.HeaderIcon>
@@ -45,14 +45,14 @@
         </labs:SettingsCard>
 
 
-        <labs:SettingsCard Header="WebView2 Useragent" Description="WebView2 Useragent Settings">
+        <labs:SettingsCard Header="WebView2 Useragent" Description="WebView2 user agent settings">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEE57;"/>
             </labs:SettingsCard.HeaderIcon>
             <TextBox x:Name="Agent" Text="FireBrowser Web" TextChanged="Agent_TextChanged"/>
         </labs:SettingsCard>
 
-        <labs:SettingsExpander Header="WebView2 Anti-Tracking" Description="WebView2 Tracking Prevention">
+        <labs:SettingsExpander Header="WebView2 Anti-Tracking" Description="WebView2 tracking prevention">
             <labs:SettingsExpander.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE7EF;"/>
             </labs:SettingsExpander.HeaderIcon>
@@ -69,19 +69,19 @@
             </labs:SettingsExpander.Items>
         </labs:SettingsExpander>
 
-        <labs:SettingsExpander Header="WebView2 Clear Settings" Description="WebView2 Clear Cache Or Cookies">
+        <labs:SettingsExpander Header="WebView2 Clear Settings" Description="Clear cookies and/or cache of FireBrowser's WebView2 instance">
             <labs:SettingsExpander.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8B7;"/>
             </labs:SettingsExpander.HeaderIcon>
             <labs:SettingsExpander.Items>
-                <labs:SettingsCard Header="WebView2 Cookies" Description="WebView2 Clear Cookies">
+                <labs:SettingsCard Header="WebView2 Cookies" Description="Clear cookies">
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8B7;"/>
                     </labs:SettingsCard.HeaderIcon>
                     <Button x:Name="ClearCookies" Content="Clear Cookies" Click="ClearCookies_Click"/>
                 </labs:SettingsCard>
 
-                <labs:SettingsCard Header="WebView2 Cache" Description="WebView2 Clear Cache">
+                <labs:SettingsCard Header="WebView2 Cache" Description="Clear cache">
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8B7;"/>
                     </labs:SettingsCard.HeaderIcon>
@@ -90,14 +90,14 @@
             </labs:SettingsExpander.Items>
         </labs:SettingsExpander>
 
-        <labs:SettingsCard Header="WebView2 AdBlocker" Description="turn on or off the default Adblocker">
+        <labs:SettingsCard Header="WebView2 AdBlocker" Description="Turn the default AdBlocker on or off">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEA18;"/>
             </labs:SettingsCard.HeaderIcon>
             <ToggleSwitch x:Name="AdBlocker" Toggled="AdBlocker_Toggled"/>
         </labs:SettingsCard>
 
-        <labs:SettingsCard Header="WebView2 Resource Saver" Description="WebView2 Resource Saver Pause Vidoes if not watched">
+        <labs:SettingsCard Header="WebView2 Resource Saver" Description="Pause videos automatically if they have not been watched">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8BE;"/>
             </labs:SettingsCard.HeaderIcon>

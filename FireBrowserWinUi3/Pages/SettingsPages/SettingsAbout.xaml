@@ -47,7 +47,7 @@
                     <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
                 </labs:SettingsExpander.HeaderIcon>
                 <labs:SettingsExpander.Header>
-                    Contributors (8)
+                    Contributors
                 </labs:SettingsExpander.Header>
                 <labs:SettingsExpander.Items>
                     <labs:SettingsCard Header="Jakub">
@@ -97,7 +97,7 @@
                     <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xE87E;"/>
                 </labs:SettingsExpander.HeaderIcon>
                 <labs:SettingsExpander.Header>
-                    Translators (7)
+                    Translators
                 </labs:SettingsExpander.Header>
                 <labs:SettingsExpander.Items>
                     <labs:SettingsCard Header="AlienFromMars">
@@ -135,17 +135,22 @@
                             <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xE775;"/>
                         </labs:SettingsCard.HeaderIcon>
                     </labs:SettingsCard>
+                    <labs:SettingsCard Header="ErrorTek (jpbandroid)">
+                        <labs:SettingsCard.HeaderIcon>
+                            <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
+                        </labs:SettingsCard.HeaderIcon>
+                    </labs:SettingsCard>
                 </labs:SettingsExpander.Items>
             </labs:SettingsExpander>
             <labs:SettingsExpander x:Uid="SettingsAboutLibraries" HorizontalAlignment="Stretch">
                 <labs:SettingsExpander.Header>
-                    Builded Using
+                    Built using
                 </labs:SettingsExpander.Header>
                 <labs:SettingsExpander.HeaderIcon>
                     <FontIcon  FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
                 </labs:SettingsExpander.HeaderIcon>
                 <labs:SettingsExpander.Items>
-                    <labs:SettingsCard Header="This app is built using: codepen animation, wct toolkit, weatherapi.com, to-do">
+                    <labs:SettingsCard Header="This app has been built using: Codepen animations, WCT (the Windows Community Toolkit), weatherapi.com, and to-do">
                     </labs:SettingsCard>
                     <labs:SettingsCard Header="Do you want to be in this list? You can contribute on GitHub.">
                     </labs:SettingsCard>

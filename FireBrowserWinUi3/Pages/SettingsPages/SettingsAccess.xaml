@@ -15,21 +15,21 @@
                     <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xF8A6;"/>
                 </labs:SettingsExpander.HeaderIcon>
                 <labs:SettingsExpander.Header>
-                    FireBrowser Auto-Start Feature
+                    FireBrowser AutoStart
                 </labs:SettingsExpander.Header>
                 <labs:SettingsExpander.Items>
                     <labs:SettingsCard ContentAlignment="Left">
-                        <CheckBox x:Name="LaunchOnStartupToggle" Content="FireBrowser Auto-Start" Click="LaunchOnStartupToggle_Click"/>
+                        <CheckBox x:Name="LaunchOnStartupToggle" Content="FireBrowser AutoStart" Click="LaunchOnStartupToggle_Click"/>
                     </labs:SettingsCard>
                 </labs:SettingsExpander.Items>
             </labs:SettingsExpander>
-            <labs:SettingsCard Header="FireBrowser - Light Mode" Description="This Will Enable Light Mode Or Not ( This Will Disable Stuff To Optimize Performance )" Margin="0,1,0,0">
+            <labs:SettingsCard Header="FireBrowser Lite Mode" Description="Enables Lite Mode, which brings performance optimizations at the cost of more resource-heavy features" Margin="0,1,0,0">
                 <labs:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC4A;" />
                 </labs:SettingsCard.HeaderIcon>
                 <ToggleSwitch x:Name="LiteMode" Toggled="LiteMode_Toggled"/>
             </labs:SettingsCard>
-            <labs:SettingsCard Header="FireBrowser - SpeakEngine" Description="Change language Of Speech Engine" Margin="0,1,0,0">
+            <labs:SettingsCard Header="FireBrowser - Speech Engine" Description="Change the language of the speech engine" Margin="0,1,0,0">
                 <labs:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEFA9;" />
                 </labs:SettingsCard.HeaderIcon>
@@ -38,7 +38,7 @@
                     <x:String>en-US</x:String>
                 </ComboBox>
             </labs:SettingsCard>
-            <labs:SettingsCard Header="FireBrowser - ExceptionLogger" Description="Change Logger Level" Margin="0,1,0,0">
+            <labs:SettingsCard Header="Exception logging" Description="Change logger level" Margin="0,1,0,0">
                 <labs:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE783;" />
                 </labs:SettingsCard.HeaderIcon>
