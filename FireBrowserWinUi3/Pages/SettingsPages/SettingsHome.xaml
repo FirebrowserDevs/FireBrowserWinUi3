@@ -76,8 +76,8 @@
             </ListView>
         </StackPanel>
         <TextBlock VerticalAlignment="Bottom">
-          ALPHA V3 RELEASE EXPECT BUGS 
-          V0.0.8.00339ap Build: 101.2358 FrameWork: WinUi3
+          ALPHA V3 RELEASE, EXPECT BUGS <LineBreak/>
+          V0.0.8.00339ap Build: 101.2358 Framework: WASDK/WinUI3 <LineBreak/>
           Contact: firebrowserdevs@gmail.com
         </TextBlock>
     </Grid>
