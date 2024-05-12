@@ -2,6 +2,7 @@ using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
 
 namespace FireBrowserWinUi3.Pages.SettingsPages;
 
@@ -24,51 +25,38 @@ public sealed partial class SettingsPrivacy : Page
         PasswordWebMessFillToggle.IsOn = SettingsService.CoreSettings.DisablePassSave;
     }
 
-    private async void DisableJavaScriptToggle_Toggled(object sender, RoutedEventArgs e)
+    private async void ToggleSetting(string settingName, bool value)
     {
-        if (sender is ToggleSwitch toggleSwitch)
+        switch (settingName)
         {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.DisableJavaScript = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+            case "DisableJavaScriptToggle":
+                SettingsService.CoreSettings.DisableJavaScript = value;
+                break;
+            case "DisableGenaralAutoFillToggle":
+                SettingsService.CoreSettings.DisableGenAutoFill = value;
+                break;
+            case "DisablWebMessFillToggle":
+                SettingsService.CoreSettings.DisableWebMess = value;
+                break;
+            case "PasswordWebMessFillToggle":
+                SettingsService.CoreSettings.DisablePassSave = value;
+                break;
+            // Add other cases for different settings.
+            default:
+                throw new ArgumentException("Invalid setting name");
         }
+
+        // Save the modified settings back to the user's settings file
+        await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
     }
 
-    private async void DisableGenaralAutoFillToggle_Toggled(object sender, RoutedEventArgs e)
+    private async void ToggleSetting_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.DisableGenAutoFill = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void DisablWebMessFillToggle_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.DisableWebMess = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void PasswordWebMessFillToggle_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.DisablePassSave = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+            var settingName = toggleSwitch.Name;
+            ToggleSetting(settingName, autoSettingValue);
         }
     }
 

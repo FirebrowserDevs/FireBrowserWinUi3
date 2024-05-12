@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="FireBrowserWinUi3.Pages.SettingsPages.SettingsPrivacy"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,35 +6,40 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:labs="using:CommunityToolkit.WinUI.Controls">
+
     <StackPanel>
         <labs:SettingsCard Header="Privacy Level" Description="See your Privacy Level here" Margin="0,10,0,0">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEA18;" />
             </labs:SettingsCard.HeaderIcon>
         </labs:SettingsCard>
+
         <labs:SettingsCard Header="Disable JavaScript" Description="This improves your privacy by blocking trackers but it can also break a lot of sites" Margin="0,5,0,0">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE943;" />
             </labs:SettingsCard.HeaderIcon>
-            <ToggleSwitch  x:Name="DisableJavaScriptToggle" Toggled="DisableJavaScriptToggle_Toggled"/>
+            <ToggleSwitch  x:Name="DisableJavaScriptToggle" Toggled="ToggleSetting_Toggled" Tag="DisableJavaScriptToggle"/>
         </labs:SettingsCard>
+
         <labs:SettingsCard Header="Disable Genaral AutoFill" Description="This will disable autofilling in browser ( Text fields will not be filled automatically )" Margin="0,1,0,0">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8DA;" />
             </labs:SettingsCard.HeaderIcon>
-            <ToggleSwitch  x:Name="DisableGenaralAutoFillToggle" Toggled="DisableGenaralAutoFillToggle_Toggled"/>
+            <ToggleSwitch  x:Name="DisableGenaralAutoFillToggle" Toggled="ToggleSetting_Toggled" Tag="DisableGenaralAutoFillToggle"/>
         </labs:SettingsCard>
+
         <labs:SettingsCard Header="Disable Web Messages" Description="This will disable Web Messages in the browser" Margin="0,1,0,0">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8BD;" />
             </labs:SettingsCard.HeaderIcon>
-            <ToggleSwitch  x:Name="DisablWebMessFillToggle" Toggled="DisablWebMessFillToggle_Toggled"/>
+            <ToggleSwitch  x:Name="DisablWebMessFillToggle" Toggled="ToggleSetting_Toggled" Tag="DisablWebMessFillToggle"/>
         </labs:SettingsCard>
+
         <labs:SettingsCard Header="Disable automatic password saving" Description="This will disable password autosave" Margin="0,1,0,0">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xF427;" />
             </labs:SettingsCard.HeaderIcon>
-            <ToggleSwitch  x:Name="PasswordWebMessFillToggle" Toggled="PasswordWebMessFillToggle_Toggled"/>
+            <ToggleSwitch  x:Name="PasswordWebMessFillToggle" Toggled="ToggleSetting_Toggled" Tag="PasswordWebMessFillToggle"/>
         </labs:SettingsCard>
 
         <labs:SettingsExpander Header="App Permissions" Description="See the app's permissions" Margin="0,10,0,0" IsEnabled="True">
@@ -53,7 +57,7 @@
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE722;" />
                     </labs:SettingsCard.HeaderIcon>
-                    <ToggleSwitch x:Name="CamPermission" Toggled="CamPermission_Toggled"/>
+                    <ToggleSwitch x:Name="CamPermission" Toggled="ToggleSetting_Toggled" Tag="CamPermission_Toggled"/>
                 </labs:SettingsCard>
             </labs:SettingsExpander.Items>
         </labs:SettingsExpander>
