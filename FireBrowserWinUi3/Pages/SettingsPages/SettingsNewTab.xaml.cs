@@ -3,6 +3,7 @@ using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 
 namespace FireBrowserWinUi3.Pages.SettingsPages;
 public sealed partial class SettingsNewTab : Page
@@ -42,49 +43,34 @@ public sealed partial class SettingsNewTab : Page
         try
         {
             string selection = e.AddedItems[0].ToString();
-            string url;
 
-            switch (selection)
-            {
-                case "Ask":
-                    url = "https://www.ask.com/web?q=";
-                    break;
-                case "Baidu":
-                    url = "https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=";
-                    break;
-                case "Bing":
-                    url = "https://www.bing.com?q=";
-                    break;
-                case "DuckDuckGo":
-                    url = "https://www.duckduckgo.com?q=";
-                    break;
-                case "Ecosia":
-                    url = "https://www.ecosia.org/search?q=";
-                    break;
-                case "Google":
-                    url = "https://www.google.com/search?q=";
-                    break;
-                case "Startpage":
-                    url = "https://www.startpage.com/search?q=";
-                    break;
-                case "Qwant":
-                    url = "https://www.qwant.com/?q=";
-                    break;
-                case "Qwant Lite":
-                    url = "https://lite.qwant.com/?q=";
-                    break;
-                case "Yahoo!":
-                    url = "https://search.yahoo.com/search?p=";
-                    break;
-                case "Presearch":
-                    url = "https://presearch.com/search?q=";
-                    break;
-                // Add other cases for different search engines.
-                default:
-                    // Handle the case when selection doesn't match any of the predefined options.
-                    url = "https://www.google.com/search?q=";
-                    break;
-            }
+            // Dictionary to map search engine names to their respective URLs
+            Dictionary<string, string> searchEngines = new Dictionary<string, string>
+        {
+            { "Ask", "https://www.ask.com/web?q=" },
+            { "Baidu", "https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=" },
+            { "Bing", "https://www.bing.com?q=" },
+            { "DuckDuckGo", "https://www.duckduckgo.com?q=" },
+            { "Ecosia", "https://www.ecosia.org/search?q=" },
+            { "Google", "https://www.google.com/search?q=" },
+            { "Startpage", "https://www.startpage.com/search?q=" },
+            { "Qwant", "https://www.qwant.com/?q=" },
+            { "Qwant Lite", "https://lite.qwant.com/?q=" },
+            { "Yahoo!", "https://search.yahoo.com/search?p=" },
+            { "Presearch", "https://presearch.com/search?q=" },
+            { "Swisscows", "https://swisscows.com/web?query=" },
+            { "Dogpile", "https://www.dogpile.com/serp?q=" },
+            { "Webcrawler", "https://www.webcrawler.com/serp?q=" },
+            { "You", "https://you.com/search?q=" },
+            { "Excite", "https://results.excite.com/serp?q=" },
+            { "Lycos", "https://search20.lycos.com/web/?q=" },
+            { "Metacrawler", "https://www.metacrawler.com/serp?q=" },
+            { "Mojeek", "https://www.mojeek.com/search?q=" },
+            { "BraveSearch", "https://search.brave.com/search?q=" },
+            // Add other cases for different search engines.
+        };
+
+            string url = searchEngines.ContainsKey(selection) ? searchEngines[selection] : "https://www.google.com/search?q=";
 
             if (!string.IsNullOrEmpty(url))
             {
@@ -100,196 +86,77 @@ public sealed partial class SettingsNewTab : Page
         }
     }
 
-    private async void OpenNew_Toggled(object sender, RoutedEventArgs e)
+
+    private async void ToggleSetting(string settingName, bool value)
+    {
+        // Set the specified setting
+        switch (settingName)
+        {
+            case "OpenTabHandel":
+                SettingsService.CoreSettings.OpenTabHandel = value;
+                break;
+            case "DarkIcon":
+                SettingsService.CoreSettings.DarkIcon = value;
+                break;
+            case "Translate":
+                SettingsService.CoreSettings.Translate = value;
+                break;
+            case "ReadButton":
+                SettingsService.CoreSettings.ReadButton = value;
+                break;
+            case "AdblockBtn":
+                SettingsService.CoreSettings.AdblockBtn = value;
+                break;
+            case "Downloads":
+                SettingsService.CoreSettings.Downloads = value;
+                break;
+            case "FavoritesL":
+                SettingsService.CoreSettings.FavoritesL = value;
+                break;
+            case "Favorites":
+                SettingsService.CoreSettings.Favorites = value;
+                break;
+            case "Historybtn":
+                SettingsService.CoreSettings.Historybtn = value;
+                break;
+            case "QrCode":
+                SettingsService.CoreSettings.QrCode = value;
+                break;
+            case "ToolIcon":
+                SettingsService.CoreSettings.ToolIcon = value;
+                break;
+            case "ConfirmCloseDlg":
+                SettingsService.CoreSettings.ConfirmCloseDlg = value;
+                break;
+            case "BackButton":
+                SettingsService.CoreSettings.BackButton = value;
+                break;
+            case "ForwardButton":
+                SettingsService.CoreSettings.ForwardButton = value;
+                break;
+            case "HomeButton":
+                SettingsService.CoreSettings.HomeButton = value;
+                break;
+            case "RefreshButton":
+                SettingsService.CoreSettings.RefreshButton = value;
+                break;
+            // Add other cases for different settings.
+            default:
+                throw new ArgumentException("Invalid setting name");
+        }
+
+        // Save the modified settings back to the user's settings file
+        await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+    }
+
+    private async void ToggleSetting_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
             var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.OpenTabHandel = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+            var settingName = toggleSwitch.Tag as string;
+            ToggleSetting(settingName, autoSettingValue);
         }
     }
 
-    private async void Drbl_Toggled(object sender, RoutedEventArgs e)
-    {
-
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.DarkIcon = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void Trbl_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.Translate = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void Read_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.ReadButton = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void Adbl_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.AdblockBtn = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void Dwbl_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.Downloads = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void Frbl_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.FavoritesL = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void FlAd_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.Favorites = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void Hsbl_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.Historybtn = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void Qrbl_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.QrCode = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void Tlbl_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.ToolIcon = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void Confirm_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.ConfirmCloseDlg = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void BackSettings_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.BackButton = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void ForwardSettings_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.ForwardButton = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void HomeSettings_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.HomeButton = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
-
-    private async void ReloadSettings_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            var autoSettingValue = toggleSwitch.IsOn;
-
-            SettingsService.CoreSettings.RefreshButton = autoSettingValue;
-
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-        }
-    }
 }

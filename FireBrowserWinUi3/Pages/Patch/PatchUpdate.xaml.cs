@@ -118,6 +118,7 @@ namespace FireBrowserWinUi3.Pages.Patch
             }
             catch (Exception ex)
             {
+                TitleText.Text = "Server Or Local Error Occured";
                 PrimaryButtonText = "OK"; // Change the button text to OK
                 ShowErrorMessage($"An error occurred while comparing versions: {ex.Message}");
             }

@@ -27,6 +27,15 @@
                 <x:String>Qwant Lite</x:String>
                 <x:String>Yahoo!</x:String>
                 <x:String>Presearch</x:String>
+                <x:String>Swisscows</x:String>
+                <x:String>Dogpile</x:String>
+                <x:String>Webcrawler</x:String>
+                <x:String>You</x:String>
+                <x:String>Excite</x:String>
+                <x:String>Lycos</x:String>
+                <x:String>Metacrawler</x:String>
+                <x:String>Mojeek</x:String>
+                <x:String>BraveSearch</x:String>
             </ComboBox>
         </labs:SettingsCard>
         <labs:SettingsExpander VerticalAlignment="Top" Margin="0,2,0,0">
@@ -37,37 +46,38 @@
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE759;"/>
             </labs:SettingsExpander.HeaderIcon>
             <labs:SettingsExpander.Items>
+                <!-- Navigation icons settings -->
                 <labs:SettingsCard>
-                    <ToggleSwitch x:Name="BackSettings" Toggled="BackSettings_Toggled"/>
+                    <ToggleSwitch x:Name="BackSettings" Toggled="ToggleSetting_Toggled" Tag="BackButton"/>
                     <labs:SettingsCard.Header>
-                        Back 
+                        Back
                     </labs:SettingsCard.Header>
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE72B;"/>
                     </labs:SettingsCard.HeaderIcon>
                 </labs:SettingsCard>
                 <labs:SettingsCard>
-                    <ToggleSwitch x:Name="ForwardSettings" Toggled="ForwardSettings_Toggled"/>
+                    <ToggleSwitch x:Name="ForwardSettings" Toggled="ToggleSetting_Toggled" Tag="ForwardButton"/>
                     <labs:SettingsCard.Header>
-                        Forward 
+                        Forward
                     </labs:SettingsCard.Header>
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE72A;"/>
                     </labs:SettingsCard.HeaderIcon>
                 </labs:SettingsCard>
                 <labs:SettingsCard>
-                    <ToggleSwitch x:Name="ReloadSettings" Toggled="ReloadSettings_Toggled"/>
+                    <ToggleSwitch x:Name="ReloadSettings" Toggled="ToggleSetting_Toggled" Tag="RefreshButton"/>
                     <labs:SettingsCard.Header>
-                        Refresh 
+                        Refresh
                     </labs:SettingsCard.Header>
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE72C;"/>
                     </labs:SettingsCard.HeaderIcon>
                 </labs:SettingsCard>
                 <labs:SettingsCard>
-                    <ToggleSwitch x:Name="HomeSettings" Toggled="HomeSettings_Toggled"/>
+                    <ToggleSwitch x:Name="HomeSettings" Toggled="ToggleSetting_Toggled" Tag="HomeButton"/>
                     <labs:SettingsCard.Header>
-                        Home 
+                        Home
                     </labs:SettingsCard.Header>
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE80F;"/>
@@ -83,8 +93,9 @@
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE737;"/>
             </labs:SettingsExpander.HeaderIcon>
             <labs:SettingsExpander.Items>
+                <!-- Toolbar icons settings -->
                 <labs:SettingsCard>
-                    <ToggleSwitch x:Name="Dwbl" Toggled="Dwbl_Toggled"/>
+                    <ToggleSwitch x:Name="Dwbl" Toggled="ToggleSetting_Toggled" Tag="Downloads"/>
                     <labs:SettingsCard.Header>
                         Downloads
                     </labs:SettingsCard.Header>
@@ -93,7 +104,7 @@
                     </labs:SettingsCard.HeaderIcon>
                 </labs:SettingsCard>
                 <labs:SettingsCard>
-                    <ToggleSwitch x:Name="Frbl" Toggled="Frbl_Toggled"/>
+                    <ToggleSwitch x:Name="Frbl" Toggled="ToggleSetting_Toggled" Tag="FavoritesL"/>
                     <labs:SettingsCard.Header>
                         Favorites List
                     </labs:SettingsCard.Header>
@@ -102,7 +113,7 @@
                     </labs:SettingsCard.HeaderIcon>
                 </labs:SettingsCard>
                 <labs:SettingsCard>
-                    <ToggleSwitch x:Name="FlAd" Toggled="FlAd_Toggled"/>
+                    <ToggleSwitch x:Name="FlAd" Toggled="ToggleSetting_Toggled" Tag="Favorites"/>
                     <labs:SettingsCard.Header>
                         Favorites
                     </labs:SettingsCard.Header>
@@ -111,7 +122,7 @@
                     </labs:SettingsCard.HeaderIcon>
                 </labs:SettingsCard>
                 <labs:SettingsCard>
-                    <ToggleSwitch x:Name="Hsbl" Toggled="Hsbl_Toggled"/>
+                    <ToggleSwitch x:Name="Hsbl" Toggled="ToggleSetting_Toggled" Tag="Historybtn"/>
                     <labs:SettingsCard.Header>
                         History
                     </labs:SettingsCard.Header>
@@ -120,7 +131,7 @@
                     </labs:SettingsCard.HeaderIcon>
                 </labs:SettingsCard>
                 <labs:SettingsCard>
-                    <ToggleSwitch x:Name="Qrbl" Toggled="Qrbl_Toggled"/>
+                    <ToggleSwitch x:Name="Qrbl" Toggled="ToggleSetting_Toggled" Tag="QrCode"/>
                     <labs:SettingsCard.Header>
                         QR
                     </labs:SettingsCard.Header>
@@ -129,7 +140,7 @@
                     </labs:SettingsCard.HeaderIcon>
                 </labs:SettingsCard>
                 <labs:SettingsCard>
-                    <ToggleSwitch x:Name="Tlbl" Toggled="Tlbl_Toggled"/>
+                    <ToggleSwitch x:Name="Tlbl" Toggled="ToggleSetting_Toggled" Tag="ToolIcon"/>
                     <labs:SettingsCard.Header>
                         Web Tools
                     </labs:SettingsCard.Header>
@@ -147,8 +158,9 @@
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE70F;"/>
             </labs:SettingsExpander.HeaderIcon>
             <labs:SettingsExpander.Items>
+                <!-- Tools Menu icons settings -->
                 <labs:SettingsCard>
-                    <ToggleSwitch x:Name="Drbl" Toggled="Drbl_Toggled"/>
+                    <ToggleSwitch x:Name="Drbl" Toggled="ToggleSetting_Toggled" Tag="DarkIcon"/>
                     <labs:SettingsCard.Header>
                         Force Dark Mode
                     </labs:SettingsCard.Header>
@@ -157,7 +169,7 @@
                     </labs:SettingsCard.HeaderIcon>
                 </labs:SettingsCard>
                 <labs:SettingsCard>
-                    <ToggleSwitch x:Name="Trbl" Toggled="Trbl_Toggled"/>
+                    <ToggleSwitch x:Name="Trbl" Toggled="ToggleSetting_Toggled" Tag="Translate"/>
                     <labs:SettingsCard.Header>
                         Translation
                     </labs:SettingsCard.Header>
@@ -166,7 +178,7 @@
                     </labs:SettingsCard.HeaderIcon>
                 </labs:SettingsCard>
                 <labs:SettingsCard>
-                    <ToggleSwitch x:Name="Read" Toggled="Read_Toggled"/>
+                    <ToggleSwitch x:Name="Read" Toggled="ToggleSetting_Toggled" Tag="ReadButton"/>
                     <labs:SettingsCard.Header>
                         Reading Mode
                     </labs:SettingsCard.Header>
@@ -175,7 +187,7 @@
                     </labs:SettingsCard.HeaderIcon>
                 </labs:SettingsCard>
                 <labs:SettingsCard>
-                    <ToggleSwitch x:Name="Adbl" Toggled="Adbl_Toggled"/>
+                    <ToggleSwitch x:Name="Adbl" Toggled="ToggleSetting_Toggled" Tag="AdblockBtn"/>
                     <labs:SettingsCard.Header>
                         Basic AdBlock
                     </labs:SettingsCard.Header>
@@ -192,7 +204,7 @@
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEC6C;"/>
             </labs:SettingsCard.HeaderIcon>
-            <ToggleSwitch x:Name="OpenNew" Toggled="OpenNew_Toggled"/>
+            <ToggleSwitch x:Name="OpenNew" Toggled="ToggleSetting_Toggled" Tag="OpenTabHandel"/>
         </labs:SettingsCard>
         <labs:SettingsCard VerticalAlignment="Top" Margin="0,2,0,0">
             <labs:SettingsCard.Header>
@@ -201,7 +213,7 @@
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEC6C;"/>
             </labs:SettingsCard.HeaderIcon>
-            <ToggleSwitch x:Name="Confirm"  Toggled="Confirm_Toggled"/>
+            <ToggleSwitch x:Name="Confirm" Toggled="ToggleSetting_Toggled" Tag="ConfirmCloseDlg"/>
         </labs:SettingsCard>
     </StackPanel>
 </Page>

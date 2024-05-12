@@ -79,6 +79,15 @@
                             <x:String>Qwant Lite</x:String>
                             <x:String>Yahoo!</x:String>
                             <x:String>Presearch</x:String>
+                            <x:String>Swisscows</x:String>
+                            <x:String>Dogpile</x:String>
+                            <x:String>Webcrawler</x:String>
+                            <x:String>You</x:String>
+                            <x:String>Excite</x:String>
+                            <x:String>Lycos</x:String>
+                            <x:String>Metacrawler</x:String>
+                            <x:String>Mojeek</x:String>
+                            <x:String>BraveSearch</x:String>
                         </ComboBox>
                     </ctr:SettingsCard>
                     <ctr:SettingsExpander VerticalAlignment="Top" Margin="0,2,0,0">
@@ -135,7 +144,7 @@
                                 </ctr:SettingsCard.HeaderIcon>
                             </ctr:SettingsCard>
                             <ctr:SettingsCard>
-                                <ToggleSwitch x:Name="Tlbl" Toggled="Trbl_Toggled" IsOn="True"/>
+                                <ToggleSwitch x:Name="Tlbl" Toggled="Tlbl_Toggled" IsOn="True"/>
                                 <ctr:SettingsCard.Header>
                                     Web Tools
                                 </ctr:SettingsCard.Header>

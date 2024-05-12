@@ -33,7 +33,6 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
-            <!--<TextBox x:Name="ColorTB" Text="#000000" TextChanged="ColorTB_TextChanged"/>-->
         </labs:SettingsCard>
         <labs:SettingsCard
             Margin="0,1,0,0"
@@ -50,10 +49,6 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
-            <!--<TextBox
-                x:Name="ColorTV"
-                Text="#000000"
-                TextChanged="ColorTV_TextChanged" />-->
         </labs:SettingsCard>
         <labs:SettingsCard
             Margin="0,1,0,0"
@@ -70,10 +65,6 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
-            <!--<TextBox
-                x:Name="ColorNtp"
-                Text="#000000"
-                TextChanged="ColorNtp_TextChanged" />-->
         </labs:SettingsCard>
         <labs:SettingsExpander
             Margin="0,1,0,0"
@@ -98,15 +89,11 @@
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                    <!--<TextBox
-
-                        Text="#000000"
-                        TextChanged="Color_TextChanged" />-->
                 </labs:SettingsCard>
             </labs:SettingsExpander.Items>
             <ComboBox x:Name="Type" SelectionChanged="Type_SelectionChanged">
                 <x:String>Default</x:String>
-                <x:String>Featured (Bing featured image)</x:String>
+                <x:String>Featured</x:String>
                 <x:String>Custom</x:String>
             </ComboBox>
         </labs:SettingsExpander>
