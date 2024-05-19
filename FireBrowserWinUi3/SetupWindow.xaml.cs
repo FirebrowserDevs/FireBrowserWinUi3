@@ -1,3 +1,5 @@
+using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3MultiCore;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -45,7 +47,7 @@ namespace FireBrowserWinUi3
 
         private void setup_Loaded(object sender, RoutedEventArgs e)
         {
-            setup.Navigate(typeof(FireBrowserWinUi3Setup.SetupInit));
+            setup.Navigate(typeof(SetupInit));
         }
     }
 }

@@ -1,6 +1,8 @@
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.ApplicationModel.AppService;
+using Windows.UI.ApplicationSettings;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace FireBrowserWinUi3Setup;
@@ -55,6 +57,7 @@ public sealed partial class SetupUi : Page
         string color = ColorTB.Text.ToString();
         if (!string.IsNullOrEmpty(color))
         {
+
             // Load the user's settings
             Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
 

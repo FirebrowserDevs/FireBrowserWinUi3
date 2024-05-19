@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -117,7 +118,7 @@ namespace FireBrowserWinUi3.Controls
             string olduser = UsernameDisplay.Text;
 
             AuthService.ChangeUsername(olduser, username_box.Text.ToString());
-            Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+            await AppService.WindowsController(AppService.CancellationToken = CancellationToken.None);
         }
     }
 }

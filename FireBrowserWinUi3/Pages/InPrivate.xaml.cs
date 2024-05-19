@@ -1,10 +1,11 @@
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml.Controls;
 
 namespace FireBrowserWinUi3.Pages;
 public sealed partial class InPrivate : Page
 {
-    Settings userSettings = UserFolderManager.TempLoadPrivate("Private");
+    Settings userSettings = new Settings(true).Self; // new UserFolderManager.TempLoadPrivate("Private");
 
     public InPrivate()
     {
@@ -26,7 +27,8 @@ public sealed partial class InPrivate : Page
 
             userSettings.DisableJavaScript = autoSettingValue;
 
-            UserFolderManager.TempSaveSettings("Private", userSettings);
+            AppService.AppSettings = userSettings;
+            //UserFolderManager.TempSaveSettings("Private", userSettings);
         }
     }
 
@@ -38,7 +40,8 @@ public sealed partial class InPrivate : Page
 
             userSettings.DisableWebMess = autoSettingValue;
 
-            UserFolderManager.TempSaveSettings("Private", userSettings);
+            AppService.AppSettings = userSettings;
+            //UserFolderManager.TempSaveSettings("Private", userSettings);
         }
     }
 }

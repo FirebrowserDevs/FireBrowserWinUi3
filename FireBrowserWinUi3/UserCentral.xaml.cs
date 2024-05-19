@@ -102,36 +102,15 @@ public sealed partial class UserCentral : Window
         return null;
     }
 
-    private async void UserListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void UserListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var _user = UserListView.SelectedItem as UserExtend;
         if (_user != null)
         {
 
             // can remove because CheckNormal authenticates user but, maybe add something on ELSE;
-            if (AuthService.Authenticate(_user.FireUser.Username))
-            {
-
-                App.Current.CheckNormal(_user.FireUser.Username);
-                App.Current.m_window = new MainWindow();
-                App.Current.m_window.AppWindow.MoveInZOrderAtTop();
-               
-                Windowing.Center(App.Current.m_window);
-                IntPtr hWnd = WindowNative.GetWindowHandle(this);
-                Windowing.HideWindow(hWnd);
-
-                App.Current.m_window.Activate();
-
-
-                if (AuthService.IsUserAuthenticated)
-                {
-                    IMessenger messenger = App.GetService<IMessenger>();
-                    messenger?.Send(new Message_Settings_Actions($"Welcome {AuthService.CurrentUser.Username} to our FireBrowser", EnumMessageStatus.Login));
-                }
-
-                await Task.Delay(125);
-                this.Close();
-            }
+            AuthService.Authenticate(_user.FireUser.Username);
+            this.Close();
 
         }
     }

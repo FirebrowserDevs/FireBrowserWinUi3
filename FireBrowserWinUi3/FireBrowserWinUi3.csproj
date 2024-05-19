@@ -124,6 +124,14 @@
     <None Remove="Pages\Patch\PatchUpdate.xaml" />
     <None Remove="Pages\Pluginss.xaml" />
     <None Remove="SetupWindow.xaml" />
+    <None Remove="Setup\SetupAccess.xaml" />
+    <None Remove="Setup\SetupAlgemeen.xaml" />
+    <None Remove="Setup\SetupFinish.xaml" />
+    <None Remove="Setup\SetupInit.xaml" />
+    <None Remove="Setup\SetupPrivacy.xaml" />
+    <None Remove="Setup\SetupUi.xaml" />
+    <None Remove="Setup\SetupUser.xaml" />
+    <None Remove="Setup\SetupWebView.xaml" />
     <None Remove="UserCentral.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -145,12 +153,6 @@
     <ProjectReference Include="..\FireBrowserWinUi3Navigator\FireBrowserWinUi3Navigator.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3QrCode\FireBrowserWinUi3QrCode.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Services\FireBrowserWinUi3Services.csproj" />
-    <ProjectReference Include="..\FireBrowserWinUi3Setup\FireBrowserWinUi3Setup.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="FireBrowserUpdate">
-      <HintPath>..\FireBrowserUpdate\bin\x64\Release\net8.0-windows\FireBrowserUpdate.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Update="Assets\costum.png">
@@ -209,6 +211,30 @@
     </Page>
     <Page Update="Pages\Pluginss.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Setup\SetupAccess.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Setup\SetupAlgemeen.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Setup\SetupFinish.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Setup\SetupInit.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Setup\SetupPrivacy.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Setup\SetupUi.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Setup\SetupUser.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Setup\SetupWebView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="UserCentral.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -19,24 +19,24 @@ public static class UserFolderManager
             Directory.CreateDirectory(Path.Combine(userFolderPath, folderName));
         }
 
-        CreateSettingsFile(user.Username);
+        //CreateSettingsFile(user.Username);
 
-        CreateDatabaseFile(user.Username, "History.db", @"CREATE TABLE IF NOT EXISTS urls (
-                                        id INTEGER PRIMARY KEY,
-                                        last_visit_time TEXT,
-                                        url TEXT,
-                                        title TEXT,
-                                        visit_count INTEGER NOT NULL DEFAULT 0,
-                                        typed_count INTEGER NOT NULL DEFAULT 0,
-                                        hidden INTEGER NOT NULL DEFAULT 0
-                                    )");
-        CreateDatabaseFile(user.Username, "Downloads.db", @"CREATE TABLE IF NOT EXISTS downloads (
-                                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                        guid VARCHAR(50) NOT NULL,
-                                        current_path TEXT NOT NULL,
-                                        end_time INTEGER NOT NULL,
-                                        start_time INTEGER NOT NULL
-                                    )");
+        //CreateDatabaseFile(user.Username, "History.db", @"CREATE TABLE IF NOT EXISTS urls (
+        //                                id INTEGER PRIMARY KEY,
+        //                                last_visit_time TEXT,
+        //                                url TEXT,
+        //                                title TEXT,
+        //                                visit_count INTEGER NOT NULL DEFAULT 0,
+        //                                typed_count INTEGER NOT NULL DEFAULT 0,
+        //                                hidden INTEGER NOT NULL DEFAULT 0
+        //                            )");
+        //CreateDatabaseFile(user.Username, "Downloads.db", @"CREATE TABLE IF NOT EXISTS downloads (
+        //                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+        //                                guid VARCHAR(50) NOT NULL,
+        //                                current_path TEXT NOT NULL,
+        //                                end_time INTEGER NOT NULL,
+        //                                start_time INTEGER NOT NULL
+        //                            )");
     }
 
 

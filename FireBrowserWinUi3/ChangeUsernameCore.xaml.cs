@@ -1,9 +1,12 @@
+using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3MultiCore;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System;
 using System.IO;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FireBrowserWinUi3;
@@ -90,7 +93,11 @@ public sealed partial class ChangeUsernameCore : Window
             {
                 Console.WriteLine($"Folder '{changeUsernameData.OldUsername}' not found.");
             }
-
+            // authenicate jus in cause reequired by appservice ?? => delete if set somewhere else 
+            if (Directory.Exists(newUserFolderPath))
+            {
+                AuthService.Authenticate(newUserFolderPath);
+            }
             // Remove the JSON file
             File.Delete(jsonFilePath);
             Console.WriteLine("Change username JSON file deleted.");
@@ -118,7 +125,8 @@ public sealed partial class ChangeUsernameCore : Window
         Task.Delay(500);
 
         // Restart the application
-        Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+        AppService.WindowsController(CancellationToken.None);
+        //   Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
     }
 
     private class ChangeUsernameData

@@ -26,7 +26,8 @@ public class DatabaseServices : IDatabaseService
             if (File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Settings", "Settings.db")))
             {
                 if (await settingsActions.GetSettingsAsync() is null)
-                    await settingsActions.InsertUserSettingsAsync(FireBrowserWinUi3MultiCore.UserFolderManager.LoadUserSettings(FireBrowserWinUi3MultiCore.AuthService.CurrentUser));
+                    await settingsActions.InsertUserSettingsAsync(AppService.AppSettings ?? new Settings(true).Self);
+                //await settingsActions.InsertUserSettingsAsync(FireBrowserWinUi3MultiCore.UserFolderManager.LoadUserSettings(FireBrowserWinUi3MultiCore.AuthService.CurrentUser));
             }
         }
         catch (Exception ex)

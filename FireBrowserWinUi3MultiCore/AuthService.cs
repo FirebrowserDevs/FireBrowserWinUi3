@@ -8,8 +8,8 @@ namespace FireBrowserWinUi3MultiCore
 {
     public class AuthService
     {
-        private static readonly string UserDataFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FireBrowserUserCore", "UsrCore.json");
-        private static List<User> users = LoadUsersFromJson();
+        public static readonly string UserDataFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FireBrowserUserCore", "UsrCore.json");
+        public static List<User> users = LoadUsersFromJson();
 
         private static List<User> LoadUsersFromJson()
         {

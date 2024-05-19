@@ -30,6 +30,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Security.Credentials.UI;
@@ -118,7 +119,7 @@ public sealed partial class MainWindow : Window
                 try
                 {
                     // always save to file as well because the application loads from the settings file, although let's use enitry framwork core to manage app and Settings. 
-                    UserFolderManager.SaveUserSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+                    //UserFolderManager.SaveUserSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
 
                     args.Cancel = true;
 
@@ -832,6 +833,7 @@ public sealed partial class MainWindow : Window
         }
     }
 
+    //public static async void OpenNewWindow(Uri uri) =>  await Windows.System.Launcher.LaunchUriAsync(uri);
     public static async void OpenNewWindow(Uri uri) => await Windows.System.Launcher.LaunchUriAsync(uri);
 
     public void ShareUi(string Url, string Title)
