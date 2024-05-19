@@ -33,8 +33,7 @@
             Margin="5"
             HorizontalAlignment="Center"
             FontSize="32"
-            FontStyle="Italic"
-            FontWeight="ExtraBold"
+            FontWeight="SemiBold"
             Foreground="{ThemeResource ApplicationHeaderForegroundThemeBrush}"
             Text="Select a User" />
         <ListView
