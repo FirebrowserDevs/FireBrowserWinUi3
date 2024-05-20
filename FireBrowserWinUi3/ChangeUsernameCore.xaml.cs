@@ -126,7 +126,7 @@ public sealed partial class ChangeUsernameCore : Window
         await Task.Delay(500);
 
         // no need to restart application run with. 
-        await AppService.WindowsController(CancellationToken.None);
+        Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
 
     }
 
