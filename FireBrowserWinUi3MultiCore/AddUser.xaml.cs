@@ -1,10 +1,13 @@
 using FireBrowserWinUi3MultiCore.Helper;
+using Microsoft.UI;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
 using Windows.Storage;
+using WinRT.Interop;
 
 namespace FireBrowserWinUi3MultiCore;
 
@@ -41,6 +44,8 @@ public sealed partial class AddUser : ContentDialog
         await CopyImageAsync(iImage.ToString(), destinationFolderPath);
 
         Hide();
+
+
     }
 
 

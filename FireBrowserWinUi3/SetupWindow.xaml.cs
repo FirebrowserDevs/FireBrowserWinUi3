@@ -1,4 +1,5 @@
 using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -27,6 +28,7 @@ namespace FireBrowserWinUi3
 
             appWindow = AppWindow.GetFromWindowId(windowId);
             appWindow.SetIcon("LogoSetup.ico");
+            Windowing.Center(this);
 
             if (!AppWindowTitleBar.IsCustomizationSupported())
             {
@@ -42,12 +44,18 @@ namespace FireBrowserWinUi3
                 titleBar.ButtonBackgroundColor = btnColor;
                 titleBar.InactiveBackgroundColor = btnColor;
                 titleBar.ButtonInactiveBackgroundColor = btnColor;
+
             }
         }
 
         private void setup_Loaded(object sender, RoutedEventArgs e)
         {
             setup.Navigate(typeof(SetupInit));
+        }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.Current.Exit();
         }
     }
 }

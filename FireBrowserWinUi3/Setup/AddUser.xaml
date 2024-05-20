@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentDialog
+    x:Class="FireBrowserWinUi3.Setup.AddUser"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Helper="using:FireBrowserWinUi3MultiCore.Helper"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Add User"
+    CornerRadius="8"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    PrimaryButtonText="Add"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    SecondaryButtonText="Cancel"
+    mc:Ignorable="d">
+    <Grid>
+        <StackPanel Margin="5">
+            <Button
+                Margin="0,0,0,10"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                IsEnabled="True">
+                <StackPanel Orientation="Horizontal">
+                    <PersonPicture
+                        x:Name="Pimg"
+                        Width="45"
+                        ProfilePicture="{Helper:ImageHelper ImageName=clippy.png}" />
+                    <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                        <TextBlock
+                            x:Name="UsrBox"
+                            FontSize="15"
+                            Style="{ThemeResource SubtitleTextBlockStyle}"
+                            Text="{Binding Username}" />
+                        <TextBlock FontSize="12" Text="Local Account" />
+                    </StackPanel>
+                </StackPanel>
+            </Button>
+
+            <TextBlock Margin="0,0,0,5" Text="Profile Image" />
+            <ComboBox
+                x:Name="ProfileImage"
+                Width="300"
+                x:FieldModifier="Public"
+                SelectedItem="clippy"
+                SelectionChanged="ProfileImage_SelectionChanged">
+                <x:String>clippy</x:String>
+                <x:String>sunflower</x:String>
+                <x:String>butterfly</x:String>
+                <x:String>present</x:String>
+                <x:String>crayon</x:String>
+                <x:String>ball</x:String>
+                <x:String>bot</x:String>
+                <x:String>starfish</x:String>
+            </ComboBox>
+
+            <TextBlock Margin="0,0,0,10" Text="Username" />
+            <TextBox
+                x:Name="Userbox"
+                Margin="0,0,0,20"
+                PlaceholderText="Enter your username"
+                TextChanged="Userbox_TextChanged" />
+        </StackPanel>
+    </Grid>
+</ContentDialog>

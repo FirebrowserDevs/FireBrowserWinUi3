@@ -124,6 +124,7 @@
     <None Remove="Pages\Patch\PatchUpdate.xaml" />
     <None Remove="Pages\Pluginss.xaml" />
     <None Remove="SetupWindow.xaml" />
+    <None Remove="Setup\AddUser.xaml" />
     <None Remove="Setup\SetupAccess.xaml" />
     <None Remove="Setup\SetupAlgemeen.xaml" />
     <None Remove="Setup\SetupFinish.xaml" />
@@ -132,6 +133,7 @@
     <None Remove="Setup\SetupUi.xaml" />
     <None Remove="Setup\SetupUser.xaml" />
     <None Remove="Setup\SetupWebView.xaml" />
+    <None Remove="Setup\UserSettings.xaml" />
     <None Remove="UserCentral.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +207,12 @@
     <None Update="Assets\setup_image.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Setup\AddUser.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Setup\UserSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Pages\Patch\PatchUpdate.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

@@ -31,15 +31,6 @@ public sealed partial class SetupPrivacy : Page
             var autoSettingValue = toggleSwitch.IsOn;
             AppService.AppSettings.DisableJavaScript = autoSettingValue; ;
 
-            // Load the user's settings
-            //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-
-            //// Set the 'Auto' setting
-            //userSettings.DisableJavaScript = autoSettingValue;
-
-            //// Save the modified settings back to the user's settings file
-            //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
     }
 
@@ -50,15 +41,7 @@ public sealed partial class SetupPrivacy : Page
             // Assuming 'url' and 'selection' have been defined earlier
             var autoSettingValue = toggleSwitch.IsOn;
             AppService.AppSettings.DisableGenAutoFill = autoSettingValue; ; ;
-            // Load the user's settings
-            //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
 
-
-            //// Set the 'Auto' setting
-            //userSettings.DisableGenAutoFill = autoSettingValue;
-
-            //// Save the modified settings back to the user's settings file
-            //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
     }
 
@@ -70,15 +53,6 @@ public sealed partial class SetupPrivacy : Page
             var autoSettingValue = toggleSwitch.IsOn;
             AppService.AppSettings.DisableWebMess = autoSettingValue;
 
-            // Load the user's settings
-            //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-
-            //// Set the 'Auto' setting
-            //userSettings.DisableWebMess = autoSettingValue;
-
-            //// Save the modified settings back to the user's settings file
-            //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
     }
 
@@ -90,15 +64,6 @@ public sealed partial class SetupPrivacy : Page
             var autoSettingValue = toggleSwitch.IsOn;
             AppService.AppSettings.DisablePassSave = autoSettingValue;
 
-            //// Load the user's settings
-            //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-
-            //// Set the 'Auto' setting
-            //userSettings.DisablePassSave = autoSettingValue;
-
-            //// Save the modified settings back to the user's settings file
-            //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
     }
 

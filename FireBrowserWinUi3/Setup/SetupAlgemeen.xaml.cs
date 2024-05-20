@@ -19,19 +19,6 @@ namespace FireBrowserWinUi3
             this.InitializeComponent();
         }
 
-        private FireBrowserWinUi3MultiCore.User GetUser()
-        {
-            // Check if the user is authenticated.
-            if (AuthService.IsUserAuthenticated)
-            {
-                // Return the authenticated user.
-                return AuthService.CurrentUser;
-            }
-
-            // If no user is authenticated, return null or handle as needed.
-            return null;
-        }
-
         private void SearchengineSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -113,18 +100,6 @@ namespace FireBrowserWinUi3
                 {
                     AppService.AppSettings.EngineFriendlyName = selection;
                     AppService.AppSettings.SearchUrl = url;
-
-                    // Load the user's settings
-                    //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-                    //// Modify the settings based on user input
-                    //userSettings.EngineFriendlyName = selection;
-                    //userSettings.SearchUrl = url;
-
-
-
-                    //// Save the modified settings back to the user's settings file
-                    //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
                 }
             }
             catch (Exception ex)
@@ -136,9 +111,6 @@ namespace FireBrowserWinUi3
 
         private void ToggleSetting(string settingName, bool value)
         {
-            // Load the user's settings
-            //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
             // Set the specified setting
             switch (settingName)
             {
@@ -179,9 +151,6 @@ namespace FireBrowserWinUi3
                 default:
                     throw new ArgumentException("Invalid setting name");
             }
-
-            // Save the modified settings back to the user's settings file
-            // UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
 
         private void Dwbl_Toggled(object sender, RoutedEventArgs e) => ToggleSetting("Downloads", (sender as ToggleSwitch).IsOn);

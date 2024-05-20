@@ -43,15 +43,6 @@ namespace FireBrowserWinUi3
 
                 AppService.AppSettings.LightMode = autoSettingValue;
 
-                // Load the user's settings
-                //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-
-                //// Set the 'Auto' setting
-                //userSettings.LightMode = autoSettingValue;
-
-                //// Save the modified settings back to the user's settings file
-                //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
             }
         }
 
@@ -82,13 +73,6 @@ namespace FireBrowserWinUi3
             if (!string.IsNullOrEmpty(type))
             {
                 AppService.AppSettings.Lang = type;
-                // Load the user's settings
-                //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-                //userSettings.Lang = type;
-
-                //// Save the modified settings back to the user's settings file
-                //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
             }
         }
 

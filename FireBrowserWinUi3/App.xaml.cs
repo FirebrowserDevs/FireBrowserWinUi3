@@ -46,12 +46,6 @@ public partial class App : Application
 
         return service;
     }
-
-    private void InitializeServices()
-    {
-        Services = ConfigureServices();
-    }
-
     public IServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
@@ -76,12 +70,17 @@ public partial class App : Application
     public App()
     {
         this.InitializeComponent();
-        //InitializeServices();
-        FireBrowserWinUi3Navigator.TLD.LoadKnownDomainsAsync();
+        this.UnhandledException += Current_UnhandledException;
+        // need no to attach to current process run discard save ui thread. 
+        _ = FireBrowserWinUi3Navigator.TLD.LoadKnownDomainsAsync().ConfigureAwait(false);
 
         System.Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
     }
 
+    private void Current_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    {
+        FireBrowserWinUi3Exceptions.ExceptionLogger.LogException(e.Exception);
+    }
 
     public static string GetUsernameFromCoreFolderPath(string coreFolderPath, string userName = null)
     {
@@ -99,39 +98,8 @@ public partial class App : Application
         return null;
     }
 
-
-    public async void CheckNormal(string userName = null)
-    {
-        string coreFolderPath = UserDataManager.CoreFolderPath;
-        string username = GetUsernameFromCoreFolderPath(coreFolderPath, userName);
-
-        if (username != null)
-        {
-            AuthService.Authenticate(username);
-            DatabaseServices dbServer = new DatabaseServices();
-
-            try
-            {
-                await dbServer.DatabaseCreationValidation();
-                await dbServer.InsertUserSettings();
-                if (Directory.Exists(UserDataManager.CoreFolderPath))
-                {
-                    Services = ConfigureServices();
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionLogger.LogException(ex);
-                Console.WriteLine($"Creating Settings for user already exists\n {ex.Message}");
-            }
-        }
-    }
-
-
     protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
-
-        // seed only once before starting app service 
 
         AppService.CancellationToken = CancellationToken.None;
 
@@ -143,104 +111,8 @@ public partial class App : Application
             await Task.Delay(4200);
         }
 
-        //wait longer then the app.cs cancellationtoken delay time ; 
-
-
-
         base.OnLaunched(args);
 
-        //if (!Directory.Exists(UserDataManager.CoreFolderPath))
-        //{
-        //    m_window = new SetupWindow();
-        //}
-        //else
-        //{
-        //    if (File.Exists(changeUsernameFilePath))
-        //    {
-        //        m_window = new ChangeUsernameCore();
-        //    }
-        //    else
-        //    {
-        //        var evt = AppInstance.GetActivatedEventArgs();
-        //        ProtocolActivatedEventArgs protocolArgs = evt as ProtocolActivatedEventArgs;
-
-        //        if (protocolArgs != null && protocolArgs.Kind == ActivationKind.Protocol)
-        //        {
-        //            string url = protocolArgs.Uri.ToString();
-
-        //            if (url.StartsWith("http") || url.StartsWith("https"))
-        //            {
-        //                AppArguments.UrlArgument = url; // Standard web URL
-        //                CheckNormal();
-        //            }
-        //            else if (url.StartsWith("firebrowserwinui://"))
-        //            {
-        //                AppArguments.FireBrowserArgument = url;
-        //                CheckNormal();
-        //            }
-        //            else if (url.StartsWith("firebrowseruser://"))
-        //            {
-        //                AppArguments.FireUser = url;
-
-        //                // Extract the username after 'firebrowseruser://'
-        //                string usernameSegment = url.Replace("firebrowseruser://", ""); // Remove the prefix
-        //                string[] urlParts = usernameSegment.Split('/', StringSplitOptions.RemoveEmptyEntries);
-        //                string username = urlParts.FirstOrDefault(); // Retrieve the first segment as the username
-
-        //                // Authenticate the extracted username using your authentication service
-        //                if (!string.IsNullOrEmpty(username))
-        //                {
-        //                    CheckNormal(username);
-        //                }
-
-        //                // No need to activate the window here
-        //            }
-        //            else if (url.StartsWith("firebrowserincog://"))
-        //            {
-        //                AppArguments.FireBrowserIncog = url;
-        //                CheckNormal(); // Custom protocol for FireBrowser
-        //            }
-        //            else if (url.Contains(".pdf"))
-        //            {
-        //                AppArguments.FireBrowserPdf = url;
-        //                CheckNormal();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            m_window = new UserCentral();
-        //            IntPtr hWnd = WindowNative.GetWindowHandle(m_window);
-        //            WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
-        //            AppWindow appWindow = AppWindow.GetFromWindowId(wndId);
-        //            if (appWindow != null)
-        //            {
-        //                appWindow.MoveAndResize(new Windows.Graphics.RectInt32(600, 600, 420, 500));
-        //                appWindow.MoveInZOrderAtTop();
-        //                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-        //                var titleBar = appWindow.TitleBar;
-        //                titleBar.ExtendsContentIntoTitleBar = true;
-        //                var btnColor = Colors.Transparent;
-        //                titleBar.BackgroundColor = btnColor;
-        //                titleBar.ForegroundColor = btnColor;
-        //                titleBar.ButtonBackgroundColor = btnColor;
-        //                titleBar.ButtonInactiveBackgroundColor = btnColor;
-        //                appWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
-        //                appWindow.SetIcon("ms-appx:///logo.ico");
-        //            }
-        //            Windowing.Center(m_window);
-        //            m_window.Activate();
-        //            return;
-        //        }
-        //    }
-        //    m_window = new MainWindow();
-        //    if (AuthService.IsUserAuthenticated)
-        //    {
-        //        IMessenger messenger = App.GetService<IMessenger>();
-        //        messenger?.Send(new Message_Settings_Actions($"Welcome {AuthService.CurrentUser.Username} to our FireBrowser", EnumMessageStatus.Login));
-        //    }
-        //}
-        //// Activate the window outside of conditional blocks
-        //m_window.Activate();
     }
 
     public Window m_window;

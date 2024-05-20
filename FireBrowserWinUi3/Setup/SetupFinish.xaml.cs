@@ -26,19 +26,18 @@ namespace FireBrowserWinUi3
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += Timer_Tick;
-
             // Start the timer
             timer.Start();
         }
 
-        private async void Timer_Tick(object sender, object e)
+        private void Timer_Tick(object sender, object e)
         {
             countdownSeconds--;
             if (countdownSeconds <= 0)
             {
-                AppService.ActiveWindow.Close();
+                AppService.ActiveWindow?.Close();
             }
-            //if (countdownSeconds <= 0)  Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+
         }
     }
 }

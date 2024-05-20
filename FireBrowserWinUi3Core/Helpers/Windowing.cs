@@ -1,8 +1,13 @@
 ﻿using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using Windows.Devices.Display;
+using Windows.Devices.Enumeration;
 using Windows.Graphics;
 using WinRT.Interop;
 
@@ -31,6 +36,10 @@ public class Windowing
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool IsWindowVisible(IntPtr hWnd);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+
     public static void Center(Window window)
     {
         IntPtr hWnd = WindowNative.GetWindowHandle(window);
@@ -115,4 +124,40 @@ public class Windowing
     {
         ShowWindow(hWnd, WindowShowStyle.SW_MAXIMIZE);
     }
+
+    static public async Task<SizeInt32?> SizeWindow()
+    {
+        var displayList = await DeviceInformation.FindAllAsync
+                          (DisplayMonitor.GetDeviceSelector());
+
+        if (!displayList.Any())
+            return null;
+
+        var monitorInfo = await DisplayMonitor.FromInterfaceIdAsync(displayList[0].Id);
+
+        var winSize = new SizeInt32();
+
+        if (monitorInfo == null)
+        {
+            winSize.Width = 800;
+            winSize.Height = 1200;
+        }
+        else
+        {
+            winSize.Height = monitorInfo.NativeResolutionInRawPixels.Height;
+            winSize.Width = monitorInfo.NativeResolutionInRawPixels.Width;
+        }
+
+        return winSize;
+    }
+
+    static public AppWindow GetAppWindow(Window window)
+    {
+        IntPtr hWnd = WindowNative.GetWindowHandle(window);
+        WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
+        return AppWindow.GetFromWindowId(wndId);
+    }
+
+    // get dpi for an element
+
 }

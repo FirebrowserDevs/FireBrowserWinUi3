@@ -21,12 +21,18 @@ using FireBrowserWinUi3Exceptions;
 using System.Text.Json;
 using Windows.ApplicationModel;
 using System.Windows.Forms;
+using FireBrowserWinUi3.Setup;
+using Windows.Graphics;
+using FireBrowserWinUi3DataCore.Actions;
+using Microsoft.EntityFrameworkCore;
 
 namespace FireBrowserWinUi3.Services
 {
     static public class AppService
     {
-        static Tuple<Window, Window> AP_WINDOWS { get; set; }
+        /*static Tuple<Window, Window> AP_WINDOWS { get; set; }
+        // Instance.AP_WINDOWS = new Tuple<Window, Window>(new MainWindow(), new SetupWindow());*/
+
         static public Window ActiveWindow { get; set; }
         static public Settings AppSettings { get; set; }
 
@@ -42,7 +48,7 @@ namespace FireBrowserWinUi3.Services
 
                 string changeUsernameFilePath = Path.Combine(Path.GetTempPath(), "changeusername.json");
 
-                // Instance.AP_WINDOWS = new Tuple<Window, Window>(new MainWindow(), new SetupWindow());
+
                 if (!Directory.Exists(UserDataManager.CoreFolderPath))
                 {
                     // load settings for first time to default and run..
@@ -66,6 +72,7 @@ namespace FireBrowserWinUi3.Services
 
                     ActiveWindow.Closed += (s, e) =>
                     {
+                        AuthService.IsUserNameChanging = false;
                         WindowsController(cancellationToken).ConfigureAwait(false);
                     };
 
@@ -140,6 +147,7 @@ namespace FireBrowserWinUi3.Services
                         appWindow.MoveAndResize(new Windows.Graphics.RectInt32(600, 600, 420, 500));
                         appWindow.MoveInZOrderAtTop();
                         appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                        appWindow.Title = "UserCentral"; 
                         var titleBar = appWindow.TitleBar;
                         titleBar.ExtendsContentIntoTitleBar = true;
                         var btnColor = Colors.Transparent;
@@ -181,8 +189,6 @@ namespace FireBrowserWinUi3.Services
                         });
                         // need to load a default settings for user because everything was gone and now need to recreate. HUM go to setup again ?  this is quick fix. 
                         AppService.AppSettings = new Settings(true).Self;
-
-
                     }
 
                     // double authenticate, and then create all databases and then insert setting (is not exists in db from this service AppSettings)
@@ -193,11 +199,7 @@ namespace FireBrowserWinUi3.Services
                     IntPtr hWnd = WindowNative.GetWindowHandle(App.Current.m_window);
                     App.Current.m_window.Activate();
                     App.Current.m_window.AppWindow.MoveInZOrderAtTop();
-                    App.Current.m_window.Closed += (s, e) =>
-                    {
-                        //may be release some resource down the line..
-                        App.Current.Exit();
-                    };
+
 
                     if (Windowing.IsWindowVisible(hWnd))
                     {
@@ -208,9 +210,7 @@ namespace FireBrowserWinUi3.Services
                             messenger?.Send(new Message_Settings_Actions($"Welcome {AuthService.CurrentUser.Username} to our FireBrowser", EnumMessageStatus.Login));
                         }
                     }
-
-
-
+                    // cancel all recursions and send back to base.launched.app 
                     CancellationTokenSource cancel = new CancellationTokenSource();
                     CancellationToken = cancellationToken = cancel.Token;
                     cancel.Cancel();
@@ -227,7 +227,7 @@ namespace FireBrowserWinUi3.Services
                 return Task.FromException<CancellationToken>(e);
                 throw;
             }
-
+            // doesn't effect other calls, but you may use to get to the final objective of showing mainwindow with an authenicated user. 
             return Task.FromCanceled(cancellationToken);
         }
         public static string GetUsernameFromCoreFolderPath(string coreFolderPath, string userName = null)
@@ -270,5 +270,64 @@ namespace FireBrowserWinUi3.Services
             }
         }
 
+        static public async void CreateNewUsersSettings()
+        {
+
+            ActiveWindow = new UserSettings();
+            ActiveWindow.Closed += async (s, e) =>
+            {
+
+                try
+                {
+                    SettingsActions settingsActions = new SettingsActions(AuthService.NewCreatedUser?.Username);
+                    if (!File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.NewCreatedUser?.Username, "Settings", "Settings.db")))
+                    {
+                        await settingsActions.SettingsContext.Database.MigrateAsync();
+                    }
+                    if (File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.NewCreatedUser?.Username, "Settings", "Settings.db")))
+                        await settingsActions.SettingsContext.Database.CanConnectAsync();
+
+                    if (await settingsActions.GetSettingsAsync() is null)
+                    {
+                        await settingsActions.InsertUserSettingsAsync(AppService.AppSettings);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionLogger.LogException(ex);
+                    Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
+                }
+                finally {
+                    AuthService.NewCreatedUser.Username = null;
+                }
+
+
+            };
+
+            IntPtr hWnd = WindowNative.GetWindowHandle(ActiveWindow);
+            WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
+            AppWindow appWindow = AppWindow.GetFromWindowId(wndId);
+
+            if (appWindow != null)
+            {
+                SizeInt32? desktop = await Windowing.SizeWindow();
+                appWindow.MoveAndResize(new RectInt32(desktop.Value.Height / 2, desktop.Value.Width / 2, (int)(desktop?.Width * .60), (int)(desktop?.Height * .60)));
+                appWindow.MoveInZOrderAtTop();
+                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                appWindow.Title = "Settings for : " + AuthService.NewCreatedUser.Username;
+                var titleBar = appWindow.TitleBar;
+                titleBar.ExtendsContentIntoTitleBar = true;
+                var btnColor = Colors.Transparent;
+                titleBar.BackgroundColor = btnColor;
+                titleBar.ForegroundColor = btnColor;
+                titleBar.ButtonBackgroundColor = btnColor;
+                titleBar.ButtonInactiveBackgroundColor = btnColor;
+                appWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.Overlapped);
+
+            }
+            Windowing.Center(ActiveWindow);
+            appWindow.ShowOnceWithRequestedStartupState(); ;
+
+        }
     }
 }

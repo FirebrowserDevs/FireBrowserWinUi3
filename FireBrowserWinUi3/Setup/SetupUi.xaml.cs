@@ -16,19 +16,6 @@ public sealed partial class SetupUi : Page
         ColorTB.Text = "#000000";
     }
 
-    private FireBrowserWinUi3MultiCore.User GetUser()
-    {
-        // Check if the user is authenticated.
-        if (AuthService.IsUserAuthenticated)
-        {
-            // Return the authenticated user.
-            return AuthService.CurrentUser;
-        }
-
-        // If no user is authenticated, return null or handle as needed.
-        return null;
-    }
-
     private void SetupUiBtn_Click(object sender, RoutedEventArgs e)
     {
         Frame.Navigate(typeof(SetupAlgemeen));
@@ -38,20 +25,9 @@ public sealed partial class SetupUi : Page
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
             var autoSettingValue = toggleSwitch.IsOn;
-
             AppService.AppSettings.Auto = autoSettingValue;
 
-            // Load the user's settings
-            //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-
-            //// Set the 'Auto' setting
-            //userSettings.Auto = autoSettingValue;
-
-            //// Save the modified settings back to the user's settings file
-            //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
     }
 
@@ -60,16 +36,7 @@ public sealed partial class SetupUi : Page
         string color = ColorTB.Text.ToString();
         if (!string.IsNullOrEmpty(color))
         {
-
             AppService.AppSettings.ColorBackground = color;
-
-            // Load the user's settings
-            //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-            //userSettings.ColorBackground = color;
-
-            //// Save the modified settings back to the user's settings file
-            //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
     }
 
@@ -79,13 +46,6 @@ public sealed partial class SetupUi : Page
         if (!string.IsNullOrEmpty(color))
         {
             AppService.AppSettings.ColorTool = color;
-            //// Load the user's settings
-            //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-            //userSettings.ColorTool = color;
-
-            //// Save the modified settings back to the user's settings file
-            //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
     }
 
@@ -95,17 +55,8 @@ public sealed partial class SetupUi : Page
         {
             // Assuming 'url' and 'selection' have been defined earlier
             var autoSettingValue = toggleSwitch.IsOn;
-
             AppService.AppSettings.NtpDateTime = autoSettingValue; ;
-            // Load the user's settings
-            //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
 
-
-            //// Set the 'Auto' setting
-            //userSettings.NtpDateTime = autoSettingValue;
-
-            //// Save the modified settings back to the user's settings file
-            //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
     }
 
@@ -115,14 +66,6 @@ public sealed partial class SetupUi : Page
         if (!string.IsNullOrEmpty(color))
         {
             AppService.AppSettings.NtpTextColor = color; ;
-
-            // Load the user's settings
-            //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-            //userSettings.NtpTextColor = color;
-
-            //// Save the modified settings back to the user's settings file
-            //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
     }
 
@@ -133,14 +76,6 @@ public sealed partial class SetupUi : Page
         if (!string.IsNullOrEmpty(color))
         {
             AppService.AppSettings.ColorTV = color;
-
-            //// Load the user's settings
-            //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-            //userSettings.ColorTV = color;
-
-            //// Save the modified settings back to the user's settings file
-            //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
     }
 
@@ -183,14 +118,6 @@ public sealed partial class SetupUi : Page
         }
 
         AppService.AppSettings.Background = type;
-
-        // Load the user's settings
-        //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-        //userSettings.Background = type;
-
-        //// Save the modified settings back to the user's settings file
-        //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
 
     }
 }

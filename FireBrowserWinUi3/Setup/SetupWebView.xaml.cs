@@ -31,16 +31,6 @@ public sealed partial class SetupWebView : Page
             var autoSettingValue = toggleSwitch.IsOn;
             AppService.AppSettings.StatusBar = autoSettingValue;
 
-
-            //// Load the user's settings
-            //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-
-            //// Set the 'Auto' setting
-            //userSettings.StatusBar = autoSettingValue;
-
-            //// Save the modified settings back to the user's settings file
-            //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
     }
 
@@ -51,15 +41,6 @@ public sealed partial class SetupWebView : Page
             // Assuming 'url' and 'selection' have been defined earlier
             var autoSettingValue = toggleSwitch.IsOn;
             AppService.AppSettings.BrowserKeys = autoSettingValue; ;
-            // Load the user's settings
-            //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-
-            //// Set the 'Auto' setting
-            //userSettings.BrowserKeys = autoSettingValue;
-
-            //// Save the modified settings back to the user's settings file
-            //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
     }
 
@@ -71,16 +52,6 @@ public sealed partial class SetupWebView : Page
             // Assuming 'url' and 'selection' have been defined earlier
             var autoSettingValue = toggleSwitch.IsOn;
             AppService.AppSettings.BrowserScripts = autoSettingValue;
-
-            // Load the user's settings
-            //    Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-
-            //    // Set the 'Auto' setting
-            //    userSettings.BrowserScripts = autoSettingValue;
-
-            //    // Save the modified settings back to the user's settings file
-            //    UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
     }
 
@@ -90,13 +61,6 @@ public sealed partial class SetupWebView : Page
         if (!string.IsNullOrEmpty(blob))
         {
             AppService.AppSettings.Useragent = blob;
-            // Load the user's settings
-            //Settings userSettings = UserFolderManager.LoadUserSettings(GetUser());
-
-            //userSettings.Useragent = blob;
-
-            //// Save the modified settings back to the user's settings file
-            //UserFolderManager.SaveUserSettings(GetUser(), userSettings);
         }
     }
 

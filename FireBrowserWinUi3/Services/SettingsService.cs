@@ -52,7 +52,6 @@ namespace FireBrowserWinUi3.Services
                 if (!AuthService.IsUserAuthenticated) return;
 
                 AppService.AppSettings = settings;
-                //UserFolderManager.SaveUserSettings(AuthService.CurrentUser, settings);
                 if (!File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Settings", "Settings.db")))
                 {
                     await Actions?.SettingsContext.Database.MigrateAsync();

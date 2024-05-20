@@ -37,6 +37,7 @@ namespace FireBrowserWinUi3MultiCore
             if (!users.Any(u => u.Username.Equals(newUser.Username, StringComparison.OrdinalIgnoreCase)))
             {
                 users.Add(newUser);
+                NewCreatedUser = newUser;
                 SaveUsers();
             }
         }
@@ -55,13 +56,16 @@ namespace FireBrowserWinUi3MultiCore
 
         public static List<string> GetAllUsernames() => users.Select(u => u.Username).ToList();
 
+        public static bool IsUserNameChanging { get; set; }
         public static void Logout() => CurrentUser = null;
+        public static ChangeUsernameData UserWhomIsChanging { get; set; }
 
+        public static User NewCreatedUser { get; set; }
         public static bool ChangeUsername(string oldUsername, string newUsername)
         {
             User userToChange = users.FirstOrDefault(u => u.Username.Equals(oldUsername, StringComparison.OrdinalIgnoreCase));
             if (userToChange == null || users.Any(u => u.Username.Equals(newUsername, StringComparison.OrdinalIgnoreCase)))
-                return false;
+                return IsUserNameChanging = false;
 
             userToChange.Username = newUsername;
 
@@ -70,7 +74,18 @@ namespace FireBrowserWinUi3MultiCore
             if (CurrentUser != null && CurrentUser.Username.Equals(oldUsername, StringComparison.OrdinalIgnoreCase))
                 CurrentUser = userToChange;
 
-            return true;
+            UserWhomIsChanging = new(oldUsername, userToChange.Username);
+            return IsUserNameChanging = true;
         }
+
+
+        public record ChangeUsernameData(string OldUsername, string NewUsername)
+        {
+
+            public FileInfo FileInfo { get; set; }
+            public DirectoryInfo? DirectoryInfo { get; set; }
+
+        }
+
     }
 }

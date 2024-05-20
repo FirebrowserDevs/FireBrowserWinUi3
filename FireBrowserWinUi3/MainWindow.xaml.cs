@@ -118,8 +118,6 @@ public sealed partial class MainWindow : Window
             {
                 try
                 {
-                    // always save to file as well because the application loads from the settings file, although let's use enitry framwork core to manage app and Settings. 
-                    //UserFolderManager.SaveUserSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
 
                     args.Cancel = true;
 

@@ -66,7 +66,7 @@ public sealed partial class SettingsHome : Page
     private async void Add_Click(object sender, RoutedEventArgs e)
     {
         var window = (Application.Current as App)?.m_window as MainWindow;
-        AddUser quickConfigurationDialog = new()
+        FireBrowserWinUi3.Setup.AddUser quickConfigurationDialog = new()
         {
             XamlRoot = window.Content.XamlRoot
         };
@@ -108,7 +108,7 @@ public sealed partial class SettingsHome : Page
         }
     }
 
- 
+
 
     public void Run()
     {
@@ -208,10 +208,10 @@ public sealed partial class SettingsHome : Page
 
 
 
-    private void PatchBtn_Click(object sender, RoutedEventArgs e)
+    private async void PatchBtn_Click(object sender, RoutedEventArgs e)
     {
-          PatchUpdate dlg = new PatchUpdate();
+        PatchUpdate dlg = new PatchUpdate();
         dlg.XamlRoot = this.XamlRoot;
-        dlg.ShowAsync();
+        await dlg.ShowAsync();
     }
 }

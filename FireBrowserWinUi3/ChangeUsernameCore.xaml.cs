@@ -8,6 +8,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using static FireBrowserWinUi3MultiCore.AuthService;
 
 namespace FireBrowserWinUi3;
 
@@ -96,7 +97,7 @@ public sealed partial class ChangeUsernameCore : Window
             // authenicate jus in cause reequired by appservice ?? => delete if set somewhere else 
             if (Directory.Exists(newUserFolderPath))
             {
-                AuthService.Authenticate(newUserFolderPath);
+                Authenticate(changeUsernameData.NewUsername);
             }
             // Remove the JSON file
             File.Delete(jsonFilePath);
@@ -117,22 +118,16 @@ public sealed partial class ChangeUsernameCore : Window
         restartTimer.Start();
     }
 
-    private void RestartTimer_Tick(object sender, object e)
+    private async void RestartTimer_Tick(object sender, object e)
     {
         restartTimer.Stop();
 
         // Delay the restart for a short duration to ensure the UI updates properly
-        Task.Delay(500);
+        await Task.Delay(500);
 
-        // Restart the application
-        AppService.WindowsController(CancellationToken.None);
-        //   Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
-    }
+        // no need to restart application run with. 
+        await AppService.WindowsController(CancellationToken.None);
 
-    private class ChangeUsernameData
-    {
-        public string OldUsername { get; set; }
-        public string NewUsername { get; set; }
     }
 
     private void ManaulRestart_Click(object sender, RoutedEventArgs e)

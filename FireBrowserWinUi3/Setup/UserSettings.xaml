@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Window
+    x:Class="FireBrowserWinUi3.Setup.UserSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:FireBrowserWinUi3.Setup"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid
+        Margin="0,36,0,0"
+        Padding="{ThemeResource AppBarTopThemePadding}"
+        Background="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}"
+        BorderBrush="{ThemeResource AccentAcrylicBackgroundFillColorDefaultBrush}"
+        BorderThickness="1.2"
+        CornerRadius="2.4">
+        <SelectorBar x:Name="SelectorBar2" SelectionChanged="SelectorBar2_SelectionChanged">
+            <SelectorBarItem
+                x:Name="SelectorBarItemPage1"
+                IsSelected="True"
+                Text="SetupUI" />
+            <SelectorBarItem x:Name="SelectorBarItemPage2" Text="SetupAlgemeen" />
+            <SelectorBarItem x:Name="SelectorBarItemPage3" Text="SetupPrivacy" />
+            <SelectorBarItem x:Name="SelectorBarItemPage4" Text="SetupAccess" />
+            <SelectorBarItem x:Name="SelectorBarItemPage5" Text="SetupWebView" />
+            <SelectorBarItem x:Name="SelectorBarItemPage6" Text="SetupFinish" />
+        </SelectorBar>
+
+        <Frame
+            x:Name="ContentFrame"
+            Margin="0,42,0,0"
+            IsNavigationStackEnabled="False" />
+    </Grid>
+</Window>

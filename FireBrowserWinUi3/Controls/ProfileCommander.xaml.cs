@@ -6,6 +6,7 @@ using FireBrowserWinUi3MultiCore;
 using FireBrowserWinUi3MultiCore.Helper;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Threading;
@@ -118,7 +119,13 @@ namespace FireBrowserWinUi3.Controls
             string olduser = UsernameDisplay.Text;
 
             AuthService.ChangeUsername(olduser, username_box.Text.ToString());
-            await AppService.WindowsController(AppService.CancellationToken = CancellationToken.None);
+            string tempFolderPath = Path.GetTempPath();
+            string jsonFilePath = Path.Combine(tempFolderPath, "changeusername.json");
+            await File.WriteAllTextAsync(jsonFilePath, JsonConvert.SerializeObject(AuthService.UserWhomIsChanging));
+
+            // must restart due to file locking allocation old user file are in use by webview, and dbservices.
+            Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+
         }
     }
 }
