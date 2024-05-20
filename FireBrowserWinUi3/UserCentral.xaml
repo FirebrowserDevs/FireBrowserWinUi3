@@ -36,40 +36,45 @@
             FontWeight="SemiBold"
             Foreground="{ThemeResource ApplicationHeaderForegroundThemeBrush}"
             Text="Select a User" />
-        <ListView
-            x:Name="UserListView"
-            Grid.Row="1"
-            MinHeight="350"
-            Padding="4"
-            x:FieldModifier="Public"
-            Background="{ThemeResource AccentControlElevationBorderBrush}"
-            ItemsSource="{x:Bind ViewModel.Users, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            SelectedItem="{x:Bind ViewModel.User, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            SelectionChanged="UserListView_SelectionChanged">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="firebrowserwinui3:UserExtend">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Row="1">
+            <ListView
+                x:Name="UserListView"
+                MinHeight="350"
+                Padding="4"
+                x:FieldModifier="Public"
+                Background="{ThemeResource AccentControlElevationBorderBrush}"
+                ItemsSource="{x:Bind ViewModel.Users, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{x:Bind ViewModel.User, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectionChanged="UserListView_SelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="firebrowserwinui3:UserExtend">
 
-                        <PersonPicture
-                            Width="24"
-                            Height="24"
-                            Margin="6"
-                            ProfilePicture="{Binding PicturePath, Mode=OneWay}" />
-                        <!--  Username  -->
-                        <TextBlock
-                            Grid.Column="1"
-                            Margin="5,0,5,0"
-                            VerticalAlignment="Center"
-                            Text="{Binding FireUser.Username, Mode=OneWay}" />
-                        <!--  "Switch" button  -->
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <PersonPicture
+                                Width="24"
+                                Height="24"
+                                Margin="6"
+                                ProfilePicture="{Binding PicturePath, Mode=OneWay}" />
+                            <!--  Username  -->
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="5,0,5,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding FireUser.Username, Mode=OneWay}" />
+                            <!--  "Switch" button  -->
+                        </Grid>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollViewer>
+
+
         <StackPanel
             Grid.Row="2"
             HorizontalAlignment="Center"

@@ -144,7 +144,7 @@ namespace FireBrowserWinUi3.Services
                     AppWindow appWindow = AppWindow.GetFromWindowId(wndId);
                     if (appWindow != null)
                     {
-                        appWindow.MoveAndResize(new Windows.Graphics.RectInt32(600, 600, 420, 500));
+                        appWindow.MoveAndResize(new Windows.Graphics.RectInt32(600, 600, 420, 600));
                         appWindow.MoveInZOrderAtTop();
                         appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
                         appWindow.Title = "UserCentral";
@@ -299,7 +299,7 @@ namespace FireBrowserWinUi3.Services
                 }
                 finally
                 {
-                    AuthService.NewCreatedUser = null; 
+                    AuthService.NewCreatedUser = null;
                 }
 
 
