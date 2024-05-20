@@ -1,12 +1,9 @@
-using FireBrowserWinUi3.Services;
-using FireBrowserWinUi3MultiCore;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System;
 using System.IO;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 using static FireBrowserWinUi3MultiCore.AuthService;
 
@@ -114,7 +111,7 @@ public sealed partial class ChangeUsernameCore : Window
     {
         restartTimer = new DispatcherTimer();
         restartTimer.Tick += RestartTimer_Tick;
-        restartTimer.Interval = TimeSpan.FromSeconds(4); // Set the interval to 2 seconds too short
+        restartTimer.Interval = TimeSpan.FromSeconds(3); // Set the interval to 2 seconds too short
         restartTimer.Start();
     }
 
@@ -122,7 +119,10 @@ public sealed partial class ChangeUsernameCore : Window
     {
         restartTimer.Stop();
 
-        // Delay the restart for a short duration to ensure the UI updates properly
+        string tempFolderPath = Path.GetTempPath();
+        string jsonFilePath = Path.Combine(tempFolderPath, "changeusername.json");
+        File.Delete(jsonFilePath);
+
         await Task.Delay(500);
 
         // no need to restart application run with. 
