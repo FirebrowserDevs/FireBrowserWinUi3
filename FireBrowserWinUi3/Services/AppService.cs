@@ -147,7 +147,7 @@ namespace FireBrowserWinUi3.Services
                         appWindow.MoveAndResize(new Windows.Graphics.RectInt32(600, 600, 420, 500));
                         appWindow.MoveInZOrderAtTop();
                         appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-                        appWindow.Title = "UserCentral"; 
+                        appWindow.Title = "UserCentral";
                         var titleBar = appWindow.TitleBar;
                         titleBar.ExtendsContentIntoTitleBar = true;
                         var btnColor = Colors.Transparent;
@@ -297,7 +297,8 @@ namespace FireBrowserWinUi3.Services
                     ExceptionLogger.LogException(ex);
                     Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
                 }
-                finally {
+                finally
+                {
                     AuthService.NewCreatedUser.Username = null;
                 }
 
