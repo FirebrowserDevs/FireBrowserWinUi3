@@ -299,7 +299,7 @@ namespace FireBrowserWinUi3.Services
                 }
                 finally
                 {
-                    AuthService.NewCreatedUser.Username = null;
+                    AuthService.NewCreatedUser = null; 
                 }
 
 
