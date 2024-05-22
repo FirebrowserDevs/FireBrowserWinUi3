@@ -77,6 +77,12 @@ namespace FireBrowserWinUi3.Controls
                         {
                             try
                             {
+                                // Check if the file is in use
+                                using (var stream = new FileStream(localFilePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+                                {
+                                    // If no exception is thrown, the file is not in use
+                                }
+
                                 if (File.Exists(localFilePath))
                                 {
                                     File.Delete(localFilePath);
@@ -107,6 +113,7 @@ namespace FireBrowserWinUi3.Controls
                         }
                     }
                 }
+
 
                 await RestartApplication();
             }

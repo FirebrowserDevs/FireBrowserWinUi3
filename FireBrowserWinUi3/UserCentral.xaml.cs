@@ -56,9 +56,23 @@ public sealed partial class UserCentral : Window
 {
     public UC_Viewmodel ViewModel { get; set; }
 
+    // Static property to keep track of whether UserCentral is already open
+    public static bool IsOpen { get; private set; }
+
     public UserCentral()
     {
+        // Check if UserCentral is already open
+        if (IsOpen)
+        {
+            // If it is, close this instance
+            this.Close();
+            return;
+        }
+
         this.InitializeComponent();
+
+        // Set IsOpen to true
+        IsOpen = true;
 
         ViewModel = new UC_Viewmodel();
         string coreFolderPath = UserDataManager.CoreFolderPath;
@@ -107,11 +121,10 @@ public sealed partial class UserCentral : Window
         var _user = UserListView.SelectedItem as UserExtend;
         if (_user != null)
         {
-
-            // can remove because CheckNormal authenticates user but, maybe add something on ELSE;
             AuthService.Authenticate(_user.FireUser.Username);
+            // Set IsOpen to false before closing
+            IsOpen = false;
             this.Close();
-
         }
     }
 }
