@@ -34,7 +34,7 @@ public partial class App : Application
 
     public static T GetService<T>() where T : class
     {
-        if (App.Current == null || !(App.Current is App app) || App.Current.Services == null)
+        if (App.Current is not App app || App.Current.Services is null)
         {
             throw new NullReferenceException("Application or Services are not properly initialized.");
         }
@@ -53,7 +53,6 @@ public partial class App : Application
         services.AddSingleton<WeakReferenceMessenger>();
         services.AddSingleton<IMessenger, WeakReferenceMessenger>(provider =>
             provider.GetRequiredService<WeakReferenceMessenger>());
-        //services.AddDbContext<FireBrowserDataCore.HistoryContext>();
         services.AddSingleton<DownloadService>();
         services.AddTransient<DownloadsViewModel>();
 
@@ -71,7 +70,6 @@ public partial class App : Application
     {
         this.InitializeComponent();
         this.UnhandledException += Current_UnhandledException;
-        // need no to attach to current process run discard save ui thread. 
         _ = FireBrowserWinUi3Navigator.TLD.LoadKnownDomainsAsync().ConfigureAwait(false);
 
         System.Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
@@ -100,19 +98,16 @@ public partial class App : Application
 
     protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
-
         AppService.CancellationToken = CancellationToken.None;
 
         await AppService.WindowsController(AppService.CancellationToken);
 
         while (!AppService.CancellationToken.IsCancellationRequested)
         {
-            // maybe have a splashscreen 
             await Task.Delay(4200);
         }
 
         base.OnLaunched(args);
-
     }
 
     public Window m_window;

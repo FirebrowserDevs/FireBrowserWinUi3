@@ -13,15 +13,12 @@ namespace FireBrowserUpdate
         {
             InitializeComponent();
             PatchDLLs();
-            // Additional initialization code...
         }
 
         private void PatchDLLs()
         {
             try
             {
-                Thread.Sleep(1000);
-
                 string patchFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "patch.ptc");
 
                 if (!File.Exists(patchFilePath))
@@ -30,38 +27,67 @@ namespace FireBrowserUpdate
                     return;
                 }
 
-                // Read the patch.ptc file
-                string[] dllsToUpdate = File.ReadAllLines(patchFilePath);
+                string[] dllNamesToUpdate = File.ReadAllLines(patchFilePath);
 
-                // Delete existing DLL files and download new ones
-                foreach (var dllName in dllsToUpdate)
+                foreach (string dllName in dllNamesToUpdate)
                 {
-                    string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dllName);
-
-                    // Delete existing DLL file
-                    if (File.Exists(filePath))
+                    if (dllName.StartsWith("FireBrowserWinUi3") && dllName.EndsWith(".dll"))
                     {
-                        File.Delete(filePath);
-                    }
+                        string localFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dllName);
+                        string tempFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{dllName}.tmp");
 
-                    // Download new DLL file
-                    string url = $"https://frcloud.000webhostapp.com/{dllName}";
-                    using (WebClient client = new WebClient())
-                    {
-                        client.DownloadFile(url, filePath);
+                        string url = $"https://frcloud.000webhostapp.com/{dllName}";
+                        using (WebClient client = new WebClient())
+                        {
+                            client.DownloadFile(url, tempFilePath);
+                        }
+
+                        if (IsUpdateRequired(localFilePath, tempFilePath))
+                        {
+                            if (File.Exists(localFilePath))
+                            {
+                                File.Delete(localFilePath);
+                            }
+                            File.Move(tempFilePath, localFilePath);
+                        }
+                        else
+                        {
+                            File.Delete(tempFilePath);
+                        }
                     }
                 }
 
-                // Delete the patch.ptc file
                 File.Delete(patchFilePath);
-
-                // Restart FireBrowserWinUi3.exe
                 CloseAndStartFireBrowser();
             }
             catch (Exception ex)
             {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 CloseAndExit();
             }
+        }
+
+        private bool IsUpdateRequired(string localFilePath, string tempFilePath)
+        {
+            if (!File.Exists(localFilePath))
+                return true;
+
+            try
+            {
+                Version localVersion = GetFileVersion(localFilePath);
+                Version remoteVersion = GetFileVersion(tempFilePath);
+
+                return remoteVersion > localVersion;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private Version GetFileVersion(string filePath)
+        {
+            return new Version(FileVersionInfo.GetVersionInfo(filePath).FileVersion);
         }
 
         private void CloseAndStartFireBrowser()
@@ -84,7 +110,7 @@ namespace FireBrowserUpdate
                 };
                 Process.Start(startInfo);
 
-                // Close the current application
+                Thread.Sleep(2000);
                 Application.Exit();
             }
             catch (Exception ex)
@@ -94,11 +120,8 @@ namespace FireBrowserUpdate
             }
         }
 
-
-
         private void CloseAndExit()
         {
-            // Close the current application
             Application.Exit();
         }
     }

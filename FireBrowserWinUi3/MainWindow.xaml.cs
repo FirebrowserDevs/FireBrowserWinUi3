@@ -30,7 +30,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Security.Credentials.UI;
@@ -53,6 +52,8 @@ public sealed partial class MainWindow : Window
     public DownloadService ServiceDownloads { get; set; }
     public SettingsService SettingsService { get; set; }
     public MainWindowViewModel ViewModelMain { get; set; }
+    public string PicturePath { get; set; }
+
     public MainWindow()
     {
         ServiceDownloads = App.GetService<DownloadService>();
@@ -214,6 +215,7 @@ public sealed partial class MainWindow : Window
         AuthService.CurrentUser.Username = newUser.Username;
         AuthService.Authenticate(newUser.Username);
     }
+ 
     public void LoadUsernames()
     {
         var currentUsername = AuthService.CurrentUser?.Username;

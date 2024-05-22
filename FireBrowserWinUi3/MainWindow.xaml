@@ -80,7 +80,7 @@
                                                     Width="24"
                                                     Height="24"
                                                     Margin="6" 
-                                                     ProfilePicture="{Binding PicturePath, Mode=OneWay}"/>
+                                                     ProfilePicture="{Binding PicturePath, Mode=TwoWay}"/>
                                                 <!--  Username  -->
                                                 <TextBlock
                                                     Grid.Column="1"

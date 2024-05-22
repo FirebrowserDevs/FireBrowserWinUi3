@@ -1,3 +1,4 @@
+using FireBrowserWinUi3.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -5,156 +6,149 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace FireBrowserWinUi3.Pages.Patch;
-
-public sealed partial class PatchUpdate : ContentDialog
+namespace FireBrowserWinUi3.Pages.Patch
 {
-    public PatchUpdate()
+    public sealed partial class PatchUpdate : ContentDialog
     {
-        this.InitializeComponent();
-        CheckForUpdates();
-    }
+        private CancellationTokenSource cts = new CancellationTokenSource();
 
-    private void CheckForUpdates()
-    {
-        try
+        public PatchUpdate()
         {
-            string startupPath = AppDomain.CurrentDomain.BaseDirectory;
-            string versionsFilePath = Path.Combine(startupPath, "versions.txt");
-
-            // Get files in the startup folder
-            string[] dllFiles = Directory.GetFiles(startupPath, "FireBrowserWinUi3*.dll");
-
-            // Output DLL names and versions to versions.txt
-            using (StreamWriter writer = new StreamWriter(versionsFilePath))
-            {
-                foreach (var dllFile in dllFiles)
-                {
-                    var versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(dllFile);
-                    writer.WriteLine($"{Path.GetFileName(dllFile)}: {versionInfo.FileVersion}");
-                }
-            }
-
-            // Compare versions with server versions
-            CompareVersions(versionsFilePath);
+            this.InitializeComponent();
+            CheckForUpdates();
         }
-        catch (Exception ex)
+
+        private void CheckForUpdates()
         {
-            ShowErrorMessage($"An error occurred while checking for updates: {ex.Message}");
-        }
-    }
-
-    private async void CompareVersions(string versionsFilePath)
-    {
-        try
-        {
-            // Show the loading ring
-            LoadingRing.IsActive = true;
-
-            // Read server versions from the server
-            string serverVersionsUrl = "https://frcloud.000webhostapp.com/data.json";
-            string serverVersionsJson;
-            using (var client = new HttpClient())
+            try
             {
-                serverVersionsJson = await client.GetStringAsync(serverVersionsUrl);
-            }
+                string startupPath = AppDomain.CurrentDomain.BaseDirectory;
+                string versionsFilePath = Path.Combine(startupPath, "versions.txt");
 
-            // Parse server version JSON data
-            // Assuming serverVersionsJson is an array of objects [{ "name": "FireBrowserWinUi3AdBlockCore.dll", "version": "1.0.0.1" }, ...]
-            var serverVersions = Newtonsoft.Json.JsonConvert.DeserializeObject<List<dynamic>>(serverVersionsJson);
+                string[] dllFiles = Directory.GetFiles(startupPath, "FireBrowserWinUi3*.dll");
 
-            // Read local versions from the versions.txt file
-            Dictionary<string, string> localVersions = new Dictionary<string, string>();
-            using (StreamReader reader = new StreamReader(versionsFilePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                using (StreamWriter writer = new StreamWriter(versionsFilePath))
                 {
-                    string[] parts = line.Split(':');
-                    if (parts.Length == 2)
+                    foreach (var dllFile in dllFiles)
                     {
-                        localVersions[parts[0].Trim()] = parts[1].Trim();
+                        var versionInfo = FileVersionInfo.GetVersionInfo(dllFile);
+                        writer.WriteLine($"{Path.GetFileName(dllFile)}: {versionInfo.FileVersion}");
                     }
                 }
+
+                CompareVersions(versionsFilePath);
             }
-
-            // Compare versions
-            List<string> filesToUpdate = new List<string>();
-            foreach (var serverVersion in serverVersions)
+            catch (Exception ex)
             {
-                string name = serverVersion.name;
-                string version = serverVersion.version;
+                ShowErrorMessage($"An error occurred while checking for updates: {ex.Message}");
+            }
+        }
 
-                if (localVersions.ContainsKey(name))
+        private async void CompareVersions(string versionsFilePath)
+        {
+            try
+            {
+                LoadingRing.IsActive = true;
+
+                string serverVersionsUrl = "https://frcloud.000webhostapp.com/data.json";
+                string serverVersionsJson;
+                using (var client = new HttpClient())
                 {
-                    Version localVersion = new Version(localVersions[name]);
-                    Version serverVer = new Version(version);
+                    serverVersionsJson = await client.GetStringAsync(serverVersionsUrl);
+                }
 
-                    if (serverVer > localVersion)
+                var serverVersions = Newtonsoft.Json.JsonConvert.DeserializeObject<List<dynamic>>(serverVersionsJson);
+
+                Dictionary<string, string> localVersions = new Dictionary<string, string>();
+                using (StreamReader reader = new StreamReader(versionsFilePath))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
                     {
-                        filesToUpdate.Add(name);
+                        string[] parts = line.Split(':');
+                        if (parts.Length == 2)
+                        {
+                            localVersions[parts[0].Trim()] = parts[1].Trim();
+                        }
                     }
                 }
-            }
 
-            // Display information about which DLLs need to be updated
-            if (filesToUpdate.Count > 0)
-            {
-                foreach (var dllName in filesToUpdate)
+                List<string> filesToUpdate = new List<string>();
+                foreach (var serverVersion in serverVersions)
                 {
-                    DllListTextBlock.Text += dllName + "\n";
+                    string name = serverVersion.name;
+                    string version = serverVersion.version;
+
+                    if (localVersions.ContainsKey(name))
+                    {
+                        Version localVersion = new Version(localVersions[name]);
+                        Version serverVer = new Version(version);
+
+                        if (serverVer > localVersion)
+                        {
+                            filesToUpdate.Add(name);
+                        }
+                    }
+                }
+
+                if (filesToUpdate.Count > 0)
+                {
+                    foreach (var dllName in filesToUpdate)
+                    {
+                        DllListTextBlock.Text += dllName + "\n";
+                    }
+                    PrimaryButtonText = "Update";
+                }
+                else
+                {
+                    DllListTextBlock.Text = "No updates are required.";
+                    PrimaryButtonText = "OK";
+                    SecondaryButtonText = "";
                 }
             }
-            else
+            catch (Exception ex)
             {
-                DllListTextBlock.Text = "No updates are required.";
-                PrimaryButtonText = "OK"; // Change the button text to OK
-                SecondaryButtonText = ""; // Hide the secondary button
+                TitleText.Text = "Server Or Local Error Occured";
+                PrimaryButtonText = "OK";
+                ShowErrorMessage($"An error occurred while comparing versions: {ex.Message}");
+            }
+            finally
+            {
+                LoadingRing.IsActive = false;
             }
         }
-        catch (Exception ex)
-        {
-            TitleText.Text = "Server Or Local Error Occured";
-            PrimaryButtonText = "OK"; // Change the button text to OK
-            ShowErrorMessage($"An error occurred while comparing versions: {ex.Message}");
-        }
-        finally
-        {
-            // Hide the loading ring
-            LoadingRing.IsActive = false;
-        }
-    }
 
-    string filesToUpdate;
-    private void ShowErrorMessage(string message)
-    {
-        DllListTextBlock.Text = message;
-        SecondaryButtonText = ""; // Hide the secondary button if an error occurs
-    }
+        private void ShowErrorMessage(string message)
+        {
+            DllListTextBlock.Text = message;
+            SecondaryButtonText = "";
+        }
 
-    private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-    {
-        try
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             if (PrimaryButtonText == "Update")
             {
                 try
                 {
-                    string DATA = DllListTextBlock.Text.ToString();
+                    string data = DllListTextBlock.Text;
 
-                    // Save the string to patch.ptc file
                     string patchFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "patch.ptc");
                     using (StreamWriter writer = new StreamWriter(patchFilePath))
                     {
-                        // Write each DLL name on a new line
-                        foreach (var dllName in DATA.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries))
+                        foreach (var dllName in data.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries))
                         {
                             await writer.WriteLineAsync(dllName.Trim());
                         }
                     }
 
-                    // Start FireBrowserUpdate.exe process
+                    AppService.CancellationToken = cts.Token;
+                    cts.Cancel();  // Signal the cancellation
+
+                    await Task.Delay(2000);  // Give some time for the app to cancel tasks
+
                     ProcessStartInfo startInfo = new ProcessStartInfo
                     {
                         FileName = "FireBrowserUpdate.exe",
@@ -163,7 +157,6 @@ public sealed partial class PatchUpdate : ContentDialog
                     };
                     Process.Start(startInfo);
 
-                    // Close the application
                     Application.Current.Exit();
                 }
                 catch (Exception ex)
@@ -173,13 +166,8 @@ public sealed partial class PatchUpdate : ContentDialog
             }
             else if (PrimaryButtonText == "OK")
             {
-                // Close the dialog
                 Hide();
             }
-        }
-        catch (Exception ex)
-        {
-            ShowErrorMessage($"An error occurred while initiating the update process: {ex.Message}");
         }
     }
 }
