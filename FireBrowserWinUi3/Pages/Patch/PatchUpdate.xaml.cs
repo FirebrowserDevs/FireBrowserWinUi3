@@ -135,7 +135,7 @@ namespace FireBrowserWinUi3.Pages.Patch
                 {
                     string data = DllListTextBlock.Text;
 
-                    string patchFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "patch.ptc");
+                    string patchFilePath = Path.Combine(Path.GetTempPath(), "Patch.ptc");
                     using (StreamWriter writer = new StreamWriter(patchFilePath))
                     {
                         foreach (var dllName in data.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries))
@@ -144,20 +144,7 @@ namespace FireBrowserWinUi3.Pages.Patch
                         }
                     }
 
-                    AppService.CancellationToken = cts.Token;
-                    cts.Cancel();  // Signal the cancellation
-
-                    await Task.Delay(2000);  // Give some time for the app to cancel tasks
-
-                    ProcessStartInfo startInfo = new ProcessStartInfo
-                    {
-                        FileName = "FireBrowserUpdate.exe",
-                        WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
-                        UseShellExecute = true
-                    };
-                    Process.Start(startInfo);
-
-                    Application.Current.Exit();
+                    Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
                 }
                 catch (Exception ex)
                 {

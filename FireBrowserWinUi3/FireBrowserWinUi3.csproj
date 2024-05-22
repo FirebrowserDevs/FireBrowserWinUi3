@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="ChangeUsernameCore.xaml" />
+    <None Remove="Controls\Patcher.xaml" />
     <None Remove="Controls\ProfileCommander.xaml" />
     <None Remove="Pages\Patch\PatchUpdate.xaml" />
     <None Remove="Pages\Pluginss.xaml" />
@@ -140,7 +141,6 @@
     <Content Include="Logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FireBrowserUpdate\FireBrowserUpdate.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3AdBlockCore\FireBrowserWinUi3AdBlockCore.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Assets\FireBrowserWinUi3Assets.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3AuthCore\FireBrowserWinUi3AuthCore.csproj" />
@@ -264,5 +264,11 @@
     <Page Update="SetupWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\Patcher.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\Patcher.xaml" />
   </ItemGroup>
 </Project>

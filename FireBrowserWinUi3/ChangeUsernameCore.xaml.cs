@@ -127,7 +127,6 @@ public sealed partial class ChangeUsernameCore : Window
 
         // no need to restart application run with. 
         Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
-
     }
 
     private void ManaulRestart_Click(object sender, RoutedEventArgs e)

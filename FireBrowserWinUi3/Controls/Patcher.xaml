@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="FireBrowserWinUi3.Controls.Patcher"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FireBrowserWinUi3.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:asset="using:FireBrowserWinUi3Assets"
+    mc:Ignorable="d">
+
+    <Window.Title>
+        FireBrowserSetup - Patching App...
+    </Window.Title>
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop Kind="BaseAlt" />
+    </Window.SystemBackdrop>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid
+            x:Name="TitleBar"
+            Grid.Row="0"
+            VerticalAlignment="Stretch"
+            Canvas.ZIndex="1"
+            ColumnSpacing="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Margin="5,5,0,5" Source="{asset:ImageLoader ImageName=Logo.png}" />
+
+            <TextBlock Grid.Column="1" VerticalAlignment="Center">
+                <Run Text="Browser Updater - Patching Application Dll's" />
+                <Run
+                    CharacterSpacing="2"
+                    FontWeight="Light"
+                    Text="ALPHA" />
+            </TextBlock>
+        </Grid>
+        <Grid Grid.Row="1" Margin="20">
+            <Grid
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        ColumnSpacing="30">
+                <Grid.Resources>
+                    <!--  Style for the button  -->
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#0078D4" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="Padding" Value="10" />
+                        <Setter Property="CornerRadius" Value="5" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <ProgressRing IsIndeterminate="True"/>
+                    <TextBlock Text="Patching Application Dll's" FontSize="16" FontWeight="Bold" Margin="0,10,0,0"/>
+                    <TextBlock Text="Please wait while the application is being patched" FontSize="12" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

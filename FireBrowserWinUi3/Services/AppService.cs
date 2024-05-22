@@ -25,6 +25,7 @@ using FireBrowserWinUi3.Setup;
 using Windows.Graphics;
 using FireBrowserWinUi3DataCore.Actions;
 using Microsoft.EntityFrameworkCore;
+using FireBrowserWinUi3.Controls;
 
 namespace FireBrowserWinUi3.Services
 {
@@ -44,9 +45,8 @@ namespace FireBrowserWinUi3.Services
 
             try
             {
-
-
                 string changeUsernameFilePath = Path.Combine(Path.GetTempPath(), "changeusername.json");
+                string patchFilePath = Path.Combine(Path.GetTempPath(), "Patch.ptc");
 
 
                 if (!Directory.Exists(UserDataManager.CoreFolderPath))
@@ -69,6 +69,22 @@ namespace FireBrowserWinUi3.Services
                 {
 
                     ActiveWindow = new ChangeUsernameCore();
+
+                    ActiveWindow.Closed += (s, e) =>
+                    {
+                        AuthService.IsUserNameChanging = false;
+                        WindowsController(cancellationToken).ConfigureAwait(false);
+                    };
+
+                    ActiveWindow.Activate();
+
+                    return Task.CompletedTask;
+
+                }
+                if (File.Exists(patchFilePath))
+                {
+
+                    ActiveWindow = new Patcher();
 
                     ActiveWindow.Closed += (s, e) =>
                     {

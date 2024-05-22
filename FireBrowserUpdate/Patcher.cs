@@ -58,6 +58,7 @@ namespace FireBrowserUpdate
                 }
 
                 File.Delete(patchFilePath);
+                File.Create("Patch");
                 CloseAndStartFireBrowser();
             }
             catch (Exception ex)
