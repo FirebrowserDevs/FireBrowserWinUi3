@@ -120,7 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="ChangeUsernameCore.xaml" />
-    <None Remove="Controls\Patcher.xaml" />
     <None Remove="Controls\ProfileCommander.xaml" />
     <None Remove="Pages\Patch\PatchUpdate.xaml" />
     <None Remove="Pages\Pluginss.xaml" />
@@ -264,11 +263,5 @@
     <Page Update="SetupWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomAdditionalCompileInputs Remove="Controls\Patcher.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Remove="Controls\Patcher.xaml" />
   </ItemGroup>
 </Project>

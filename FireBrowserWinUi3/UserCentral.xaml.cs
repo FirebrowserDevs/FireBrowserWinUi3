@@ -13,6 +13,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Windows.Graphics;
 using WinRT.Interop;
 
 namespace FireBrowserWinUi3;
@@ -54,6 +55,9 @@ public class UC_Viewmodel : ObservableRecipient
 }
 public sealed partial class UserCentral : Window
 {
+
+    private AppWindow appWindow;
+    private AppWindowTitleBar titleBar;
     public UC_Viewmodel ViewModel { get; set; }
 
     // Static property to keep track of whether UserCentral is already open
@@ -61,18 +65,8 @@ public sealed partial class UserCentral : Window
 
     public UserCentral()
     {
-        // Check if UserCentral is already open
-        if (IsOpen)
-        {
-            // If it is, close this instance
-            this.Close();
-            return;
-        }
-
         this.InitializeComponent();
-
         // Set IsOpen to true
-        IsOpen = true;
 
         ViewModel = new UC_Viewmodel();
         string coreFolderPath = UserDataManager.CoreFolderPath;
@@ -80,6 +74,7 @@ public sealed partial class UserCentral : Window
         ViewModel.RaisePropertyChanges(nameof(ViewModel.Users));
         UserListView.ItemsSource = ViewModel.Users;
     }
+
 
 
     public List<UserExtend> GetUsernameFromCoreFolderPath(string coreFolderPath, string userName = null)
@@ -121,10 +116,11 @@ public sealed partial class UserCentral : Window
         var _user = UserListView.SelectedItem as UserExtend;
         if (_user != null)
         {
+
+            // can remove because CheckNormal authenticates user but, maybe add something on ELSE;
             AuthService.Authenticate(_user.FireUser.Username);
-            // Set IsOpen to false before closing
-            IsOpen = false;
             this.Close();
-        }
+
+        }        
     }
 }
