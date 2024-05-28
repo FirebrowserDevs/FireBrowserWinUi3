@@ -136,6 +136,7 @@ namespace FireBrowserWinUi3.Services
                             if (!string.IsNullOrEmpty(username))
                             {
                                 CheckNormal(username);
+                                await WindowsController(cancellationToken).ConfigureAwait(false);
                             }
 
                             // No need to activate the window here
