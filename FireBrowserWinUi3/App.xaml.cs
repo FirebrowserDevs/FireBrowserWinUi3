@@ -77,7 +77,9 @@ public partial class App : Application
 
     private void Current_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        FireBrowserWinUi3Exceptions.ExceptionLogger.LogException(e.Exception);
+        if (!AppService.IsAppGoingToClose)
+            FireBrowserWinUi3Exceptions.ExceptionLogger.LogException(e.Exception);
+
     }
 
     public static string GetUsernameFromCoreFolderPath(string coreFolderPath, string userName = null)
