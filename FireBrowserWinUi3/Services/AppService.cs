@@ -26,6 +26,7 @@ using Windows.Graphics;
 using FireBrowserWinUi3DataCore.Actions;
 using Microsoft.EntityFrameworkCore;
 using FireBrowserWinUi3.Controls;
+using System.Data.Entity.Infrastructure;
 
 namespace FireBrowserWinUi3.Services
 {
@@ -37,6 +38,7 @@ namespace FireBrowserWinUi3.Services
         static public Window ActiveWindow { get; set; }
         static public Settings AppSettings { get; set; }
 
+        static public bool IsAppGoingToClose { get; set; }
         static public CancellationToken CancellationToken { get; set; }
 
 
@@ -48,6 +50,10 @@ namespace FireBrowserWinUi3.Services
                 string changeUsernameFilePath = Path.Combine(Path.GetTempPath(), "changeusername.json");
                 string patchFilePath = Path.Combine(Path.GetTempPath(), "Patch.ptc");
 
+                if (AppService.IsAppGoingToClose)
+                {
+                    throw new ApplicationException("Exiting Application by user");
+                }
 
                 if (!Directory.Exists(UserDataManager.CoreFolderPath))
                 {
@@ -160,10 +166,12 @@ namespace FireBrowserWinUi3.Services
                     AppWindow appWindow = AppWindow.GetFromWindowId(wndId);
                     if (appWindow != null)
                     {
-                        appWindow.MoveAndResize(new Windows.Graphics.RectInt32(600, 600, 420, 600));
+                        appWindow.MoveAndResize(new Windows.Graphics.RectInt32(600, 600, 420, 800));
                         appWindow.MoveInZOrderAtTop();
+
                         appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
                         appWindow.Title = "UserCentral";
+
                         var titleBar = appWindow.TitleBar;
                         titleBar.ExtendsContentIntoTitleBar = true;
                         var btnColor = Colors.Transparent;

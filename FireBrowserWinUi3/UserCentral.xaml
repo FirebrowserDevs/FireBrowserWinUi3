@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dllimg="using:FireBrowserWinUi3Assets"
+    xmlns:firebrowser="using:FireBrowserWinUi3.Controls"
     xmlns:firebrowserwinui3="using:FireBrowserWinUi3"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -24,18 +25,28 @@
         CornerRadius="5">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="48" />
+            <RowDefinition Height="60" />
             <RowDefinition Height="*" />
             <RowDefinition Height="48" />
         </Grid.RowDefinitions>
-        <TextBlock
-            Grid.Row="0"
-            Margin="5"
-            HorizontalAlignment="Center"
-            FontSize="32"
-            FontWeight="SemiBold"
-            Foreground="{ThemeResource ApplicationHeaderForegroundThemeBrush}"
-            Text="Select a User" />
+        <Grid x:Name="ToolBarUC" Grid.Row="0">
+            <TextBlock
+                Margin="5"
+                HorizontalAlignment="Center"
+                FontSize="32"
+                FontWeight="SemiBold"
+                Foreground="{ThemeResource ApplicationHeaderForegroundThemeBrush}"
+                Text="Select a User" />
+
+            <AppBarButton
+                HorizontalAlignment="Right"
+                Command="{x:Bind ViewModel.ExitWindow, Mode=OneWay}"
+                Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
+                Icon="Cancel"
+                Label="Close App"
+                ToolTipService.ToolTip="Exit Application" />
+        </Grid>
+
         <ScrollViewer Grid.Row="1">
             <ListView
                 x:Name="UserListView"
@@ -94,6 +105,11 @@
                 x:Uid="AppName"
                 VerticalAlignment="Center"
                 Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+
+
+
+
         </StackPanel>
     </Grid>
+
 </Window>

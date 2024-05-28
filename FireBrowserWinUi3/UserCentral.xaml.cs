@@ -1,5 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3MultiCore;
@@ -12,7 +14,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Graphics;
 using WinRT.Interop;
 
@@ -48,6 +52,16 @@ public class UC_Viewmodel : ObservableRecipient
     public List<UserExtend> Users { get; set; }
     public UserExtend User { get; set; }
 
+    public Window ParentWindow { get; set; }
+
+    ICommand _exitWindow;
+    public ICommand ExitWindow => _exitWindow ?? (_exitWindow = new RelayCommand(
+          () =>
+          {
+              AppService.IsAppGoingToClose = true;
+              ParentWindow?.Close();
+
+          }));
     public void RaisePropertyChanges([CallerMemberName] string? propertyName = null)
     {
         OnPropertyChanged(propertyName);
@@ -67,8 +81,8 @@ public sealed partial class UserCentral : Window
     {
         this.InitializeComponent();
         // Set IsOpen to true
-
         ViewModel = new UC_Viewmodel();
+        ViewModel.ParentWindow = this;
         string coreFolderPath = UserDataManager.CoreFolderPath;
         ViewModel.Users = GetUsernameFromCoreFolderPath(coreFolderPath);
         ViewModel.RaisePropertyChanges(nameof(ViewModel.Users));
@@ -121,6 +135,11 @@ public sealed partial class UserCentral : Window
             AuthService.Authenticate(_user.FireUser.Username);
             this.Close();
 
-        }        
+        }
+    }
+
+    private void ExitWindow_Click(object sender, RoutedEventArgs e)
+    {
+
     }
 }

@@ -107,7 +107,11 @@ public partial class App : Application
             await Task.Delay(4200);
         }
 
-        base.OnLaunched(args);
+        if (AppService.IsAppGoingToClose == true)
+            base.Exit();
+        else
+            base.OnLaunched(args);
+
     }
 
     public Window m_window;
