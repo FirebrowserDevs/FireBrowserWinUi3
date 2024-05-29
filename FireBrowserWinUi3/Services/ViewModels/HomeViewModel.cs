@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.WinUI;
 using FireBrowserDatabase;
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3Core.Helpers;
@@ -14,6 +16,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using static FireBrowserWinUi3.Pages.NewTab;
 
 namespace FireBrowserWinUi3.ViewModels;
 public partial class HomeViewModel : ObservableRecipient
@@ -50,6 +53,25 @@ public partial class HomeViewModel : ObservableRecipient
     private Visibility _IsSearchVisible;
     [ObservableProperty]
     private Brush _brushNtp = new SolidColorBrush(Colors.Ivory);
+    [ObservableProperty]
+    private bool _isTrendingOpened;
+    [ObservableProperty]
+    [CommunityToolkit.Mvvm.ComponentModel.NotifyPropertyChangedFor(nameof(TrendingItem))]
+    private Visibility _trendingVisible;
+    [ObservableProperty]
+    UIElement _TeachingPoint;
+    [ObservableProperty]
+    TrendingItem _trendingItem;
+
+
+    [RelayCommand]
+    void TrendingOpen()
+    {
+
+        IsTrendingOpened = true; 
+        TrendingVisible = IsTrendingOpened ? Visibility.Visible : Visibility.Collapsed;
+
+    }
     public SettingsService SettingsService { get; set; }
     private DispatcherTimer timer { get; set; }
     public ObservableCollection<HistoryItem> HistoryItems { get; set; }

@@ -240,6 +240,61 @@
         </Button>
 
         <Grid
+            Height="Auto"
+            Margin="2,32,2,32"
+            Padding="4,2,4,2"
+            HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                FontFamily="Impact"
+                FontSize="24"
+                FontStyle="Italic"
+                Foreground="CornflowerBlue">
+                Trending Now
+            </TextBlock>
+            <ListView
+                x:Name="ItemTrending"
+                Grid.Row="1"
+                Width="124"
+                Padding="2,5,2,5"
+                ItemsSource="{x:Bind trendings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectionChanged="TrendingSelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel
+                            Margin="0,2,0,2"
+                            Padding="2.5"
+                            BorderBrush="{ThemeResource LayerOnMicaBaseAltFillColorSecondary}"
+                            BorderThickness=".5"
+                            CornerRadius="4"
+                            Orientation="Vertical">
+                            <TextBlock
+                                Margin="0,2,0,2"
+                                Padding="4"
+                                FontStyle="Oblique"
+                                Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
+                                MaxLines="3"
+                                Text="{Binding name}"
+                                TextWrapping="WrapWholeWords" />
+                            <Image
+                                Width="100"
+                                Height="100"
+                                HorizontalAlignment="Center"
+                                Source="{Binding url, Mode=OneWay}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+        </Grid>
+
+        <Grid
             x:Name="NtpGrid"
             Margin="0,25,0,0"
             HorizontalAlignment="Center"
@@ -463,8 +518,8 @@
                     VerticalAlignment="Center"
                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
             </StackPanel>
-
         </Grid>
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

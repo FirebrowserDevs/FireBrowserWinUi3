@@ -1,11 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using FireBrowserWinUi3Exceptions;
+using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
+using System.Reflection.Metadata;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using System.Web;
+using Windows.Storage;
 
 namespace FireBrowserWinUi3Core.Helpers
 {
@@ -40,18 +48,23 @@ namespace FireBrowserWinUi3Core.Helpers
         */
         [ObservableProperty]
         private string _SearchQuery;
-        List<JToken> TrendingList { get; set; }
+        private string _trendlist;
+        public string TrendingList { get { return _trendlist; } set { SetProperty(ref _trendlist, value); } }
 
 
         public BingSearchApi()
         {
             // result Jobject 
             // todo parse and return to HomeViewModel to add to newTab.. 
-            TrendingList = [.. RunQueryAndDisplayResults(null).GetAwaiter().GetResult()];
+            //TrendingList = [.. RunQueryAndDisplayResults(null).GetAwaiter().GetResult()];
 
         }
 
-        public Task<List<JToken>> RunQueryAndDisplayResults(string userQuery)
+        public async Task<string> TrendingListTask(string userQuery)
+        {
+            return TrendingList = await RunQueryAndDisplayResults(userQuery);
+        }
+        public Task<string> RunQueryAndDisplayResults(string userQuery)
         {
             try
             {
@@ -59,18 +72,18 @@ namespace FireBrowserWinUi3Core.Helpers
                 var client = new HttpClient();
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "29948d69f0294a5a9b8b75831dd06c8a");
                 //<summary>
-                //var queryString = HttpUtility.ParseQueryString(string.Empty);
-                //queryString["q"] = userQuery;
+                var queryString = HttpUtility.ParseQueryString(string.Empty);
+                queryString["q"] = userQuery;
                 //var query = "https://api.bing.microsoft.com/v7.0/search?" + queryString;
                 //</summary> user for a bing search 
 
-                var query = $"https://api.bing.microsoft.com/v7.0/news/trendingtopics?mkt=en-us";
+                var query = $"https://api.bing.microsoft.com/v7.0/news/trendingtopics?mkt=nl-nl";
                 // Run the query
                 HttpResponseMessage httpResponseMessage = client.GetAsync(query).Result;
 
                 // Deserialize the response content
                 var responseContentString = httpResponseMessage.Content.ReadAsStringAsync().Result;
-                Newtonsoft.Json.Linq.JObject responseObjects = Newtonsoft.Json.Linq.JObject.Parse(responseContentString);
+                JObject responseObjects = JObject.Parse(responseContentString);
 
                 //Handle success and error codes
                 //if (httpResponseMessage.IsSuccessStatusCode)
@@ -81,7 +94,7 @@ namespace FireBrowserWinUi3Core.Helpers
                 //{
                 //    Console.WriteLine($"HTTP error status code: {httpResponseMessage.StatusCode.ToString()}");
                 //}
-                return Task.FromResult(responseObjects.SelectToken("value").ToList());
+                return Task.FromResult(Newtonsoft.Json.JsonConvert.SerializeObject(responseObjects.SelectToken("value").ToList()));
             }
             catch (Exception e)
             {
@@ -89,11 +102,11 @@ namespace FireBrowserWinUi3Core.Helpers
 
             }
 
-            return Task.FromResult<List<JToken>>(null);
+            return Task.FromResult<string>(null);
         }
         static void DisplayAllRankedResults(Newtonsoft.Json.Linq.JObject responseObjects)
         {
-            string[] rankingGroups = new string[] { "pole", "mainline", "sidebar" };
+            string[] rankingGroups = new string[] { "pole", "mainline", "sidebar", "_type", "TrendingTopics" };
 
             // Loop through the ranking groups in priority order
             foreach (string rankingName in rankingGroups)
@@ -145,12 +158,17 @@ namespace FireBrowserWinUi3Core.Helpers
 
         static void DisplayItem(Newtonsoft.Json.Linq.JToken item, string title, string[] fields)
         {
-            Console.WriteLine($"{title}: ");
+            var doc = SpecialDirectories.MyDocuments.ToString() + "bingSearch.txt";
+            var file = File.Create(doc);
+
             foreach (string field in fields)
             {
+                if (File.Exists(doc))
+                    File.WriteAllText(SpecialDirectories.MyDocuments.ToString() + "bingSearch.txt", JsonSerializer.Serialize(field, new JsonSerializerOptions { WriteIndented = true }));
+
                 Console.WriteLine($"- {field}: {item[field]}");
             }
-            Console.WriteLine();
+
         }
     }
 }

@@ -3,6 +3,7 @@ using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.ViewModels;
+using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.ImagesBing;
 using FireBrowserWinUi3DataCore.Actions;
 using FireBrowserWinUi3Exceptions;
@@ -15,7 +16,11 @@ using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.VisualBasic.FileIO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -29,6 +34,7 @@ public sealed partial class NewTab : Page
 {
     bool isAuto;
 
+    public List<TrendingItem> trendings = new List<TrendingItem>();
     public HomeViewModel ViewModel { get; set; }
     private HistoryActions HistoryActions { get; } = new HistoryActions(AuthService.CurrentUser.Username);
     FireBrowserWinUi3MultiCore.Settings userSettings { get; set; }
@@ -45,8 +51,42 @@ public sealed partial class NewTab : Page
         userSettings = ViewModel.SettingsService.CoreSettings;
 
         this.InitializeComponent();
-    }
 
+        _ = UpdateTrending().ConfigureAwait(false);
+    }
+    public class TrendingItem
+    {
+        public string webSearchUrl { get; set; }
+        public string name { get; set; }
+        public string url { get; set; }
+        public string text { get; set; }
+        public TrendingItem() { }
+        public TrendingItem(string _webSearchUrl, string _name, string _url, string _text)
+        {
+            webSearchUrl = _webSearchUrl;
+            name = _name;
+            url = _url;
+            text = _text;
+        }
+
+    }
+    private Task UpdateTrending()
+    {
+
+        var bing = new BingSearchApi();
+        var topics = bing.TrendingListTask("calico cats").GetAwaiter().GetResult();
+        var list = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(topics).ToList();
+
+        trendings.Clear(); ;
+
+        foreach (var item in list)
+        {
+
+            trendings.Add(new TrendingItem(item["webSearchUrl"].ToString(), item["name"].ToString(), item["image"]["url"].ToString(), item["query"]["text"].ToString()));
+        }
+        return Task.CompletedTask;
+    }
+    public record TrendingListItem(string webSearchUrl, string name, string url, string text);
     private async void NewTab_Loaded(object sender, RoutedEventArgs e)
     {
         // round-robin if one or more newTab's are open apply settings. 
@@ -63,6 +103,8 @@ public sealed partial class NewTab : Page
         SearchengineSelection.SelectedItem = userSettings.EngineFriendlyName;
         NewTabSearchBox.Text = string.Empty;
         NewTabSearchBox.Focus(FocusState.Programmatic);
+
+        await UpdateTrending();
 
         HomeSync();
     }
@@ -374,6 +416,20 @@ public sealed partial class NewTab : Page
         {
             Console.WriteLine("An error occurred: " + ex.Message);
         }
+    }
+
+    private void TrendingSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (Application.Current is App app && app.m_window is MainWindow window)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                ViewModel.TrendingItem = (e.AddedItems.FirstOrDefault() as TrendingItem);
+                window.NavigateToUrl(ViewModel.TrendingItem.webSearchUrl);
+
+            }
+        }
+
     }
 
     private void FavoritesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
