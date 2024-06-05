@@ -28,20 +28,20 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
-    <PackageReference Include="EntityFramework" Version="6.4.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
+    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.1.240328-rc" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.1.240328-rc" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240328-rc" />
+    <PackageReference Include="EntityFramework" Version="6.5.0-preview2-24180-01" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0-preview.4.24267.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0-preview.4.24267.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-preview.4.24266.19" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240531000-experimental1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.6" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.0-preview.4.24267.1" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="ChangeUsernameCore.xaml" />
+    <None Remove="Controls\PopUpView.xaml" />
     <None Remove="Controls\ProfileCommander.xaml" />
     <None Remove="Pages\Patch\PatchUpdate.xaml" />
     <None Remove="Pages\Pluginss.xaml" />
@@ -208,6 +209,9 @@
     <None Update="Assets\setup_image.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\PopUpView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Setup\AddUser.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

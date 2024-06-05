@@ -8,8 +8,7 @@
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
     <Platforms>AnyCPU;x64</Platforms>
-		    <WindowsSdkPackageVersion>10.0.22621.35-preview</WindowsSdkPackageVersion>
-
+    <WindowsSdkPackageVersion>10.0.22621.35-preview</WindowsSdkPackageVersion>
   </PropertyGroup>
 
   <ItemGroup>

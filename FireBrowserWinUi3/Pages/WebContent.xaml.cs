@@ -381,9 +381,20 @@ namespace FireBrowserWinUi3.Pages
                     case "OpenInWindow":
                         OpenNewWindow(new Uri(SelectionText));
                         break;
+                    case "OpenInPop":
+                        OpenPopUpView(new Uri(SelectionText));
+                        break;
                 }
             }
             Ctx.Hide();
+        }
+
+        private void OpenPopUpView(Uri uri)
+        {
+            PopUpView popUpView = new PopUpView();
+            popUpView.SetSource(uri);
+            Main.Children.Add(popUpView);
+            popUpView.Show();
         }
 
         public void select() => ((Application.Current as App)?.m_window as MainWindow)?.SelectNewTab();

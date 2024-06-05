@@ -27,6 +27,7 @@
                         <MenuFlyout>
                             <MenuFlyoutItem Tag="OpenInTab" Click="ContextClicked_Click" Text="Open In New Tab" Icon="{firebrowser:FluentIcon Glyph=&#xEC6C;}"/>
                             <MenuFlyoutItem Text="Open In New Window" Click="ContextClicked_Click" Tag="OpenInWindow" Icon="{firebrowser:FluentIcon Glyph=&#xE737;}"/>
+                            <MenuFlyoutItem Text="Open In PopUp" Click="ContextClicked_Click" Tag="OpenInPop" Icon="{firebrowser:FluentIcon Glyph=&#xE8A1;}"/>
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
@@ -49,7 +50,7 @@
             </CommandBarFlyout.SecondaryCommands>
         </CommandBarFlyout>
     </Page.Resources>
-    <Grid>
+    <Grid x:Name="Main">
         <Grid x:Name="offlinePage" Visibility="Collapsed" Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}">
             <ScrollViewer>
                 <StackPanel Margin="0,30" HorizontalAlignment="Center">
