@@ -393,7 +393,9 @@ namespace FireBrowserWinUi3.Pages
         {
             PopUpView popUpView = new PopUpView();
             popUpView.SetSource(uri);
-            Main.Children.Add(popUpView);
+            Canvas cv = new Canvas();
+            cv.Children.Add(popUpView);
+            Main.Children.Add(cv);
             popUpView.Show();
         }
 

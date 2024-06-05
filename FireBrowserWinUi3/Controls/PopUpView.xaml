@@ -14,7 +14,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel x:Name="Header" Orientation="Horizontal" Background="Gray" Padding="10" PointerPressed="Header_PointerPressed" PointerMoved="Header_PointerMoved" PointerReleased="Header_PointerReleased">
+        <StackPanel x:Name="Header" Orientation="Horizontal" Background="Gray" Padding="10" PointerPressed="Header_PointerPressed"  PointerReleased="Header_PointerReleased">
             <TextBlock Text="PopUp" VerticalAlignment="Center" FontSize="20" Foreground="White"/>
             <Button Content="Close" HorizontalAlignment="Right" Click="CloseButton_Click" Margin="0,0,0,0"/>
         </StackPanel>

@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
 using System;
+using Windows.Devices.Input;
 using Windows.Foundation;
 
 namespace FireBrowserWinUi3.Controls
@@ -11,11 +12,28 @@ namespace FireBrowserWinUi3.Controls
     {
         private bool isDragging;
         private Point clickPosition;
+        private double originalWidth;
+        private double originalHeight;
+        private DispatcherTimer dragTimer;
 
         public PopUpView()
         {
             this.InitializeComponent();
+            this.SizeChanged += PopUpView_SizeChanged;
+
+            // Initialize the timer
+            dragTimer = new DispatcherTimer();
+            dragTimer.Interval = TimeSpan.FromMilliseconds(10); // Adjust the interval as needed
+            dragTimer.Tick += DragTimer_Tick;
         }
+
+        private void PopUpView_SizeChanged(object sender, SizeChangedEventArgs e)
+{
+    // Capture the size of the control after rendering
+    originalWidth = e.NewSize.Width;
+    originalHeight = e.NewSize.Height;
+}
+
 
         public void SetSource(Uri uri)
         {
@@ -38,31 +56,50 @@ namespace FireBrowserWinUi3.Controls
             }
         }
 
+
+        private void DragTimer_Tick(object sender, object e)
+        {
+            var mainWindow = (Application.Current as App)?.m_window as MainWindow;
+            var transform = this.TransformToVisual(mainWindow.Content);
+            Point relativeCoords = transform.TransformPoint(new Point(0, 0));
+
+            double newLeft = relativeCoords.X + clickPosition.X;
+            double newTop = relativeCoords.Y + clickPosition.Y;
+
+            // Get the dimensions of the window
+            double windowWidth = mainWindow.Bounds.Width;
+            double windowHeight = mainWindow.Bounds.Height;
+
+            // Ensure the PopUpView stays within the bounds of the window
+            double maxWidth = windowWidth - originalWidth;
+            double maxHeight = windowHeight - originalHeight;
+
+            newLeft = Math.Max(0, Math.Min(newLeft, maxWidth));
+            newTop = Math.Max(0, Math.Min(newTop, maxHeight));
+
+            // Set the new position of the PopUpView
+            Canvas.SetLeft(this, newLeft);
+            Canvas.SetTop(this, newTop);
+        }
+
         private void Header_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             isDragging = true;
             clickPosition = e.GetCurrentPoint(this).Position;
             this.CapturePointer(e.Pointer);
-        }
 
-        private void Header_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            if (isDragging)
-            {
-                var mainWindow = (Application.Current as App)?.m_window as MainWindow;
-                var transform = this.TransformToVisual(mainWindow.Content);
-                Point screenCoords = e.GetCurrentPoint(mainWindow.Content).Position;
-                Point relativeCoords = transform.TransformPoint(screenCoords);
-
-                Canvas.SetLeft(this, relativeCoords.X - clickPosition.X);
-                Canvas.SetTop(this, relativeCoords.Y - clickPosition.Y);
-            }
+            // Start the timer
+            dragTimer.Start();
         }
 
         private void Header_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             isDragging = false;
             this.ReleasePointerCaptures();
+
+            // Stop the timer
+            dragTimer.Stop();
         }
+
     }
 }
