@@ -8,11 +8,13 @@
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
     <Platforms>AnyCPU;x64</Platforms>
+		    <WindowsSdkPackageVersion>10.0.22621.35-preview</WindowsSdkPackageVersion>
+
   </PropertyGroup>
 
   <ItemGroup>
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
-      <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240531000-experimental1" />
+      <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
   </ItemGroup>
 
   <ItemGroup>
