@@ -8,51 +8,50 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace FireBrowserWinUi3.Services.ViewModels
+namespace FireBrowserWinUi3.Services.ViewModels;
+
+public partial class MainWindowViewModel : ObservableRecipient
 {
-    public partial class MainWindowViewModel : ObservableRecipient
+    internal MainWindow MainView { get; set; }
+
+    [ObservableProperty] private BitmapImage _profileImage;
+
+    public MainWindowViewModel(IMessenger messenger) : base(messenger)
     {
-        internal MainWindow MainView { get; set; }
+        Messenger.Register<Message_Settings_Actions>(this, ReceivedStatus);
+    }
 
-        [ObservableProperty] private BitmapImage _profileImage;
+    public void RaisePropertyChanges([CallerMemberName] string? propertyName = null)
+    {
+        OnPropertyChanged(propertyName);
+    }
 
-        public MainWindowViewModel(IMessenger messenger) : base(messenger)
+    private void ReceivedStatus(object recipient, Message_Settings_Actions message)
+    {
+        if (message is null)
+            return;
+
+        switch (message.Status)
         {
-            Messenger.Register<Message_Settings_Actions>(this, ReceivedStatus);
+            case EnumMessageStatus.Login:
+                //ShowLoginNotification(); disabled using 20mb+ ram 
+                break;
+            case EnumMessageStatus.Settings:
+                MainView.LoadUserSettings();
+                break;
         }
+    }
 
-        public void RaisePropertyChanges([CallerMemberName] string? propertyName = null)
+    private void ShowLoginNotification()
+    {
+        var note = new Notification
         {
-            OnPropertyChanged(propertyName);
-        }
-
-        private void ReceivedStatus(object recipient, Message_Settings_Actions message)
-        {
-            if (message is null)
-                return;
-
-            switch (message.Status)
-            {
-                case EnumMessageStatus.Login:
-                    //ShowLoginNotification(); disabled using 20mb+ ram 
-                    break;
-                case EnumMessageStatus.Settings:
-                    MainView.LoadUserSettings();
-                    break;
-            }
-        }
-
-        private void ShowLoginNotification()
-        {
-            var note = new Notification
-            {
-                Title = "FireBrowserWinUi3 \n",
-                Message = $"Welcomes, {AuthService.CurrentUser.Username.ToUpperInvariant()} !",
-                Severity = InfoBarSeverity.Informational,
-                IsIconVisible = true,
-                Duration = TimeSpan.FromSeconds(3)
-            };
-            MainView.NotificationQueue.Show(note);
-        }
+            Title = "FireBrowserWinUi3 \n",
+            Message = $"Welcomes, {AuthService.CurrentUser.Username.ToUpperInvariant()} !",
+            Severity = InfoBarSeverity.Informational,
+            IsIconVisible = true,
+            Duration = TimeSpan.FromSeconds(3)
+        };
+        MainView.NotificationQueue.Show(note);
     }
 }
