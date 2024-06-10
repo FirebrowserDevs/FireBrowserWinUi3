@@ -1,4 +1,6 @@
 using FireBrowserWinUi3Assets;
+using FireBrowserWinUi3DataCore.Models;
+using FireBrowserWinUi3Migration;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -9,91 +11,134 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace FireBrowserWinUi3;
-
-public sealed partial class SetupUser : Page
+namespace FireBrowserWinUi3
 {
-    public SetupUser()
-    {
-        this.InitializeComponent();
-    }
 
-    private void ProfileImage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    public sealed partial class SetupUser : Page
     {
-        if (ProfileImage.SelectedItem != null)
+        public SetupUser()
         {
-            // Assuming 'userImageName' contains the name of the user's image file
-            string userImageName = ProfileImage.SelectedItem.ToString() + ".png"; // Replace this with the actual user's image name
+            this.InitializeComponent();
+        }
 
-            iImage = userImageName;
-            // Instantiate ImageLoader
-            ImageLoader imgLoader = new ImageLoader();
 
-            // Use the LoadImage method to get the image
-            var userProfilePicture = imgLoader.LoadImage(userImageName);
+        private void ProfileImage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ProfileImage.SelectedItem != null)
+            {
+                string userImageName = ProfileImage.SelectedItem.ToString() + ".png";
+                iImage = userImageName;
+                ImageLoader imgLoader = new ImageLoader();
+                var userProfilePicture = imgLoader.LoadImage(userImageName);
+                Pimg.ProfilePicture = userProfilePicture;
+            }
+        }
 
-            // Assign the retrieved image to the ProfileImageControl
-            Pimg.ProfilePicture = userProfilePicture;
+        private void UserName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UsrBox.Text = UserName.Text;
+        }
 
+        private async void Create_Click(object sender, RoutedEventArgs e)
+        {
+            BrowserSelectionDialog.IsPrimaryButtonEnabled = false;
+            await ShowBrowserSelectionDialog();
+        }
+
+     
+
+        private async Task ShowBrowserSelectionDialog()
+        {
+            var result = await BrowserSelectionDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                string selectedBrowser = GetSelectedBrowser();
+                if (!string.IsNullOrEmpty(selectedBrowser))
+                {
+                    await CreateUserOnStartup();
+                    await MigrateCookies(selectedBrowser);
+                    Frame.Navigate(typeof(SetupUi));
+                }
+            }
+            else if (result == ContentDialogResult.Secondary)
+            {
+                await CreateUserOnStartup();
+                Frame.Navigate(typeof(SetupUi));
+            }
+        }
+
+        private string GetSelectedBrowser()
+        {
+            if (ChromeRadioButton.IsChecked == true) return "Chrome";
+            if (EdgeRadioButton.IsChecked == true) return "Edge";
+            if (OperaRadioButton.IsChecked == true) return "Opera";
+            if (ArcRadioButton.IsChecked == true) return "Arc";
+            return string.Empty;
+        }
+
+        private async Task MigrateCookies(string browserName)
+        {
+            Browser browser = browserName switch
+            {
+                "Chrome" => Browser.Chrome,
+                "Edge" => Browser.Edge,
+                "Opera" => Browser.Opera,
+                "Arc" => new Browser { BrowserName = Browser.Name.ArcBrowser, BrowserBase = Browser.Base.Chromium },
+                _ => null
+            };
+
+            if (browser != null)
+            {
+                var migrationData = Migration.Migrate(browser);
+                // Handle migrationData as needed
+            }
+
+            await CreateUserOnStartup();
+            Frame.Navigate(typeof(SetupUi));
+        }
+
+        private async Task CreateUserOnStartup()
+        {
+            FireBrowserWinUi3MultiCore.User newUser = new FireBrowserWinUi3MultiCore.User
+            {
+                Username = UserName.Text,
+            };
+
+            List<FireBrowserWinUi3MultiCore.User> users = new List<FireBrowserWinUi3MultiCore.User> { newUser };
+            UserFolderManager.CreateUserFolders(newUser);
+            UserDataManager.SaveUsers(users);
+            AuthService.Authenticate(newUser.Username);
+
+            await CopyImageToUserDirectory();
+        }
+
+        string iImage = "";
+        private async Task CopyImageToUserDirectory()
+        {
+            string imageName = $"{iImage}";
+            string destinationFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username);
+
+            try
+            {
+                StorageFolder destinationFolder = await StorageFolder.GetFolderFromPathAsync(destinationFolderPath);
+                StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///FireBrowserWinUi3Assets/Assets/{imageName}"));
+                await imageFile.CopyAsync(destinationFolder, "profile_image.jpg", NameCollisionOption.ReplaceExisting);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error copying image: {ex.Message}");
+            }
+        }
+
+        private void BrowserSelectionDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            // Handle primary button click if needed
+        }
+
+        private void BrowserSelectionDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            // Handle secondary button click if needed
         }
     }
-
-    private void UserName_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        UsrBox.Text = UserName.Text;
-    }
-
-    private async void Create_Click(object sender, RoutedEventArgs e)
-    {
-        await CreateUserOnStartup();
-        Thread.Sleep(500);
-        Frame.Navigate(typeof(SetupUi));
-    }
-
-    #region startupclasses
-    private async Task CreateUserOnStartup()
-    {
-        FireBrowserWinUi3MultiCore.User newUser = new FireBrowserWinUi3MultiCore.User
-        {
-            Username = UserName.Text,
-        };
-
-        // Create a list of users and add the new user to it.
-        List<FireBrowserWinUi3MultiCore.User> users = new List<FireBrowserWinUi3MultiCore.User>();
-        users.Add(newUser);
-
-        // Create the user folders.
-        UserFolderManager.CreateUserFolders(newUser);
-
-        UserDataManager.SaveUsers(users);
-
-        AuthService.Authenticate(newUser.Username);
-
-        await CopyImageToUserDirectory();
-    }
-
-    string iImage = "";
-    private async Task CopyImageToUserDirectory()
-    {
-        string imageName = $"{iImage}"; // Replace this with the actual image name
-        string destinationFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username);
-
-        try
-        {
-            StorageFolder destinationFolder = await StorageFolder.GetFolderFromPathAsync(destinationFolderPath);
-
-            StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///FireBrowserWinUi3Assets/Assets/{imageName}"));
-
-            string destinationFilePath = Path.Combine(destinationFolderPath, "profile_image.jpg"); // Replace with desired file name
-            StorageFile destinationFile = await imageFile.CopyAsync(destinationFolder, "profile_image.jpg", NameCollisionOption.ReplaceExisting);
-
-            Console.WriteLine("Image copied successfully!");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error copying image: {ex.Message}");
-        }
-    }
-
-    #endregion
 }

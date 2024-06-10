@@ -28,9 +28,9 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.1.240328-rc" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.1.240328-rc" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240328-rc" />
+    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.1.240606-rc" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.1.240606-rc" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240606-rc" />
     <PackageReference Include="EntityFramework" Version="6.5.0-preview2-24180-01" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0-preview.4.24267.1">
       <PrivateAssets>all</PrivateAssets>
@@ -152,6 +152,7 @@
     <ProjectReference Include="..\FireBrowserWinUi3DataCore\FireBrowserWinUi3DataCore.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Exceptions\FireBrowserWinUi3Exceptions.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Favorites\FireBrowserWinUi3Favorites.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3Migration\FireBrowserWinUi3Migration.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Modules\FireBrowserWinUi3Modules.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3MultiCore\FireBrowserWinUi3MultiCore.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Navigator\FireBrowserWinUi3Navigator.csproj" />
