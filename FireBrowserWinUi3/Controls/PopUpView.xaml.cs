@@ -51,6 +51,7 @@ originalHeight = e.NewSize.Height;
         if (this.Parent is Panel parentPanel)
         {
             parentPanel.Children.Remove(this);
+            dragTimer.Stop();
             webView.CoreWebView2.Stop();
             webView.Close();
         }

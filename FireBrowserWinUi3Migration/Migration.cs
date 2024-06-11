@@ -5,17 +5,17 @@ using System.IO;
 using System.Linq;
 
 
-
-
 namespace FireBrowserWinUi3Migration;
 
 public class MigrationData
 {
+    //make this cookies history and favorites
     public List<HistoryItem> History { get; set; }
 }
 
 public class Browser
 {
+    //need to make it work
     public enum Name
     {
         Edge,
