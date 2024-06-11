@@ -1,7 +1,4 @@
-﻿using Microsoft.Data.Sqlite;
-using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 
 namespace FireBrowserWinUi3MultiCore;
 public static class UserFolderManager
