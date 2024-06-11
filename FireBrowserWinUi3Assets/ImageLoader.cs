@@ -1,39 +1,51 @@
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace FireBrowserWinUi3Assets
 {
     public class ImageLoader : MarkupExtension
     {
-        private static readonly Dictionary<string, BitmapImage> ImageCache = new();
+        private static readonly ConcurrentDictionary<string, BitmapImage> ImageCache = new ConcurrentDictionary<string, BitmapImage>();
 
-        public string ImageName { get; set; }
+        private string _imageName;
 
-        protected override object ProvideValue()
+        public string ImageName
         {
-            return LoadImage(ImageName);
+            get => _imageName;
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                    throw new ArgumentException("ImageName cannot be null or empty.");
+                _imageName = value;
+            }
         }
+
+        protected override object ProvideValue() => LoadImage(ImageName);
 
         public BitmapImage LoadImage(string imageName)
         {
             if (string.IsNullOrEmpty(imageName))
-            {
                 return null;
-            }
 
             if (ImageCache.TryGetValue(imageName, out var cachedImage))
-            {
                 return cachedImage;
+
+            try
+            {
+                var uri = new Uri($"ms-appx:///FireBrowserWinUi3Assets/Assets/{imageName}");
+
+                var _ = uri; // Dispose Uri object after use
+
+                cachedImage = new BitmapImage(uri);
+                ImageCache.TryAdd(imageName, cachedImage);
             }
-
-            // Initialize cachedImage to avoid the "unassigned local variable" error
-            cachedImage = null;
-
-            var uri = new Uri($"ms-appx:///FireBrowserWinUi3Assets/Assets/{imageName}");
-            cachedImage = new BitmapImage(uri);
-            ImageCache[imageName] = cachedImage;
+            catch (Exception ex)
+            {
+                // Handle URI creation errors gracefully
+                Console.WriteLine($"Failed to load image '{imageName}': {ex.Message}");
+            }
 
             return cachedImage;
         }
