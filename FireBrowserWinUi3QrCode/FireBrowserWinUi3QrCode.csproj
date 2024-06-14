@@ -15,6 +15,6 @@
   <ItemGroup>
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240531000-experimental1" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
-      <PackageReference Include="System.Drawing.Common" Version="9.0.0-preview.4.24267.1" />
+      <PackageReference Include="System.Drawing.Common" Version="9.0.0-preview.5.24306.5" />
   </ItemGroup>
 </Project>

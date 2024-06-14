@@ -8,84 +8,50 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:asset="using:FireBrowserWinUi3Assets"
-    >
+   >
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="48" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid
-       x:Name="TitleBar"
-       Grid.Row="0"
-       VerticalAlignment="Stretch"
-       Canvas.ZIndex="1"
-       ColumnSpacing="5">
+
+        <Grid x:Name="TitleBar" Grid.Row="0" VerticalAlignment="Center" Canvas.ZIndex="1" ColumnSpacing="10" Padding="10,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Image Margin="5,5,0,5" Source="{asset:ImageLoader ImageName=Logo.png}"/>
-            <TextBlock Grid.Column="1" VerticalAlignment="Center">
-           <Run Text="FireBrowserWinUi3 - Setup" />
-           <Run
-               CharacterSpacing="2"
-               FontWeight="Light"
-               Text="BETA" />
+            <Image Margin="5" Width="32" Height="32" Source="{asset:ImageLoader ImageName=Logo.png}" />
+            <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="16">
+                <Run Text="FireBrowserWinUi3 - Setup" />
+                <Run CharacterSpacing="100" FontWeight="Light" Text="BETA" />
             </TextBlock>
         </Grid>
-        <Grid Grid.Row="1"
-         Margin="20">
-            <Grid
-           HorizontalAlignment="Center"
-           VerticalAlignment="Center"
-           ColumnSpacing="30">
-                <Grid.Transitions>
-                    <TransitionCollection>
-                        <EntranceThemeTransition IsStaggeringEnabled="True" />
-                    </TransitionCollection>
-                </Grid.Transitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
 
-                <Border
-               Grid.Column="0"
-               MinWidth="500"
-               MinHeight="400"
-               CornerRadius="10">
-                    <Border.Background>
-                        <ImageBrush ImageSource="ms-appx:///Assets/setup_image.png" />
-                    </Border.Background>
-                </Border>
+        <Grid Grid.Row="1" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-                <StackPanel
-               Grid.Column="1"
-               VerticalAlignment="Center"
-               Orientation="Vertical"
-               Spacing="10">
-                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="Welcome to FireBrowser WinUi" 
-                          TextWrapping="Wrap"/>
-                    <TextBlock
-                   FontSize="15"
-                   Text="{x:Bind _introMessage}"
-                   TextWrapping="Wrap" />
+            <Border Grid.Column="0" MinWidth="500" MinHeight="300" MaxWidth="600" MaxHeight="500" CornerRadius="10" Margin="10">
+                <Border.Background>
+                    <ImageBrush ImageSource="ms-appx:///Assets/setup_image.png" />
+                </Border.Background>
+            </Border>
 
-                    <Button
-                   Margin="0,20,0,0"
-                   x:Name="Setup"
-                 Click="Setup_Click"
-                   Content="Setup your browser"
-                   Style="{ThemeResource AccentButtonStyle}" />
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Vertical" Spacing="10" Margin="10">
+                <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="Welcome to FireBrowser WinUi" TextWrapping="Wrap" Margin="0,0,0,10" />
+                <TextBlock FontSize="15" Text="{x:Bind _introMessage}" TextWrapping="Wrap" Margin="0,0,0,20" />
 
-                    <Button
-                     Margin="150,-52,0,0"
-                     Content="Restore Old Settings"
-                     />
+                <!-- Use a StackPanel to hold the buttons and set its HorizontalAlignment to Right -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="Setup" Click="Setup_Click" Content="Setup your browser" Style="{ThemeResource AccentButtonStyle}" Margin="0,20,10,0" VerticalAlignment="Center"/>
+                    <Button Content="Restore Old Settings" Margin="0,20,0,0" VerticalAlignment="Center"/>
                 </StackPanel>
-            </Grid>
+            </StackPanel>
         </Grid>
-        <Frame x:Name="Next"/>
+
+        <Frame x:Name="Next" Margin="20" />
     </Grid>
 </Page>

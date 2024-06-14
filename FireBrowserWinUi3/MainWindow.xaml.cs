@@ -37,6 +37,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.System;
+using Windows.UI.Shell;
 using WinRT.Interop;
 using Settings = FireBrowserWinUi3MultiCore.Settings;
 using User = FireBrowserWinUi3MultiCore.User;

@@ -9,31 +9,21 @@
     mc:Ignorable="d"
     xmlns:asset="using:FireBrowserWinUi3Assets">
 
-    <Grid>
+    <Grid Padding="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="48" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ContentDialog x:Name="BrowserSelectionDialog" Title="Browser Data Migration" PrimaryButtonText="Yes" SecondaryButtonText="No" CloseButtonText="Cancel" PrimaryButtonClick="BrowserSelectionDialog_PrimaryButtonClick" SecondaryButtonClick="BrowserSelectionDialog_SecondaryButtonClick">
-            <StackPanel>
-                <TextBlock Text="Do you want to migrate the cookies data from the browser? ( Coming Soon )"/>
-                <RadioButton x:Name="ChromeRadioButton" Content="Chrome" GroupName="Browser"/>
-                <RadioButton x:Name="EdgeRadioButton" Content="Edge" GroupName="Browser"/>
-                <RadioButton x:Name="OperaRadioButton" Content="Opera" GroupName="Browser"/>
-                <RadioButton x:Name="ArcRadioButton" Content="Arc" GroupName="Browser"/>
-            </StackPanel>
-        </ContentDialog>
-
-        <Grid x:Name="TitleBar" Grid.Row="0" VerticalAlignment="Stretch" Canvas.ZIndex="1" ColumnSpacing="5">
+        <Grid x:Name="TitleBar" Grid.Row="0" VerticalAlignment="Center" Canvas.ZIndex="1" ColumnSpacing="10" Padding="10,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Image Margin="5,5,0,5" Source="{asset:ImageLoader ImageName=user.png}"/>
-            <TextBlock Grid.Column="1" VerticalAlignment="Center">
-                <Run Text="User" />
-                <Run CharacterSpacing="2" FontWeight="Light" Text="SETUP" />
+            <Image Margin="5" Width="32" Height="32" Source="{asset:ImageLoader ImageName=user.png}" />
+            <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="16">
+          <Run Text="Settings" />
+          <Run CharacterSpacing="100" FontWeight="Light" Text="User" />
             </TextBlock>
         </Grid>
 
@@ -49,14 +39,14 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" MinWidth="500" MinHeight="400" CornerRadius="10">
+                <Border Grid.Column="0" MinWidth="500" MinHeight="400" CornerRadius="10" BorderBrush="Gray" BorderThickness="1">
                     <Border.Background>
-                        <ImageBrush ImageSource="ms-appx:///Assets/setup_image.png" />
+                        <ImageBrush ImageSource="ms-appx:///Assets/setup_image.png" Stretch="UniformToFill" />
                     </Border.Background>
                 </Border>
 
-                <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Vertical" Spacing="10">
-                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="FireBrowser User Setup" TextWrapping="Wrap"/>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Vertical" Spacing="15">
+                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="FireBrowser User Setup" TextWrapping="Wrap" FontSize="24" FontWeight="Bold"/>
 
                     <Button IsEnabled="True" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" BorderBrush="Transparent" Background="Transparent" Margin="0,0,0,10">
                         <StackPanel Orientation="Horizontal">
@@ -68,7 +58,7 @@
                         </StackPanel>
                     </Button>
 
-                    <ComboBox x:Name="ProfileImage" SelectionChanged="ProfileImage_SelectionChanged" SelectedItem="clippy" Width="300">
+                    <ComboBox x:Name="ProfileImage" SelectionChanged="ProfileImage_SelectionChanged" SelectedItem="clippy" Width="300" PlaceholderText="Select a Profile Image">
                         <x:String>clippy</x:String>
                         <x:String>sunflower</x:String>
                         <x:String>butterfly</x:String>
@@ -80,6 +70,7 @@
                     </ComboBox>
 
                     <TextBox MaxLength="25" x:Name="UserName" TextChanged="UserName_TextChanged" PlaceholderText="Username Here" Margin="0,5,0,0"/>
+
                     <Button Margin="0,20,0,0" x:Name="Create" Click="Create_Click" Content="Create User" Style="{ThemeResource AccentButtonStyle}" />
                 </StackPanel>
             </Grid>

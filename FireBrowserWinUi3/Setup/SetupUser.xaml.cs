@@ -41,7 +41,6 @@ namespace FireBrowserWinUi3
 
         private async void Create_Click(object sender, RoutedEventArgs e)
         {
-            BrowserSelectionDialog.IsPrimaryButtonEnabled = false;
             await ShowBrowserSelectionDialog();
         }
 
@@ -49,54 +48,13 @@ namespace FireBrowserWinUi3
 
         private async Task ShowBrowserSelectionDialog()
         {
-            var result = await BrowserSelectionDialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
-            {
-                string selectedBrowser = GetSelectedBrowser();
-                if (!string.IsNullOrEmpty(selectedBrowser))
-                {
-                    await CreateUserOnStartup();
-                    await MigrateCookies(selectedBrowser);
-                    Frame.Navigate(typeof(SetupUi));
-                }
-            }
-            else if (result == ContentDialogResult.Secondary)
-            {
+           
                 await CreateUserOnStartup();
                 Frame.Navigate(typeof(SetupUi));
-            }
+            
         }
 
-        private string GetSelectedBrowser()
-        {
-            if (ChromeRadioButton.IsChecked == true) return "Chrome";
-            if (EdgeRadioButton.IsChecked == true) return "Edge";
-            if (OperaRadioButton.IsChecked == true) return "Opera";
-            if (ArcRadioButton.IsChecked == true) return "Arc";
-            return string.Empty;
-        }
-
-        private async Task MigrateCookies(string browserName)
-        {
-            Browser browser = browserName switch
-            {
-                "Chrome" => Browser.Chrome,
-                "Edge" => Browser.Edge,
-                "Opera" => Browser.Opera,
-                "Arc" => new Browser { BrowserName = Browser.Name.ArcBrowser, BrowserBase = Browser.Base.Chromium },
-                _ => null
-            };
-
-            if (browser != null)
-            {
-                var migrationData = Migration.Migrate(browser);
-                // Handle migrationData as needed
-            }
-
-            await CreateUserOnStartup();
-            Frame.Navigate(typeof(SetupUi));
-        }
+      
 
         private async Task CreateUserOnStartup()
         {
