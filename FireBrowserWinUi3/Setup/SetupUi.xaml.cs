@@ -1,9 +1,6 @@
 using FireBrowserWinUi3.Services;
-using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Windows.ApplicationModel.AppService;
-using Windows.UI.ApplicationSettings;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace FireBrowserWinUi3;

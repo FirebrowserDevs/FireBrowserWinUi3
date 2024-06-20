@@ -2,7 +2,6 @@
 using System;
 
 namespace FireBrowserWinUi3.Services.Events;
-
 public class DownloadItemStatusEventArgs : EventArgs
 {
     public enum EnumStatus

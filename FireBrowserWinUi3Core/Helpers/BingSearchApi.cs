@@ -3,17 +3,12 @@ using FireBrowserWinUi3Exceptions;
 using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Json;
-using System.Reflection.Metadata;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Web;
-using Windows.Storage;
 
 namespace FireBrowserWinUi3Core.Helpers
 {

@@ -1,9 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.Web.WebView2.Core;
 using System;
-using Windows.Devices.Input;
 using Windows.Foundation;
 
 namespace FireBrowserWinUi3.Controls;
@@ -28,11 +26,11 @@ public sealed partial class PopUpView : UserControl
     }
 
     private void PopUpView_SizeChanged(object sender, SizeChangedEventArgs e)
-{
-// Capture the size of the control after rendering
-originalWidth = e.NewSize.Width;
-originalHeight = e.NewSize.Height;
-}
+    {
+        // Capture the size of the control after rendering
+        originalWidth = e.NewSize.Width;
+        originalHeight = e.NewSize.Height;
+    }
 
 
     public void SetSource(Uri uri)

@@ -1,13 +1,10 @@
 using FireBrowserWinUi3Assets;
-using FireBrowserWinUi3DataCore.Models;
-using FireBrowserWinUi3Migration;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -44,17 +41,17 @@ namespace FireBrowserWinUi3
             await ShowBrowserSelectionDialog();
         }
 
-     
+
 
         private async Task ShowBrowserSelectionDialog()
         {
-           
-                await CreateUserOnStartup();
-                Frame.Navigate(typeof(SetupUi));
-            
+
+            await CreateUserOnStartup();
+            Frame.Navigate(typeof(SetupUi));
+
         }
 
-      
+
 
         private async Task CreateUserOnStartup()
         {

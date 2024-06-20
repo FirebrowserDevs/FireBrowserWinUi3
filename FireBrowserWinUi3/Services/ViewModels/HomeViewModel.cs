@@ -66,10 +66,8 @@ public partial class HomeViewModel : ObservableRecipient
     [RelayCommand]
     void TrendingOpen()
     {
-
-        IsTrendingOpened = true; 
+        IsTrendingOpened = true;
         TrendingVisible = IsTrendingOpened ? Visibility.Visible : Visibility.Collapsed;
-
     }
     public SettingsService SettingsService { get; set; }
     private DispatcherTimer timer { get; set; }

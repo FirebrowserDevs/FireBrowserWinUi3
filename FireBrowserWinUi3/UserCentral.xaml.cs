@@ -1,11 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using FireBrowserWinUi3.Services;
-using FireBrowserWinUi3.Services.Messages;
-using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3MultiCore;
-using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -14,11 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Graphics;
-using WinRT.Interop;
 
 namespace FireBrowserWinUi3;
 

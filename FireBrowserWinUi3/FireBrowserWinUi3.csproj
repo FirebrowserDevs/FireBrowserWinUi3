@@ -136,7 +136,6 @@
     <None Remove="Setup\SetupUi.xaml" />
     <None Remove="Setup\SetupUser.xaml" />
     <None Remove="Setup\SetupWebView.xaml" />
-    <None Remove="Setup\UserSettings.xaml" />
     <None Remove="UserCentral.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -215,9 +214,6 @@
     </Page>
     <Page Update="Setup\AddUser.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Setup\UserSettings.xaml">
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Pages\Patch\PatchUpdate.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

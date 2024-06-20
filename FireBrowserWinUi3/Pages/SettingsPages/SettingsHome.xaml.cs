@@ -1,6 +1,5 @@
 using FireBrowserWinUi3.Pages.Patch;
 using FireBrowserWinUi3.Services;
-using FireBrowserWinUi3Core.CoreUi;
 using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;

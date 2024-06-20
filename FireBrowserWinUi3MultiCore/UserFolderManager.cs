@@ -14,6 +14,6 @@ public static class UserFolderManager
         foreach (var folderName in SubFolderNames)
         {
             Directory.CreateDirectory(Path.Combine(userFolderPath, folderName));
-        }     
+        }
     }
 }

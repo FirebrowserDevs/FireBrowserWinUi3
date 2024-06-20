@@ -1,25 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FireBrowserWinUi3.Services;
-using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3.Services.ViewModels;
 using FireBrowserWinUi3.ViewModels;
-using FireBrowserWinUi3Core.Helpers;
-using FireBrowserWinUi3Exceptions;
-using FireBrowserWinUi3MultiCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using WinRT.Interop;
 using Path = System.IO.Path;
 
 namespace FireBrowserWinUi3;

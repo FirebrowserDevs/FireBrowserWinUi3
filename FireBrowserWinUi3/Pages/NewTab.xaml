@@ -178,13 +178,6 @@
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
-                        <!--<TextBox
-                            x:Name="NewColor"
-                            Margin="0,5,0,0"
-                            x:FieldModifier="Public"
-                            IsEnabled="True"
-                            TextChanged="NewColor_TextChanged" />-->
-
                         <TextBlock FontWeight="Bold" Text="Ntp Text Color" />
                         <Button
                             x:Name="NtpColorBox"
@@ -207,12 +200,6 @@
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
-                        <!--<TextBox
-                            x:Name="NtpColorBox"
-                            Margin="0,5,0,0"
-                            x:FieldModifier="Public"
-                            TextChanged="NtpColorBox_TextChanged" />-->
-
                         <Button
                             x:Name="Download"
                             Width="Auto"
@@ -240,6 +227,7 @@
         </Button>
 
         <Grid
+            x:Name="GridTrending"
             Height="Auto"
             Margin="2,32,2,32"
             Padding="4,2,4,2"
@@ -289,11 +277,9 @@
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-
             </ListView>
-
         </Grid>
-
+        
         <Grid
             x:Name="NtpGrid"
             Margin="0,25,0,0"
@@ -321,6 +307,7 @@
                 Text="{x:Bind ViewModel.NtpDateText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Visibility="{x:Bind ViewModel.NtpCoreVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
+        
         <Grid
             x:Name="BigGrid"
             Width="Auto"
@@ -450,7 +437,6 @@
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
-
                         </labs:SettingsCard>
                     </labs:SettingsExpander.Items>
                 </labs:SettingsExpander>
