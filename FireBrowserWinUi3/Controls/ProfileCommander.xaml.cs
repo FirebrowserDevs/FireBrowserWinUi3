@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3.Services.ViewModels;
+using FireBrowserWinUi3Core.CoreUi;
 using FireBrowserWinUi3MultiCore;
 using FireBrowserWinUi3MultiCore.Helper;
 using Microsoft.UI.Xaml;
@@ -125,6 +126,20 @@ namespace FireBrowserWinUi3.Controls
             // must restart due to file locking allocation old user file are in use by webview, and dbservices.
             Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string site = "google"; // Default site
+            QuickSign webViewWindow = new QuickSign(site);
+            webViewWindow.Activate();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            string site = "microsoft"; // Default site
+            QuickSign webViewWindow = new QuickSign(site);
+            webViewWindow.Activate();
         }
     }
 }

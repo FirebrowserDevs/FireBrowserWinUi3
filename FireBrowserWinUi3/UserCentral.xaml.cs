@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3MultiCore;
+using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -81,8 +82,6 @@ public sealed partial class UserCentral : Window
         UserListView.ItemsSource = ViewModel.Users;
     }
 
-
-
     public List<UserExtend> GetUsernameFromCoreFolderPath(string coreFolderPath, string userName = null)
     {
         try
@@ -128,10 +127,5 @@ public sealed partial class UserCentral : Window
             this.Close();
 
         }
-    }
-
-    private void ExitWindow_Click(object sender, RoutedEventArgs e)
-    {
-
     }
 }

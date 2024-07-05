@@ -5,65 +5,63 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
-namespace FireBrowserWinUi3DataCore.Actions
+namespace FireBrowserWinUi3DataCore.Actions;
+public class SettingsActions : IUISettings
 {
-    public class SettingsActions : IUISettings
+    public SettingsActions(string username)
     {
-        public SettingsActions(string username)
+        SettingsContext = new SettingsContext(username);
+    }
+
+    public SettingsContext SettingsContext { get; set; }
+
+    public async Task<Settings> GetSettingsAsync()
+    {
+        try
         {
-            SettingsContext = new SettingsContext(username);
+            var settings = await SettingsContext.Settings.AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync();
+            return settings;
         }
-
-        public SettingsContext SettingsContext { get; set; }
-
-        public async Task<Settings> GetSettingsAsync()
+        catch (Exception ex)
         {
-            try
-            {
-                var settings = await SettingsContext.Settings.AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync();
-                return settings;
-            }
-            catch (Exception ex)
-            {
-                ExceptionLogger.LogException(ex);
-                Console.WriteLine($"Settings Database failed to gather data: {ex.Message}");
-                return new();
-            }
+            ExceptionLogger.LogException(ex);
+            Console.WriteLine($"Settings Database failed to gather data: {ex.Message}");
+            return new();
         }
+    }
 
-        public async Task<bool> UpdateSettingsAsync(Settings settings)
+    public async Task<bool> UpdateSettingsAsync(Settings settings)
+    {
+        try
         {
-            try
-            {
-                SettingsContext.ChangeTracker.Clear();
-                SettingsContext.Settings.Update(settings);
-                var result = await SettingsContext.SaveChangesAsync();
-                return result > 0 ? true : false;
+            SettingsContext.ChangeTracker.Clear();
+            SettingsContext.Settings.Update(settings);
+            var result = await SettingsContext.SaveChangesAsync();
+            return result > 0 ? true : false;
 
-            }
-            catch (Exception ex)
-            {
-                ExceptionLogger.LogException(ex);
-                Console.WriteLine($"Settings Database failed to Save data: {ex.Message}");
-                return false;
-            }
         }
-
-        public async Task<bool> InsertUserSettingsAsync(Settings settings)
+        catch (Exception ex)
         {
-            try
-            {
-                SettingsContext.Settings.Add(settings);
-                var result = await SettingsContext.SaveChangesAsync();
-                return result > 0 ? true : false;
+            ExceptionLogger.LogException(ex);
+            Console.WriteLine($"Settings Database failed to Save data: {ex.Message}");
+            return false;
+        }
+    }
 
-            }
-            catch (Exception ex)
-            {
-                ExceptionLogger.LogException(ex);
-                Console.WriteLine($"Settings Database failed to Save data: {ex.Message}");
-                return false;
-            }
+    public async Task<bool> InsertUserSettingsAsync(Settings settings)
+    {
+        try
+        {
+            SettingsContext.Settings.Add(settings);
+            var result = await SettingsContext.SaveChangesAsync();
+            return result > 0 ? true : false;
+
+        }
+        catch (Exception ex)
+        {
+            ExceptionLogger.LogException(ex);
+            Console.WriteLine($"Settings Database failed to Save data: {ex.Message}");
+            return false;
         }
     }
 }

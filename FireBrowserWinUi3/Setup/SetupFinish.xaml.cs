@@ -7,7 +7,7 @@ namespace FireBrowserWinUi3;
 
 public sealed partial class SetupFinish : Page
 {
-    private int countdownSeconds = 5;
+    private int countdownSeconds = 3;
     private DispatcherTimer timer;
     public SetupFinish()
     {

@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-      <PackageReference Include="EntityFramework" Version="6.5.0-preview2-24180-01" />
+      <PackageReference Include="EntityFramework" Version="6.5.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0-preview.5.24306.3">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,7 +23,7 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240531000-experimental1" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240701003-experimental2" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>

@@ -15,7 +15,7 @@
   <ItemGroup>
       <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
       <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.0-preview.5.24306.3" />
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240531000-experimental1" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240701003-experimental2" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
       <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
   </ItemGroup>

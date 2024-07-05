@@ -57,12 +57,12 @@
                             </Button.Flyout>
                         </Button>
                         <StackPanel Orientation="Horizontal">
-                            <Button Width="48" Height="32" Margin="5,0,0,0" ToolTipService.ToolTip="Google Sign-In" ToolTipService.Placement="Bottom">
+                            <Button Width="48" Height="32" Margin="5,0,0,0" ToolTipService.ToolTip="Google Sign-In" ToolTipService.Placement="Bottom" Click="Button_Click">
                                 <Grid>
                                     <Image Source="ms-appx:///Assets//Google.png" Width="14" Height="14"/>
                                 </Grid>
                             </Button>
-                            <Button Width="48" Height="32" Margin="5,0,0,0" ToolTipService.ToolTip="Microsoft Sign-In" ToolTipService.Placement="Bottom">
+                            <Button Width="48" Height="32" Margin="5,0,0,0" ToolTipService.ToolTip="Microsoft Sign-In" ToolTipService.Placement="Bottom" Click="Button_Click_1">
                                 <Grid>
                                     <Image Source="ms-appx:///Assets//Microsoft.png" Width="14" Height="14"/>
                                 </Grid>

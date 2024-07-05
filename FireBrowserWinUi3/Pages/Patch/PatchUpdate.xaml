@@ -16,7 +16,7 @@
         <StackPanel VerticalAlignment="Center">
             <TextBlock x:FieldModifier="public" x:Name="TitleText" Text="The following DLLs need to be updated" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
             <TextBlock x:Name="DllListTextBlock" TextWrapping="Wrap"/>
-            <TextBlock Text="The app will restart and update in 5 seconds" FontSize="12" Margin="0,10,0,0"/>
+            <TextBlock Text="The app will restart and update in 5 seconds ( Note Still In Alpha Stage )" FontSize="12" Margin="0,10,0,0"/>
         </StackPanel>
         <ProgressRing x:Name="LoadingRing"/>
     </Grid>

@@ -59,7 +59,6 @@
                 SelectionChanged="UserListView_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="firebrowserwinui3:UserExtend">
-
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -79,12 +78,10 @@
                                 Text="{Binding FireUser.Username, Mode=OneWay}" />
                             <!--  "Switch" button  -->
                         </Grid>
-
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </ScrollViewer>
-
 
         <StackPanel
             Grid.Row="2"
@@ -105,11 +102,6 @@
                 x:Uid="AppName"
                 VerticalAlignment="Center"
                 Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
-
-
-
-
         </StackPanel>
     </Grid>
-
 </Window>

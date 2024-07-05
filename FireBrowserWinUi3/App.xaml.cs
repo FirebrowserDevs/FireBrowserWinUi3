@@ -71,7 +71,6 @@ public partial class App : Application
     {
         if (!AppService.IsAppGoingToClose)
             FireBrowserWinUi3Exceptions.ExceptionLogger.LogException(e.Exception);
-
     }
 
     public static string GetUsernameFromCoreFolderPath(string coreFolderPath, string userName = null)
@@ -98,14 +97,13 @@ public partial class App : Application
 
         while (!AppService.CancellationToken.IsCancellationRequested)
         {
-            await Task.Delay(4200);
+            await Task.Delay(1500);
         }
 
         if (AppService.IsAppGoingToClose == true)
             base.Exit();
         else
             base.OnLaunched(args);
-
     }
 
     public Window m_window;
