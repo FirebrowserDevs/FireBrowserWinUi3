@@ -24,7 +24,7 @@ public sealed partial class QuickSign : Window
         switch (site.ToLower())
         {
             case "microsoft":
-                webView.Source = new Uri("https://login.microsoftonline.com/");
+                webView.Source = new Uri("https://account.microsoft.com");
                 break;
             case "google":
                 webView.Source = new Uri("https://accounts.google.com/");

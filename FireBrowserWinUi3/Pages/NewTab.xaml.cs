@@ -196,7 +196,7 @@ public sealed partial class NewTab : Page
             case Settings.NewTabBackground.Featured:
                 try
                 {
-                    HttpResponseMessage response = client.GetAsync("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1").Result;
+                    HttpResponseMessage response = client.GetAsync("https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1").Result;
                     if (response.IsSuccessStatusCode)
                     {
                         string jsonResponse = response.Content.ReadAsStringAsync().Result;

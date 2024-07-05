@@ -172,19 +172,11 @@ public sealed partial class WebContent : Page
                 if (!IsIncognitoModeEnabled)
                 {
                     var bitmapImage = new BitmapImage();
-                    var stream = await sender.GetFaviconAsync(CoreWebView2FaviconImageFormat.Jpeg);
+                    var stream = await sender.GetFaviconAsync(0);
 
-                    if (stream == null)
-                    {
-                        stream = await sender.GetFaviconAsync(CoreWebView2FaviconImageFormat.Png);
-                    }
-
-                    if (stream != null)
-                    {
-                        await bitmapImage.SetSourceAsync(stream);
-                        var iconSource = new ImageIconSource { ImageSource = bitmapImage };
-                        param.Tab.IconSource = iconSource;
-                    }
+                    var iconSource = new ImageIconSource { ImageSource = bitmapImage };
+                    await bitmapImage.SetSourceAsync(stream ?? await sender.GetFaviconAsync(CoreWebView2FaviconImageFormat.Jpeg));
+                    param.Tab.IconSource = iconSource;
                 }
             }
             catch (Exception ex)
