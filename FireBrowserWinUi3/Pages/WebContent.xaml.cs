@@ -141,6 +141,7 @@ public sealed partial class WebContent : Page
             window.GoFullScreenWeb(s.CoreWebView2.ContainsFullScreenElement);
         };
 
+        s.CoreWebView2.Settings.IsBuiltInErrorPageEnabled = true;
         s.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
         s.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
         s.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
@@ -206,6 +207,8 @@ public sealed partial class WebContent : Page
         {
             ProgressLoading.IsIndeterminate = false;
             ProgressLoading.Visibility = Visibility.Collapsed;
+
+            
 
             await Task.Delay(1000); // Delay for stability
 
