@@ -128,6 +128,7 @@
     <None Remove="Controls\PopUpView.xaml" />
     <None Remove="Controls\ProfileCommander.xaml" />
     <None Remove="Pages\Patch\PatchUpdate.xaml" />
+    <None Remove="Pages\Patch\SureReset.xaml" />
     <None Remove="Pages\Pluginss.xaml" />
     <None Remove="SetupWindow.xaml" />
     <None Remove="Setup\AddUser.xaml" />
@@ -212,6 +213,9 @@
     <None Update="Assets\setup_image.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Pages\Patch\SureReset.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Assets\UI\CrimsonUI.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -31,7 +31,7 @@
                 <labs:SettingsCard.Header>
                     Reset App
                 </labs:SettingsCard.Header>
-                <Button >
+                <Button x:Name="Reset" Click="Reset_Click">
                     Reset Browser - Settings
                 </Button>
             </labs:SettingsCard>

@@ -213,4 +213,11 @@ public sealed partial class SettingsHome : Page
         dlg.XamlRoot = this.XamlRoot;
         await dlg.ShowAsync();
     }
+
+    private async void Reset_Click(object sender, RoutedEventArgs e)
+    {
+        SureReset dlg = new SureReset();
+        dlg.XamlRoot = this.XamlRoot;
+        await dlg.ShowAsync();
+    }
 }
