@@ -8,7 +8,8 @@
     mc:Ignorable="d"
     xmlns:labs="using:CommunityToolkit.WinUI.Controls"
     xmlns:person="using:FireBrowserWinUi3Core.Helpers"
-    xmlns:firebrowser="using:FireBrowserWinUi3.Controls">
+    xmlns:firebrowser="using:FireBrowserWinUi3.Controls"
+    >
     <Grid>
         <StackPanel Margin="0,5,0,0">
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
@@ -48,7 +49,7 @@
                 <labs:SettingsCard.Header>
                     Profiles
                 </labs:SettingsCard.Header>
-                <Button x:Name="Add" Click="Add_Click">Add</Button>
+                <Button  x:Name="Add" Click="Add_Click">Add</Button>
             </labs:SettingsCard>
             <ListView x:Name="UserListView">
                 <ListView.ItemTemplate>

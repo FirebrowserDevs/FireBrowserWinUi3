@@ -17,16 +17,16 @@ using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
-using Newtonsoft.Json;
 using System;
+using System.Text.Json;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using static FireBrowserWinUi3.MainWindow;
 using Settings = FireBrowserWinUi3Core.Models.Settings;
+using Newtonsoft.Json;
 
 namespace FireBrowserWinUi3.Pages;
 
@@ -176,10 +176,6 @@ public sealed partial class NewTab : Page
         param = e.Parameter as Passer;
     }
 
-    private static readonly HttpClient client = new HttpClient();
-
-   
-
     public static Brush GetGridBackgroundAsync(Settings.NewTabBackground backgroundType, FireBrowserWinUi3MultiCore.Settings userSettings)
     {
         string colorString = userSettings.ColorBackground.ToString();
@@ -197,41 +193,66 @@ public sealed partial class NewTab : Page
 
 
             case Settings.NewTabBackground.Featured:
+                var client = new HttpClient();
                 try
                 {
-                    // Create an instance of BingImageService
-                    BingFetch bingService = new BingFetch();
+                    var request = client.GetStringAsync(new Uri("https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1")).Result;
 
-                    // Retrieve the Bing image JSON asynchronously
-                    bingService.RetrieveBingImageJsonAsync().GetAwaiter().GetResult();
-
-                    // Parse the JSON to get the image URL
-                    bingService.ParseJsonUsingWindowsDataJson();
-
-                    // Get the first image URL from the list
-                    if (bingService._lstBingImageURLs.Count > 0)
+                    try
                     {
-                        string imageUrl = "https://www.bing.com" + bingService._lstBingImageURLs[0];
+                        // Deserialize JSON response into ImageRoot object
+                        var images = System.Text.Json.JsonSerializer.Deserialize<ImageRoot>(request);
 
-                        // Create an ImageBrush and set it as the background
-                        BitmapImage bitmapImage = new BitmapImage(new Uri(imageUrl));
-                        ImageBrush imageBrush = new ImageBrush
+                        // Construct the image URL using data from the API
+                        Uri imageUrl = new Uri("https://bing.com" + images.images[0].url);
+
+                        // Create BitmapImage from the URL
+                        BitmapImage btpImg = new BitmapImage(imageUrl);
+
+                        // Create and return an ImageBrush for WPF
+                        return new ImageBrush()
                         {
-                            ImageSource = bitmapImage,
+                            ImageSource = btpImg,
                             Stretch = Stretch.UniformToFill
                         };
-                        return imageBrush;
                     }
+                    catch (System.Text.Json.JsonException jsonEx)
+                    {
+                        // Handle JSON parsing errors
+                        Console.WriteLine($"Error parsing JSON: {jsonEx.Message}");
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle other exceptions
+                        Console.WriteLine($"Error: {ex.Message}");
+                    }
+                }
+                catch (HttpRequestException httpEx)
+                {
+                    // Handle HTTP request exceptions
+                    Console.WriteLine($"HTTP request error: {httpEx.Message}");
                 }
                 catch (Exception ex)
                 {
-                    // Log or handle the exception appropriately
-                    Console.WriteLine($"Error fetching Bing image: {ex.Message}");
+                    // Handle other exceptions
+                    Console.WriteLine($"Error: {ex.Message}");
                 }
                 break;
         }
 
         return new SolidColorBrush();
+    }
+
+    private class ImageRoot
+    {
+        public Image[] images { get; set; }
+    }
+    private class Image
+    {
+        public string url { get; set; }
+        public string copyright { get; set; }
+        public string copyrightlink { get; set; }
+        public string title { get; set; }
     }
 
     private async Task DownloadImage()

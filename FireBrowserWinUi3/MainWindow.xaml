@@ -168,7 +168,7 @@
                             HorizontalContentAlignment="Left"
                             x:FieldModifier="Public"
                             Background="Transparent"
-                            BorderBrush="Transparent"
+                            BorderBrush="Transparent"                          
                             Click="TabMenuClick"
                             Tag="History">
                             <StackPanel Orientation="Horizontal">

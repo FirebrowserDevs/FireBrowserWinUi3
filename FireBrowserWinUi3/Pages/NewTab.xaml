@@ -13,7 +13,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="NewTab_Loaded"
-    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <Grid
         x:Name="GridMain"

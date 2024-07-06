@@ -22,8 +22,7 @@
     <AppxBundle>Auto</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
-		    <WindowsSdkPackageVersion>10.0.22621.35-preview</WindowsSdkPackageVersion>
-
+    <WindowsSdkPackageVersion>10.0.22621.35-preview</WindowsSdkPackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +30,7 @@
     <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.1.240606-rc" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.1.240606-rc" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240606-rc" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
     <PackageReference Include="EntityFramework" Version="6.5.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0-preview.5.24306.3">
       <PrivateAssets>all</PrivateAssets>
@@ -68,6 +68,7 @@
     <Content Remove="Assets\Microsoft.png" />
     <Content Remove="Assets\SegoeFluentIcons2.ttf" />
     <Content Remove="Assets\setup_image.png" />
+    <Content Remove="Assets\UI\CrimsonUI.xaml" />
     <Content Remove="FireBrowserWinUi3Assets\costum.png" />
     <Content Remove="FireBrowserWinUi3Assets\default.png" />
     <Content Remove="FireBrowserWinUi3Assets\featured.png" />
@@ -122,6 +123,7 @@
     <Content Remove="FireBrowserWinUi3Assets\Wide310x150Logo.scale-400.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\UI\CrimsonUI.xaml" />
     <None Remove="ChangeUsernameCore.xaml" />
     <None Remove="Controls\PopUpView.xaml" />
     <None Remove="Controls\ProfileCommander.xaml" />
@@ -210,6 +212,9 @@
     <None Update="Assets\setup_image.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Assets\UI\CrimsonUI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\PopUpView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
