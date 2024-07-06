@@ -20,6 +20,8 @@ using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using WinRT.Interop;
 using static FireBrowserWinUi3.MainWindow;
 
@@ -293,41 +295,34 @@ public sealed partial class WebContent : Page
 
     private async void ContextMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is AppBarButton button && button.Tag != null)
+        if (sender is not AppBarButton { Tag: not null } button)
+            return;
+
+        var webview = WebViewElement.CoreWebView2;
+
+        switch (button.Tag)
         {
-            switch ((sender as AppBarButton).Tag)
-            {
-                case "MenuBack":
-                    if (WebViewElement.CanGoBack) WebViewElement.CoreWebView2.GoBack();
-                    break;
-                case "Forward":
-                    if (WebViewElement.CanGoForward) WebViewElement.CoreWebView2.GoForward();
-                    break;
-                case "Source":
-                    WebViewElement.CoreWebView2.OpenDevToolsWindow();
-                    break;
-                case "Select":
-                    await WebViewElement.CoreWebView2.ExecuteScriptAsync("document.execCommand('selectAll', false, null);");
-                    break;
-                case "Copy":
-                    ClipBoard.WriteStringToClipboard(SelectionText);
-                    break;
-                case "Taskmgr":
-                    WebViewElement.CoreWebView2.OpenTaskManagerWindow();
-                    break;
-                case "Save":
-                    // Handle save functionality
-                    break;
-                case "Share":
-                    ShareUi(WebViewElement.CoreWebView2.DocumentTitle, WebViewElement.CoreWebView2.Source);
-                    break;
-                case "Print":
-                    WebViewElement.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
-                    break;
-            }
+            case "MenuBack" when WebViewElement.CanGoBack: webview.GoBack(); break;
+            case "Forward" when WebViewElement.CanGoForward: webview.GoForward(); break;
+            case "Source": webview.OpenDevToolsWindow(); break;
+            case "Select": await webview.ExecuteScriptAsync("document.execCommand('selectAll', false, null);"); break;
+            case "Copy": ClipBoard.WriteStringToClipboard(SelectionText); break;
+            case "Taskmgr": webview.OpenTaskManagerWindow(); break;
+            case "Save": await HandleSaveAsync(); break;
+            case "Share": ShareUi(webview.DocumentTitle, webview.Source); break;
+            case "Print": webview.ShowPrintUI(CoreWebView2PrintDialogKind.Browser); break;
         }
+
         Ctx.Hide();
     }
+
+    private Task HandleSaveAsync()
+    {
+        
+        return Task.CompletedTask;
+    }
+
+
 
     SpeechSynthesizer synthesizer = new SpeechSynthesizer();
 

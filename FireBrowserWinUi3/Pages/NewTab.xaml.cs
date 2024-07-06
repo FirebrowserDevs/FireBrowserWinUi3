@@ -3,6 +3,7 @@ using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.ViewModels;
+using FireBrowserWinUi3Core;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.ImagesBing;
 using FireBrowserWinUi3DataCore.Actions;
@@ -19,6 +20,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -104,7 +106,7 @@ public sealed partial class NewTab : Page
 
         await UpdateTrending();
 
-        HomeSync();
+        HomeSync();      
     }
 
 
@@ -176,10 +178,11 @@ public sealed partial class NewTab : Page
 
     private static readonly HttpClient client = new HttpClient();
 
+   
+
     public static Brush GetGridBackgroundAsync(Settings.NewTabBackground backgroundType, FireBrowserWinUi3MultiCore.Settings userSettings)
     {
         string colorString = userSettings.ColorBackground.ToString();
-
 
         switch (backgroundType)
         {
@@ -187,43 +190,37 @@ public sealed partial class NewTab : Page
                 return new SolidColorBrush(Colors.Transparent);
 
             case Settings.NewTabBackground.Costum:
-
                 var color = colorString == "#000000" ?
-                                Colors.Transparent :
-                                (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), colorString);
+                 Colors.Transparent :
+                 (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), colorString);
                 return new SolidColorBrush(color);
+
 
             case Settings.NewTabBackground.Featured:
                 try
                 {
-                    HttpResponseMessage response = client.GetAsync("https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1").Result;
-                    if (response.IsSuccessStatusCode)
+                    // Create an instance of BingImageService
+                    BingFetch bingService = new BingFetch();
+
+                    // Retrieve the Bing image JSON asynchronously
+                    bingService.RetrieveBingImageJsonAsync().GetAwaiter().GetResult();
+
+                    // Parse the JSON to get the image URL
+                    bingService.ParseJsonUsingWindowsDataJson();
+
+                    // Get the first image URL from the list
+                    if (bingService._lstBingImageURLs.Count > 0)
                     {
-                        string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                        string imageUrl = "https://www.bing.com" + bingService._lstBingImageURLs[0];
 
-                        // Deserialize the response
-                        var images = System.Text.Json.JsonSerializer.Deserialize<ImageRoot>(jsonResponse);
-
-                        if (images != null && images.images != null && images.images.Any())
+                        // Create an ImageBrush and set it as the background
+                        BitmapImage bitmapImage = new BitmapImage(new Uri(imageUrl));
+                        ImageBrush imageBrush = new ImageBrush
                         {
-                            BitmapImage btpImg = new BitmapImage(new Uri("https://bing.com" + images.images[0].url));
-
-                            return new ImageBrush()
-                            {
-                                ImageSource = btpImg,
-                                Stretch = Stretch.UniformToFill
-                            };
-                        }
-                        else
-                        {
-                            // Handle case when images are null or empty
-                            return null;
-                        }
-                    }
-                    else
-                    {
-                        // Handle unsuccessful response
-                        return null;
+                            ImageSource = bitmapImage,
+                            Stretch = Stretch.UniformToFill
+                        };
+                        return imageBrush;
                     }
                 }
                 catch (Exception ex)
@@ -237,10 +234,6 @@ public sealed partial class NewTab : Page
         return new SolidColorBrush();
     }
 
-    private class ImageRoot
-    {
-        public ImageTab[] images { get; set; }
-    }
     private async Task DownloadImage()
     {
         try
