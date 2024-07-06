@@ -640,15 +640,20 @@
                     Padding="32,5,5,0"
                     x:FieldModifier="Public"
                     CornerRadius="5"
+                    TabIndex="1"
                     QuerySubmitted="UrlBox_QuerySubmitted"
                     Style="{ThemeResource PortalBarStyle}"
+                    MaxSuggestionListHeight="500"
+                    SuggestionChosen="UrlBox_SuggestionChosen"
                     Text="{x:Bind ViewModel.CurrentAddress, Mode=OneWay}"
                     TextChanged="UrlBox_TextChanged" />
                 <Button
                     x:Name="Secure"
                     x:FieldModifier="Public"
                     Foreground="{ThemeResource TextFillColorDisabledBrush}"
-                    Style="{StaticResource QuietButtonStyle}">
+                    Style="{StaticResource QuietButtonStyle}"
+                    DoubleTapped="Secure_DoubleTapped"
+                    IsDoubleTapEnabled="True">
                     <FontIcon
                         d:Glyph="&#xE72E;"
                         FontFamily="{StaticResource FluentIcons}"

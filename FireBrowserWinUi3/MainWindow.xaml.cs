@@ -67,6 +67,7 @@ public sealed partial class MainWindow : Window
 
         Commander = new ProfileCommander(ViewModelMain);
 
+
         InitializeComponent();
 
         ArgsPassed();
@@ -1170,6 +1171,30 @@ public sealed partial class MainWindow : Window
         Commander.ShowAt(Profile, options);
     }
 
+    private List<string> Cats = new List<string>()
+{
+    "Whiskers",
+    "Mittens",
+    "Felix",
+    "Shadow",
+    "Luna",
+    "Simba",
+    "Oreo",
+    "Ginger",
+    "Cleo",
+    "Milo",
+    "Smokey",
+    "Nala",
+    "Leo",
+    "Pumpkin",
+    "Coco",
+    "Chloe",
+    "Oliver",
+    "Lily",
+    "Tiger",
+    "Ziggy"
+};
+
     private void UrlBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
         if (UrlBox.Text.Contains("youtube:"))
@@ -1190,5 +1215,38 @@ public sealed partial class MainWindow : Window
             UrlBox.Focus(FocusState.Keyboard);
             NotificationQueue.Show($"Autofill Search Quick {SettingsService.CoreSettings.EngineFriendlyName}", 2500);
         }
+
+        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        {
+            var suitableItems = new List<string>();
+            var splitText = sender.Text.ToLower().Split(" ");
+            foreach (var cat in Cats)
+            {
+                var found = splitText.All((key) =>
+                {
+                    return cat.ToLower().Contains(key);
+                });
+                if (found)
+                {
+                    suitableItems.Add(cat);
+                }
+            }
+            if (suitableItems.Count == 0)
+            {
+                suitableItems.Add("No results found");
+            }
+            sender.ItemsSource = suitableItems;
+        }
+
+    }
+
+    private void Secure_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+    {
+        FireBrowserWinUi3Core.Helpers.FlyoutLoad.ShowFlyout(Secure);
+    }
+
+    private void UrlBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+    {
+        UrlBox.Text = args.SelectedItem.ToString();
     }
 }

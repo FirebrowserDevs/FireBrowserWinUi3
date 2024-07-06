@@ -4,6 +4,7 @@
 using FireBrowserWinUi3DataCore.Models;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.IO;
 
 namespace FireBrowserWinUi3DataCore
@@ -15,6 +16,8 @@ namespace FireBrowserWinUi3DataCore
         //public DbSet<DbUser> Users { get; set; }
 
         public string ConnectionPath { get; set; }
+        public IEnumerable<object> HistoryEntries { get; set; }
+
         public HistoryContext(string username)
         {
             ConnectionPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Database", "History.db");
