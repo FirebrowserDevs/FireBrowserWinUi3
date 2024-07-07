@@ -10,12 +10,24 @@
     Title="Quick Sign In - Management"
     >
 
-
     <Window.SystemBackdrop>
         <MicaBackdrop Kind="BaseAlt" />
     </Window.SystemBackdrop>
 
     <Grid>
+        <Grid.Resources>
+            <CommandBarFlyout x:Name="Ctx" Placement="BottomEdgeAlignedLeft" ShowMode="Transient" AlwaysExpanded="False" >
+                <AppBarButton Click="ContextMenuItem_Click"  ToolTipService.ToolTip="Back" x:Uid="Back" Tag="MenuBack" Icon="Back"/>
+                <AppBarButton Click="ContextMenuItem_Click"  ToolTipService.ToolTip="Forward" Tag="Forward" Icon="Forward"/>
+                <CommandBarFlyout.SecondaryCommands>
+                    <AppBarButton Click="ContextMenuItem_Click"  Label="Refresh" Tag="Refresh" Icon="Refresh">
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers="Control" Key="R" />
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                </CommandBarFlyout.SecondaryCommands>
+            </CommandBarFlyout>
+        </Grid.Resources>
         <WebView2 x:Name="webView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="about:blank"/>
     </Grid>
 </Window>

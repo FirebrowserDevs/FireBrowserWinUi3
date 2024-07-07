@@ -64,7 +64,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\Google.png" />
-    <Content Remove="Assets\Insecure.html" />
     <Content Remove="Assets\Microsoft.png" />
     <Content Remove="Assets\SegoeFluentIcons2.ttf" />
     <Content Remove="Assets\setup_image.png" />
@@ -144,7 +143,9 @@
     <None Remove="UserCentral.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Logo.ico" />
+    <Content Include="Logo.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FireBrowserWinUi3AdBlockCore\FireBrowserWinUi3AdBlockCore.csproj" />
@@ -205,6 +206,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Update="Accounts.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Google.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -267,7 +271,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="LogoSetup.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
