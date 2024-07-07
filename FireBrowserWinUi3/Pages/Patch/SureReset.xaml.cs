@@ -1,6 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -15,31 +16,14 @@ namespace FireBrowserWinUi3.Pages.Patch
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            await ResetBrowserAppAsync();
-
+            string resetFilePath = Path.Combine(Path.GetTempPath(), "Reset.set");
+            // Write some content to the file (or leave it empty)
+            File.WriteAllText(resetFilePath, "True");
             // Restart the app
-            await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync(string.Empty);
+            Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
         }
 
-        private async Task ResetBrowserAppAsync()
-        {
-            try
-            {
-                StorageFolder documentsFolder = KnownFolders.DocumentsLibrary;
-                StorageFolder coreFolder = await documentsFolder.CreateFolderAsync("FireBrowserUserCore", CreationCollisionOption.OpenIfExists);
 
-                if (coreFolder != null)
-                {
-                    await coreFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle any errors during folder deletion
-                // For example, show a message or log the error
-                Console.WriteLine($"Error deleting FireBrowserUserCore folder: {ex.Message}");
-            }
-        }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {

@@ -38,6 +38,8 @@ public static class AppService
         {
             string changeUsernameFilePath = Path.Combine(Path.GetTempPath(), "changeusername.json");
             string patchFilePath = Path.Combine(Path.GetTempPath(), "Patch.ptc");
+            string resetFilePath = Path.Combine(Path.GetTempPath(), "Reset.set");
+
 
             if (IsAppGoingToClose)
             {
@@ -68,6 +70,18 @@ public static class AppService
             if (File.Exists(patchFilePath))
             {
                 ActiveWindow = new Patcher();
+                ActiveWindow.Closed += (s, e) =>
+                {
+                    AuthService.IsUserNameChanging = false;
+                    WindowsController(cancellationToken).ConfigureAwait(false);
+                };
+                ActiveWindow.Activate();
+                return;
+            }
+
+            if (File.Exists(resetFilePath))
+            {
+                ActiveWindow = new ResetCore();
                 ActiveWindow.Closed += (s, e) =>
                 {
                     AuthService.IsUserNameChanging = false;

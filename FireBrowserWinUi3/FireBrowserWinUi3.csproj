@@ -127,6 +127,7 @@
     <None Remove="ChangeUsernameCore.xaml" />
     <None Remove="Controls\PopUpView.xaml" />
     <None Remove="Controls\ProfileCommander.xaml" />
+    <None Remove="Controls\ResetCore.xaml" />
     <None Remove="Pages\Patch\PatchUpdate.xaml" />
     <None Remove="Pages\Patch\SureReset.xaml" />
     <None Remove="Pages\Pluginss.xaml" />
@@ -276,5 +277,11 @@
     <Page Update="SetupWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\ResetCore.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\ResetCore.xaml" />
   </ItemGroup>
 </Project>

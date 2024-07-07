@@ -31,7 +31,7 @@ namespace FireBrowserWinUi3.Controls
 
             appWindow.MoveAndResize(new RectInt32(500, 500, 850, 500));
             FireBrowserWinUi3Core.Helpers.Windowing.Center(this);
-            appWindow.SetPresenter(AppWindowPresenterKind.Overlapped);
+            appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
             appWindow.MoveInZOrderAtTop();
             appWindow.ShowOnceWithRequestedStartupState();
             appWindow.SetIcon("logo.ico");
