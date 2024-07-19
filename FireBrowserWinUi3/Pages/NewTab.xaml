@@ -12,9 +12,11 @@
     xmlns:local="using:FireBrowserWinUi3.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:button="using:FireBrowserWinUi3.Services"
     Loaded="NewTab_Loaded"
     mc:Ignorable="d">
-    <Grid
+    
+   <Grid
         x:Name="GridMain"
         x:FieldModifier="Public"
         Background="{x:Bind local:NewTab.GetGridBackgroundAsync(ViewModel.BackgroundType, userSettings), Mode=OneWay}">
@@ -27,7 +29,10 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Content="{firebrowser:FluentIcon Glyph=&#xE70F;}"
-            Style="{ThemeResource QuietButtonStyle}">
+            Style="{ThemeResource QuietButtonStyle}"
+            button:ButtonAnimationHelper.AddPointerOverAnimation="True"
+            button:ButtonAnimationHelper.AddPressedAnimation="True"
+            >
             <Button.Flyout>
                 <Flyout Placement="Bottom">
                     <StackPanel>
@@ -61,7 +66,9 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Content="{firebrowser:FluentIcon Glyph=&#xE890;}"
-            Style="{ThemeResource QuietButtonStyle}">
+            Style="{ThemeResource QuietButtonStyle}"
+             button:ButtonAnimationHelper.AddPointerOverAnimation="True"
+ button:ButtonAnimationHelper.AddPressedAnimation="True">
             <Button.Flyout>
                 <Flyout Placement="Bottom">
                     <StackPanel>
@@ -89,6 +96,12 @@
                             Toggled="SearchVisible_Toggled">
                             Show Search Engine
                         </ToggleSwitch>
+                        <ToggleSwitch
+                            x:Name="TrendingVisible"
+                            IsOn="{x:Bind ViewModel.IstrendingEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Toggled="TrendingVisible_Toggled">
+                            Show Trending
+                        </ToggleSwitch>
                     </StackPanel>
                 </Flyout>
             </Button.Flyout>
@@ -101,7 +114,9 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Content="{firebrowser:FluentIcon Glyph=&#xE713;}"
-            Style="{ThemeResource QuietButtonStyle}">
+            Style="{ThemeResource QuietButtonStyle}"
+             button:ButtonAnimationHelper.AddPointerOverAnimation="True"
+ button:ButtonAnimationHelper.AddPressedAnimation="True">
             <Button.Flyout>
                 <Flyout Placement="Bottom">
                     <StackPanel Background="Transparent">
@@ -230,7 +245,8 @@
             Height="Auto"
             Margin="2,32,2,32"
             Padding="4,2,4,2"
-            HorizontalAlignment="Left">
+            HorizontalAlignment="Left"
+            Visibility="{x:Bind ViewModel.IsTrendingVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
@@ -383,6 +399,15 @@
                     <x:String>Qwant Lite</x:String>
                     <x:String>Yahoo!</x:String>
                     <x:String>Presearch</x:String>
+                    <x:String>Swisscows</x:String>
+                    <x:String>Dogpile</x:String>
+                    <x:String>Webcrawler</x:String>
+                    <x:String>You</x:String>
+                    <x:String>Excite</x:String>
+                    <x:String>Lycos</x:String>
+                    <x:String>Metacrawler</x:String>
+                    <x:String>Mojeek</x:String>
+                    <x:String>BraveSearch</x:String>
                 </ComboBox>
             </labs:SettingsCard>
             <StackPanel

@@ -61,6 +61,7 @@ public class Settings
         self.RefreshButton = true;
         self.HomeButton = true;
         self.PipMode = false;
+        self.IsTrendingVisible = true;
     }
 
     [JsonIgnore]
@@ -189,6 +190,9 @@ public class Settings
     public bool IsFavoritesVisible { get; set; }
     [DefaultValue(true)]
     public bool IsSearchVisible { get; set; }
+    [DefaultValue(true)]
+
+    public bool IsTrendingVisible { get; set; }
     [DefaultValue(true)]
     public bool NtpCoreVisibility { get; set; }
 

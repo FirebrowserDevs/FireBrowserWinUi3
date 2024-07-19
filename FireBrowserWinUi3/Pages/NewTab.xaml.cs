@@ -1,9 +1,7 @@
-using FireBrowserCore.Models;
 using FireBrowserDatabase;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.ViewModels;
-using FireBrowserWinUi3Core;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.ImagesBing;
 using FireBrowserWinUi3DataCore.Actions;
@@ -17,8 +15,8 @@ using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
+using Newtonsoft.Json;
 using System;
-using System.Text.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,7 +24,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using static FireBrowserWinUi3.MainWindow;
 using Settings = FireBrowserWinUi3Core.Models.Settings;
-using Newtonsoft.Json;
 
 namespace FireBrowserWinUi3.Pages;
 
@@ -106,7 +103,7 @@ public sealed partial class NewTab : Page
 
         await UpdateTrending();
 
-        HomeSync();      
+        HomeSync();
     }
 
 
@@ -370,6 +367,8 @@ public sealed partial class NewTab : Page
     {
         try
         {
+            if (e.AddedItems.Count == 0) return;
+
             string selection = e.AddedItems[0].ToString();
             string url;
 
@@ -408,9 +407,34 @@ public sealed partial class NewTab : Page
                 case "Presearch":
                     url = "https://presearch.com/search?q=";
                     break;
-                // Add other cases for different search engines.
+                case "Swisscows":
+                    url = "https://swisscows.com/web?query=";
+                    break;
+                case "Dogpile":
+                    url = "https://www.dogpile.com/serp?q=";
+                    break;
+                case "Webcrawler":
+                    url = "https://www.webcrawler.com/serp?q=";
+                    break;
+                case "You":
+                    url = "https://you.com/search?q=";
+                    break;
+                case "Excite":
+                    url = "https://results.excite.com/serp?q=";
+                    break;
+                case "Lycos":
+                    url = "https://search20.lycos.com/web/?q=";
+                    break;
+                case "Metacrawler":
+                    url = "https://www.metacrawler.com/serp?q=";
+                    break;
+                case "Mojeek":
+                    url = "https://www.mojeek.com/search?q=";
+                    break;
+                case "BraveSearch":
+                    url = "https://search.brave.com/search?q=";
+                    break;
                 default:
-                    // Handle the case when selection doesn't match any of the predefined options.
                     url = "https://www.google.com/search?q=";
                     break;
             }
@@ -420,7 +444,7 @@ public sealed partial class NewTab : Page
                 userSettings.EngineFriendlyName = selection;
                 userSettings.SearchUrl = url;
                 await ViewModel.SettingsService?.SaveChangesToSettings(AuthService.CurrentUser, userSettings);
-                //UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings);
+                // UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings); // Uncomment if needed
             }
             NewTabSearchBox.Focus(FocusState.Programmatic);
         }
@@ -429,6 +453,7 @@ public sealed partial class NewTab : Page
             Console.WriteLine("An error occurred: " + ex.Message);
         }
     }
+
 
     private void TrendingSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -441,8 +466,10 @@ public sealed partial class NewTab : Page
 
             }
         }
-
     }
+
+    private void TrendingVisible_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsTrendingVisible = TrendingVisible.IsOn);
+
 
     private void FavoritesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {

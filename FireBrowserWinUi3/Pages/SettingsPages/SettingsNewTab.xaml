@@ -197,6 +197,39 @@
                 </labs:SettingsCard>
             </labs:SettingsExpander.Items>
         </labs:SettingsExpander>
+        <labs:SettingsExpander
+Margin="0,1,0,0"
+Header="Ui Settings">
+            <labs:SettingsExpander.HeaderIcon>
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEB3C;" />
+            </labs:SettingsExpander.HeaderIcon>
+            <labs:SettingsExpander.Items>
+                <labs:SettingsCard Margin="0,1,0,0" Description="Show Search On Home Page" Header="Search Visible" >
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xF78B;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Name="SearchHome" Toggled="SearchHome_Toggled"  IsOn="True" Tag="HomeSearch"/>
+                </labs:SettingsCard>
+                <labs:SettingsCard Margin="0,1,0,0" Description="Show History On Home Page" Header="History Visible">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE81C;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Name="HistoryHome" Toggled="HistoryHome_Toggled"  IsOn="True" Tag="HomeHistory"/>
+                </labs:SettingsCard>
+                <labs:SettingsCard Margin="0,1,0,0" Description="Show Favorites On Home Page" Header="Favorites Visible">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE734;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Name="FavoritesHome" Toggled="FavoritesHome_Toggled"  IsOn="True" Tag="HomeFavorites"/>
+                </labs:SettingsCard>
+                <labs:SettingsCard Margin="0,1,0,0" Description="Show Trending On Home Page" Header="Trending Visible">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE7B5;"/>
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Name="TrendingHome" Toggled="TrendingHome_Toggled"  IsOn="True" Tag="HomeTrending"/>
+                </labs:SettingsCard>
+            </labs:SettingsExpander.Items>
+        </labs:SettingsExpander>
         <labs:SettingsCard VerticalAlignment="Top" Margin="0,2,0,0">
             <labs:SettingsCard.Header>
                 Open in new tab

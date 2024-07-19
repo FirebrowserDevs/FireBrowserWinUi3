@@ -32,6 +32,6 @@ public sealed partial class SetupFinish : Page
         {
             AppService.ActiveWindow.Close();
         }
-        //if (countdownSeconds <= 0)  Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+        if (countdownSeconds <= 0) Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
     }
 }

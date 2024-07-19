@@ -139,6 +139,40 @@
                     </ctr:SettingsExpander.Items>
                 </ctr:SettingsExpander>
                 <ctr:SettingsExpander
+     Margin="0,1,0,0"
+     Description="Change Ui Elements"
+     Header="Ui Settings">
+                    <ctr:SettingsExpander.HeaderIcon>
+                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEB3C;" />
+                    </ctr:SettingsExpander.HeaderIcon>
+                    <ctr:SettingsExpander.Items>
+                        <ctr:SettingsCard Margin="0,1,0,0" Description="Show Search On Home Page" Header="Search Visible">
+                            <ctr:SettingsCard.HeaderIcon>
+                                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xF78B;"/>
+                            </ctr:SettingsCard.HeaderIcon>
+                            <ToggleSwitch x:Name="SearchHome" Toggled="SearchHome_Toggled"  IsOn="True" />
+                        </ctr:SettingsCard>
+                        <ctr:SettingsCard Margin="0,1,0,0" Description="Show History On Home Page" Header="History Visible">
+                            <ctr:SettingsCard.HeaderIcon>
+                                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE81C;"/>
+                            </ctr:SettingsCard.HeaderIcon>
+                            <ToggleSwitch x:Name="HistoryHome" Toggled="HistoryHome_Toggled"  IsOn="True"/>
+                        </ctr:SettingsCard>
+                        <ctr:SettingsCard Margin="0,1,0,0" Description="Show Favorites On Home Page" Header="Favorites Visible">
+                            <ctr:SettingsCard.HeaderIcon>
+                                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE734;"/>
+                            </ctr:SettingsCard.HeaderIcon>
+                            <ToggleSwitch x:Name="FavoritesHome" Toggled="FavoritesHome_Toggled"  IsOn="True" />
+                        </ctr:SettingsCard>
+                        <ctr:SettingsCard Margin="0,1,0,0" Description="Show Trending On Home Page" Header="Trending Visible">
+                            <ctr:SettingsCard.HeaderIcon>
+                                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE7B5;"/>
+                            </ctr:SettingsCard.HeaderIcon>
+                            <ToggleSwitch x:Name="TrendingHome" Toggled="TrendingHome_Toggled"  IsOn="True" />
+                        </ctr:SettingsCard>
+                    </ctr:SettingsExpander.Items>
+                </ctr:SettingsExpander>
+                <ctr:SettingsExpander
                     Margin="0,1,0,0"
                     Description="Change Here Tab Model"
                     Header="Tabs Layout Model">

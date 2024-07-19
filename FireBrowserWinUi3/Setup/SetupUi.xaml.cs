@@ -62,7 +62,7 @@ public sealed partial class SetupUi : Page
         string color = NtpColorText.Text.ToString();
         if (!string.IsNullOrEmpty(color))
         {
-            AppService.AppSettings.NtpTextColor = color; ;
+            AppService.AppSettings.NtpTextColor = color;
         }
     }
 
@@ -116,5 +116,49 @@ public sealed partial class SetupUi : Page
 
         AppService.AppSettings.Background = type;
 
+    }
+
+    private void SearchHome_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            // Assuming 'url' and 'selection' have been defined earlier
+            var autoSettingValue = toggleSwitch.IsOn;
+            AppService.AppSettings.IsSearchVisible = autoSettingValue; ;
+
+        }
+    }
+
+    private void HistoryHome_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            // Assuming 'url' and 'selection' have been defined earlier
+            var autoSettingValue = toggleSwitch.IsOn;
+            AppService.AppSettings.IsHistoryVisible = autoSettingValue; ;
+
+        }
+    }
+
+    private void FavoritesHome_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            // Assuming 'url' and 'selection' have been defined earlier
+            var autoSettingValue = toggleSwitch.IsOn;
+            AppService.AppSettings.IsFavoritesVisible = autoSettingValue; ;
+
+        }
+    }
+
+    private void TrendingHome_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            // Assuming 'url' and 'selection' have been defined earlier
+            var autoSettingValue = toggleSwitch.IsOn;
+            AppService.AppSettings.IsTrendingVisible = autoSettingValue; ;
+
+        }
     }
 }

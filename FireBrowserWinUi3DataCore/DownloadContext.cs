@@ -3,20 +3,19 @@ using FireBrowserWinUi3MultiCore;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 
-namespace FireBrowserWinUi3DataCore
+namespace FireBrowserWinUi3DataCore;
+
+public class DownloadContext : DbContext
 {
-    public class DownloadContext : DbContext
+
+    public DbSet<DownloadItem> Downloads { get; set; }
+    public string ConnectionPath { get; set; }
+    public DownloadContext(string username)
     {
-
-        public DbSet<DownloadItem> Downloads { get; set; }
-        public string ConnectionPath { get; set; }
-        public DownloadContext(string username)
-        {
-            ConnectionPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Database", "Downloads.db");
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseSqlite($"Data Source={ConnectionPath}");
-
+        ConnectionPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Database", "Downloads.db");
     }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlite($"Data Source={ConnectionPath}");
+
 }

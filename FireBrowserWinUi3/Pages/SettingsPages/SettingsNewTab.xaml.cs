@@ -31,6 +31,10 @@ public sealed partial class SettingsNewTab : Page
         Hsbl.IsOn = SettingsService.CoreSettings.Historybtn;
         Qrbl.IsOn = SettingsService.CoreSettings.QrCode;
         Tlbl.IsOn = SettingsService.CoreSettings.ToolIcon;
+        TrendingHome.IsOn = SettingsService.CoreSettings.IsTrendingVisible;
+        FavoritesHome.IsOn = SettingsService.CoreSettings.IsFavoritesVisible;
+        SearchHome.IsOn = SettingsService.CoreSettings.IsSearchVisible;
+        HistoryHome.IsOn = SettingsService.CoreSettings.IsHistoryVisible;
         BackSettings.IsOn = SettingsService.CoreSettings.BackButton;
         ForwardSettings.IsOn = SettingsService.CoreSettings.ForwardButton;
         ReloadSettings.IsOn = SettingsService.CoreSettings.RefreshButton;
@@ -140,6 +144,7 @@ public sealed partial class SettingsNewTab : Page
             case "RefreshButton":
                 SettingsService.CoreSettings.RefreshButton = value;
                 break;
+
             // Add other cases for different settings.
             default:
                 throw new ArgumentException("Invalid setting name");
@@ -159,4 +164,47 @@ public sealed partial class SettingsNewTab : Page
         }
     }
 
+    private void TrendingHome_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            // Assuming 'url' and 'selection' have been defined earlier
+            var autoSettingValue = toggleSwitch.IsOn;
+            AppService.AppSettings.IsTrendingVisible = autoSettingValue;
+
+        }
+    }
+
+    private void FavoritesHome_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            // Assuming 'url' and 'selection' have been defined earlier
+            var autoSettingValue = toggleSwitch.IsOn;
+            AppService.AppSettings.IsFavoritesVisible = autoSettingValue;
+
+        }
+    }
+
+    private void HistoryHome_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            // Assuming 'url' and 'selection' have been defined earlier
+            var autoSettingValue = toggleSwitch.IsOn;
+            AppService.AppSettings.IsHistoryVisible = autoSettingValue;
+
+        }
+    }
+
+    private void SearchHome_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleSwitch toggleSwitch)
+        {
+            // Assuming 'url' and 'selection' have been defined earlier
+            var autoSettingValue = toggleSwitch.IsOn;
+            AppService.AppSettings.IsSearchVisible = autoSettingValue;
+
+        }
+    }
 }

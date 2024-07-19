@@ -20,8 +20,6 @@ using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
-using Windows.Storage;
-using Windows.Storage.Pickers;
 using WinRT.Interop;
 using static FireBrowserWinUi3.MainWindow;
 
@@ -210,7 +208,7 @@ public sealed partial class WebContent : Page
             ProgressLoading.IsIndeterminate = false;
             ProgressLoading.Visibility = Visibility.Collapsed;
 
-            
+
 
             await Task.Delay(1000); // Delay for stability
 
@@ -318,7 +316,7 @@ public sealed partial class WebContent : Page
 
     private Task HandleSaveAsync()
     {
-        
+
         return Task.CompletedTask;
     }
 

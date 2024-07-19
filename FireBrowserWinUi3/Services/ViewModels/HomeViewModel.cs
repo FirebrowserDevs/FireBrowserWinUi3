@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using FireBrowserDatabase;
 using FireBrowserWinUi3.Services;
@@ -45,30 +44,22 @@ public partial class HomeViewModel : ObservableRecipient
     [ObservableProperty]
     private bool _isSearchBoxEnabled;
     [ObservableProperty]
+    private bool _istrendingEnabled;
+    [ObservableProperty]
     private Visibility _isFavoritesVisible;
     [ObservableProperty]
     private Visibility _isHistoryVisible;
     [ObservableProperty]
     private Visibility _IsSearchVisible;
     [ObservableProperty]
+    private Visibility _IsTrendingVisible;
+    [ObservableProperty]
     private Brush _brushNtp = new SolidColorBrush(Colors.Ivory);
-    [ObservableProperty]
-    private bool _isTrendingOpened;
-    [ObservableProperty]
-    [CommunityToolkit.Mvvm.ComponentModel.NotifyPropertyChangedFor(nameof(TrendingItem))]
-    private Visibility _trendingVisible;
     [ObservableProperty]
     UIElement _TeachingPoint;
     [ObservableProperty]
     TrendingItem _trendingItem;
 
-
-    [RelayCommand]
-    void TrendingOpen()
-    {
-        IsTrendingOpened = true;
-        TrendingVisible = IsTrendingOpened ? Visibility.Visible : Visibility.Collapsed;
-    }
     public SettingsService SettingsService { get; set; }
     private DispatcherTimer timer { get; set; }
     public ObservableCollection<HistoryItem> HistoryItems { get; set; }
@@ -85,6 +76,7 @@ public partial class HomeViewModel : ObservableRecipient
         IsHistoryCardEnabled = SettingsService.CoreSettings.IsHistoryVisible;
         IsSearchVisible = SettingsService.CoreSettings.IsSearchVisible ? Visibility.Visible : Visibility.Collapsed;
         IsSearchBoxEnabled = SettingsService.CoreSettings.IsSearchVisible;
+        IsTrendingVisible = SettingsService.CoreSettings.IsTrendingVisible ? Visibility.Visible : Visibility.Collapsed;
 
         IsFavoriteExpanded = SettingsService.CoreSettings.IsFavoritesToggled;
         IsHistoryExpanded = SettingsService.CoreSettings.IsHistoryToggled;
@@ -100,6 +92,10 @@ public partial class HomeViewModel : ObservableRecipient
         OnPropertyChanged(nameof(IsFavoritesVisible));
         OnPropertyChanged(nameof(IsHistoryVisible));
         OnPropertyChanged(nameof(IsSearchVisible));
+        OnPropertyChanged(nameof(IsTrendingVisible));
+        OnPropertyChanged(nameof(IstrendingEnabled));
+
+
 
         OnPropertyChanged(nameof(IsSearchBoxEnabled));
         OnPropertyChanged(nameof(IsFavoriteCardEnabled));
@@ -116,10 +112,13 @@ public partial class HomeViewModel : ObservableRecipient
         IsFavoriteCardEnabled = SettingsService.CoreSettings.IsFavoritesVisible;
         IsHistoryCardEnabled = SettingsService.CoreSettings.IsHistoryVisible;
         IsSearchBoxEnabled = SettingsService.CoreSettings.IsSearchVisible;
+        IstrendingEnabled = SettingsService.CoreSettings.IsTrendingVisible;
 
         IsFavoritesVisible = IsFavoriteCardEnabled ? Visibility.Visible : Visibility.Collapsed;
         IsHistoryVisible = IsHistoryCardEnabled ? Visibility.Visible : Visibility.Collapsed;
         IsSearchVisible = IsSearchBoxEnabled ? Visibility.Visible : Visibility.Collapsed;
+        IsTrendingVisible = IstrendingEnabled ? Visibility.Visible : Visibility.Collapsed;
+
 
         IsFavoriteExpanded = SettingsService.CoreSettings.IsFavoritesToggled;
         IsHistoryExpanded = SettingsService.CoreSettings.IsHistoryToggled;
