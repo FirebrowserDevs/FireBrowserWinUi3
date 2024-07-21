@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="src/FireBrowser/Assets/fincog.png" height="75" width="75" />
+  <img src="FireBrowserWinUi3/Assets/fincog.png" height="75" width="75" />
   <h1>FireBrowserWinUi</h1>
 </div>
 
