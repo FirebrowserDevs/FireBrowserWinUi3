@@ -1,5 +1,4 @@
 ﻿namespace FireBrowserWinUi3QrCore;
-
 public abstract class AbstractQRCode
 {
     protected QRCodeData QrCodeData { get; set; }

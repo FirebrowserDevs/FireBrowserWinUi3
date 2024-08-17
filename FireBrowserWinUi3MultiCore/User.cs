@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace FireBrowserWinUi3MultiCore
+namespace FireBrowserWinUi3MultiCore;
+
+public class User
 {
-    public class User
+    private User user;
+    public User(User user)
     {
-        private User user;
-        public User(User user)
-        {
-            this.user = user;
-        }
-
-        public User() { }
-
-        public Guid Id { get; set; }
-        public string Username { get; set; }
-        public bool IsFirstLaunch { get; set; }
-
-        [JsonPropertyName("UserSettings")]
-        public Settings UserSettings { get; set; }
+        this.user = user;
     }
+
+    public User() { }
+
+    public Guid Id { get; set; }
+    public string Username { get; set; }
+    public bool IsFirstLaunch { get; set; }
+
+    [JsonPropertyName("UserSettings")]
+    public Settings UserSettings { get; set; }
 }

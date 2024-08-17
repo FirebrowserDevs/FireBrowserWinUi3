@@ -430,10 +430,17 @@ public sealed partial class MainWindow : Window
         var displayArea = DisplayArea.GetFromWindowId(wndId, DisplayAreaFallback.Primary);
         var hMonitor = Win32Interop.GetMonitorFromDisplayId(displayArea.DisplayId);
 
-        _ = Windowing.GetDpiForMonitor(hMonitor, Windowing.Monitor_DPI_Type.MDT_Default_DPI, out uint dpiX, out _);
+        // Get the effective DPI for the monitor
+        _ = Windowing.GetDpiForMonitor(hMonitor, Windowing.Monitor_DPI_Type.MDT_Effective_DPI, out uint dpiX, out uint dpiY);
 
-        return dpiX / 96.0; // Simplified calculation
+        // Calculate the average DPI scaling factor
+        double scaleX = dpiX / 96.0;
+        double scaleY = dpiY / 96.0;
+
+        // Depending on your UI, you may want to return the average or just one axis
+        return (scaleX + scaleY) / 2.0; // Average of X and Y scaling
     }
+
 
     private void Tabs_Loaded(object sender, RoutedEventArgs e)
     {

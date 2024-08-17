@@ -1,45 +1,43 @@
 ﻿using System;
 
-namespace FireBrowserWinUi3QrCore.FrameworkMethods
+namespace FireBrowserWinUi3QrCore.FrameworkMethods;
+internal static class String40Methods
 {
-    internal static class String40Methods
+    /// <returns>
+    ///   <c>true</c> if the <paramref name="value"/> is null or white space; otherwise, <c>false</c>.
+    /// </returns>
+    public static bool IsNullOrWhiteSpace(String value)
     {
-        /// <returns>
-        ///   <c>true</c> if the <paramref name="value"/> is null or white space; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsNullOrWhiteSpace(String value)
+        if (value == null) return true;
+
+        for (int i = 0; i < value.Length; i++)
         {
-            if (value == null) return true;
-
-            for (int i = 0; i < value.Length; i++)
-            {
-                if (!Char.IsWhiteSpace(value[i])) return false;
-            }
-
-            return true;
+            if (!Char.IsWhiteSpace(value[i])) return false;
         }
 
-        public static string ReverseString(string str)
-        {
-            char[] chars = str.ToCharArray();
-            char[] result = new char[chars.Length];
-            for (int i = 0, j = str.Length - 1; i < str.Length; i++, j--)
-            {
-                result[i] = chars[j];
-            }
-            return new string(result);
-        }
+        return true;
+    }
 
-        public static bool IsAllDigit(string str)
+    public static string ReverseString(string str)
+    {
+        char[] chars = str.ToCharArray();
+        char[] result = new char[chars.Length];
+        for (int i = 0, j = str.Length - 1; i < str.Length; i++, j--)
         {
-            foreach (var c in str)
-            {
-                if (!char.IsDigit(c))
-                {
-                    return false;
-                }
-            }
-            return true;
+            result[i] = chars[j];
         }
+        return new string(result);
+    }
+
+    public static bool IsAllDigit(string str)
+    {
+        foreach (var c in str)
+        {
+            if (!char.IsDigit(c))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

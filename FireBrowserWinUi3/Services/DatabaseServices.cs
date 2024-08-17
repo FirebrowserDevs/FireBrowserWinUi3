@@ -8,92 +8,98 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace FireBrowserWinUi3.Services;
-public class DatabaseServices : IDatabaseService
+namespace FireBrowserWinUi3.Services
 {
-    public async Task<Task> InsertUserSettings()
+    public class DatabaseServices : IDatabaseService
     {
-        Batteries_V2.Init();
-        if (!AuthService.IsUserAuthenticated) return Task.FromResult(false); ;
-
-        try
+        public async Task InsertUserSettings()
         {
-            SettingsActions settingsActions = new SettingsActions(AuthService.CurrentUser.Username);
-            if (!File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Settings", "Settings.db")))
+            Batteries_V2.Init();
+
+            if (!AuthService.IsUserAuthenticated)
+                return;
+
+            try
             {
-                await settingsActions.SettingsContext.Database.MigrateAsync();
-            }
-            if (File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Settings", "Settings.db")))
-            {
-                if (await settingsActions.GetSettingsAsync() is null)
+                SettingsActions settingsActions = new SettingsActions(AuthService.CurrentUser.Username);
+                string settingsDbPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Settings", "Settings.db");
+
+                if (!File.Exists(settingsDbPath))
                 {
-                    await settingsActions.InsertUserSettingsAsync(AppService.AppSettings);
+                    await settingsActions.SettingsContext.Database.MigrateAsync();
                 }
 
+                if (File.Exists(settingsDbPath))
+                {
+                    if (await settingsActions.GetSettingsAsync() is null)
+                    {
+                        await settingsActions.InsertUserSettingsAsync(AppService.AppSettings);
+                    }
+                }
             }
-        }
-        catch (Exception ex)
-        {
-            ExceptionLogger.LogException(ex);
-            Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
-            return Task.FromException(ex);
-        }
-
-        return Task.CompletedTask;
-    }
-    public async Task<Task> DatabaseCreationValidation()
-    {
-        if (!AuthService.IsUserAuthenticated) return Task.FromResult(false); ;
-
-        try
-        {
-            SettingsActions settingsActions = new SettingsActions(AuthService.CurrentUser.Username);
-            if (!File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Settings", "Settings.db")))
+            catch (Exception ex)
             {
-                await settingsActions.SettingsContext.Database.MigrateAsync();
+                HandleException(ex, "Error in Creating Settings Database");
             }
-            if (File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Settings", "Settings.db")))
-                await settingsActions.SettingsContext.Database.CanConnectAsync();
-        }
-        catch (Exception ex)
-        {
-            ExceptionLogger.LogException(ex);
-            Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
         }
 
-        try
+        public async Task DatabaseCreationValidation()
         {
-            HistoryActions historyActions = new HistoryActions(AuthService.CurrentUser?.Username);
-            if (!File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "History.db")))
+            if (!AuthService.IsUserAuthenticated)
+                return;
+
+            var tasks = new[]
             {
-                await historyActions.HistoryContext.Database.MigrateAsync();
-            }
-            if (File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "History.db")))
-                await historyActions.HistoryContext.Database.CanConnectAsync();
-        }
-        catch (Exception ex)
-        {
-            ExceptionLogger.LogException(ex);
-            Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
+                ValidateDatabaseAsync<SettingsActions>("Settings.db"),
+                ValidateDatabaseAsync<HistoryActions>("History.db"),
+                ValidateDatabaseAsync<DownloadActions>("Downloads.db")
+            };
+
+            await Task.WhenAll(tasks);
         }
 
-        try
+        private async Task ValidateDatabaseAsync<T>(string dbFileName) where T : class
         {
-            DownloadActions settingsActions = new DownloadActions(AuthService.CurrentUser.Username);
-            if (!File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "Downloads.db")))
+            try
             {
-                await settingsActions.DownloadContext.Database.MigrateAsync();
-            }
-            if (File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", "Downloads.db")))
-                await settingsActions.DownloadContext.Database.CanConnectAsync();
+                string dbPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username, "Database", dbFileName);
 
+                if (!File.Exists(dbPath))
+                {
+                    var actions = CreateActions<T>();
+                    await actions.Database.MigrateAsync();
+                }
+
+                if (File.Exists(dbPath))
+                {
+                    var actions = CreateActions<T>();
+                    await actions.Database.CanConnectAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, $"Error in Creating {dbFileName}");
+            }
         }
-        catch (Exception ex)
+
+        private dynamic CreateActions<T>() where T : class
+        {
+            if (typeof(T) == typeof(SettingsActions))
+                return new SettingsActions(AuthService.CurrentUser.Username);
+
+            if (typeof(T) == typeof(HistoryActions))
+                return new HistoryActions(AuthService.CurrentUser?.Username);
+
+            if (typeof(T) == typeof(DownloadActions))
+                return new DownloadActions(AuthService.CurrentUser.Username);
+
+            throw new InvalidOperationException("Unknown actions type");
+        }
+
+        private void HandleException(Exception ex, string message)
         {
             ExceptionLogger.LogException(ex);
-            Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
+            Console.WriteLine($"{message}: {ex.Message}");
         }
-
-        return Task.CompletedTask;
     }
 }

@@ -13,27 +13,59 @@ namespace FireBrowserWinUi3Core.Helpers
 
         public static void Save()
         {
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            string jsonString = JsonSerializer.Serialize(Items, options);
+            try
+            {
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                string jsonString = JsonSerializer.Serialize(Items, options);
+                byte[] encryptedData = EncryptionHelpers.ProtectString(jsonString);
 
-            File.WriteAllBytes(Data.TotpFilePath, EncryptionHelpers.ProtectString(jsonString));
+                if (encryptedData != null)
+                {
+                    File.WriteAllBytes(Data.TotpFilePath, encryptedData);
+                }
+                else
+                {
+                    Console.WriteLine("Failed to encrypt data during save.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving 2FA data: {ex.Message}");
+            }
         }
 
         public static async Task<ObservableCollection<TwoFactorAuthItem>> Load()
         {
-            if (File.Exists(Data.TotpFilePath))
+            try
             {
-                byte[] encryptedJsonString = File.ReadAllBytes(Data.TotpFilePath);
-                string jsonString = EncryptionHelpers.UnprotectToString(encryptedJsonString);
+                if (File.Exists(Data.TotpFilePath))
+                {
+                    byte[] encryptedJsonString = File.ReadAllBytes(Data.TotpFilePath);
+                    string jsonString = EncryptionHelpers.UnprotectToString(encryptedJsonString);
 
-                Items = !string.IsNullOrEmpty(jsonString)
-                    ? JsonSerializer.Deserialize<ObservableCollection<TwoFactorAuthItem>>(jsonString)
-                    : new ObservableCollection<TwoFactorAuthItem>();
+                    if (!string.IsNullOrEmpty(jsonString))
+                    {
+                        Items = JsonSerializer.Deserialize<ObservableCollection<TwoFactorAuthItem>>(jsonString) ?? new ObservableCollection<TwoFactorAuthItem>();
+                    }
+                    else
+                    {
+                        Items = new ObservableCollection<TwoFactorAuthItem>();
+                    }
+                }
+                else
+                {
+                    Items = new ObservableCollection<TwoFactorAuthItem>();
+                }
+
+                Items.CollectionChanged += (_, _) => Save();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading 2FA data: {ex.Message}");
+                Items = new ObservableCollection<TwoFactorAuthItem>();
             }
 
-            Items.CollectionChanged += (_, _) => Save();
             await Task.CompletedTask;
-
             return Items;
         }
 
@@ -41,7 +73,6 @@ namespace FireBrowserWinUi3Core.Helpers
         {
             try
             {
-                // Check if 2fa.json file exists
                 if (File.Exists(Data.TotpFilePath))
                 {
                     byte[] encryptedJsonString = File.ReadAllBytes(Data.TotpFilePath);
@@ -49,36 +80,43 @@ namespace FireBrowserWinUi3Core.Helpers
 
                     if (string.IsNullOrEmpty(jsonString))
                     {
-                        // If the file contents cannot be decrypted or are empty, recreate the file with default data
+                        Console.WriteLine("2FA data is empty or cannot be decrypted. Creating default file.");
                         CreateDefaultFile();
                     }
                     else
                     {
-                        // Try deserializing the file contents
-                        var items = JsonSerializer.Deserialize<ObservableCollection<TwoFactorAuthItem>>(jsonString);
-                        if (items == null)
+                        try
                         {
-                            // If deserialization fails, recreate the file with default data
-                            CreateDefaultFile();
+                            var items = JsonSerializer.Deserialize<ObservableCollection<TwoFactorAuthItem>>(jsonString);
+
+                            if (items == null)
+                            {
+                                Console.WriteLine("Deserialization failed. Creating default file.");
+                                CreateDefaultFile();
+                            }
+                            else
+                            {
+                                Items = items;
+                                Items.CollectionChanged += (_, _) => Save();
+                            }
                         }
-                        else
+                        catch (JsonException)
                         {
-                            // If the file contents are valid, update the Items collection
-                            Items = items;
-                            Items.CollectionChanged += (_, _) => Save();
+                            Console.WriteLine("Deserialization error. Creating default file.");
+                            CreateDefaultFile();
                         }
                     }
                 }
                 else
                 {
-                    // If the file does not exist, create it with default data
+                    Console.WriteLine("2FA file does not exist. Creating default file.");
                     CreateDefaultFile();
                 }
             }
             catch (Exception ex)
             {
-                // Handle any exceptions that occur during the repair process
-                Console.WriteLine($"Error repairing 2fa.json file: {ex.Message}");
+                Console.WriteLine($"Error repairing 2FA data: {ex.Message}");
+                CreateDefaultFile();
             }
 
             await Task.CompletedTask;
