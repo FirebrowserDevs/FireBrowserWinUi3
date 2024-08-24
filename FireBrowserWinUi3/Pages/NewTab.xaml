@@ -79,6 +79,14 @@
                             Show Clock
                         </ToggleSwitch>
                         <ToggleSwitch
+                            Visibility="Collapsed"
+      x:Name="FloatingBox"
+                            IsEnabled="False"
+      IsOn="{x:Bind ViewModel.IslogoEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+      Toggled="FloatingBox_Toggled">
+                            Show Logo
+                        </ToggleSwitch>
+                        <ToggleSwitch
                             x:Name="HistoryVisible"
                             IsOn="{x:Bind ViewModel.IsHistoryCardEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Toggled="HistoryVisible_Toggled">
@@ -322,20 +330,22 @@
                 Text="{x:Bind ViewModel.NtpDateText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Visibility="{x:Bind ViewModel.NtpCoreVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
-        
+
         <Grid
-            x:Name="BigGrid"
-            Width="Auto"
-            MaxHeight="480"
-            Margin="12,96,2,12"
-            Padding="15"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
-            BorderBrush="Black"
-            BorderThickness="1.5"
-            CornerRadius="6"
-            RowSpacing="24">
+     x:Name="BigGrid"
+     Width="Auto"
+     MaxHeight="480"
+     Margin="12,96,2,12"
+     Padding="15"
+     HorizontalAlignment="Center"
+     VerticalAlignment="Center"
+     Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
+     BorderBrush="Black"
+     BorderThickness="1.5"
+     CornerRadius="6"
+     RowSpacing="24"
+     Visibility="{x:Bind ViewModel.IsLogoVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            >
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -345,42 +355,42 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock
-                Grid.Row="0"
-                FontSize="{ThemeResource TextStyleLargeFontSize}"
-                Text="Search or enter an address"
-                Visibility="{x:Bind ViewModel.IsSearchVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+         Grid.Row="0"
+         FontSize="{ThemeResource TextStyleLargeFontSize}"
+         Text="Search or enter an address"
+         Visibility="{x:Bind ViewModel.IsSearchVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <AutoSuggestBox
-                x:Name="NewTabSearchBox"
-                x:Uid="SearchBar"
-                Grid.Row="1"
-                Width="Auto"
-                Height="40"
-                MinWidth="250"
-                HorizontalAlignment="Stretch"
-                x:FieldModifier="Public"
-                Background="Transparent"
-                BorderBrush="{ThemeResource SystemAltHighColor}"
-                BorderThickness="1,1,1,1"
-                CornerRadius="5"
-                PreviewKeyDown="NewTabSearchBox_PreviewKeyDown"
-                TextChanged="NewTabSearchBox_TextChanged"
-                Visibility="{x:Bind ViewModel.IsSearchVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+         x:Name="NewTabSearchBox"
+         x:Uid="SearchBar"
+         Grid.Row="1"
+         Width="Auto"
+         Height="40"
+         MinWidth="250"
+         HorizontalAlignment="Stretch"
+         x:FieldModifier="Public"
+         Background="Transparent"
+         BorderBrush="{ThemeResource SystemAltHighColor}"
+         BorderThickness="1,1,1,1"
+         CornerRadius="5"
+         PreviewKeyDown="NewTabSearchBox_PreviewKeyDown"
+         TextChanged="NewTabSearchBox_TextChanged"
+         Visibility="{x:Bind ViewModel.IsSearchVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <AutoSuggestBox.Resources>
                     <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="{ThemeResource SystemAltHighColor}" />
                     <SolidColorBrush x:Key="TextControlButtonForeground" Color="{ThemeResource SystemAltHighColor}" />
                 </AutoSuggestBox.Resources>
             </AutoSuggestBox>
             <labs:SettingsCard
-                Grid.Row="2"
-                Width="Auto"
-                MinWidth="250"
-                Margin="2"
-                VerticalAlignment="Center"
-                Background="{ThemeResource DesktopAcrylicTransparentBrush}"
-                BorderBrush="Black"
-                BorderThickness="1"
-                CornerRadius="5"
-                Visibility="{x:Bind ViewModel.IsSearchVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+         Grid.Row="2"
+         Width="Auto"
+         MinWidth="250"
+         Margin="2"
+         VerticalAlignment="Center"
+         Background="{ThemeResource DesktopAcrylicTransparentBrush}"
+         BorderBrush="Black"
+         BorderThickness="1"
+         CornerRadius="5"
+         Visibility="{x:Bind ViewModel.IsSearchVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <labs:SettingsCard.Header>
                     Search Engine
                 </labs:SettingsCard.Header>
@@ -411,52 +421,52 @@
                 </ComboBox>
             </labs:SettingsCard>
             <StackPanel
-                Grid.Row="3"
-                Width="Auto"
-                MinWidth="250"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
+         Grid.Row="3"
+         Width="Auto"
+         MinWidth="250"
+         HorizontalAlignment="Stretch"
+         VerticalAlignment="Center"
+         Orientation="Horizontal">
                 <labs:SettingsExpander
-                    x:Name="FavoritesCard"
-                    Width="Auto"
-                    MinWidth="250"
-                    Margin="5"
-                    BorderBrush="Black"
-                    BorderThickness="1"
-                    Description="Favorites"
-                    Header="My Favorites"
-                    HeaderIcon="{firebrowser:FluentIcon Glyph=&#xE728;}"
-                    IsExpanded="{x:Bind ViewModel.IsFavoriteExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{x:Bind ViewModel.IsFavoritesVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+             x:Name="FavoritesCard"
+             Width="Auto"
+             MinWidth="250"
+             Margin="5"
+             BorderBrush="Black"
+             BorderThickness="1"
+             Description="Favorites"
+             Header="My Favorites"
+             HeaderIcon="{firebrowser:FluentIcon Glyph=&#xE728;}"
+             IsExpanded="{x:Bind ViewModel.IsFavoriteExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+             Visibility="{x:Bind ViewModel.IsFavoritesVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
                     <labs:SettingsExpander.Items>
                         <labs:SettingsCard
-                            Margin="2"
-                            HorizontalAlignment="Stretch"
-                            Background="{ThemeResource DesktopAcrylicTransparentBrush}"
-                            CornerRadius="5">
+                     Margin="2"
+                     HorizontalAlignment="Stretch"
+                     Background="{ThemeResource DesktopAcrylicTransparentBrush}"
+                     CornerRadius="5">
                             <ListView
-                                Height="180"
-                                MinWidth="250"
-                                Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
-                                BorderBrush="Black"
-                                BorderThickness="1"
-                                ItemsSource="{x:Bind ViewModel.FavoriteItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                SelectionChanged="FavoritesListView_SelectionChanged">
+                         Height="180"
+                         MinWidth="250"
+                         Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
+                         BorderBrush="Black"
+                         BorderThickness="1"
+                         ItemsSource="{x:Bind ViewModel.FavoriteItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         SelectionChanged="FavoritesListView_SelectionChanged">
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="firebrowserfavorites:FavItem">
                                         <StackPanel Orientation="Horizontal">
                                             <Image
-                                                Height="24"
-                                                HorizontalAlignment="Left"
-                                                Source="{Binding IconUrlPath, Mode=OneWay}"
-                                                Stretch="UniformToFill" />
+                                         Height="24"
+                                         HorizontalAlignment="Left"
+                                         Source="{Binding IconUrlPath, Mode=OneWay}"
+                                         Stretch="UniformToFill" />
                                             <AppBarSeparator />
                                             <TextBlock
-                                                Text="{Binding Title}"
-                                                TextWrapping="WrapWholeWords"
-                                                ToolTipService.ToolTip="{Binding Title, Mode=OneWay}" />
+                                         Text="{Binding Title}"
+                                         TextWrapping="WrapWholeWords"
+                                         ToolTipService.ToolTip="{Binding Title, Mode=OneWay}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -465,39 +475,39 @@
                     </labs:SettingsExpander.Items>
                 </labs:SettingsExpander>
                 <labs:SettingsExpander
-                    x:Name="HistoryCard"
-                    Width="Auto"
-                    MinWidth="250"
-                    BorderBrush="Black"
-                    BorderThickness="1"
-                    Description="Histories"
-                    Header="My History"
-                    HeaderIcon="{firebrowser:FluentIcon Glyph=&#xE81C;}"
-                    IsExpanded="{x:Bind ViewModel.IsHistoryExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{x:Bind ViewModel.IsHistoryVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+             x:Name="HistoryCard"
+             Width="Auto"
+             MinWidth="250"
+             BorderBrush="Black"
+             BorderThickness="1"
+             Description="Histories"
+             Header="My History"
+             HeaderIcon="{firebrowser:FluentIcon Glyph=&#xE81C;}"
+             IsExpanded="{x:Bind ViewModel.IsHistoryExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+             Visibility="{x:Bind ViewModel.IsHistoryVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <!--  To-Do Binding Uno Twoway error  -->
                     <labs:SettingsExpander.Items>
                         <labs:SettingsCard
-                            Margin="2"
-                            HorizontalAlignment="Stretch"
-                            Background="{ThemeResource DesktopAcrylicTransparentBrush}"
-                            CornerRadius="5">
+                     Margin="2"
+                     HorizontalAlignment="Stretch"
+                     Background="{ThemeResource DesktopAcrylicTransparentBrush}"
+                     CornerRadius="5">
                             <ListView
-                                Height="180"
-                                MinWidth="250"
-                                Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
-                                BorderBrush="Black"
-                                BorderThickness="1"
-                                ItemsSource="{x:Bind ViewModel.HistoryItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                SelectionChanged="ListView_SelectionChanged">
+                         Height="180"
+                         MinWidth="250"
+                         Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
+                         BorderBrush="Black"
+                         BorderThickness="1"
+                         ItemsSource="{x:Bind ViewModel.HistoryItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         SelectionChanged="ListView_SelectionChanged">
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="history:HistoryItem">
                                         <StackPanel Orientation="Horizontal">
                                             <Image
-                                                Height="24"
-                                                HorizontalAlignment="Left"
-                                                Source="{x:Bind ImageSource, Mode=OneWay}"
-                                                Stretch="UniformToFill" />
+                                         Height="24"
+                                         HorizontalAlignment="Left"
+                                         Source="{x:Bind ImageSource, Mode=OneWay}"
+                                         Stretch="UniformToFill" />
                                             <AppBarSeparator />
                                             <TextBlock Text="{x:Bind Title, Mode=OneWay}" TextWrapping="WrapWholeWords" />
                                         </StackPanel>
@@ -509,24 +519,25 @@
                 </labs:SettingsExpander>
             </StackPanel>
             <StackPanel
-                Grid.Row="4"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Orientation="Horizontal">
+         Grid.Row="4"
+         HorizontalAlignment="Center"
+         VerticalAlignment="Bottom"
+         Orientation="Horizontal"
+         >
                 <Button
-                    Margin="4"
-                    Padding="0"
-                    Background="Transparent"
-                    BorderBrush="Transparent">
+             Margin="4"
+             Padding="0"
+             Background="Transparent"
+             BorderBrush="Transparent">
                     <Image
-                        Width="20"
-                        Height="20"
-                        Source="{dllimg:ImageLoader ImageName=LogoApp.png}" />
+                 Width="20"
+                 Height="20"
+                 Source="{dllimg:ImageLoader ImageName=LogoApp.png}" />
                 </Button>
                 <TextBlock
-                    x:Uid="AppName"
-                    VerticalAlignment="Center"
-                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+             x:Uid="AppName"
+             VerticalAlignment="Center"
+             Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
             </StackPanel>
         </Grid>
 

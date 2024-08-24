@@ -15,8 +15,6 @@ using FireBrowserWinUi3MultiCore;
 using FireBrowserWinUi3MultiCore.Helper;
 using FireBrowserWinUi3Navigator;
 using FireBrowserWinUi3QrCore;
-using FireBrowserWinUiModules.Darkmode;
-using FireBrowserWinUiModules.Read;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -54,6 +52,7 @@ public sealed partial class MainWindow : Window
     public MainWindowViewModel ViewModelMain { get; set; }
     public string PicturePath { get; set; }
 
+    public string BackDropType = "Base";
     public MainWindow()
     {
         ServiceDownloads = App.GetService<DownloadService>();
@@ -722,12 +721,15 @@ public sealed partial class MainWindow : Window
                 }
                 break;
             case "ReadingMode" when TabContent.Content is WebContent:
-                string jscriptread = await ReadabilityHelper.GetReadabilityScriptAsync();
-                await (TabContent.Content as WebContent).WebViewElement.CoreWebView2.ExecuteScriptAsync(jscriptread);
+                var uriread = new Uri("ms-appx:///Services/WebHelpers/ReadabilityWeb.js");
+                StorageFile ReadabilityWebFile = await StorageFile.GetFileFromApplicationUriAsync(uriread);
+
+                // Read the contents of the DarkModeWeb.js file asynchronously
+                string jscript = await FileIO.ReadTextAsync(ReadabilityWebFile);
+                await (TabContent.Content as WebContent).WebViewElement.CoreWebView2.ExecuteScriptAsync(jscript);
                 break;
             case "AdBlock":
-                // Handle AdBlock
-                break;
+
             case "AddFavoriteFlyout" when TabContent.Content is WebContent:
                 FavoriteTitle.Text = TabWebView.CoreWebView2.DocumentTitle;
                 FavoriteUrl.Text = TabWebView.CoreWebView2.Source;
@@ -751,8 +753,13 @@ public sealed partial class MainWindow : Window
                 FavoritesListView.ItemsSource = favorites;
                 break;
             case "DarkMode" when TabContent.Content is WebContent:
-                string jscriptdark = await ForceDarkHelper.GetForceDarkScriptAsync();
+                var uri = new Uri("ms-appx:///Services/WebHelpers/DarkModeWeb.js");
+                StorageFile darkmodeFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
+
+                // Read the contents of the DarkModeWeb.js file asynchronously
+                string jscriptdark = await FileIO.ReadTextAsync(darkmodeFile);
                 await (TabContent.Content as WebContent).WebViewElement.CoreWebView2.ExecuteScriptAsync(jscriptdark);
+
                 break;
             case "History":
                 FetchBrowserHistory();
@@ -945,6 +952,7 @@ public sealed partial class MainWindow : Window
             IconSource = new Microsoft.UI.Xaml.Controls.SymbolIconSource { Symbol = Symbol.BlockContact },
             Style = (Style)Microsoft.UI.Xaml.Application.Current.Resources["FloatingTabViewItemStyle"]
         };
+
 
         var passer = new Passer
         {

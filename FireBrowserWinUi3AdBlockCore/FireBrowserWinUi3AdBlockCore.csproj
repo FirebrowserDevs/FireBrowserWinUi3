@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <UseRidGraph>true</UseRidGraph>
     <UseAOT>Enabled</UseAOT>
@@ -8,17 +8,39 @@
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
     <Platforms>AnyCPU;x64</Platforms>
-		    <WindowsSdkPackageVersion>10.0.22621.35-preview</WindowsSdkPackageVersion>
-
+	<WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\Easylist.txt" />
+    <Content Remove="Assets\Easyprivacy.txt" />
+    <Content Remove="Assets\MalwaresList.txt" />
+    <Content Remove="Assets\Whitelist.txt" />
   </ItemGroup>
 
   <ItemGroup>
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240701003-experimental2" />
+      <PackageReference Include="DistillNET" Version="1.6.6" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240821007-preview2" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
       <PackageReference Include="System.Net.Http" Version="4.3.4" />
       <PackageReference Include="System.Private.Uri" Version="4.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FireBrowserWinUi3MultiCore\FireBrowserWinUi3MultiCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\Easylist.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Easyprivacy.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\MalwaresList.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Whitelist.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

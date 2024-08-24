@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <UseRidGraph>true</UseRidGraph>
     <UseAOT>Enabled</UseAOT>
@@ -52,4 +52,9 @@
     <ProjectReference Include="..\FireBrowserWinUi3Assets\FireBrowserWinUi3Assets.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3MultiCore\FireBrowserWinUi3MultiCore.csproj" />
   </ItemGroup>
+  <PropertyGroup>
+    <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
+  </PropertyGroup>
+
+
 </Project>

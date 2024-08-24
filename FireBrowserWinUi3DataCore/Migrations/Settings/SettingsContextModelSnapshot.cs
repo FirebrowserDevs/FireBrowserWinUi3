@@ -144,6 +144,9 @@ partial class SettingsContextModelSnapshot : ModelSnapshot
                 b.Property<bool>("NtpDateTime")
                     .HasColumnType("INTEGER");
 
+                b.Property<bool>("IsLogoVisible")
+                    .HasColumnType("INTEGER");
+
                 b.Property<string>("NtpTextColor")
                     .HasColumnType("TEXT");
 
@@ -181,6 +184,12 @@ partial class SettingsContextModelSnapshot : ModelSnapshot
                     .HasColumnType("INTEGER");
 
                 b.Property<string>("Useragent")
+                    .HasColumnType("TEXT");
+
+                b.Property<bool>("IsAdBlockerEnabled")
+               .HasColumnType("INTEGER");
+
+                b.Property<string>("AdBlockerType")
                     .HasColumnType("TEXT");
 
                 b.HasKey("PackageName");

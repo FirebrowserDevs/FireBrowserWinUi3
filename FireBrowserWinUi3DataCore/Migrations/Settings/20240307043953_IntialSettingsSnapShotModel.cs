@@ -68,6 +68,9 @@ public partial class IntialSettingsSnapShotModel : Migration
                 RefreshButton = table.Column<bool>(type: "INTEGER", nullable: true),
                 ForwardButton = table.Column<bool>(type: "INTEGER", nullable: true),
                 BackButton = table.Column<bool>(type: "INTEGER", nullable: true),
+                IsLogoVisible = table.Column<bool>(type: "INTEGER", nullable: true),
+                IsAdBlockerEnabled = table.Column<bool>(type: "INTEGER", nullable: true),
+                AdBlockerType = table.Column<bool>(type: "TEXT", nullable: true),
             },
             constraints: table =>
             {

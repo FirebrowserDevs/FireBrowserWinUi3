@@ -62,6 +62,9 @@ public class Settings
         self.HomeButton = true;
         self.PipMode = false;
         self.IsTrendingVisible = true;
+        self.IsLogoVisible = true;
+        self.IsAdBlockerEnabled = false;
+        self.AdBlockerType = 0;
     }
 
     [JsonIgnore]
@@ -115,7 +118,11 @@ public class Settings
     [DefaultValue("#000000")]
     public string ColorTV { get; set; }
     [DefaultValue(0)]
+    public int AdBlockerType { get; set; }
+    [DefaultValue(0)]
     public int Background { get; set; } // Use "0" for false, "1" for true
+    [DefaultValue(false)]
+    public bool IsAdBlockerEnabled { get; set; } // Use "0" for false, "1" for true
     [DefaultValue(false)]
     public bool Auto { get; set; } // Use "0" for false, "1" for true
     [DefaultValue("nl-NL")]
@@ -149,6 +156,8 @@ public class Settings
     public bool ForwardButton { get; set; }
     [DefaultValue(true)]
     public bool RefreshButton { get; set; }
+    [DefaultValue(true)]
+    public bool IsLogoVisible { get; set; }
     [DefaultValue(true)]
     public bool HomeButton { get; set; }
     [DefaultValue(true)]

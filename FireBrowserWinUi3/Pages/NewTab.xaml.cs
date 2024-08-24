@@ -470,6 +470,10 @@ public sealed partial class NewTab : Page
 
     private void TrendingVisible_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsTrendingVisible = TrendingVisible.IsOn);
 
+    private void FloatingBox_Toggled(object sender, RoutedEventArgs e)
+    {
+        UpdateUserSettings(userSettings => userSettings.IsLogoVisible = FloatingBox.IsOn);
+    }
 
     private void FavoritesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {

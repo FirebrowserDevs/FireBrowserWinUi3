@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
      <UseRidGraph>true</UseRidGraph>
     <UseAOT>Enabled</UseAOT>
@@ -7,12 +7,11 @@
     <RootNamespace>FireBrowserWinUi3Migration</RootNamespace>
     <UseWinUI>true</UseWinUI>
     <Platforms>AnyCPU;x64</Platforms>
-			    <WindowsSdkPackageVersion>10.0.22621.35-preview</WindowsSdkPackageVersion>
-
+    <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240701003-experimental2" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240821007-preview2" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
       <PackageReference Include="System.Net.Http" Version="4.3.4" />
       <PackageReference Include="System.Private.Uri" Version="4.3.2" />

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <UseRidGraph>true</UseRidGraph>
     <UseAOT>Enabled</UseAOT>
@@ -10,8 +10,7 @@
     <Platforms>AnyCPU;x64</Platforms>
     <FileVersion>1.0.0.0</FileVersion>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-		    <WindowsSdkPackageVersion>10.0.22621.35-preview</WindowsSdkPackageVersion>
-
+    <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="CoreUi\QuickSign.xaml" />
@@ -30,7 +29,7 @@
 
   <ItemGroup>
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240701003-experimental2" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240821007-preview2" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="System.Net.Http" Version="4.3.4" />

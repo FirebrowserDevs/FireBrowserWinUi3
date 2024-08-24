@@ -615,7 +615,7 @@
                         <Flyout Placement="Bottom">
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="ReadBtn" Width="32" Click="ToolbarButtonClick" Content="{firebrowser:FluentIcon Glyph=&#xE736;}" Style="{StaticResource QuietButtonStyle}" Tag="ReadingMode" ToolTipService.ToolTip="Reading Mode"/>
-                                <Button x:Name="AdBlock" Width="32" Click="ToolbarButtonClick" Content="{firebrowser:FluentIcon Glyph=&#xEA18;}" IsEnabled="False" Style="{StaticResource QuietButtonStyle}" Tag="AdBlock" ToolTipService.ToolTip="Basic AdBlock"/>
+                                <Button x:Name="AdBlock" Width="32" Click="ToolbarButtonClick" Content="{firebrowser:FluentIcon Glyph=&#xEA18;}"  Style="{StaticResource QuietButtonStyle}" Tag="AdBlock" ToolTipService.ToolTip="Basic AdBlock"/>
                                 <Button x:Name="BtnTrans" Width="32" Click="ToolbarButtonClick" Content="{firebrowser:FluentIcon Glyph=&#xE87E;}" Style="{StaticResource QuietButtonStyle}" Tag="Translate" ToolTipService.ToolTip="Translate"/>
                                 <Button x:Name="BtnDark" Width="32" Click="ToolbarButtonClick" Content="{firebrowser:FluentIcon Glyph=&#xE790;}" Style="{StaticResource QuietButtonStyle}" Tag="DarkMode" ToolTipService.ToolTip="DarkMode Website"/>
                             </StackPanel>

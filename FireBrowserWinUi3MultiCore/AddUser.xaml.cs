@@ -10,10 +10,7 @@ namespace FireBrowserWinUi3MultiCore;
 
 public sealed partial class AddUser : ContentDialog
 {
-    public AddUser()
-    {
-        this.InitializeComponent();
-    }
+    public AddUser() => this.InitializeComponent();
 
     private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
     {
@@ -41,8 +38,6 @@ public sealed partial class AddUser : ContentDialog
         await CopyImageAsync(iImage.ToString(), destinationFolderPath);
 
         Hide();
-
-
     }
 
 
@@ -82,9 +77,6 @@ public sealed partial class AddUser : ContentDialog
 
             // Assign the retrieved image to the ProfileImageControl
             Pimg.ProfilePicture = userProfilePicture;
-
-
-
         }
     }
 
