@@ -49,7 +49,7 @@
                 <labs:SettingsCard.Header>
                     Profiles
                 </labs:SettingsCard.Header>
-                <Button  x:Name="Add" Click="Add_Click">Add</Button>
+                <Button  ToolTipService.ToolTip="Add User ( Temp Disabled Reworking Feature )" IsEnabled="False"  x:Name="Add" Click="Add_Click">Add</Button>
             </labs:SettingsCard>
             <ListView x:Name="UserListView">
                 <ListView.ItemTemplate>
