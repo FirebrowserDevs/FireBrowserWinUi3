@@ -43,7 +43,8 @@
       Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
       Icon="OtherUser"
       Label="Add User"
-      ToolTipService.ToolTip="Add User" 
+                IsEnabled="False"
+      ToolTipService.ToolTip="Add User ( Temp Disabled Reworking Feature )" 
                 Click="AppBarButton_Click"/>
 
             <AppBarButton

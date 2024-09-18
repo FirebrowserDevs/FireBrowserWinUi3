@@ -44,7 +44,7 @@ public sealed partial class SettingsHome : Page
             }
             else
             {
-                Add.IsEnabled = true;
+                Add.IsEnabled = false;
             }
 
             foreach (string username in usernames.Where(username => username != currentUsername && !username.Contains("Private")))
