@@ -39,6 +39,15 @@
                 Text="Select a User" />
 
             <AppBarButton
+      HorizontalAlignment="Left"
+      Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
+      Icon="OtherUser"
+      Label="Add User"
+      ToolTipService.ToolTip="Add User" 
+                Click="AppBarButton_Click"/>
+
+            <AppBarButton
+                x:Name="CloseBtn"
                 HorizontalAlignment="Right"
                 Command="{x:Bind ViewModel.ExitWindow, Mode=OneWay}"
                 Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"

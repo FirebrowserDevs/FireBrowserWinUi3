@@ -292,7 +292,7 @@ public static class AppService
                 }
 
                 if (await settingsActions.GetSettingsAsync() is null)
-                {
+                {                 
                     await settingsActions.InsertUserSettingsAsync(AppSettings);
                 }
             }

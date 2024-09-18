@@ -65,7 +65,6 @@ public sealed partial class MainWindow : Window
 
         Commander = new ProfileCommander(ViewModelMain);
 
-
         InitializeComponent();
 
         ArgsPassed();
@@ -571,10 +570,14 @@ public sealed partial class MainWindow : Window
                         Tabs.TabItems.Add(CreateNewTab(typeof(Pluginss)));
                         SelectNewTab();
                         break;
-                    case "firebrowser://vault":
-                        //Tabs.TabItems.Add(CreateNewTab(typeof(SecureVault)));
-                        //SelectNewTab();
-                        break;
+                    //case "firebrowser://vault":
+                     //   Tabs.TabItems.Add(CreateNewTab(typeof(SecureVault)));
+                     //   SelectNewTab();
+                     //   break;
+                   // case "firebrowser://api-route":
+                      //  Tabs.TabItems.Add(CreateNewTab(typeof(ApiDash)));
+                      //  SelectNewTab();
+                      //  break;
                     default:
                         // default behavior
                         break;

@@ -29,6 +29,12 @@
                 </labs:SettingsCard.HeaderIcon>
                 <ToggleSwitch x:Name="LiteMode" Toggled="LiteMode_Toggled"/>
             </labs:SettingsCard>
+            <labs:SettingsCard Header="FireBrowser Welcome Message" Description="Enables Welcome Message, this has small impact on performance" Margin="0,1,0,0">
+                <labs:SettingsCard.HeaderIcon>
+                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8BD;" />
+                </labs:SettingsCard.HeaderIcon>
+                <ToggleSwitch x:Name="WelcomeMesg" Toggled="WelcomeMesg_Toggled"/>
+            </labs:SettingsCard>
             <labs:SettingsCard Header="FireBrowser - Speech Engine" Description="Change the language of the speech engine" Margin="0,1,0,0">
                 <labs:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEFA9;" />

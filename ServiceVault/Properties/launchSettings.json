@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ServiceVault (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ServiceVault (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

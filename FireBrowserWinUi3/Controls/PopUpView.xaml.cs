@@ -55,6 +55,21 @@ public sealed partial class PopUpView : UserControl
         }
     }
 
+    private void PopOut_Click(object sender, RoutedEventArgs e)
+    {
+        // Create a new window
+        var newWindow = new Microsoft.UI.Xaml.Window();
+
+        // Create an instance of the user control
+        var popUpView = new FireBrowserWinUi3.Controls.PopUpView();
+
+        // Set the content of the new window to the PopUpView
+        newWindow.Content = popUpView;
+
+        // Show the new window
+        newWindow.Activate();
+    }
+
 
     private void DragTimer_Tick(object sender, object e)
     {

@@ -134,4 +134,9 @@ public sealed partial class SettingsAccess : Page
         // Save the modified settings back to the user's settings file
         await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
     }
+
+    private void WelcomeMesg_Toggled(object sender, RoutedEventArgs e)
+    {
+
+    }
 }

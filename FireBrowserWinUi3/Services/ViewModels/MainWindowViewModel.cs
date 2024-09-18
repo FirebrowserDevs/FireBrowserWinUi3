@@ -34,7 +34,7 @@ public partial class MainWindowViewModel : ObservableRecipient
         switch (message.Status)
         {
             case EnumMessageStatus.Login:
-                //ShowLoginNotification(); disabled using 20mb+ ram 
+                ShowLoginNotification(); 
                 break;
             case EnumMessageStatus.Settings:
                 MainView.LoadUserSettings();

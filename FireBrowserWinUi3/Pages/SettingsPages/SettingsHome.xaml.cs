@@ -64,20 +64,8 @@ public sealed partial class SettingsHome : Page
 
     private async void Add_Click(object sender, RoutedEventArgs e)
     {
-        var window = (Application.Current as App)?.m_window as MainWindow;
-        FireBrowserWinUi3.Setup.AddUser quickConfigurationDialog = new()
-        {
-            XamlRoot = window.Content.XamlRoot
-        };
-
-        quickConfigurationDialog.PrimaryButtonClick += async (sender, args) =>
-        {
-            UserListView.Items.Clear();
-            LoadUsernames();
-            window.LoadUsernames();
-        };
-
-        await quickConfigurationDialog.ShowAsync();
+        AddUserWindow ad = new AddUserWindow();
+        ad.Activate();
     }
 
     public static async void OpenNewWindow(Uri uri)

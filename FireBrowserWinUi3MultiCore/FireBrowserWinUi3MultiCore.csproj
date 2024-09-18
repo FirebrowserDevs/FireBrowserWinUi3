@@ -10,14 +10,23 @@
     <Platforms>AnyCPU;x64</Platforms>
     <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="AddUserWindow.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
       <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
       <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.0-preview.7.24405.3" />
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240821007-preview2" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
-      <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.9" />
+      <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />
       <PackageReference Include="System.Net.Http" Version="4.3.4" />
       <PackageReference Include="System.Private.Uri" Version="4.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="AddUserWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

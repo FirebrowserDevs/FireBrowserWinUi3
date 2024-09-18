@@ -15,8 +15,12 @@
         </Grid.RowDefinitions>
 
         <StackPanel x:Name="Header" Orientation="Horizontal" Background="Gray" Padding="10" PointerPressed="Header_PointerPressed"  PointerReleased="Header_PointerReleased">
-            <TextBlock Text="PopUp" VerticalAlignment="Center" FontSize="20" Foreground="White"/>
-            <Button Content="Close" HorizontalAlignment="Right" Click="CloseButton_Click" Margin="0,0,0,0"/>
+            <Button  HorizontalAlignment="Right" Click="CloseButton_Click" Margin="0,0,5,0">
+                <FontIcon Glyph="&#xE8BB;" />
+            </Button>
+            <Button IsEnabled="False"  HorizontalAlignment="Right" Click="PopOut_Click" Margin="0,0,5,0">
+                <FontIcon Glyph="&#xF7ED;" />
+            </Button>
         </StackPanel>
 
         <WebView2 x:Name="webView"

@@ -40,6 +40,36 @@ public class DatabaseServices : IDatabaseService
 
         return Task.CompletedTask;
     }
+
+    public async Task<Task> InsertNewUserSettings()
+    {
+        Batteries_V2.Init();
+        if (!AuthService.IsUserAuthenticated) return Task.FromResult(false); ;
+
+        try
+        {
+            SettingsActions settingsActions = new SettingsActions(AuthService.NewCreatedUser.Username);
+            if (!File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.NewCreatedUser.Username, "Settings", "Settings.db")))
+            {
+                await settingsActions.SettingsContext.Database.MigrateAsync();
+            }
+            if (File.Exists(Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.NewCreatedUser.Username, "Settings", "Settings.db")))
+            {
+                if (await settingsActions.GetSettingsAsync() is null)
+                {
+                    await settingsActions.InsertUserSettingsAsync(AppService.AppSettings);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ExceptionLogger.LogException(ex);
+            Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
+            return Task.FromException(ex);
+        }
+
+        return Task.CompletedTask;
+    }
     public async Task<Task> DatabaseCreationValidation()
     {
         if (!AuthService.IsUserAuthenticated) return Task.FromResult(false); ;

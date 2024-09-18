@@ -127,4 +127,12 @@ public sealed partial class UserCentral : Window
 
         }
     }
+
+    
+
+    private async void AppBarButton_Click(object sender, RoutedEventArgs e)
+    {
+       AddUserWindow usr = new AddUserWindow();
+        usr.Activate();
+    }
 }

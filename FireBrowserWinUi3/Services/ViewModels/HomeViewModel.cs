@@ -103,7 +103,6 @@ public partial class HomeViewModel : ObservableRecipient
         OnPropertyChanged(nameof(IstrendingEnabled));
 
         OnPropertyChanged(nameof(islogoEnabled));
-
         OnPropertyChanged(nameof(_IsLogoVisible));
 
         OnPropertyChanged(nameof(IsSearchBoxEnabled));
@@ -129,7 +128,6 @@ public partial class HomeViewModel : ObservableRecipient
         IsTrendingVisible = IstrendingEnabled ? Visibility.Visible : Visibility.Collapsed;
         islogoEnabled = SettingsService.CoreSettings.IsLogoVisible;
         _IsLogoVisible = islogoEnabled ? Visibility.Visible : Visibility.Collapsed;
-
 
         IsFavoriteExpanded = SettingsService.CoreSettings.IsFavoritesToggled;
         IsHistoryExpanded = SettingsService.CoreSettings.IsHistoryToggled;

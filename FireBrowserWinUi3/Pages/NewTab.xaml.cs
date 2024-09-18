@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Security;
 using System.Threading.Tasks;
 using static FireBrowserWinUi3.MainWindow;
 using Settings = FireBrowserWinUi3Core.Models.Settings;
@@ -49,7 +50,7 @@ public sealed partial class NewTab : Page
 
         this.InitializeComponent();
 
-        _ = UpdateTrending().ConfigureAwait(false);
+        if (userSettings.IsTrendingVisible) _ = UpdateTrending().ConfigureAwait(false);
     }
     public class TrendingItem
     {
@@ -100,8 +101,8 @@ public sealed partial class NewTab : Page
         SearchengineSelection.SelectedItem = userSettings.EngineFriendlyName;
         NewTabSearchBox.Text = string.Empty;
         NewTabSearchBox.Focus(FocusState.Programmatic);
-
-        await UpdateTrending();
+        
+        if (userSettings.IsTrendingVisible) await UpdateTrending();
 
         HomeSync();
     }
@@ -190,7 +191,26 @@ public sealed partial class NewTab : Page
 
 
             case Settings.NewTabBackground.Featured:
-                var client = new HttpClient();
+                var handler = new SocketsHttpHandler
+                {
+                    EnableMultipleHttp2Connections = true, // Optional but recommended
+                    SslOptions = new SslClientAuthenticationOptions
+                    {
+                        ApplicationProtocols = new List<SslApplicationProtocol> { SslApplicationProtocol.Http3 }
+                    }
+                };
+
+                var client = new HttpClient(handler);
+
+                // Static field to cache the ImageBrush so it's fetched only once
+                ImageBrush cachedImageBrush = null;
+
+                // Check if the image has already been fetched and cached
+                if (cachedImageBrush != null)
+                {
+                    return cachedImageBrush;
+                }
+
                 try
                 {
                     var request = client.GetStringAsync(new Uri("https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1")).Result;
@@ -207,11 +227,13 @@ public sealed partial class NewTab : Page
                         BitmapImage btpImg = new BitmapImage(imageUrl);
 
                         // Create and return an ImageBrush for WPF
-                        return new ImageBrush()
+                        cachedImageBrush = new ImageBrush()
                         {
                             ImageSource = btpImg,
                             Stretch = Stretch.UniformToFill
                         };
+
+                        return cachedImageBrush;
                     }
                     catch (System.Text.Json.JsonException jsonEx)
                     {
@@ -235,6 +257,8 @@ public sealed partial class NewTab : Page
                     Console.WriteLine($"Error: {ex.Message}");
                 }
                 break;
+
+
         }
 
         return new SolidColorBrush();
