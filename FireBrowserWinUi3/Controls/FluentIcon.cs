@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 namespace FireBrowserWinUi3.Controls;
-public sealed partial class FluentIcon : CommunityToolkit.WinUI.UI.FontIconExtension
+public sealed partial class FluentIcon : CommunityToolkit.WinUI.FontIconExtension
 {
     private static readonly Dictionary<string, FontFamily> FontFamilyCache = new Dictionary<string, FontFamily>();
     private const string FluentIconsKey = "FluentIcons";

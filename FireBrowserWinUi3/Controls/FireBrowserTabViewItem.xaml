@@ -2,7 +2,7 @@
     x:Class="FireBrowserWinUi3.Controls.FireBrowserTabViewItem"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     x:Name="TabViewItem"
     PointerEntered="TabViewItem_PointerEntered">
     <ToolTipService.ToolTip>
