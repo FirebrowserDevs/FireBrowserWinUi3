@@ -1,5 +1,9 @@
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3Assets;
+using FireBrowserWinUi3DataCore.Actions;
+using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3MultiCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -64,11 +68,14 @@ namespace FireBrowserWinUi3
             UserFolderManager.CreateUserFolders(newUser);
             UserDataManager.SaveUsers(users);
             AuthService.Authenticate(newUser.Username);
+            // add settings for new user...
 
             await CopyImageToUserDirectory();
         }
 
         string iImage = "";
+
+
         private async Task CopyImageToUserDirectory()
         {
             string imageName = $"{iImage}";

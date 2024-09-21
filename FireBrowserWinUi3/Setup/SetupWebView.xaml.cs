@@ -2,6 +2,12 @@ using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.Collections.Generic;
+using System;
+using FireBrowserWinUi3Exceptions;
+using FireBrowserWinUi3DataCore.Actions;
+using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace FireBrowserWinUi3;
 public sealed partial class SetupWebView : Page
@@ -63,9 +69,44 @@ public sealed partial class SetupWebView : Page
             AppService.AppSettings.Useragent = blob;
         }
     }
+    private async void CreateNewSettings()
+    {
+
+        try
+        {
+            var settingsActions = new SettingsActions(AuthService.CurrentUser?.Username);
+            var settingsPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser?.Username, "Settings", "Settings.db");
+
+            if (!File.Exists(settingsPath))
+            {
+                await settingsActions.SettingsContext.Database.MigrateAsync();
+            }
+
+            if (File.Exists(settingsPath))
+            {
+                if (await settingsActions.SettingsContext.Database.CanConnectAsync())
+                    await settingsActions.InsertUserSettingsAsync(AppService.AppSettings);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            ExceptionLogger.LogException(ex);
+            Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
+        }
+        finally
+        {
+            AuthService.NewCreatedUser = null;
+        }
+    }
 
     private void SetupWebViewBtn_Click(object sender, RoutedEventArgs e)
     {
+        // allow user settings to be created from current setup user.
+        // synchronous call because I want to make sure database is created first before your time out on the setupfinish page...
+
+        CreateNewSettings();
+
         Frame.Navigate(typeof(SetupFinish));
     }
 }

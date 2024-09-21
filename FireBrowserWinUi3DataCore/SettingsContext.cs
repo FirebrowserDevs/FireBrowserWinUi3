@@ -16,4 +16,9 @@ public class SettingsContext : DbContext
     {
         optionsBuilder.UseSqlite($"Data Source={ConnectionPath}");
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        //modelBuilder.Entity<Settings>().HasData(new FireBrowserWinUi3MultiCore.Settings(true).Self);
+    }
 }
