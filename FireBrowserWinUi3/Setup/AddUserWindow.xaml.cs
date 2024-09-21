@@ -94,12 +94,16 @@ namespace FireBrowserWinUi3
 
             UserFolderManager.CreateUserFolders(newUser);
 
+           
+
             string destinationFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, Userbox.Text.ToString());
 
             await CopyImageAsync(iImage.ToString(), destinationFolderPath);
 
             AuthService.NewCreatedUser = newUser;
 
+            AuthService.Authenticate(newUser.ToString());
+            
             AppService.CreateNewUsersSettings();
         }
     }

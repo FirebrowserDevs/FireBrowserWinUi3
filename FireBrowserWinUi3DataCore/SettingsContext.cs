@@ -1,5 +1,6 @@
 ﻿using FireBrowserWinUi3MultiCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.IO;
 
 namespace FireBrowserWinUi3DataCore;
@@ -10,7 +11,14 @@ public class SettingsContext : DbContext
     public string ConnectionPath { get; set; }
     public SettingsContext(string username)
     {
-        ConnectionPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Settings", "Settings.db");
+        if (username == null)
+        {
+            throw new ArgumentNullException(nameof(username));
+        }
+        else
+        {
+            ConnectionPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, username, "Settings", "Settings.db");
+        }
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
