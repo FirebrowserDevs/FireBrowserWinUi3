@@ -21,6 +21,9 @@ namespace FireBrowserWinUi3DataCore.Migrations.Settings
                     b.Property<string>("PackageName")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Gender")
+                       .HasColumnType("TEXT");
+
                     b.Property<int>("AdBlockerType")
                         .HasColumnType("INTEGER");
 
@@ -252,7 +255,8 @@ namespace FireBrowserWinUi3DataCore.Migrations.Settings
                             ToolIcon = true,
                             TrackPrevention = 2,
                             Translate = true,
-                            Useragent = "WebView"
+                            Useragent = "WebView",
+                            Gender = "Male",
                         });
                 });
 #pragma warning restore 612, 618

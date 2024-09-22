@@ -22,6 +22,8 @@ using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
+using Windows.Storage.Streams;
+using Windows.Web.UI.Interop;
 using WinRT.Interop;
 using static FireBrowserWinUi3.MainWindow;
 
@@ -308,7 +310,7 @@ public sealed partial class WebContent : Page
             case "Select": await webview.ExecuteScriptAsync("document.execCommand('selectAll', false, null);"); break;
             case "Copy": ClipBoard.WriteStringToClipboard(SelectionText); break;
             case "Taskmgr": webview.OpenTaskManagerWindow(); break;
-            case "Save": await HandleSaveAsync(); break;
+            case "Save":  HandleSaveAsync(); break;
             case "Share": ShareUi(webview.DocumentTitle, webview.Source); break;
             case "Print": webview.ShowPrintUI(CoreWebView2PrintDialogKind.Browser); break;
         }
@@ -316,23 +318,44 @@ public sealed partial class WebContent : Page
         Ctx.Hide();
     }
 
-    private Task HandleSaveAsync()
+    private async void HandleSaveAsync()
     {
-
-        return Task.CompletedTask;
+        string websitetitle = WebViewElement.CoreWebView2.DocumentTitle;
+        using (IRandomAccessStream fileStream = await WebViewElement.CoreWebView2.PrintToPdfStreamAsync(null))
+        {
+            using (var reader = new DataReader(fileStream.GetInputStreamAt(0)))
+            {
+                GC.Collect();
+            }
+        }
     }
 
-
-
-    SpeechSynthesizer synthesizer = new SpeechSynthesizer();
+    // Declare the SpeechSynthesizer once, outside the method
+    private SpeechSynthesizer synthesizer = new SpeechSynthesizer();
 
     private async void ConvertTextToSpeech(string text)
     {
         if (string.IsNullOrWhiteSpace(text)) return;
 
-        var synthesisStream = await new SpeechSynthesizer().SynthesizeSsmlToStreamAsync(
-            $"<speak version='1.0' xml:lang='{SettingsService.CoreSettings.Lang}'><voice name='Microsoft Server Speech Text to Speech Voice ({SettingsService.CoreSettings.Lang}, HannaRUS)'>{text}</voice></speak>");
+        // Get the selected language and gender from the settings
+        string lang = SettingsService.CoreSettings.Lang;
+        string gender = SettingsService.CoreSettings.Gender;
 
+        // Construct the voice name based on gender
+        string voiceName = gender switch
+        {
+            "Male" => $"Microsoft Server Speech Text to Speech Voice ({lang}, Mark)", // Use the correct male voice name
+            "Female" => $"Microsoft Zira", // Use the correct female voice name
+            _ => throw new ArgumentException("Invalid gender selection")
+        };
+
+        // Create the SSML string
+        var ssml = $"<speak version='1.0' xml:lang='{lang}'><voice name='{voiceName}'>{text}</voice></speak>";
+
+        // Synthesize speech to stream
+        var synthesisStream = await synthesizer.SynthesizeSsmlToStreamAsync(ssml);
+
+        // Create and play the media player
         var mediaPlayer = new MediaPlayer
         {
             Source = MediaSource.CreateFromStream(synthesisStream, synthesisStream.ContentType)

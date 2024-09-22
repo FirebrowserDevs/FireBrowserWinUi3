@@ -26,6 +26,8 @@ public class DbSettings
     public string SearchUrl { get; set; }
     public string ColorTool { get; set; }
     public string ColorTV { get; set; }
+
+    public string Gender { get; set; }
     public int AdBlockerType { get; set; }
     public int Background { get; set; } // Use "0" for false, "1" for true
     public bool IsAdBlockerEnabled { get; set; } // Use "0" for false, "1" for true
@@ -133,6 +135,7 @@ public class Settings
         self.IsLogoVisible = true;
         self.IsAdBlockerEnabled = false;
         self.AdBlockerType = 0;
+        self.Gender = "Male";
     }
 
     [JsonIgnore]
@@ -160,6 +163,9 @@ public class Settings
     public bool DisableWebMess { get; set; } // Use "0" for false, "1" for true
     public bool DisableGenAutoFill { get; set; } // Use "0" for false, "1" for true
     public string ColorBackground { get; set; }
+
+    public string Gender { get; set; }
+
     public bool StatusBar { get; set; } // Use "0" for false, "1" for true
     public bool BrowserKeys { get; set; } // Use "0" for false, "1" for true
     public bool BrowserScripts { get; set; } // Use "0" for false, "1" for true

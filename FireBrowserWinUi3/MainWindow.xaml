@@ -126,6 +126,25 @@
                             </StackPanel>
                         </Button>
                         <Button
+      x:Name="SplitTabs"
+                            Visibility="Collapsed"
+      Margin="0"
+      HorizontalAlignment="Stretch"
+      HorizontalContentAlignment="Left"
+      Background="Transparent"
+      BorderBrush="Transparent"
+      Click="TabMenuClick"
+      IsEnabled="True"
+      Tag="SplitTab">
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon
+              FontFamily="{StaticResource FluentIcons}"
+              FontSize="18"
+              Glyph="&#xF57C;" />
+                                <TextBlock Margin="10,0,0,0" Text="New-Split-Tab" />
+                            </StackPanel>
+                        </Button>
+                        <Button
                             x:Name="NewWindow"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Left"

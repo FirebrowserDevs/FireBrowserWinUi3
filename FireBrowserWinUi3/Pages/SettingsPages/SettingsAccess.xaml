@@ -35,15 +35,19 @@
                 </labs:SettingsCard.HeaderIcon>
                 <ToggleSwitch x:Name="WelcomeMesg" Toggled="WelcomeMesg_Toggled"/>
             </labs:SettingsCard>
-            <labs:SettingsCard Header="FireBrowser - Speech Engine" Description="Change the language of the speech engine" Margin="0,1,0,0">
-                <labs:SettingsCard.HeaderIcon>
+            <labs:SettingsExpander Header="FireBrowser - Speech Engine" Description="Change the language of the speech engine" Margin="0,1,0,0">
+                <labs:SettingsExpander.HeaderIcon>
                     <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEFA9;" />
-                </labs:SettingsCard.HeaderIcon>
-                <ComboBox x:Name="Langue"  SelectionChanged="Langue_SelectionChanged">
-                    <x:String>nl-NL</x:String>
-                    <x:String>en-US</x:String>
-                </ComboBox>
-            </labs:SettingsCard>
+                </labs:SettingsExpander.HeaderIcon>
+                <labs:SettingsExpander.Items>
+                    <labs:SettingsCard>
+                        <ComboBox x:Name="Langue"  SelectionChanged="Langue_SelectionChanged"/>
+                    </labs:SettingsCard>
+                    <labs:SettingsCard>
+                        <ComboBox x:Name="Gender" SelectionChanged="Gender_SelectionChanged"/>
+                    </labs:SettingsCard>
+                </labs:SettingsExpander.Items>
+            </labs:SettingsExpander>
             <labs:SettingsCard Header="Exception logging" Description="Change logger level" Margin="0,1,0,0">
                 <labs:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE783;" />

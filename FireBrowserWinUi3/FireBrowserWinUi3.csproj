@@ -134,6 +134,7 @@
     <None Remove="Pages\Patch\SureReset.xaml" />
     <None Remove="Pages\Pluginss.xaml" />
     <None Remove="Pages\SecureVault.xaml" />
+    <None Remove="Pages\SplitTabPage.xaml" />
     <None Remove="SetupWindow.xaml" />
     <None Remove="Setup\AddUserWindow.xaml" />
     <None Remove="Setup\SetupAccess.xaml" />
@@ -221,6 +222,9 @@
     <None Update="Assets\setup_image.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Pages\SplitTabPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Setup\AddUserWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

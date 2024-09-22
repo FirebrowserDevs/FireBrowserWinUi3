@@ -15,6 +15,7 @@ namespace FireBrowserWinUi3DataCore.Migrations.Settings
                 columns: table => new
                 {
                     PackageName = table.Column<string>(type: "TEXT", nullable: false),
+                    Gender = table.Column<string>(type: "TEXT", nullable: false),
                     DisableJavaScript = table.Column<bool>(type: "INTEGER", nullable: false),
                     DisablePassSave = table.Column<bool>(type: "INTEGER", nullable: false),
                     DisableWebMess = table.Column<bool>(type: "INTEGER", nullable: false),

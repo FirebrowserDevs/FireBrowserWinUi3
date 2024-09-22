@@ -898,6 +898,9 @@ public sealed partial class MainWindow : Window
             case "InPrivate":
                 OpenNewWindow(new Uri("firebrowserincog://"));
                 break;
+            case "SplitTab":
+                TabContent.Navigate(typeof(SplitTabPage));
+                break;
             case "Favorites":
                 UrlBox.Text = "firebrowser://favorites";
                 TabContent.Navigate(typeof(FireBrowserWinUi3.Pages.TimeLinePages.MainTimeLine));
