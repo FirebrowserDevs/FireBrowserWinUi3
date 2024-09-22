@@ -14,7 +14,7 @@
     <ApplicationIcon>Logo.ico</ApplicationIcon>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
@@ -310,7 +310,6 @@
     <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
     <PublishAot>False</PublishAot>
     <PublishTrimmed>False</PublishTrimmed>
-    <PackageCertificateKeyFile>FireBrowserWinUi3_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
 
 

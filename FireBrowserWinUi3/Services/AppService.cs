@@ -187,7 +187,6 @@ public static class AppService
             appWindow.MoveInZOrderAtTop();
             appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
             appWindow.Title = "UserCentral";
-            appWindow.SetIcon("logo.ico");
 
             var titleBar = appWindow.TitleBar;
             var btnColor = Colors.Transparent;
@@ -196,6 +195,7 @@ public static class AppService
             titleBar.ButtonBackgroundColor = btnColor;
             titleBar.ButtonInactiveBackgroundColor = btnColor;
             appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+            appWindow.SetIcon("ms-appx:///logo.ico");
         }
     }
 
