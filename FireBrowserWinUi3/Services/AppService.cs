@@ -195,7 +195,7 @@ public static class AppService
             titleBar.ButtonBackgroundColor = btnColor;
             titleBar.ButtonInactiveBackgroundColor = btnColor;
             appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
-            appWindow.SetIcon("ms-appx:///logo.ico");
+            appWindow.SetIcon("logo.ico");
         }
     }
 
