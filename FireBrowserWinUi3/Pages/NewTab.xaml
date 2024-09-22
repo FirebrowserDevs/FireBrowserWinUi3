@@ -81,7 +81,7 @@
                         <ToggleSwitch
                             Visibility="Collapsed"
       x:Name="FloatingBox"
-                            IsEnabled="False"
+                            IsEnabled="True"
       IsOn="{x:Bind ViewModel.IslogoEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
       Toggled="FloatingBox_Toggled">
                             Show Logo

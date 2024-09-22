@@ -54,6 +54,7 @@ public class DbSettings
     public bool ExitDialog { get; set; }
     public string NtpTextColor { get; set; }
     public string ExceptionLog { get; set; }
+
     public bool Eq2fa { get; set; }
     public bool Eqfav { get; set; }
     public bool EqHis { get; set; }
@@ -70,6 +71,7 @@ public class DbSettings
     public bool IsTrendingVisible { get; set; }
     public bool NtpCoreVisibility { get; set; }
 
+   // public bool WelcomeMsg { get; set; }
 
 }
 public class Settings
@@ -135,6 +137,7 @@ public class Settings
         self.IsAdBlockerEnabled = false;
         self.AdBlockerType = 0;
         self.Gender = "Male";
+        //self.WelcomeMsg = true;
     }
 
     [JsonIgnore]
@@ -156,7 +159,6 @@ public class Settings
 
     [Key]
     public string PackageName { get; set; }
-
     public bool DisableJavaScript { get; set; } // Use "0" for false, "1" for true
     public bool DisablePassSave { get; set; } // Use "0" for false, "1" for true
     public bool DisableWebMess { get; set; } // Use "0" for false, "1" for true
@@ -218,6 +220,9 @@ public class Settings
     public bool IsSearchVisible { get; set; }
     public bool IsTrendingVisible { get; set; }
     public bool NtpCoreVisibility { get; set; }
+
+   // public bool WelcomeMsg { get; set; }
+  
 
     public static implicit operator Settings(DbSettings v)
     {

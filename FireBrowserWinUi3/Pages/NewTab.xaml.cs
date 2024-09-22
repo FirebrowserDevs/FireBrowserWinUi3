@@ -23,6 +23,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Security;
 using System.Threading.Tasks;
+using Windows.UI;
 using static FireBrowserWinUi3.MainWindow;
 using Settings = FireBrowserWinUi3Core.Models.Settings;
 
@@ -118,8 +119,23 @@ public sealed partial class NewTab : Page
 
         //var color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor);
         NewColor.IsEnabled = userSettings.Background is 2;
-        NewColorPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.ColorBackground);
-        NtpColorPicker.Color = (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), userSettings.NtpTextColor);
+        // If userSettings.ColorBackground is null, default to a specific color (e.g., Windows.UI.Colors.White)
+        // Use Microsoft.UI.Colors instead of Windows.UI.Colors
+        NewColorPicker.Color = (Color)XamlBindingHelper.ConvertValue(
+       typeof(Color),
+       string.IsNullOrWhiteSpace(userSettings.ColorBackground)
+           ? Microsoft.UI.Colors.White // Default color
+           : userSettings.ColorBackground
+         );
+
+        // Convert the NtpTextColor setting from a string (if not null) or use a default color
+        NtpColorPicker.Color = (Color)XamlBindingHelper.ConvertValue(
+            typeof(Color),
+            string.IsNullOrWhiteSpace(userSettings.NtpTextColor)
+                ? Microsoft.UI.Colors.Black // Default color
+                : userSettings.NtpTextColor
+        );
+
         //NtpTime.Foreground = NtpDate.Foreground = new SolidColorBrush(color);
         GridSelect.SelectedIndex = userSettings.Background;
         SetVisibilityBasedOnLightMode(userSettings.LightMode is true);

@@ -14,5 +14,4 @@ public class DbSettings : FireBrowserWinUi3MultiCore.Settings
     {
         Settings = settings;
     }
-
 }
