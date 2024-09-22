@@ -23,13 +23,23 @@ using Windows.Graphics;
 using WinRT.Interop;
 
 namespace FireBrowserWinUi3.Services;
+public static interface IAppServiceProcedures
+{
+    bool IsAppGoingToClose { get; set; }
+    bool IsAppGoingToOpen {get; set; }
+    bool IsAppNewUser { get; set;  }
+    bool IsAppUserAuthenicated { get; set; }
 
-public static class AppService
+}
+public static class AppService : IAppServiceProcedures
 {
     public static Window ActiveWindow { get; set; }
     public static Settings AppSettings { get; set; }
-    public static bool IsAppGoingToClose { get; set; }
     public static CancellationToken CancellationToken { get; set; }
+    public static bool IsAppGoingToClose { get; set; }
+    public static bool IsAppGoingToOpen { get; set; }
+    public static bool IsAppNewUser { get; set; }
+    public static bool IsAppUserAuthenicated { get; set; }
 
     public static async Task WindowsController(CancellationToken cancellationToken)
     {
