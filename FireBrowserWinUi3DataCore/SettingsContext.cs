@@ -5,6 +5,8 @@ using System.IO;
 
 namespace FireBrowserWinUi3DataCore;
 // https://andywatt83.medium.com/testing-entity-framework-migrations-9bc5dc25190b
+// sql servere compare schema extensions 
+// https://learn.microsoft.com/en-us/azure-data-studio/extensions/schema-compare-extension?view=sql-server-ver16
 public class SettingsContext : DbContext
 {
     public DbSet<Settings> Settings { get; set; }
