@@ -4,7 +4,7 @@ using System;
 using System.IO;
 
 namespace FireBrowserWinUi3DataCore;
-
+// https://andywatt83.medium.com/testing-entity-framework-migrations-9bc5dc25190b
 public class SettingsContext : DbContext
 {
     public DbSet<Settings> Settings { get; set; }
