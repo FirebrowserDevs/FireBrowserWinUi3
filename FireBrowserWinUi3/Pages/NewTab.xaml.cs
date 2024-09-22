@@ -182,7 +182,7 @@ public sealed partial class NewTab : Page
                 return new SolidColorBrush(Colors.Transparent);
 
             case Settings.NewTabBackground.Costum:
-                string colorString = userSettings.ColorBackground.ToString();
+                string colorString = userSettings.ColorBackground?.ToString() ?? "#000000";
 
                 var color = colorString == "#000000" ?
                  Colors.Transparent :

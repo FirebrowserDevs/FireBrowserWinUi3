@@ -58,7 +58,6 @@ public class DbSettings
     public bool Eqfav { get; set; }
     public bool EqHis { get; set; }
     public bool Eqsets { get; set; }
-
     public int TrackPrevention { get; set; }
     public bool ResourceSave { get; set; }
     public bool ConfirmCloseDlg { get; set; }
@@ -165,6 +164,7 @@ public class Settings
     public string ColorBackground { get; set; }
 
     public string Gender { get; set; }
+
 
     public bool StatusBar { get; set; } // Use "0" for false, "1" for true
     public bool BrowserKeys { get; set; } // Use "0" for false, "1" for true
