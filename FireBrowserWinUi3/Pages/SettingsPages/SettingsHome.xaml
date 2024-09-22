@@ -55,7 +55,6 @@
                 <labs:SettingsCard.Header>
                     Profiles
                 </labs:SettingsCard.Header>
-<<<<<<< Updated upstream
                 <Button
                     x:Name="Add"
                     Click="Add_Click"
@@ -63,9 +62,6 @@
                     ToolTipService.ToolTip="Add User ( Temp Disabled Reworking Feature )">
                     Add
                 </Button>
-=======
-                <Button  ToolTipService.ToolTip="Add User ( Temp Disabled Reworking Feature )" IsEnabled="True"  x:Name="Add" Click="Add_Click">Add</Button>
->>>>>>> Stashed changes
             </labs:SettingsCard>
             <ListView x:Name="UserListView">
                 <ListView.ItemTemplate>
