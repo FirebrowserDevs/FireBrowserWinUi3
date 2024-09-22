@@ -42,6 +42,8 @@ public static class UserDataManager
 
             userData.Users.Remove(userToDelete);
             SaveUsers(userData.Users);
+            // never was updating settings timeline because user existed in AuthService.  DELETE. 
+            AuthService.users.Remove(userToDelete); 
         }
     }
 }

@@ -1,7 +1,11 @@
 using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3Core.Helpers;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Threading.Tasks;
+using WinRT.Interop;
 
 namespace FireBrowserWinUi3;
 
@@ -15,23 +19,31 @@ public sealed partial class SetupFinish : Page
         this.Loaded += SetupFinish_Loaded;
     }
 
-    private void SetupFinish_Loaded(object sender, RoutedEventArgs e)
+    private async void SetupFinish_Loaded(object sender, RoutedEventArgs e)
     {
-        timer = new DispatcherTimer();
-        timer.Interval = TimeSpan.FromSeconds(1);
-        timer.Tick += Timer_Tick;
+        
+        await Task.Delay(2400);
 
-        // Start the timer
-        timer.Start();
-    }
-
-    private async void Timer_Tick(object sender, object e)
-    {
-        countdownSeconds--;
-        if (countdownSeconds <= 0)
+        if (App.Current.m_window is not null)
         {
-            AppService.ActiveWindow.Close();
+
+            IntPtr hWnd = WindowNative.GetWindowHandle(App.Current.m_window);
+            if (hWnd == IntPtr.Zero)
+            {
+                Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+            }
+            else
+            {
+                if (Windowing.IsWindow(hWnd))
+                    Windowing.ShowWindow(hWnd, Windowing.WindowShowStyle.SW_RESTORE);
+
+                AppService.ActiveWindow.Close();
+            }
         }
-        if (countdownSeconds <= 0) Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+        else {
+            Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+        }
+
     }
+
 }

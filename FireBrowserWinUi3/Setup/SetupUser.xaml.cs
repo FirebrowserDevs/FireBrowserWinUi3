@@ -67,6 +67,7 @@ namespace FireBrowserWinUi3
             List<FireBrowserWinUi3MultiCore.User> users = new List<FireBrowserWinUi3MultiCore.User> { newUser };
             UserFolderManager.CreateUserFolders(newUser);
             UserDataManager.SaveUsers(users);
+            AuthService.AddUser(newUser);
             AuthService.Authenticate(newUser.Username);
             // add settings for new user...
 

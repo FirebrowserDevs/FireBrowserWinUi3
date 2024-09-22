@@ -23,15 +23,8 @@ using Windows.Graphics;
 using WinRT.Interop;
 
 namespace FireBrowserWinUi3.Services;
-public static interface IAppServiceProcedures
-{
-    bool IsAppGoingToClose { get; set; }
-    bool IsAppGoingToOpen {get; set; }
-    bool IsAppNewUser { get; set;  }
-    bool IsAppUserAuthenicated { get; set; }
 
-}
-public static class AppService : IAppServiceProcedures
+public static class AppService  
 {
     public static Window ActiveWindow { get; set; }
     public static Settings AppSettings { get; set; }
@@ -54,13 +47,19 @@ public static class AppService : IAppServiceProcedures
             {
                 throw new ApplicationException("Exiting Application by user");
             }
+            
+            if (IsAppNewUser)
+            {
+                CreateNewUsersSettings();
+                return; 
+            }
 
             if (!Directory.Exists(UserDataManager.CoreFolderPath))
             {
                 AppSettings = new Settings(true).Self;
                 ActiveWindow = new SetupWindow();
                 ActiveWindow.Closed += (s, e) => WindowsController(cancellationToken).ConfigureAwait(false);
-                ActiveWindow.Activate();
+                await ConfigureSettingsWindow(ActiveWindow); 
                 return;
             }
 
@@ -288,48 +287,53 @@ public static class AppService : IAppServiceProcedures
         {
             try
             {
-                var settingsActions = new SettingsActions(AuthService.NewCreatedUser?.Username);
-                var settingsPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.NewCreatedUser?.Username, "Settings", "Settings.db");
+                if (AuthService.NewCreatedUser is not null) {
+                    var settingsActions = new SettingsActions(AuthService.NewCreatedUser?.Username);
+                    var settingsPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.NewCreatedUser?.Username, "Settings", "Settings.db");
 
-                if (!File.Exists(settingsPath))
-                {
-                    await settingsActions.SettingsContext.Database.MigrateAsync();
-                }
+                    if (!File.Exists(settingsPath))
+                    {
+                        await settingsActions.SettingsContext.Database.MigrateAsync();
+                    }
 
-                if (File.Exists(settingsPath))
-                {
-                    await settingsActions.SettingsContext.Database.CanConnectAsync();
-                }
+                    if (File.Exists(settingsPath))
+                    {
+                        await settingsActions.SettingsContext.Database.CanConnectAsync();
+                    }
 
-                if (await settingsActions.GetSettingsAsync() is null)
-                {                 
-                    await settingsActions.InsertUserSettingsAsync(AppSettings);
-                }
+                    if (await settingsActions.GetSettingsAsync() is null)
+                    {
+                        await settingsActions.InsertUserSettingsAsync(AppSettings);
+                    }
+
+               }
+
             }
             catch (Exception ex)
             {
                 ExceptionLogger.LogException(ex);
                 Console.WriteLine($"Error in Creating Settings Database: {ex.Message}");
             }
-            finally
-            {
-                AuthService.NewCreatedUser = null;
-            }
+            //finally
+            //{
+            //    AuthService.NewCreatedUser = null;
+            //}
         };
+        
+        await ConfigureSettingsWindow(ActiveWindow);
 
-        await ConfigureSettingsWindow();
     }
 
-    private static async Task ConfigureSettingsWindow()
+    public static async Task ConfigureSettingsWindow(Window winIncoming)
     {
-        IntPtr hWnd = WindowNative.GetWindowHandle(ActiveWindow);
+        IntPtr hWnd = WindowNative.GetWindowHandle(winIncoming);
         WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
         AppWindow appWindow = AppWindow.GetFromWindowId(wndId);
 
         if (appWindow != null)
         {
             SizeInt32? desktop = await Windowing.SizeWindow();
-            appWindow.MoveAndResize(new RectInt32(desktop.Value.Height / 2, desktop.Value.Width / 2, (int)(desktop?.Width * .60), (int)(desktop?.Height * .60)));
+            appWindow.MoveAndResize(new RectInt32(desktop.Value.Height / 2, desktop.Value.Width / 2, (int)(desktop?.Width * .75), (int)(desktop?.Height * .75)));
             appWindow.MoveInZOrderAtTop();
             appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
             appWindow.Title = "Settings for: " + AuthService.NewCreatedUser?.Username;
@@ -342,7 +346,7 @@ public static class AppService : IAppServiceProcedures
             appWindow.SetPresenter(AppWindowPresenterKind.Overlapped);
         }
 
-        Windowing.Center(ActiveWindow);
+        Windowing.Center(winIncoming);
         appWindow.ShowOnceWithRequestedStartupState();
     }
 }

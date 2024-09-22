@@ -1,4 +1,6 @@
+using FireBrowserWinUi3.Pages.SettingsPages;
 using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3MultiCore;
 using FireBrowserWinUi3MultiCore.Helper;
 using Microsoft.UI.Xaml;
@@ -18,6 +20,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Services.Maps;
 using Windows.Storage;
+using WinRT.Interop;
 using static System.Net.Mime.MediaTypeNames;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -94,17 +97,25 @@ namespace FireBrowserWinUi3
 
             UserFolderManager.CreateUserFolders(newUser);
 
-           
-
             string destinationFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, Userbox.Text.ToString());
 
             await CopyImageAsync(iImage.ToString(), destinationFolderPath);
 
+            // use this down the line in AppService. 
             AuthService.NewCreatedUser = newUser;
 
-            AuthService.Authenticate(newUser.ToString());
+            ////// can't switch because user is sigin, and creating a new user. 
+            ////AuthService.Authenticate(newUser.ToString());
+            
+            // load data to time line before doing settings. 
+            SettingsHome.Instance?.LoadUsernames(); 
             
             AppService.CreateNewUsersSettings();
+            IntPtr hWnd = WindowNative.GetWindowHandle(this); 
+            if (hWnd != IntPtr.Zero)
+            {
+                Windowing.HideWindow(hWnd);
+            }
         }
     }
 }

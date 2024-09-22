@@ -1,22 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="FireBrowserWinUi3.Pages.SettingsPages.SettingsHome"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    xmlns:labs="using:CommunityToolkit.WinUI.Controls"
-    xmlns:person="using:FireBrowserWinUi3Core.Helpers"
     xmlns:firebrowser="using:FireBrowserWinUi3.Controls"
-    >
+    xmlns:labs="using:CommunityToolkit.WinUI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:person="using:FireBrowserWinUi3Core.Helpers"
+    mc:Ignorable="d">
     <Grid>
         <StackPanel Margin="0,5,0,0">
-            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                <PersonPicture ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}" Width="64"/>
+            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                <PersonPicture Width="64" ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}" />
                 <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
-                    <TextBlock Name="User" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="15" Text="FireBrowser User"/>
-                    <TextBlock Text="Browser account" FontSize="12"/>
+                    <TextBlock
+                        Name="User"
+                        FontSize="15"
+                        Style="{ThemeResource SubtitleTextBlockStyle}"
+                        Text="FireBrowser User" />
+                    <TextBlock FontSize="12" Text="Browser account" />
                 </StackPanel>
             </StackPanel>
             <labs:SettingsCard Margin="0,5,0,0" VerticalAlignment="Bottom">
@@ -24,7 +27,7 @@
                     Check for internal component updates
                 </labs:SettingsCard.Header>
                 <Button x:Name="PatchBtn" Click="PatchBtn_Click">
-                   Check For Updates
+                    Check For Updates
                 </Button>
             </labs:SettingsCard>
             <labs:SettingsCard Margin="0,5,0,0" VerticalAlignment="Bottom">
@@ -39,9 +42,12 @@
                 <labs:SettingsCard.Header>
                     FireVault - FireBrowser
                 </labs:SettingsCard.Header>
-                <Button x:Name="OpenVault" Width="150" IsEnabled="False">
+                <Button
+                    x:Name="OpenVault"
+                    Width="150"
+                    IsEnabled="False">
                     <StackPanel>
-                        <TextBlock x:Name="TextOpen" Text="Open Vault"/>
+                        <TextBlock x:Name="TextOpen" Text="Open Vault" />
                     </StackPanel>
                 </Button>
             </labs:SettingsCard>
@@ -49,37 +55,65 @@
                 <labs:SettingsCard.Header>
                     Profiles
                 </labs:SettingsCard.Header>
-                <Button  ToolTipService.ToolTip="Add User ( Temp Disabled Reworking Feature )" IsEnabled="False"  x:Name="Add" Click="Add_Click">Add</Button>
+                <Button
+                    x:Name="Add"
+                    Click="Add_Click"
+                    IsEnabled="True"
+                    ToolTipService.ToolTip="Add User ( Temp Disabled Reworking Feature )">
+                    Add
+                </Button>
             </labs:SettingsCard>
             <ListView x:Name="UserListView">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <!-- For the profile picture -->
-                                <ColumnDefinition Width="*"/>
-                                <!-- For the username -->
-                                <ColumnDefinition Width="Auto"/>
-                                <!-- For the "Switch" button -->
+                                <ColumnDefinition Width="Auto" />
+                                <!--  For the profile picture  -->
+                                <ColumnDefinition Width="*" />
+                                <!--  For the username  -->
+                                <ColumnDefinition Width="Auto" />
+                                <!--  For the "Switch" button  -->
                             </Grid.ColumnDefinitions>
 
-                            <PersonPicture Width="32" Height="32" Margin="10"/>
-                            <!-- Username -->
-                            <TextBlock x:FieldModifier="Public" x:Name="userName" Text="{Binding}" Grid.Column="1" VerticalAlignment="Center" Margin="10,0,10,0"/>
-                            <!-- "Switch" button -->
-                            <Button IsEnabled="True" x:Name="Switch" Click="Switch_Click" Grid.Column="2" Margin="-20" Style="{ThemeResource QuietButtonStyle}" Content="{firebrowser:FluentIcon Glyph=&#xE748;}"/>
+                            <PersonPicture
+                                Width="32"
+                                Height="32"
+                                Margin="10" />
+                            <!--  Username  -->
+                            <TextBlock
+                                x:Name="userName"
+                                Grid.Column="1"
+                                Margin="10,0,10,0"
+                                VerticalAlignment="Center"
+                                x:FieldModifier="Public"
+                                Text="{Binding}" />
+                            <!--  "Switch" button  -->
+                            <Button
+                                x:Name="Switch"
+                                Grid.Column="2"
+                                Margin="-20"
+                                Click="Switch_Click"
+                                Content="{firebrowser:FluentIcon Glyph=&#xE748;}"
+                                IsEnabled="True"
+                                Style="{ThemeResource QuietButtonStyle}" />
 
-                            <Button IsEnabled="True" x:Name="Delete" Click="Delete_Click" Grid.Column="2" Margin="10" Style="{ThemeResource QuietButtonStyle}" Content="{firebrowser:FluentIcon Glyph=&#xE74D;}"/>
+                            <Button
+                                x:Name="Delete"
+                                Grid.Column="2"
+                                Margin="10"
+                                Click="Delete_Click"
+                                Content="{firebrowser:FluentIcon Glyph=&#xE74D;}"
+                                IsEnabled="True"
+                                Style="{ThemeResource QuietButtonStyle}" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </StackPanel>
         <TextBlock VerticalAlignment="Bottom">
-          ALPHA V3 RELEASE, EXPECT BUGS <LineBreak/>
-          V0.0.8.00339ap Build: 101.2358 Framework: WASDK/WinUI3 <LineBreak/>
-          Contact: firebrowserdevs@gmail.com
-        </TextBlock>
+            ALPHA V3 RELEASE, EXPECT BUGS<LineBreak />
+            V0.0.8.00339ap Build: 101.2358 Framework: WASDK/WinUI3<LineBreak />
+            Contact: firebrowserdevs@gmail.com</TextBlock>
     </Grid>
 </Page>

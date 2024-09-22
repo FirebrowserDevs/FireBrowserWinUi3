@@ -1,5 +1,6 @@
 using FireBrowserWinUi3.Pages.Patch;
 using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
@@ -14,15 +15,17 @@ namespace FireBrowserWinUi3.Pages.SettingsPages;
 public sealed partial class SettingsHome : Page
 {
     SettingsService SettingsService { get; set; }
+    public static SettingsHome Instance { get; set; }  
     public SettingsHome()
     {
         SettingsService = App.GetService<SettingsService>();
         this.InitializeComponent();
+        Instance = this; 
         LoadUserDataAndSettings();
         LoadUsernames();
     }
 
-    private void LoadUsernames()
+    public void LoadUsernames()
     {
         List<string> usernames = AuthService.GetAllUsernames();
         string currentUsername = AuthService.CurrentUser?.Username;
@@ -35,22 +38,28 @@ public sealed partial class SettingsHome : Page
         else
         {
             UserListView.IsEnabled = true;
+            
+            Add.IsEnabled = true ;
 
-            int nonPrivateUserCount = usernames.Count(username => !username.Contains("Private"));
+            // this isn't working every time i go to page add button is disabled 
+            // I understand for private though.
 
-            if (nonPrivateUserCount + (currentUsername != null && !currentUsername.Contains("Private") ? 1 : 0) >= 6)
-            {
-                Add.IsEnabled = false; // Assuming AddButton is the name of your "Add" button
-            }
-            else
-            {
-                Add.IsEnabled = false;
-            }
+            //int nonPrivateUserCount = usernames.Count(username => !username.Contains("Private"));
+
+            //if (nonPrivateUserCount + (currentUsername != null && !currentUsername.Contains("Private") ? 1 : 0) >= 6)
+            //{
+            //    Add.IsEnabled = false; // Assuming AddButton is the name of your "Add" button
+            //}
+            //else
+            //{
+            //    Add.IsEnabled = false;
+            //}
 
             foreach (string username in usernames.Where(username => username != currentUsername && !username.Contains("Private")))
             {
                 UserListView.Items.Add(username);
             }
+            
         }
     }
 
@@ -64,8 +73,16 @@ public sealed partial class SettingsHome : Page
 
     private async void Add_Click(object sender, RoutedEventArgs e)
     {
-        AddUserWindow ad = new AddUserWindow();
-        ad.Activate();
+        AppService.IsAppNewUser = string.IsNullOrEmpty(AuthService.NewCreatedUser?.Username) ? true : false; 
+        Window window = new AddUserWindow();
+        // add first then update ui
+        
+        // do the settings now. 
+        await AppService.ConfigureSettingsWindow(window);
+
+       
+
+        
     }
 
     public static async void OpenNewWindow(Uri uri)
@@ -90,8 +107,10 @@ public sealed partial class SettingsHome : Page
         if (sender is Button switchButton && switchButton.DataContext is string clickedUserName)
         {
             UserDataManager.DeleteUser(clickedUserName);
-            UserListView.Items.Remove(clickedUserName);
-            var window = (Application.Current as App)?.m_window as MainWindow;
+
+            UserListView.Items.Clear();
+            LoadUsernames(); 
+           // var window = (Application.Current as App)?.m_window as MainWindow;
         }
     }
 

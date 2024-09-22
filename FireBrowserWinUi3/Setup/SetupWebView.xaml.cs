@@ -74,8 +74,8 @@ public sealed partial class SetupWebView : Page
 
         try
         {
-            var settingsActions = new SettingsActions(AuthService.CurrentUser?.Username);
-            var settingsPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser?.Username, "Settings", "Settings.db");
+            var settingsActions = new SettingsActions(AuthService.NewCreatedUser?.Username);
+            var settingsPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.NewCreatedUser?.Username, "Settings", "Settings.db");
 
             if (!File.Exists(settingsPath))
             {
