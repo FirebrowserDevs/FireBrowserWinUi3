@@ -176,14 +176,14 @@ public sealed partial class NewTab : Page
 
     public static Brush GetGridBackgroundAsync(Settings.NewTabBackground backgroundType, FireBrowserWinUi3MultiCore.Settings userSettings)
     {
-        string colorString = userSettings.ColorBackground.ToString();
-
         switch (backgroundType)
         {
             case Settings.NewTabBackground.None:
                 return new SolidColorBrush(Colors.Transparent);
 
             case Settings.NewTabBackground.Costum:
+                string colorString = userSettings.ColorBackground.ToString();
+
                 var color = colorString == "#000000" ?
                  Colors.Transparent :
                  (Windows.UI.Color)XamlBindingHelper.ConvertValue(typeof(Windows.UI.Color), colorString);
