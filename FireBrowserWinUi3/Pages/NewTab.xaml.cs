@@ -378,7 +378,6 @@ public sealed partial class NewTab : Page
         }
     }
 
-
     private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (Application.Current is App app && app.m_window is MainWindow window)
@@ -468,7 +467,6 @@ public sealed partial class NewTab : Page
                 userSettings.EngineFriendlyName = selection;
                 userSettings.SearchUrl = url;
                 await ViewModel.SettingsService?.SaveChangesToSettings(AuthService.CurrentUser, userSettings);
-                // UserFolderManager.SaveUserSettings(AuthService.CurrentUser, userSettings); // Uncomment if needed
             }
             NewTabSearchBox.Focus(FocusState.Programmatic);
         }
@@ -491,13 +489,8 @@ public sealed partial class NewTab : Page
             }
         }
     }
-
     private void TrendingVisible_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsTrendingVisible = TrendingVisible.IsOn);
-
-    private void FloatingBox_Toggled(object sender, RoutedEventArgs e)
-    {
-        UpdateUserSettings(userSettings => userSettings.IsLogoVisible = FloatingBox.IsOn);
-    }
+    private void FloatingBox_Toggled(object sender, RoutedEventArgs e) => UpdateUserSettings(userSettings => userSettings.IsLogoVisible = FloatingBox.IsOn);
 
     private void FavoritesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
