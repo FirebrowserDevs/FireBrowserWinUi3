@@ -44,6 +44,7 @@ public sealed partial class SettingsHome : Page
             // this isn't working every time i go to page add button is disabled 
             // I understand for private though.
 
+<<<<<<< Updated upstream
             //int nonPrivateUserCount = usernames.Count(username => !username.Contains("Private"));
 
             //if (nonPrivateUserCount + (currentUsername != null && !currentUsername.Contains("Private") ? 1 : 0) >= 6)
@@ -54,6 +55,16 @@ public sealed partial class SettingsHome : Page
             //{
             //    Add.IsEnabled = false;
             //}
+=======
+            if (nonPrivateUserCount + (currentUsername != null && !currentUsername.Contains("Private") ? 1 : 0) >= 6)
+            {
+                Add.IsEnabled = false; // Assuming AddButton is the name of your "Add" button
+            }
+            else
+            {
+                Add.IsEnabled = true;
+            }
+>>>>>>> Stashed changes
 
             foreach (string username in usernames.Where(username => username != currentUsername && !username.Contains("Private")))
             {

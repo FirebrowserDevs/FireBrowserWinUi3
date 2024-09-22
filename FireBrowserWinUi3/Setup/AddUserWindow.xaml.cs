@@ -3,6 +3,8 @@ using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3MultiCore;
 using FireBrowserWinUi3MultiCore.Helper;
+using Microsoft.UI.Windowing;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -18,6 +20,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Graphics;
 using Windows.Services.Maps;
 using Windows.Storage;
 using WinRT.Interop;
@@ -35,6 +38,32 @@ namespace FireBrowserWinUi3
         public AddUserWindow()
         {
             this.InitializeComponent();
+           ConfigureWindowAppearance(this);
+        }
+
+        private static void ConfigureWindowAppearance(Window wdn)
+        {
+            IntPtr hWnd = WindowNative.GetWindowHandle(wdn);
+            WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
+            AppWindow appWindow = AppWindow.GetFromWindowId(wndId);
+
+            if (appWindow != null)
+            {
+                appWindow.MoveAndResize(new RectInt32(600, 600, 700, 680));
+                appWindow.MoveInZOrderAtTop();
+                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                appWindow.Title = "Create New User";
+                appWindow.SetIcon("LogoSetup.ico");
+
+                var titleBar = appWindow.TitleBar;
+                var btnColor = Colors.Transparent;
+                titleBar.BackgroundColor = btnColor;
+                titleBar.ForegroundColor = btnColor;
+                titleBar.ButtonBackgroundColor = btnColor;
+                titleBar.BackgroundColor = btnColor;
+                titleBar.ButtonInactiveBackgroundColor = btnColor;
+                appWindow.SetPresenter(AppWindowPresenterKind.Default);
+            }
         }
 
         string iImage = "";
@@ -104,11 +133,15 @@ namespace FireBrowserWinUi3
             // use this down the line in AppService. 
             AuthService.NewCreatedUser = newUser;
 
+<<<<<<< Updated upstream
             ////// can't switch because user is sigin, and creating a new user. 
             ////AuthService.Authenticate(newUser.ToString());
             
             // load data to time line before doing settings. 
             SettingsHome.Instance?.LoadUsernames(); 
+=======
+            AuthService.Authenticate(newUser.Username);
+>>>>>>> Stashed changes
             
             AppService.CreateNewUsersSettings();
             IntPtr hWnd = WindowNative.GetWindowHandle(this); 
