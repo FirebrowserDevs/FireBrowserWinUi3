@@ -39,13 +39,13 @@
                 Text="Select a User" />
 
             <AppBarButton
-      HorizontalAlignment="Left"
-      Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
-      Icon="OtherUser"
-      Label="Add User"
+                HorizontalAlignment="Left"
+                Click="AppBarButton_Click"
+                Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
+                Icon="OtherUser"
                 IsEnabled="True"
-      ToolTipService.ToolTip="Add User ( Temp Disabled Reworking Feature )" 
-                Click="AppBarButton_Click"/>
+                Label="Add User"
+                ToolTipService.ToolTip="Add User ( Temp Disabled Reworking Feature )" />
 
             <AppBarButton
                 x:Name="CloseBtn"
@@ -79,13 +79,13 @@
                                 Width="24"
                                 Height="24"
                                 Margin="6"
-                                ProfilePicture="{Binding PicturePath, Mode=OneWay}" />
+                                ProfilePicture="{Binding PicturePath, Mode=OneTime}" />
                             <!--  Username  -->
                             <TextBlock
                                 Grid.Column="1"
                                 Margin="5,0,5,0"
                                 VerticalAlignment="Center"
-                                Text="{Binding FireUser.Username, Mode=OneWay}" />
+                                Text="{Binding FireUser.Username, Mode=OneTime}" />
                             <!--  "Switch" button  -->
                         </Grid>
                     </DataTemplate>

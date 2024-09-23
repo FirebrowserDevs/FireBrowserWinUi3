@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -10,7 +11,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using WinRT.Interop;
 
 namespace FireBrowserWinUi3;
 
@@ -64,6 +67,7 @@ public sealed partial class UserCentral : Window
 
     private AppWindow appWindow;
     private AppWindowTitleBar titleBar;
+    public static UserCentral Instance { get; private set; }    
     public UC_Viewmodel ViewModel { get; set; }
 
     // Static property to keep track of whether UserCentral is already open
@@ -75,12 +79,18 @@ public sealed partial class UserCentral : Window
         // Set IsOpen to true
         ViewModel = new UC_Viewmodel();
         ViewModel.ParentWindow = this;
+        Instance = this; 
+        LoadDataGlobally().ConfigureAwait(false);   
+    }
+
+    public Task LoadDataGlobally() {
+
         string coreFolderPath = UserDataManager.CoreFolderPath;
         ViewModel.Users = GetUsernameFromCoreFolderPath(coreFolderPath);
         ViewModel.RaisePropertyChanges(nameof(ViewModel.Users));
         UserListView.ItemsSource = ViewModel.Users;
+        return Task.CompletedTask; 
     }
-
     public List<UserExtend> GetUsernameFromCoreFolderPath(string coreFolderPath, string userName = null)
     {
         try
@@ -132,7 +142,14 @@ public sealed partial class UserCentral : Window
 
     private async void AppBarButton_Click(object sender, RoutedEventArgs e)
     {
-       AddUserWindow usr = new AddUserWindow();
-        usr.Activate();
+        AddUserWindow usr = new AddUserWindow();
+        IntPtr hWnd = WindowNative.GetWindowHandle(this); 
+
+        if (hWnd != IntPtr.Zero) {
+            Windowing.SetWindowPos(hWnd, Windowing.HWND_BOTTOM, 0, 0, 0, 0, Windowing.SWP_NOSIZE | Windowing.SWP_NOACTIVATE);
+        }
+        
+        await AppService.ConfigureSettingsWindow(usr); 
+
     }
 }

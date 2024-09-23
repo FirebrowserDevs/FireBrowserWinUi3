@@ -37,11 +37,22 @@ public sealed partial class SetupFinish : Page
                 if (Windowing.IsWindow(hWnd))
                     Windowing.ShowWindow(hWnd, Windowing.WindowShowStyle.SW_RESTORE);
 
-                AppService.ActiveWindow.Close();
+                AppService.ActiveWindow?.Close();
             }
         }
         else {
-            Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+
+            AppService.ActiveWindow?.Close();
+
+            IntPtr ucHwnd = Windowing.FindWindow(null, nameof(UserCentral));
+            if (ucHwnd != IntPtr.Zero)
+            {
+                Windowing.Center(ucHwnd);
+            }
+            else {
+                Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+            }
+            
         }
 
     }

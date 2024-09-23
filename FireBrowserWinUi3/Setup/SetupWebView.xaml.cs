@@ -85,7 +85,7 @@ public sealed partial class SetupWebView : Page
             if (File.Exists(settingsPath))
             {
                 if (await settingsActions.SettingsContext.Database.CanConnectAsync())
-                    await settingsActions.InsertUserSettingsAsync(AppService.AppSettings);
+                    await settingsActions.UpdateSettingsAsync(AppService.AppSettings);
             }
 
         }

@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Display;
 using Windows.Devices.Enumeration;
@@ -54,9 +55,48 @@ public class Windowing
         }
     }
 
+    public static void Center(IntPtr hWnd)
+    {
+        WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
+
+        if (AppWindow.GetFromWindowId(windowId) is AppWindow appWindow &&
+            DisplayArea.GetFromWindowId(windowId, DisplayAreaFallback.Nearest) is DisplayArea displayArea)
+        {
+            PointInt32 CenteredPosition = appWindow.Position;
+            CenteredPosition.X = (displayArea.WorkArea.Width - appWindow.Size.Width) / 2;
+            CenteredPosition.Y = (displayArea.WorkArea.Height - appWindow.Size.Height) / 2;
+            appWindow.Move(CenteredPosition);
+        }
+    }
+
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+    public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+    public static bool EnumTheWindows(IntPtr hWnd, IntPtr lParam)
+    {
+        StringBuilder sb = new StringBuilder(256);
+        GetWindowText(hWnd, sb, sb.Capacity);
+        Console.WriteLine(sb.ToString());
+        return true;
+    }
+    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+    public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
     [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool ShowWindow(IntPtr hWnd, WindowShowStyle nCmdShow);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+    public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
+    public const uint SWP_NOSIZE = 0x0001;
+    public const uint SWP_NOACTIVATE = 0x0010;
 
     // Full enum def is at https://github.com/dotnet/pinvoke/blob/main/src/User32/User32+WindowShowStyle.cs
     public enum WindowShowStyle : uint

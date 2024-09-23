@@ -134,9 +134,12 @@ namespace FireBrowserWinUi3
             ////// can't switch because user is sigin, and creating a new user. 
             ////AuthService.Authenticate(newUser.ToString());
             
-            // load data to time line before doing settings. 
-            SettingsHome.Instance?.LoadUsernames(); 
-            
+            // load data to time line before doing settings and User Centeral is loaded. 
+            if (SettingsHome.Instance is not null)
+                SettingsHome.Instance?.LoadUsernames();
+            if(UserCentral.Instance is not null)
+                await UserCentral.Instance?.LoadDataGlobally(); 
+
             AppService.CreateNewUsersSettings();
             IntPtr hWnd = WindowNative.GetWindowHandle(this); 
             if (hWnd != IntPtr.Zero)

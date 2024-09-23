@@ -1,4 +1,6 @@
 using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3MultiCore;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -13,10 +15,12 @@ namespace FireBrowserWinUi3.Setup
     /// </summary>
     public sealed partial class UserSettings : Window
     {
+        public string UserName { get; internal set; } = AuthService.NewCreatedUser?.Username ?? AuthService.CurrentUser?.Username ?? "User Settings";
         public UserSettings()
         {
             this.InitializeComponent();
             AppService.AppSettings = new FireBrowserWinUi3MultiCore.Settings(true).Self;
+            
         }
 
         public int previousSelectedIndex { get; private set; }
@@ -25,6 +29,7 @@ namespace FireBrowserWinUi3.Setup
         {
             SelectorBarItem selectedItem = sender.SelectedItem;
             int currentSelectedIndex = sender.Items.IndexOf(selectedItem);
+
             System.Type pageType;
 
             switch (currentSelectedIndex)
@@ -53,7 +58,7 @@ namespace FireBrowserWinUi3.Setup
             var slideNavigationTransitionEffect = currentSelectedIndex - previousSelectedIndex > 0 ? SlideNavigationTransitionEffect.FromRight : SlideNavigationTransitionEffect.FromLeft;
 
             ContentFrame.Navigate(pageType, null, new SlideNavigationTransitionInfo() { Effect = slideNavigationTransitionEffect });
-
+            
             previousSelectedIndex = currentSelectedIndex;
         }
     }

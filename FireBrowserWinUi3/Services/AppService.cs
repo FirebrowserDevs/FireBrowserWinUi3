@@ -125,47 +125,60 @@ public static class AppService
 
     private static async Task HandleProtocolActivation(CancellationToken cancellationToken)
     {
-        var evt = AppInstance.GetActivatedEventArgs();
-        if (evt is ProtocolActivatedEventArgs protocolArgs && protocolArgs.Kind == ActivationKind.Protocol)
+        try
         {
-            string url = protocolArgs.Uri.ToString();
-            if (url.StartsWith("http") || url.StartsWith("https"))
+            var evt = AppInstance.GetActivatedEventArgs();
+            if (evt is ProtocolActivatedEventArgs protocolArgs && protocolArgs.Kind == ActivationKind.Protocol)
             {
-                AppArguments.UrlArgument = url;
-                CheckNormal();
-            }
-            else if (url.StartsWith("firebrowserwinui://"))
-            {
-                AppArguments.FireBrowserArgument = url;
-                CheckNormal();
-            }
-            else if (url.StartsWith("firebrowseruser://"))
-            {
-                AppArguments.FireUser = url;
-                string username = ExtractUsernameFromUrl(url);
-                if (!string.IsNullOrEmpty(username))
+                string url = protocolArgs.Uri.ToString();
+                if (url.StartsWith("http") || url.StartsWith("https"))
                 {
-                    CheckNormal(username);
-                    await WindowsController(cancellationToken).ConfigureAwait(false);
+                    AppArguments.UrlArgument = url;
+                    CheckNormal();
+                }
+                else if (url.StartsWith("firebrowserwinui://"))
+                {
+                    AppArguments.FireBrowserArgument = url;
+                    CheckNormal();
+                }
+                else if (url.StartsWith("firebrowseruser://"))
+                {
+                    AppArguments.FireUser = url;
+                    string username = ExtractUsernameFromUrl(url);
+                    if (!string.IsNullOrEmpty(username))
+                    {
+                        CheckNormal(username);
+                        await WindowsController(cancellationToken).ConfigureAwait(false);
+                    }
+                }
+                else if (url.StartsWith("firebrowserincog://"))
+                {
+                    AppArguments.FireBrowserIncog = url;
+                    CheckNormal();
+                }
+                else if (url.Contains(".pdf"))
+                {
+                    AppArguments.FireBrowserPdf = url;
+                    CheckNormal();
                 }
             }
-            else if (url.StartsWith("firebrowserincog://"))
-            {
-                AppArguments.FireBrowserIncog = url;
-                CheckNormal();
+            else {
+                ActiveWindow = new UserCentral();
+                ActiveWindow.Closed += (s, e) => WindowsController(cancellationToken).ConfigureAwait(false);
+                ConfigureWindowAppearance();
+                ActiveWindow.Activate();
+                Windowing.Center(ActiveWindow);
             }
-            else if (url.Contains(".pdf"))
-            {
-                AppArguments.FireBrowserPdf = url;
-                CheckNormal();
-            }
-        }
 
-        ActiveWindow = new UserCentral();
-        ActiveWindow.Closed += (s, e) => WindowsController(cancellationToken).ConfigureAwait(false);
-        ConfigureWindowAppearance();
-        ActiveWindow.Activate();
-        Windowing.Center(ActiveWindow);
+            
+        }
+        catch (Exception e)
+        {
+            ExceptionLogger.LogException(e);
+            Console.WriteLine($"Activation utilizing Protocol Activation failed..\n {e.Message}");
+          
+        }
+        
     }
 
     private static string ExtractUsernameFromUrl(string url)
@@ -303,7 +316,7 @@ public static class AppService
 
                     if (await settingsActions.GetSettingsAsync() is null)
                     {
-                        await settingsActions.InsertUserSettingsAsync(AppSettings);
+                        await settingsActions.UpdateSettingsAsync(AppSettings);
                     }
 
                }

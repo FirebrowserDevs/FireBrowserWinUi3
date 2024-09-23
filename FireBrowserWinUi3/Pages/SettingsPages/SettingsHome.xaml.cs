@@ -29,6 +29,8 @@ public sealed partial class SettingsHome : Page
     {
         List<string> usernames = AuthService.GetAllUsernames();
         string currentUsername = AuthService.CurrentUser?.Username;
+        // reset first...
+        UserListView.Items.Clear(); 
 
         if (currentUsername != null && currentUsername.Contains("Private"))
         {
