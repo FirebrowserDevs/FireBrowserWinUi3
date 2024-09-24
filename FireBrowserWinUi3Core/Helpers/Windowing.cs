@@ -113,7 +113,7 @@ public class Windowing
     
     public static async void CascadeWindows(List<IntPtr> windows)
     {
-        // we'll assume titlebar is default at 32 height . 
+        // we'll assume titlebar is default at 48 height . 
         int offset = 48;
 
         foreach (var hWnd in windows)
