@@ -45,7 +45,9 @@ public static class AppService
 
             if (IsAppGoingToClose)
             {
-                throw new ApplicationException("Exiting Application by user");
+                //throw new ApplicationException("Exiting Application by user");
+                await CloseCancelToken(cancellationToken);
+                return; 
             }
             
             if (IsAppNewUser)
@@ -113,9 +115,7 @@ public static class AppService
         }
         catch (Exception e)
         {
-            var cancel = new CancellationTokenSource();
-            cancellationToken = cancel.Token;
-            cancel.Cancel();
+            await CloseCancelToken(cancellationToken); 
             await Task.FromException<CancellationToken>(e);
             throw;
         }
@@ -123,6 +123,13 @@ public static class AppService
         await Task.FromCanceled(cancellationToken);
     }
 
+    private static Task CloseCancelToken(CancellationToken cancellationToken) {
+        
+        var cancel = new CancellationTokenSource();
+        cancellationToken = cancel.Token;
+        cancel.Cancel();
+        return Task.CompletedTask; 
+    }
     private static async Task HandleProtocolActivation(CancellationToken cancellationToken)
     {
         try

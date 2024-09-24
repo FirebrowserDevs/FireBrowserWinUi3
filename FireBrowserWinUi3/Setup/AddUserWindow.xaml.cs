@@ -39,6 +39,23 @@ namespace FireBrowserWinUi3
         {
             this.InitializeComponent();
             ConfigureWindowAppearance(this);
+            this.Activated += (s, e) => { Userbox.Focus(FocusState.Programmatic);  };
+            this.Closed += (s, e) => {
+
+                this.DispatcherQueue.TryEnqueue(async () => {
+                    await Task.Delay(420);
+                    IntPtr ucHwnd = Windowing.FindWindow(null, nameof(UserCentral));
+                    if (ucHwnd != IntPtr.Zero)
+                    {
+                        Windowing.Center(ucHwnd);
+                    }
+                    else
+                    {
+                        Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+                    }
+                });
+                
+            };
         }
 
         private static void ConfigureWindowAppearance(Window wdn)

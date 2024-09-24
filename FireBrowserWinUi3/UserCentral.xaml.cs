@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -80,18 +81,20 @@ public sealed partial class UserCentral : Window
         ViewModel = new UC_Viewmodel();
         ViewModel.ParentWindow = this;
         Instance = this; 
-        LoadDataGlobally().ConfigureAwait(false);   
+        this.Activated += async (s,e) => await LoadDataGlobally();
+        this.Closed += (s, e) => AppService.IsAppGoingToClose = true; 
     }
 
-    public Task LoadDataGlobally() {
+    public async Task LoadDataGlobally() {
 
         string coreFolderPath = UserDataManager.CoreFolderPath;
-        ViewModel.Users = GetUsernameFromCoreFolderPath(coreFolderPath);
-        ViewModel.RaisePropertyChanges(nameof(ViewModel.Users));
+        ViewModel.Users = await GetUsernameFromCoreFolderPath(coreFolderPath);
         UserListView.ItemsSource = ViewModel.Users;
-        return Task.CompletedTask; 
+        ViewModel.RaisePropertyChanges(nameof(ViewModel.Users));
+        
+    
     }
-    public List<UserExtend> GetUsernameFromCoreFolderPath(string coreFolderPath, string userName = null)
+    public Task<List<UserExtend>> GetUsernameFromCoreFolderPath(string coreFolderPath, string userName = null)
     {
         try
         {
@@ -113,7 +116,7 @@ public sealed partial class UserCentral : Window
                             userExtends.Add(new UserExtend(user));
                         }
                     }
-                    return userExtends;
+                    return Task.FromResult(userExtends);
                 }
             }
         }
