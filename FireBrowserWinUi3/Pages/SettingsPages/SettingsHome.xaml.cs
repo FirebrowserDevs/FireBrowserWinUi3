@@ -43,25 +43,10 @@ public sealed partial class SettingsHome : Page
             
             Add.IsEnabled = true ;
 
-            // this isn't working every time i go to page add button is disabled 
-            // I understand for private though.
-
-            //int nonPrivateUserCount = usernames.Count(username => !username.Contains("Private"));
-
-            //if (nonPrivateUserCount + (currentUsername != null && !currentUsername.Contains("Private") ? 1 : 0) >= 6)
-            //{
-            //    Add.IsEnabled = false; // Assuming AddButton is the name of your "Add" button
-            //}
-            //else
-            //{
-            //    Add.IsEnabled = false;
-            //}
-
             foreach (string username in usernames.Where(username => username != currentUsername && !username.Contains("Private")))
             {
                 UserListView.Items.Add(username);
-            }
-            
+            }        
         }
     }
 
@@ -77,14 +62,9 @@ public sealed partial class SettingsHome : Page
     {
         AppService.IsAppNewUser = string.IsNullOrEmpty(AuthService.NewCreatedUser?.Username) ? true : false; 
         Window window = new AddUserWindow();
-        // add first then update ui
         
         // do the settings now. 
-        await AppService.ConfigureSettingsWindow(window);
-
-       
-
-        
+        await AppService.ConfigureSettingsWindow(window);        
     }
 
     public static async void OpenNewWindow(Uri uri)
@@ -112,7 +92,7 @@ public sealed partial class SettingsHome : Page
 
             UserListView.Items.Clear();
             LoadUsernames(); 
-           // var window = (Application.Current as App)?.m_window as MainWindow;
+            // var window = (Application.Current as App)?.m_window as MainWindow;
         }
     }
 

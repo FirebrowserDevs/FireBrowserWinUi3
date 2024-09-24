@@ -206,7 +206,7 @@ public static class AppService
             appWindow.MoveAndResize(new RectInt32(600, 600, 420, 800));
             appWindow.MoveInZOrderAtTop();
             appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-            appWindow.Title = "UserCentral";
+            appWindow.Title = "Choose Your User";
             var titleBar = appWindow.TitleBar;
             var btnColor = Colors.Transparent;
             titleBar.BackgroundColor = btnColor;
@@ -214,7 +214,7 @@ public static class AppService
             titleBar.ButtonBackgroundColor = btnColor;
             titleBar.ButtonInactiveBackgroundColor = btnColor;
             appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
-            appWindow.SetIcon("ms-appx:///logo.ico");
+            appWindow.SetIcon("logo.ico");
         }
     }
 
