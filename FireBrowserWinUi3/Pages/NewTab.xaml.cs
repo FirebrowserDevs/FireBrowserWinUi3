@@ -71,7 +71,6 @@ public sealed partial class NewTab : Page
     }
     private async Task UpdateTrending()
     {
-        await Task.Delay(200); 
         var bing = new BingSearchApi();
         var topics = bing.TrendingListTask("calico cats").GetAwaiter().GetResult();
         // fixed treding errors. 
@@ -87,7 +86,11 @@ public sealed partial class NewTab : Page
                 trendings.Add(new TrendingItem(item["webSearchUrl"].ToString(), item["name"].ToString(), item["image"]["url"].ToString(), item["query"]["text"].ToString()));
             }
         }
-        
+        else {
+            await Task.Delay(1000);
+            await UpdateTrending(); 
+        }
+
     }
     public record TrendingListItem(string webSearchUrl, string name, string url, string text);
     private async void NewTab_Loaded(object sender, RoutedEventArgs e)
