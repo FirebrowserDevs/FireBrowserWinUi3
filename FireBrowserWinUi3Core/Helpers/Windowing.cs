@@ -93,11 +93,28 @@ public class Windowing
 
     [DllImport("user32.dll", SetLastError = true)]
     public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+   
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool InvalidateRect(IntPtr hWnd, IntPtr lpRect, bool bErase);
 
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool UpdateWindow(IntPtr hWnd);
+
+    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+    public static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+    public static extern IntPtr DefWindowProc(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+    public delegate IntPtr WndProc(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
+    public const int GWLP_WNDPROC = -4;
     public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
     public const uint SWP_NOSIZE = 0x0001;
     public const uint SWP_NOACTIVATE = 0x0010;
-
+    public const uint SWP_NOMOVE = 0x0002;
+    public static readonly IntPtr HWND_TOP = new IntPtr(0);
+    public static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+    public const uint WM_CLOSE = 0x0010; 
     // Full enum def is at https://github.com/dotnet/pinvoke/blob/main/src/User32/User32+WindowShowStyle.cs
     public enum WindowShowStyle : uint
     {

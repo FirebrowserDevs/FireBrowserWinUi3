@@ -123,7 +123,7 @@ public static class AppService
         await Task.FromCanceled(cancellationToken);
     }
 
-    private static Task CloseCancelToken(CancellationToken cancellationToken) {
+    public static Task CloseCancelToken(CancellationToken cancellationToken) {
         
         var cancel = new CancellationTokenSource();
         cancellationToken = cancel.Token;
@@ -207,15 +207,14 @@ public static class AppService
             appWindow.MoveInZOrderAtTop();
             appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
             appWindow.Title = "UserCentral";
-
             var titleBar = appWindow.TitleBar;
             var btnColor = Colors.Transparent;
             titleBar.BackgroundColor = btnColor;
-            titleBar.ForegroundColor = btnColor;
+            titleBar.ForegroundColor = Colors.LimeGreen;
             titleBar.ButtonBackgroundColor = btnColor;
             titleBar.ButtonInactiveBackgroundColor = btnColor;
             appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
-            appWindow.SetIcon("logo.ico");
+            appWindow.SetIcon("ms-appx:///logo.ico");
         }
     }
 

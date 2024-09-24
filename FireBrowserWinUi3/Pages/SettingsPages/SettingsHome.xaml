@@ -65,15 +65,12 @@
                     Add
                 </Button>
             </labs:SettingsCard>
-            <Grid
-                BorderBrush="{ThemeResource AccentFillColorSecondaryBrush}"
-                BorderThickness=".4"
-                CornerRadius="4">
+            <Grid>
                 <ScrollViewer>
                     <ListView x:Name="UserListView">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Background="{ThemeResource AccentTextFillColorSecondaryBrush}">
+                                <Grid Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiary}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <!--  For the profile picture  -->

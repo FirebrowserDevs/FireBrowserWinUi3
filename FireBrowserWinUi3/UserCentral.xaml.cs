@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -73,7 +74,7 @@ public sealed partial class UserCentral : Window
 
     // Static property to keep track of whether UserCentral is already open
     public static bool IsOpen { get; private set; }
-
+    
     public UserCentral()
     {
         this.InitializeComponent();
@@ -82,9 +83,9 @@ public sealed partial class UserCentral : Window
         ViewModel.ParentWindow = this;
         Instance = this; 
         this.Activated += async (s,e) => await LoadDataGlobally();
-        this.Closed += (s, e) => AppService.IsAppGoingToClose = true; 
+        
     }
-
+    
     public async Task LoadDataGlobally() {
 
         string coreFolderPath = UserDataManager.CoreFolderPath;
@@ -149,7 +150,7 @@ public sealed partial class UserCentral : Window
         IntPtr hWnd = WindowNative.GetWindowHandle(this); 
 
         if (hWnd != IntPtr.Zero) {
-            Windowing.SetWindowPos(hWnd, Windowing.HWND_BOTTOM, 0, 0, 0, 0, Windowing.SWP_NOSIZE | Windowing.SWP_NOACTIVATE);
+            Windowing.SetWindowPos(hWnd, Windowing.HWND_BOTTOM, 0, 0, 0, 0, Windowing.SWP_NOSIZE);
         }
         
         await AppService.ConfigureSettingsWindow(usr); 
