@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,12 +7,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace FireBrowserWinUi3.Services;
 public class UpdateService
 {
     // URL of the JSON file containing the server versions
-    private readonly string jsonUrl = "https://www.dropbox.com/scl/fi/h3l38sy7ng18qylbt5dkb/data.json?rlkey=7b7yg46783ftm4955vljnx36b&st=34troqm1&dl=0";
+    private readonly string jsonUrl = "https://dl.dropboxusercontent.com/scl/fi/h3l38sy7ng18qylbt5dkb/data.json?rlkey=7b7yg46783ftm4955vljnx36b&st=34troqm1&dl=0";
 
     // Local DLL file names
     private readonly string[] localFileNames = {
@@ -37,7 +39,7 @@ public class UpdateService
         {
             // Download the JSON file from the server asynchronously
             using HttpClient client = new HttpClient();
-            string jsonContent = await client.GetStringAsync(jsonUrl);
+            string jsonContent = await client.GetStringAsync(jsonUrl);   
             Debug.WriteLine("JSON content downloaded successfully.");
 
             // Parse the JSON data
