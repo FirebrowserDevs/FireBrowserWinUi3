@@ -4,178 +4,186 @@ using Microsoft.UI.Xaml;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.Graphics;
 using WinRT.Interop;
 
-namespace FireBrowserWinUi3.Controls;
-public sealed partial class Patcher : Window
+namespace FireBrowserWinUi3.Controls
 {
-    private AppWindow appWindow;
-    private AppWindowTitleBar titleBar;
-
-    public Patcher()
+    public sealed partial class Patcher : Window
     {
-        this.InitializeComponent();
-        InitializeWindow();
-        PatchDLLs();
-    }
+        private AppWindow appWindow;
+        private AppWindowTitleBar titleBar;
 
-    private void InitializeWindow()
-    {
-        var hWnd = WindowNative.GetWindowHandle(this);
-        WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
-        appWindow = AppWindow.GetFromWindowId(windowId);
-
-        appWindow.MoveAndResize(new RectInt32(500, 500, 850, 500));
-        FireBrowserWinUi3Core.Helpers.Windowing.Center(this);
-        appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
-        appWindow.MoveInZOrderAtTop();
-        appWindow.ShowOnceWithRequestedStartupState();
-        appWindow.SetIcon("logo.ico");
-
-        if (!AppWindowTitleBar.IsCustomizationSupported())
+        public Patcher()
         {
-            throw new Exception("Unsupported OS version.");
+            this.InitializeComponent();
+            InitializeWindow();
+            PatchDLLsAsync();
         }
-        else
-        {
-            titleBar = appWindow.TitleBar;
-            titleBar.ExtendsContentIntoTitleBar = true;
-            var btnColor = Colors.Transparent;
-            titleBar.BackgroundColor = btnColor;
-            titleBar.ButtonBackgroundColor = btnColor;
-            titleBar.InactiveBackgroundColor = btnColor;
-            titleBar.ButtonInactiveBackgroundColor = btnColor;
-        }
-    }
 
-    private async void PatchDLLs()
-    {
-        try
+        private void InitializeWindow()
         {
-            string tempPath = Path.GetTempPath();
-            string patchFilePath = Path.Combine(tempPath, "Patch.ptc");
+            var hWnd = WindowNative.GetWindowHandle(this);
+            WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
+            appWindow = AppWindow.GetFromWindowId(windowId);
 
-            if (!File.Exists(patchFilePath))
+            appWindow.MoveAndResize(new RectInt32(500, 500, 850, 500));
+            FireBrowserWinUi3Core.Helpers.Windowing.Center(this);
+            appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+            appWindow.MoveInZOrderAtTop();
+            appWindow.ShowOnceWithRequestedStartupState();
+            appWindow.SetIcon("logo.ico");
+
+            if (!AppWindowTitleBar.IsCustomizationSupported())
             {
-                return;
+                throw new Exception("Unsupported OS version.");
             }
-
-            string[] dllNamesToUpdate = await File.ReadAllLinesAsync(patchFilePath);
-
-            foreach (string dllName in dllNamesToUpdate)
+            else
             {
-                if (dllName.StartsWith("FireBrowserWinUi3") && dllName.EndsWith(".dll") && !dllName.Equals("FireBrowserWinUi3.dll", StringComparison.OrdinalIgnoreCase))
+                titleBar = appWindow.TitleBar;
+                titleBar.ExtendsContentIntoTitleBar = true;
+                var btnColor = Colors.Transparent;
+                titleBar.BackgroundColor = btnColor;
+                titleBar.ButtonBackgroundColor = btnColor;
+                titleBar.InactiveBackgroundColor = btnColor;
+                titleBar.ButtonInactiveBackgroundColor = btnColor;
+            }
+        }
+
+        private async void PatchDLLsAsync()
+        {
+            try
+            {
+                string tempPath = Path.GetTempPath();
+                string patchFilePath = Path.Combine(tempPath, "Patch.ptc");
+
+                if (!File.Exists(patchFilePath))
                 {
-                    string localFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dllName);
-                    bool fileDeleted = false;
+                    return;
+                }
 
-                    for (int i = 0; i < 3; i++) // Retry deletion up to 3 times
+                string[] dllNamesToUpdate = await File.ReadAllLinesAsync(patchFilePath);
+
+                foreach (string dllName in dllNamesToUpdate)
+                {
+                    if (dllName.StartsWith("FireBrowserWinUi3") && dllName.EndsWith(".dll") && !dllName.Equals("FireBrowserWinUi3.dll", StringComparison.OrdinalIgnoreCase))
                     {
-                        try
-                        {
-                            // Check if the file is in use
-                            using (var stream = new FileStream(localFilePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
-                            {
-                                // If no exception is thrown, the file is not in use
-                            }
+                        string localFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dllName);
 
-                            if (File.Exists(localFilePath))
-                            {
-                                File.Delete(localFilePath);
-                            }
-                            fileDeleted = true;
-                            break;
-                        }
-                        catch (IOException)
+                        if (!await TryDeleteFileAsync(localFilePath, 3, 500))
                         {
-                            await Task.Delay(500); // Wait before retrying
+                            await HandleDeletionFailureAsync();
+                            return;
                         }
-                        catch (UnauthorizedAccessException)
-                        {
-                            await Task.Delay(500); // Wait before retrying
-                        }
-                    }
 
-                    if (!fileDeleted)
-                    {
-                        await HandleDeletionFailure();
-                        return;
-                    }
-
-                    string url = $"https://frcloud.000webhostapp.com/{dllName}";
-                    using (WebClient client = new WebClient())
-                    {
-                        await client.DownloadFileTaskAsync(new Uri(url), localFilePath);
+                        string url = $"https://frcloud.000webhostapp.com/{dllName}";
+                        await DownloadFileAsync(url, localFilePath);
                     }
                 }
+
+                await RestartApplicationAsync();
             }
-
-
-            await RestartApplication();
-        }
-        catch (Exception)
-        {
-            // Swallow exceptions to avoid displaying errors
-        }
-    }
-
-    private async Task HandleDeletionFailure()
-    {
-        string tempPath = Path.GetTempPath();
-        string patchFilePath = Path.Combine(tempPath, "Patch.ptc");
-
-        try
-        {
-            File.Delete(patchFilePath);
-        }
-        catch (Exception)
-        {
-            // Swallow exceptions to avoid displaying errors
-        }
-
-        await RestartApplication();
-    }
-
-    private async Task RestartApplication()
-    {
-        try
-        {
-            string executablePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FireBrowserWinUi3.exe");
-
-            if (!File.Exists(executablePath))
+            catch (Exception ex)
             {
-                return;
+                Debug.WriteLine($"Error in PatchDLLsAsync: {ex.Message}");
             }
+        }
 
-            ProcessStartInfo startInfo = new ProcessStartInfo
+        private async Task<bool> TryDeleteFileAsync(string filePath, int maxRetries, int delayMs)
+        {
+            for (int i = 0; i < maxRetries; i++)
             {
-                FileName = executablePath,
-                UseShellExecute = true
-            };
-            Process.Start(startInfo);
+                try
+                {
+                    // Check if the file is in use
+                    using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None)) { }
 
+                    if (File.Exists(filePath))
+                    {
+                        File.Delete(filePath);
+                    }
+
+                    return true;
+                }
+                catch (IOException) { await Task.Delay(delayMs); }
+                catch (UnauthorizedAccessException) { await Task.Delay(delayMs); }
+            }
+            return false;
+        }
+
+        private async Task DownloadFileAsync(string url, string destinationPath)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+
+                await using (var fs = new FileStream(destinationPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    await response.Content.CopyToAsync(fs);
+                }
+            }
+        }
+
+        private async Task HandleDeletionFailureAsync()
+        {
             string tempPath = Path.GetTempPath();
             string patchFilePath = Path.Combine(tempPath, "Patch.ptc");
 
-            // Ensure Patch.ptc is deleted
             try
             {
                 File.Delete(patchFilePath);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Swallow exceptions to avoid displaying errors
+                Debug.WriteLine($"Failed to delete patch file: {ex.Message}");
             }
 
-            await Task.Delay(2000); // Ensure the new process starts properly
-            Application.Current.Exit();
+            await RestartApplicationAsync();
         }
-        catch (Exception)
+
+        private async Task RestartApplicationAsync()
         {
-            // Swallow exceptions to avoid displaying errors
+            try
+            {
+                string executablePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FireBrowserWinUi3.exe");
+
+                if (!File.Exists(executablePath))
+                {
+                    Debug.WriteLine("Executable file not found for restart.");
+                    return;
+                }
+
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = executablePath,
+                    UseShellExecute = true
+                };
+
+                Process.Start(startInfo);
+
+                string tempPath = Path.GetTempPath();
+                string patchFilePath = Path.Combine(tempPath, "Patch.ptc");
+
+                // Ensure Patch.ptc is deleted
+                try
+                {
+                    File.Delete(patchFilePath);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error deleting patch file after restart: {ex.Message}");
+                }
+
+                await Task.Delay(2000); // Ensure the new process starts properly
+                Application.Current.Exit();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error during restart: {ex.Message}");
+            }
         }
     }
 }
