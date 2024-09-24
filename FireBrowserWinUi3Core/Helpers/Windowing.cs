@@ -111,10 +111,12 @@ public class Windowing
         return windows;
     }
     
-    public static async void CascadeWindows(List<IntPtr> windows)
+    public static void CascadeWindows(List<IntPtr> windows)
     {
         // we'll assume titlebar is default at 48 height . 
         int offset = 48;
+        int currentX = 0;
+        int currentY = 0;
 
         foreach (var hWnd in windows)
         {
@@ -122,9 +124,14 @@ public class Windowing
 
             if (GetWindowRect(hWnd, out RECT rect)) {
                 width = rect.right - rect.left; 
-                height = rect.bottom - rect.top;    
-                MoveWindow(hWnd, rect.left + offset, rect.top + offset , width, height, true);
-                await Task.Delay(200);
+                height = rect.bottom - rect.top;
+                if (currentX == 0)
+                    currentX = rect.left;
+                if (currentY == 0)  
+                    currentY = rect.top;
+                MoveWindow(hWnd, currentX, currentY , width, height, true);
+                currentX += offset;
+                currentY += offset;
             }
             
         }
