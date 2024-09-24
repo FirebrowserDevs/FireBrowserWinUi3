@@ -56,8 +56,9 @@ namespace FireBrowserWinUi3.Controls
         {
             try
             {
-                string tempPath = Path.GetTempPath();
-                string patchFilePath = Path.Combine(tempPath, "Patch.ptc");
+                //string tempPath = Path.GetTempPath();
+                //string patchFilePath = Path.Combine(tempPath, "Patch.ptc");
+                string patchFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "patch.core");
 
                 if (!File.Exists(patchFilePath))
                 {
@@ -129,8 +130,9 @@ namespace FireBrowserWinUi3.Controls
 
         private async Task HandleDeletionFailureAsync()
         {
-            string tempPath = Path.GetTempPath();
-            string patchFilePath = Path.Combine(tempPath, "Patch.ptc");
+            //string tempPath = Path.GetTempPath();
+            //string patchFilePath = Path.Combine(tempPath, "Patch.ptc");
+            string patchFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "patch.core");
 
             try
             {

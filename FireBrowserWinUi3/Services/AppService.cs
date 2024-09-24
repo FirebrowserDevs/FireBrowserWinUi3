@@ -39,7 +39,8 @@ public static class AppService
         try
         {
             string changeUsernameFilePath = Path.Combine(Path.GetTempPath(), "changeusername.json");
-            string patchFilePath = Path.Combine(Path.GetTempPath(), "Patch.ptc");
+            //string patchFilePath = Path.Combine(Path.GetTempPath(), "Patch.ptc");
+            string patchFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "patch.core");
             string resetFilePath = Path.Combine(Path.GetTempPath(), "Reset.set");
 
 
