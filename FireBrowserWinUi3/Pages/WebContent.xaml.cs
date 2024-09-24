@@ -212,35 +212,56 @@ public sealed partial class WebContent : Page
             ProgressLoading.IsIndeterminate = false;
             ProgressLoading.Visibility = Visibility.Collapsed;
 
+            //optimize with background task, and use dispatcher to be thread safe 
+            await Task.Factory.StartNew(async () => {
 
+                await Task.Delay(2400);
 
-            await Task.Delay(1000); // Delay for stability
-
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
                 try
                 {
-                    await s.CoreWebView2?.CapturePreviewAsync(CoreWebView2CapturePreviewImageFormat.Jpeg, memoryStream.AsRandomAccessStream());
-                    memoryStream.Seek(0, SeekOrigin.Begin);
-
-                    BitmapImage bitmap = new BitmapImage { DecodePixelHeight = 512, DecodePixelWidth = 640 };
-                    bitmap.SetSource(memoryStream.AsRandomAccessStream());
-                    memoryStream.Seek(0, SeekOrigin.Begin);
-
-                    PictureWebElement = bitmap;
-
-                    var currentWindow = (Application.Current as App)?.m_window as MainWindow;
-                    if (currentWindow != null && currentWindow.TabViewContainer.SelectedItem is FireBrowserTabViewItem tab && currentWindow.TabContent.Content is WebContent web)
+                    DispatcherQueue?.TryEnqueue(async () =>
                     {
-                        tab.BitViewWebContent = web.PictureWebElement;
-                    }
+
+                        // Delay for stability
+
+                        using (MemoryStream memoryStream = new MemoryStream())
+                        {
+                            try
+                            {
+                                await s.CoreWebView2?.CapturePreviewAsync(CoreWebView2CapturePreviewImageFormat.Jpeg, memoryStream.AsRandomAccessStream());
+                                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                                BitmapImage bitmap = new BitmapImage { DecodePixelHeight = 512, DecodePixelWidth = 640 };
+                                bitmap.SetSource(memoryStream.AsRandomAccessStream());
+                                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                                PictureWebElement = bitmap;
+
+                                var currentWindow = (Application.Current as App)?.m_window as MainWindow;
+                                if (currentWindow != null && currentWindow.TabViewContainer.SelectedItem is FireBrowserTabViewItem tab && currentWindow.TabContent.Content is WebContent web)
+                                {
+                                    tab.BitViewWebContent = web.PictureWebElement;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                ExceptionLogger.LogException(ex);
+                                Console.Write($"Error capturing preview of website:\n{ex.Message}");
+                            }
+                        }
+                    });
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    ExceptionLogger.LogException(ex);
-                    Console.Write($"Error capturing preview of website:\n{ex.Message}");
+
+                    throw;
                 }
-            }
+                
+                return Task.CompletedTask; 
+
+            });
+
+            
         };
 
         s.CoreWebView2.SourceChanged += (sender, args) =>

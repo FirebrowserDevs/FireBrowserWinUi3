@@ -2,12 +2,14 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Display;
 using Windows.Devices.Enumeration;
+using Windows.Gaming.Input.ForceFeedback;
 using Windows.Graphics;
 using WinRT.Interop;
 
@@ -84,8 +86,66 @@ public class Windowing
         Console.WriteLine(sb.ToString());
         return true;
     }
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool EnumChildWindows(IntPtr hWndParent, EnumWindowsProc lpEnumFunc, IntPtr lParam);
+    
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+    public static List<IntPtr> FindWindowsByName(string windowName)
+    {
+        List<IntPtr> windows = new List<IntPtr>();
+
+        EnumWindows((hWnd, lParam) =>
+        {
+            StringBuilder sb = new StringBuilder(256);
+            GetWindowText(hWnd, sb, sb.Capacity);
+            if (sb.ToString().Contains(windowName))
+            {
+                windows.Add(hWnd);
+            }
+            return true; // Continue enumeration
+        }, IntPtr.Zero);
+
+        return windows;
+    }
+    
+    public static async void CascadeWindows(List<IntPtr> windows)
+    {
+        // we'll assume titlebar is default at 32 height . 
+        int offset = 48;
+
+        foreach (var hWnd in windows)
+        {
+            int width, height ;
+
+            if (GetWindowRect(hWnd, out RECT rect)) {
+                width = rect.right - rect.left; 
+                height = rect.bottom - rect.top;    
+                MoveWindow(hWnd, rect.left + offset, rect.top + offset , width, height, true);
+                await Task.Delay(200);
+            }
+            
+        }
+    }
+
+    public static IntPtr[] GetChildWindows(IntPtr hwndParent)
+    {
+        var childWindows = new List<IntPtr>();
+        EnumWindowsProc callback = (hWnd, lParam) =>
+        {
+            childWindows.Add(hWnd);
+            return true; // Continue enumeration
+        };
+        
+        EnumChildWindows(hwndParent, callback, IntPtr.Zero);
+        return childWindows.ToArray();
+    }
     [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
     public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
 
     [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
     [return: MarshalAs(UnmanagedType.Bool)]
@@ -105,8 +165,32 @@ public class Windowing
 
     [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
     public static extern IntPtr DefWindowProc(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+    public static extern uint CascadeWindows(IntPtr hwndParent, uint wHow, ref RECT lpRect, uint cKids, IntPtr[] lpKids);
+
     public delegate IntPtr WndProc(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
+    public static void CascadeAllWindows(nint win)
+    {
+
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(win);
+
+        Windowing.RECT rect = new Windowing.RECT { left = 0, top = 0, right = 800, bottom = 600 };
+        IntPtr[] childWindows = Windowing.GetChildWindows(hwnd);
+
+        Windowing.CascadeWindows(hwnd, 0, ref rect, (uint)childWindows.Length, childWindows);
+
+
+    }
+    [StructLayout(LayoutKind.Sequential)]
+    public struct RECT
+    {
+        public int left;
+        public int top;
+        public int right;
+        public int bottom;
+    }
     public const int GWLP_WNDPROC = -4;
     public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
     public const uint SWP_NOSIZE = 0x0001;

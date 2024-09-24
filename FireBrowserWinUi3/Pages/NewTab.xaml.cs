@@ -69,21 +69,25 @@ public sealed partial class NewTab : Page
         }
 
     }
-    private Task UpdateTrending()
+    private async Task UpdateTrending()
     {
-
+        await Task.Delay(200); 
         var bing = new BingSearchApi();
         var topics = bing.TrendingListTask("calico cats").GetAwaiter().GetResult();
-        var list = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(topics).ToList();
-
-        trendings.Clear(); ;
-
-        foreach (var item in list)
+        // fixed treding errors. 
+        if (topics is not null)
         {
+            var list = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(topics).ToList();
 
-            trendings.Add(new TrendingItem(item["webSearchUrl"].ToString(), item["name"].ToString(), item["image"]["url"].ToString(), item["query"]["text"].ToString()));
+            trendings.Clear(); ;
+
+            foreach (var item in list)
+            {
+
+                trendings.Add(new TrendingItem(item["webSearchUrl"].ToString(), item["name"].ToString(), item["image"]["url"].ToString(), item["query"]["text"].ToString()));
+            }
         }
-        return Task.CompletedTask;
+        
     }
     public record TrendingListItem(string webSearchUrl, string name, string url, string text);
     private async void NewTab_Loaded(object sender, RoutedEventArgs e)

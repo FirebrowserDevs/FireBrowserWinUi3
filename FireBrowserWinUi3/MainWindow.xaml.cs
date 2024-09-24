@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
@@ -71,10 +72,13 @@ public sealed partial class MainWindow : Window
         LoadUserDataAndSettings(); // Load data and settings for the new user
         LoadUserSettings();
         Init();
+        
 
         appWindow.Closing += AppWindow_Closing;
     }
-
+    
+    
+    
 
     public async void Init()
     {

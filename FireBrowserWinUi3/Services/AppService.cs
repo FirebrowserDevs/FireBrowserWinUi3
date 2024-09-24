@@ -246,6 +246,12 @@ public static class AppService
         App.Current.m_window.Activate();
         App.Current.m_window.AppWindow.MoveInZOrderAtTop();
 
+        List<IntPtr> windows = Windowing.FindWindowsByName(App.Current.m_window?.Title);
+        if (windows.Count > 1) {
+            Windowing.CascadeWindows(windows);
+        }
+        
+
         if (Windowing.IsWindowVisible(hWnd))
         {
             await Task.Delay(1000);
