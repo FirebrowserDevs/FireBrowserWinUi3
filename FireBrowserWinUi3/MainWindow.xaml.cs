@@ -29,6 +29,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Security.Credentials.UI;
@@ -56,6 +57,8 @@ public sealed partial class MainWindow : Window
     public string BackDropType = "Base";
     public MainWindow()
     {
+        this.appWindow = this.AppWindow; 
+
         ServiceDownloads = App.GetService<DownloadService>();
         SettingsService = App.GetService<SettingsService>();
         SettingsService.Initialize();
@@ -72,7 +75,52 @@ public sealed partial class MainWindow : Window
         LoadUserDataAndSettings(); // Load data and settings for the new user
         LoadUserSettings();
         Init();
-        
+
+        this.SizeChanged += async (s, e) =>
+        {
+
+            SemaphoreSlim semaphoreSlim = new SemaphoreSlim(3);
+
+            IntPtr hWnd = Windowing.GetForegroundWindow();
+
+            await Task.Delay(100);
+
+            if (hWnd != IntPtr.Zero)
+            {
+
+                await semaphoreSlim.WaitAsync();
+
+                Windowing.GetWindowRect(hWnd, out Windowing.RECT rect);
+
+                var sizeWindow = await Windowing.SizeWindow();
+                // Get the monitor dimensions
+                var screenWidth = (int)sizeWindow.Value.Width;
+                var screenHeight = (int)sizeWindow.Value.Height;
+
+                // Calculate the maximum allowed dimensions
+                int maxWidth = screenWidth / 4;
+                int maxHeight = screenHeight / 3;
+
+                if (this.appWindow.Size.Width < maxWidth)
+                {
+                    await Task.Delay(60);
+                    Windowing.SetWindowPos(hWnd, IntPtr.Zero, rect.left, rect.top, maxWidth, appWindow.Size.Height, Windowing.SWP_NOZORDER | Windowing.SWP_SHOWWINDOW);
+                    Windowing.FlashWindow(hWnd);
+                    
+                }
+                if (appWindow.Size.Height < maxHeight)
+                {
+                    await Task.Delay(60);
+                    Windowing.SetWindowPos(hWnd, IntPtr.Zero, rect.left, rect.top, appWindow.Size.Width, maxHeight, Windowing.SWP_NOZORDER | Windowing.SWP_SHOWWINDOW);
+                    Windowing.FlashWindow(hWnd);
+                    
+                }
+
+                // Set the window size
+                semaphoreSlim.Release();
+            }
+            e.Handled = true;
+        };
 
         appWindow.Closing += AppWindow_Closing;
     }

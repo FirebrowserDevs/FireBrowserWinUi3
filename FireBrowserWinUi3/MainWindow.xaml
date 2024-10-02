@@ -21,6 +21,7 @@
     </Window.Title>
 
     <Grid
+        x:Name="MainView"
         Padding="{ThemeResource ContentDialogBorderWidth}"
         Background="Transparent"
         BorderBrush="{ThemeResource AccentFillColorSecondaryBrush}"

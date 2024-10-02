@@ -23,6 +23,32 @@ public class Windowing
         MDT_Raw_DPI = 2,
         MDT_Default_DPI = MDT_Effective_DPI,
     }
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    static extern bool AnimateWindow(IntPtr hwnd, int dwTime, int dwFlags);
+
+    public const int AW_SLIDE = 0x00040000;
+    public const int AW_ACTIVATE = 0x20000;
+    public const int AW_BLEND = 0x80000;
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool FlashWindow(IntPtr hwnd, bool bInvert);
+
+    public static void FlashWindow(IntPtr hwnd)
+    {
+        FlashWindow(hwnd, true);
+    }
+    public static bool AnimateWindow(IntPtr hwnd)
+    {
+        return AnimateWindow(hwnd, 200, AW_SLIDE | AW_ACTIVATE | AW_BLEND);
+    }
+
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
     [DllImport("Shcore.dll", SetLastError = true)]
     public static extern int GetDpiForMonitor(IntPtr hmonitor, Windowing.Monitor_DPI_Type dpiType, out uint dpiX, out uint dpiY);
@@ -90,9 +116,6 @@ public class Windowing
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool EnumChildWindows(IntPtr hWndParent, EnumWindowsProc lpEnumFunc, IntPtr lParam);
     
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
-
     public static List<IntPtr> FindWindowsByName(string windowName)
     {
         List<IntPtr> windows = new List<IntPtr>();
@@ -200,12 +223,20 @@ public class Windowing
     }
     public const int GWLP_WNDPROC = -4;
     public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
-    public const uint SWP_NOSIZE = 0x0001;
-    public const uint SWP_NOACTIVATE = 0x0010;
-    public const uint SWP_NOMOVE = 0x0002;
+    public static uint SWP_NOSIZE = 0x0001;
+    public static uint SWP_NOMOVE = 0x0002;
+    public static uint SWP_NOZORDER = 0x0004;
+    public static uint SWP_NOREDRAW = 0x0008;
+    public static uint SWP_NOACTIVATE = 0x0010;
+    public static uint SWP_FRAMECHANGED = 0x0020;
+    public static uint SWP_SHOWWINDOW = 0x0040;
+    public static uint SWP_HIDEWINDOW = 0x0080;
+    public static uint SWP_NOCOPYBITS = 0x0100;
+    public static uint SWP_NOOWNERZORDER = 0x0200;
+    public static uint SWP_NOSENDCHANGING = 0x0400;
     public static readonly IntPtr HWND_TOP = new IntPtr(0);
     public static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
-    public const uint WM_CLOSE = 0x0010; 
+    public const uint WM_CLOSE = 0x0010;
     // Full enum def is at https://github.com/dotnet/pinvoke/blob/main/src/User32/User32+WindowShowStyle.cs
     public enum WindowShowStyle : uint
     {
