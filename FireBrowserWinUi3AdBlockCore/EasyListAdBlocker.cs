@@ -1,5 +1,4 @@
-﻿using DistillNET;
-using FireBrowserWinUi3MultiCore;
+﻿using FireBrowserWinUi3MultiCore;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
@@ -63,14 +62,14 @@ namespace FireBrowserWinUi3AdBlockCore.AdBlocker
                 //var filters = _filterCollection.GetFiltersForDomain(url.Host);
                 //var whitelist = _filterCollection.GetWhitelistFiltersForDomain(url.Host);
 
-               // bool matches = filters.Any(p => p.IsMatch(url, headers)) && !whitelist.Any(p => p.IsMatch(url, headers));
+                // bool matches = filters.Any(p => p.IsMatch(url, headers)) && !whitelist.Any(p => p.IsMatch(url, headers));
 
                 //if (matches)
-               // {
-               //     sender.Stop();
+                // {
+                //     sender.Stop();
                 //    args.Response = sender.Environment.CreateWebResourceResponse(null, 503, "Service Unavailable", "");
                 //    sender.Resume();
-               // }
+                // }
             }
         }
 

@@ -34,7 +34,7 @@ public partial class MainWindowViewModel : ObservableRecipient
         switch (message.Status)
         {
             case EnumMessageStatus.Login:
-                ShowLoginNotification(); 
+                ShowLoginNotification();
                 break;
             case EnumMessageStatus.Settings:
                 MainView.LoadUserSettings();

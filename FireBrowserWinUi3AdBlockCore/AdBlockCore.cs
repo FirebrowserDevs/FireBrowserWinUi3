@@ -2,10 +2,8 @@
 using FireBrowserWinUi3MultiCore;
 using Microsoft.Web.WebView2.Core;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FireBrowserWinUi3AdBlockCore

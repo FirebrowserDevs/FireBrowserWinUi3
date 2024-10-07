@@ -3,35 +3,24 @@ using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3MultiCore;
 using FireBrowserWinUi3MultiCore.Helper;
-using Microsoft.UI.Windowing;
 using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Graphics;
-using Windows.Services.Maps;
 using Windows.Storage;
 using WinRT.Interop;
-using static System.Net.Mime.MediaTypeNames;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace FireBrowserWinUi3
 {
-   
+
     public sealed partial class AddUserWindow : Window
     {
 
@@ -39,23 +28,24 @@ namespace FireBrowserWinUi3
         {
             this.InitializeComponent();
             ConfigureWindowAppearance(this);
-            this.Activated += (s, e) => { Userbox.Focus(FocusState.Programmatic);  };
-            this.Closed += async(s, e) => {
-    
-                    await Task.Delay(420);
+            this.Activated += (s, e) => { Userbox.Focus(FocusState.Programmatic); };
+            this.Closed += async (s, e) =>
+            {
 
-                    IntPtr ucHwnd = Windowing.FindWindow(null, nameof(UserCentral));
-                    if (ucHwnd != IntPtr.Zero)
-                    {
-                         
-                        Windowing.Center(ucHwnd);
-                        Windowing.UpdateWindow(ucHwnd);
-                    }
-                    else
-                    {
-                        Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
-                    }
-                
+                await Task.Delay(420);
+
+                IntPtr ucHwnd = Windowing.FindWindow(null, nameof(UserCentral));
+                if (ucHwnd != IntPtr.Zero)
+                {
+
+                    Windowing.Center(ucHwnd);
+                    Windowing.UpdateWindow(ucHwnd);
+                }
+                else
+                {
+                    Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+                }
+
             };
         }
 
@@ -151,15 +141,15 @@ namespace FireBrowserWinUi3
 
             ////// can't switch because user is sigin, and creating a new user. 
             ////AuthService.Authenticate(newUser.ToString());
-            
+
             // load data to time line before doing settings and User Centeral is loaded. 
             if (SettingsHome.Instance is not null)
                 SettingsHome.Instance?.LoadUsernames();
-            if(UserCentral.Instance is not null)
-                await UserCentral.Instance?.LoadDataGlobally(); 
+            if (UserCentral.Instance is not null)
+                await UserCentral.Instance?.LoadDataGlobally();
 
             AppService.CreateNewUsersSettings();
-            IntPtr hWnd = WindowNative.GetWindowHandle(this); 
+            IntPtr hWnd = WindowNative.GetWindowHandle(this);
             if (hWnd != IntPtr.Zero)
             {
                 Windowing.HideWindow(hWnd);

@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Display;
 using Windows.Devices.Enumeration;
-using Windows.Gaming.Input.ForceFeedback;
 using Windows.Graphics;
 using WinRT.Interop;
 
@@ -115,7 +114,7 @@ public class Windowing
     [DllImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool EnumChildWindows(IntPtr hWndParent, EnumWindowsProc lpEnumFunc, IntPtr lParam);
-    
+
     public static List<IntPtr> FindWindowsByName(string windowName)
     {
         List<IntPtr> windows = new List<IntPtr>();
@@ -133,7 +132,7 @@ public class Windowing
 
         return windows;
     }
-    
+
     public static void CascadeWindows(List<IntPtr> windows)
     {
         // we'll assume titlebar is default at 48 height . 
@@ -143,20 +142,21 @@ public class Windowing
 
         foreach (var hWnd in windows)
         {
-            int width, height ;
+            int width, height;
 
-            if (GetWindowRect(hWnd, out RECT rect)) {
-                width = rect.right - rect.left; 
+            if (GetWindowRect(hWnd, out RECT rect))
+            {
+                width = rect.right - rect.left;
                 height = rect.bottom - rect.top;
                 if (currentX == 0)
                     currentX = rect.left;
-                if (currentY == 0)  
+                if (currentY == 0)
                     currentY = rect.top;
-                MoveWindow(hWnd, currentX, currentY , width, height, true);
+                MoveWindow(hWnd, currentX, currentY, width, height, true);
                 currentX += offset;
                 currentY += offset;
             }
-            
+
         }
     }
 
@@ -168,7 +168,7 @@ public class Windowing
             childWindows.Add(hWnd);
             return true; // Continue enumeration
         };
-        
+
         EnumChildWindows(hwndParent, callback, IntPtr.Zero);
         return childWindows.ToArray();
     }
@@ -183,7 +183,7 @@ public class Windowing
 
     [DllImport("user32.dll", SetLastError = true)]
     public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
-   
+
     [DllImport("user32.dll", SetLastError = true)]
     public static extern bool InvalidateRect(IntPtr hWnd, IntPtr lpRect, bool bErase);
 

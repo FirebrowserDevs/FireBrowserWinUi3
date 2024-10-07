@@ -1,8 +1,5 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 
 namespace FireBrowserWinUi3MultiCore;
@@ -71,7 +68,7 @@ public class DbSettings
     public bool IsTrendingVisible { get; set; }
     public bool NtpCoreVisibility { get; set; }
 
-   // public bool WelcomeMsg { get; set; }
+    // public bool WelcomeMsg { get; set; }
 
 }
 public class Settings
@@ -221,8 +218,8 @@ public class Settings
     public bool IsTrendingVisible { get; set; }
     public bool NtpCoreVisibility { get; set; }
 
-   // public bool WelcomeMsg { get; set; }
-  
+    // public bool WelcomeMsg { get; set; }
+
 
     public static implicit operator Settings(DbSettings v)
     {

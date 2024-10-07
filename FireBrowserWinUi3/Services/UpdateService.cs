@@ -5,9 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace FireBrowserWinUi3.Services;
 public class UpdateService
@@ -39,7 +37,7 @@ public class UpdateService
         {
             // Download the JSON file from the server asynchronously
             using HttpClient client = new HttpClient();
-            string jsonContent = await client.GetStringAsync(jsonUrl);   
+            string jsonContent = await client.GetStringAsync(jsonUrl);
             Debug.WriteLine("JSON content downloaded successfully.");
 
             // Parse the JSON data

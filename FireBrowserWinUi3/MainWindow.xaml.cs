@@ -27,7 +27,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
@@ -57,7 +56,7 @@ public sealed partial class MainWindow : Window
     public string BackDropType = "Base";
     public MainWindow()
     {
-        this.appWindow = this.AppWindow; 
+        this.appWindow = this.AppWindow;
 
         ServiceDownloads = App.GetService<DownloadService>();
         SettingsService = App.GetService<SettingsService>();
@@ -106,14 +105,14 @@ public sealed partial class MainWindow : Window
                     await Task.Delay(60);
                     Windowing.SetWindowPos(hWnd, IntPtr.Zero, rect.left, rect.top, maxWidth, appWindow.Size.Height, Windowing.SWP_NOZORDER | Windowing.SWP_SHOWWINDOW);
                     Windowing.FlashWindow(hWnd);
-                    
+
                 }
                 if (appWindow.Size.Height < maxHeight)
                 {
                     await Task.Delay(60);
                     Windowing.SetWindowPos(hWnd, IntPtr.Zero, rect.left, rect.top, appWindow.Size.Width, maxHeight, Windowing.SWP_NOZORDER | Windowing.SWP_SHOWWINDOW);
                     Windowing.FlashWindow(hWnd);
-                    
+
                 }
 
                 // Set the window size
@@ -124,9 +123,9 @@ public sealed partial class MainWindow : Window
 
         appWindow.Closing += AppWindow_Closing;
     }
-    
-    
-    
+
+
+
 
     public async void Init()
     {
@@ -623,13 +622,13 @@ public sealed partial class MainWindow : Window
                         SelectNewTab();
                         break;
                     //case "firebrowser://vault":
-                     //   Tabs.TabItems.Add(CreateNewTab(typeof(SecureVault)));
-                     //   SelectNewTab();
-                     //   break;
-                   // case "firebrowser://api-route":
-                      //  Tabs.TabItems.Add(CreateNewTab(typeof(ApiDash)));
-                      //  SelectNewTab();
-                      //  break;
+                    //   Tabs.TabItems.Add(CreateNewTab(typeof(SecureVault)));
+                    //   SelectNewTab();
+                    //   break;
+                    // case "firebrowser://api-route":
+                    //  Tabs.TabItems.Add(CreateNewTab(typeof(ApiDash)));
+                    //  SelectNewTab();
+                    //  break;
                     default:
                         // default behavior
                         break;

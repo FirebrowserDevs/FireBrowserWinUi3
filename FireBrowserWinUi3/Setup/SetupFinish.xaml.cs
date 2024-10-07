@@ -1,6 +1,5 @@
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3Core.Helpers;
-using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -21,7 +20,7 @@ public sealed partial class SetupFinish : Page
 
     private async void SetupFinish_Loaded(object sender, RoutedEventArgs e)
     {
-        
+
         await Task.Delay(2400);
 
         if (App.Current.m_window is not null)
@@ -40,7 +39,8 @@ public sealed partial class SetupFinish : Page
                 AppService.ActiveWindow?.Close();
             }
         }
-        else {
+        else
+        {
 
             AppService.ActiveWindow?.Close();
 
@@ -49,10 +49,11 @@ public sealed partial class SetupFinish : Page
             {
                 Windowing.Center(ucHwnd);
             }
-            else {
+            else
+            {
                 Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
             }
-            
+
         }
 
     }

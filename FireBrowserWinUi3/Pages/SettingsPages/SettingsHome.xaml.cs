@@ -1,26 +1,23 @@
 using FireBrowserWinUi3.Pages.Patch;
 using FireBrowserWinUi3.Services;
-using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 
 namespace FireBrowserWinUi3.Pages.SettingsPages;
 public sealed partial class SettingsHome : Page
 {
     SettingsService SettingsService { get; set; }
-    public static SettingsHome Instance { get; set; }  
+    public static SettingsHome Instance { get; set; }
     public SettingsHome()
     {
         SettingsService = App.GetService<SettingsService>();
         this.InitializeComponent();
-        Instance = this; 
+        Instance = this;
         LoadUserDataAndSettings();
         LoadUsernames();
     }
@@ -30,7 +27,7 @@ public sealed partial class SettingsHome : Page
         List<string> usernames = AuthService.GetAllUsernames();
         string currentUsername = AuthService.CurrentUser?.Username;
         // reset first...
-        UserListView.Items.Clear(); 
+        UserListView.Items.Clear();
 
         if (currentUsername != null && currentUsername.Contains("Private"))
         {
@@ -40,13 +37,13 @@ public sealed partial class SettingsHome : Page
         else
         {
             UserListView.IsEnabled = true;
-            
-            Add.IsEnabled = true ;
+
+            Add.IsEnabled = true;
 
             foreach (string username in usernames.Where(username => username != currentUsername && !username.Contains("Private")))
             {
                 UserListView.Items.Add(username);
-            }        
+            }
         }
     }
 
@@ -60,11 +57,11 @@ public sealed partial class SettingsHome : Page
 
     private async void Add_Click(object sender, RoutedEventArgs e)
     {
-        AppService.IsAppNewUser = string.IsNullOrEmpty(AuthService.NewCreatedUser?.Username) ? true : false; 
+        AppService.IsAppNewUser = string.IsNullOrEmpty(AuthService.NewCreatedUser?.Username) ? true : false;
         Window window = new AddUserWindow();
-        
+
         // do the settings now. 
-        await AppService.ConfigureSettingsWindow(window);        
+        await AppService.ConfigureSettingsWindow(window);
     }
 
     public static async void OpenNewWindow(Uri uri)
@@ -91,7 +88,7 @@ public sealed partial class SettingsHome : Page
             UserDataManager.DeleteUser(clickedUserName);
 
             UserListView.Items.Clear();
-            LoadUsernames(); 
+            LoadUsernames();
             // var window = (Application.Current as App)?.m_window as MainWindow;
         }
     }

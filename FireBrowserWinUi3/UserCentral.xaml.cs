@@ -9,9 +9,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -69,31 +67,32 @@ public sealed partial class UserCentral : Window
 
     private AppWindow appWindow;
     private AppWindowTitleBar titleBar;
-    public static UserCentral Instance { get; private set; }    
+    public static UserCentral Instance { get; private set; }
     public UC_Viewmodel ViewModel { get; set; }
 
     // Static property to keep track of whether UserCentral is already open
     public static bool IsOpen { get; private set; }
-    
+
     public UserCentral()
     {
         this.InitializeComponent();
         // Set IsOpen to true
         ViewModel = new UC_Viewmodel();
         ViewModel.ParentWindow = this;
-        Instance = this; 
-        this.Activated += async (s,e) => await LoadDataGlobally();
-        
+        Instance = this;
+        this.Activated += async (s, e) => await LoadDataGlobally();
+
     }
-    
-    public async Task LoadDataGlobally() {
+
+    public async Task LoadDataGlobally()
+    {
 
         string coreFolderPath = UserDataManager.CoreFolderPath;
         ViewModel.Users = await GetUsernameFromCoreFolderPath(coreFolderPath);
         UserListView.ItemsSource = ViewModel.Users;
         ViewModel.RaisePropertyChanges(nameof(ViewModel.Users));
-        
-    
+
+
     }
     public Task<List<UserExtend>> GetUsernameFromCoreFolderPath(string coreFolderPath, string userName = null)
     {
@@ -142,18 +141,19 @@ public sealed partial class UserCentral : Window
         }
     }
 
-    
+
 
     private async void AppBarButton_Click(object sender, RoutedEventArgs e)
     {
         AddUserWindow usr = new AddUserWindow();
-        IntPtr hWnd = WindowNative.GetWindowHandle(this); 
+        IntPtr hWnd = WindowNative.GetWindowHandle(this);
 
-        if (hWnd != IntPtr.Zero) {
+        if (hWnd != IntPtr.Zero)
+        {
             Windowing.SetWindowPos(hWnd, Windowing.HWND_BOTTOM, 0, 0, 0, 0, Windowing.SWP_NOSIZE);
         }
-        
-        await AppService.ConfigureSettingsWindow(usr); 
+
+        await AppService.ConfigureSettingsWindow(usr);
 
     }
 }

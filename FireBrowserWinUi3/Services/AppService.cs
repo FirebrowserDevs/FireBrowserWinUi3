@@ -24,7 +24,7 @@ using WinRT.Interop;
 
 namespace FireBrowserWinUi3.Services;
 
-public static class AppService  
+public static class AppService
 {
     public static Window ActiveWindow { get; set; }
     public static Settings AppSettings { get; set; }
@@ -48,13 +48,13 @@ public static class AppService
             {
                 //throw new ApplicationException("Exiting Application by user");
                 await CloseCancelToken(cancellationToken);
-                return; 
+                return;
             }
-            
+
             if (IsAppNewUser)
             {
                 CreateNewUsersSettings();
-                return; 
+                return;
             }
 
             if (!Directory.Exists(UserDataManager.CoreFolderPath))
@@ -62,7 +62,7 @@ public static class AppService
                 AppSettings = new Settings(true).Self;
                 ActiveWindow = new SetupWindow();
                 ActiveWindow.Closed += (s, e) => WindowsController(cancellationToken).ConfigureAwait(false);
-                await ConfigureSettingsWindow(ActiveWindow); 
+                await ConfigureSettingsWindow(ActiveWindow);
                 return;
             }
 
@@ -116,7 +116,7 @@ public static class AppService
         }
         catch (Exception e)
         {
-            await CloseCancelToken(cancellationToken); 
+            await CloseCancelToken(cancellationToken);
             await Task.FromException<CancellationToken>(e);
             throw;
         }
@@ -124,12 +124,13 @@ public static class AppService
         await Task.FromCanceled(cancellationToken);
     }
 
-    public static Task CloseCancelToken(CancellationToken cancellationToken) {
-        
+    public static Task CloseCancelToken(CancellationToken cancellationToken)
+    {
+
         var cancel = new CancellationTokenSource();
         cancellationToken = cancel.Token;
         cancel.Cancel();
-        return Task.CompletedTask; 
+        return Task.CompletedTask;
     }
     private static async Task HandleProtocolActivation(CancellationToken cancellationToken)
     {
@@ -170,7 +171,8 @@ public static class AppService
                     CheckNormal();
                 }
             }
-            else {
+            else
+            {
                 ActiveWindow = new UserCentral();
                 ActiveWindow.Closed += (s, e) => WindowsController(cancellationToken).ConfigureAwait(false);
                 ConfigureWindowAppearance();
@@ -178,15 +180,15 @@ public static class AppService
                 Windowing.Center(ActiveWindow);
             }
 
-            
+
         }
         catch (Exception e)
         {
             ExceptionLogger.LogException(e);
             Console.WriteLine($"Activation utilizing Protocol Activation failed..\n {e.Message}");
-          
+
         }
-        
+
     }
 
     private static string ExtractUsernameFromUrl(string url)
@@ -248,10 +250,11 @@ public static class AppService
         App.Current.m_window.AppWindow.MoveInZOrderAtTop();
 
         List<IntPtr> windows = Windowing.FindWindowsByName(App.Current.m_window?.Title);
-        if (windows.Count > 1) {
+        if (windows.Count > 1)
+        {
             Windowing.CascadeWindows(windows);
         }
-        
+
 
         if (Windowing.IsWindowVisible(hWnd))
         {
@@ -313,7 +316,8 @@ public static class AppService
         {
             try
             {
-                if (AuthService.NewCreatedUser is not null) {
+                if (AuthService.NewCreatedUser is not null)
+                {
                     var settingsActions = new SettingsActions(AuthService.NewCreatedUser?.Username);
                     var settingsPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.NewCreatedUser?.Username, "Settings", "Settings.db");
 
@@ -332,7 +336,7 @@ public static class AppService
                         await settingsActions.UpdateSettingsAsync(AppSettings);
                     }
 
-               }
+                }
 
             }
             catch (Exception ex)
@@ -345,7 +349,7 @@ public static class AppService
             //    AuthService.NewCreatedUser = null;
             //}
         };
-        
+
         await ConfigureSettingsWindow(ActiveWindow);
 
     }

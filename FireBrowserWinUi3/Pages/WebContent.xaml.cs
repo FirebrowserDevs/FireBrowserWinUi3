@@ -1,8 +1,6 @@
 using CommunityToolkit.WinUI.Helpers;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Services;
-using FireBrowserWinUi3AdBlockCore;
-using FireBrowserWinUi3AdBlockCore.AdBlocker;
 using FireBrowserWinUi3Core.CoreUi;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Core.ShareHelper;
@@ -23,7 +21,6 @@ using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.SpeechSynthesis;
 using Windows.Storage.Streams;
-using Windows.Web.UI.Interop;
 using WinRT.Interop;
 using static FireBrowserWinUi3.MainWindow;
 
@@ -213,7 +210,8 @@ public sealed partial class WebContent : Page
             ProgressLoading.Visibility = Visibility.Collapsed;
 
             //optimize with background task, and use dispatcher to be thread safe 
-            await Task.Factory.StartNew(async () => {
+            await Task.Factory.StartNew(async () =>
+            {
 
                 await Task.Delay(2400);
 
@@ -256,12 +254,12 @@ public sealed partial class WebContent : Page
 
                     throw;
                 }
-                
-                return Task.CompletedTask; 
+
+                return Task.CompletedTask;
 
             });
 
-            
+
         };
 
         s.CoreWebView2.SourceChanged += (sender, args) =>
@@ -331,7 +329,7 @@ public sealed partial class WebContent : Page
             case "Select": await webview.ExecuteScriptAsync("document.execCommand('selectAll', false, null);"); break;
             case "Copy": ClipBoard.WriteStringToClipboard(SelectionText); break;
             case "Taskmgr": webview.OpenTaskManagerWindow(); break;
-            case "Save":  HandleSaveAsync(); break;
+            case "Save": HandleSaveAsync(); break;
             case "Share": ShareUi(webview.DocumentTitle, webview.Source); break;
             case "Print": webview.ShowPrintUI(CoreWebView2PrintDialogKind.Browser); break;
         }

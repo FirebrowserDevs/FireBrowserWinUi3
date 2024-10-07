@@ -86,9 +86,10 @@ public sealed partial class NewTab : Page
                 trendings.Add(new TrendingItem(item["webSearchUrl"].ToString(), item["name"].ToString(), item["image"]["url"].ToString(), item["query"]["text"].ToString()));
             }
         }
-        else {
+        else
+        {
             await Task.Delay(1000);
-            await UpdateTrending(); 
+            await UpdateTrending();
         }
 
     }
@@ -109,7 +110,7 @@ public sealed partial class NewTab : Page
         SearchengineSelection.SelectedItem = userSettings.EngineFriendlyName;
         NewTabSearchBox.Text = string.Empty;
         NewTabSearchBox.Focus(FocusState.Programmatic);
-        
+
         if (userSettings.IsTrendingVisible) await UpdateTrending();
 
         HomeSync();

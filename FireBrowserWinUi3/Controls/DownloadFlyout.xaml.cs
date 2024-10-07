@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace FireBrowserWinUi3.Controls;
 public sealed partial class DownloadFlyout : Flyout
@@ -59,7 +58,10 @@ public sealed partial class DownloadFlyout : Flyout
     private void ShowDownloads_Click(object sender, RoutedEventArgs e)
     {
         var downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
-        Process.Start("explorer.exe", downloadPath);
+        string pathToExecutable = @"C:\Windows\explorer.exe";
+        string arguments = string.Empty;
+
+        ProcessStarter.StartProcess(pathToExecutable, arguments, $"{downloadPath}");
     }
 
     private void OpenDownloadsItem_Click(object sender, RoutedEventArgs e)

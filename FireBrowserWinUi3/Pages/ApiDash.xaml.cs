@@ -1,11 +1,10 @@
-using System;
-using System.Collections.ObjectModel;
-using System.ServiceProcess;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI;
-using FireBrowserWinUi3.Services;
+using System;
+using System.Collections.ObjectModel;
+using System.ServiceProcess;
 
 namespace FireBrowserWinUi3.Pages
 {
@@ -119,7 +118,6 @@ namespace FireBrowserWinUi3.Pages
         {
             try
             {
-                ServiceManager.InstallService();
             }
             catch (Exception ex)
             {

@@ -1,3 +1,4 @@
+using FireBrowserWinUi3.Services;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -158,13 +159,8 @@ namespace FireBrowserWinUi3.Controls
                     return;
                 }
 
-                ProcessStartInfo startInfo = new ProcessStartInfo
-                {
-                    FileName = executablePath,
-                    UseShellExecute = true
-                };
-
-                Process.Start(startInfo);
+                // Use the custom ProcessStarter to start the process
+                ProcessStarter.StartProcess(executablePath, "", AppDomain.CurrentDomain.BaseDirectory);
 
                 string tempPath = Path.GetTempPath();
                 string patchFilePath = Path.Combine(tempPath, "Patch.ptc");
@@ -187,5 +183,6 @@ namespace FireBrowserWinUi3.Controls
                 Debug.WriteLine($"Error during restart: {ex.Message}");
             }
         }
+
     }
 }
