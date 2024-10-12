@@ -77,16 +77,12 @@ public sealed partial class MainWindow : Window
 
         this.SizeChanged += async (s, e) =>
         {
-
             SemaphoreSlim semaphoreSlim = new SemaphoreSlim(3);
-
             IntPtr hWnd = Windowing.GetForegroundWindow();
-
             await Task.Delay(100);
 
             if (hWnd != IntPtr.Zero)
             {
-
                 await semaphoreSlim.WaitAsync();
 
                 Windowing.GetWindowRect(hWnd, out Windowing.RECT rect);
@@ -112,10 +108,7 @@ public sealed partial class MainWindow : Window
                     await Task.Delay(60);
                     Windowing.SetWindowPos(hWnd, IntPtr.Zero, rect.left, rect.top, appWindow.Size.Width, maxHeight, Windowing.SWP_NOZORDER | Windowing.SWP_SHOWWINDOW);
                     Windowing.FlashWindow(hWnd);
-
                 }
-
-                // Set the window size
                 semaphoreSlim.Release();
             }
             e.Handled = true;
@@ -123,9 +116,6 @@ public sealed partial class MainWindow : Window
 
         appWindow.Closing += AppWindow_Closing;
     }
-
-
-
 
     public async void Init()
     {
@@ -161,15 +151,12 @@ public sealed partial class MainWindow : Window
 
     private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
     {
-
         if (Tabs.TabItems?.Count > 1)
         {
-
             if (SettingsService.CoreSettings.ConfirmCloseDlg)
             {
                 try
                 {
-
                     args.Cancel = true;
 
                     if (!(Application.Current is App currentApp) || !(currentApp.m_window is MainWindow mainWindow))
@@ -271,47 +258,29 @@ public sealed partial class MainWindow : Window
         var currentUsername = AuthService.CurrentUser?.Username;
         UserListView.Items.Clear();
 
-        if (currentUsername != null && currentUsername.Contains("Private"))
-        {
-            UserListView.IsEnabled = false;
-        }
-        else
-        {
-            foreach (var username in AuthService.GetAllUsernames().Where(u => u != currentUsername && !u.Contains("Private")))
-            {
-                UserListView.Items.Add(username);
-            }
-        }
+        if (!(UserListView.IsEnabled = currentUsername is null || !currentUsername.Contains("Private")))
+            return;
+
+        AuthService.GetAllUsernames()
+            .Where(u => u != currentUsername && !u.Contains("Private"))
+            .ToList()
+            .ForEach(UserListView.Items.Add);
     }
 
     public void SmallUpdates()
     {
-        string source = TabWebView.CoreWebView2.Source?.ToString() ?? string.Empty;
-        UrlBox.Text = source;
-        ViewModel.Securitytype = source;
+        var source = TabWebView.CoreWebView2.Source?.ToString() ?? string.Empty;
+        UrlBox.Text = ViewModel.Securitytype = source;
 
-        ViewModel.SecurityIcon = source switch
+        (ViewModel.SecurityIcon, ViewModel.SecurityIcontext, ViewModel.Securitytext) = source switch
         {
-            string s when s.Contains("https") => "\uE72E",
-            string s when s.Contains("http") => "\uE785",
-            _ => ""
-        };
-
-        ViewModel.SecurityIcontext = source switch
-        {
-            string s when s.Contains("https") => "Https Secured Website",
-            string s when s.Contains("http") => "Http UnSecured Website",
-            _ => ""
-        };
-
-        ViewModel.Securitytext = source switch
-        {
-            string s when s.Contains("https") => "This Page Is Secured By A Valid SSL Certificate, Trusted By Root Authorities",
-            string s when s.Contains("http") => "This Page Is Unsecured By A Non-Valid SSL Certificate, Please Be Careful",
-            _ => ""
+            string s when s.Contains("https") => ("\uE72E", "Https Secured Website",
+                "This Page Is Secured By A Valid SSL Certificate, Trusted By Root Authorities"),
+            string s when s.Contains("http") => ("\uE785", "Http UnSecured Website",
+                "This Page Is Unsecured By A Non-Valid SSL Certificate, Please Be Careful"),
+            _ => ("", "", "")
         };
     }
-
 
     public void TitleTop()
     {
@@ -448,6 +417,7 @@ public sealed partial class MainWindow : Window
             Param = param,
         };
 
+
         passer.ViewModel.CurrentAddress = "";
 
         double margin = ClassicToolbar.Height;
@@ -572,11 +542,8 @@ public sealed partial class MainWindow : Window
         UrlBox.Text = text;
         UrlBox.Focus(FocusState.Programmatic);
     }
+    public void FocusWebView() => TabWebView.Focus(FocusState.Programmatic);
 
-    public void FocusWebView()
-    {
-        TabWebView.Focus(FocusState.Programmatic);
-    }
     public void NavigateToUrl(string uri)
     {
         try
@@ -654,54 +621,43 @@ public sealed partial class MainWindow : Window
     }
 
     #region cangochecks
-    private bool CanGoBack()
-    {
-        ViewModel.CanGoBack = (TabContent?.Content is WebContent webContent)
-            ? (bool)(TabWebView?.CoreWebView2.CanGoBack)
-            : (bool)(TabContent?.CanGoBack);
 
-        return ViewModel.CanGoBack;
+    private bool CanNavigate(bool isBack)
+    {
+        bool canNavigate = isBack
+            ? (TabContent?.Content is WebContent ? TabWebView?.CoreWebView2.CanGoBack ?? false : TabContent?.CanGoBack ?? false)
+            : (TabContent?.Content is WebContent ? TabWebView?.CoreWebView2.CanGoForward ?? false : TabContent?.CanGoForward ?? false);
+
+        // Update the view model with the navigation states
+        ViewModel.UpdateNavigationState(
+            canNavigate,
+            isBack ? ViewModel.canGoForward : ViewModel.canGoBack
+        );
+
+        return canNavigate;
     }
 
-    private bool CanGoForward()
+    private void Go(bool isBack)
     {
-        ViewModel.CanGoForward = (TabContent?.Content is WebContent webContent)
-            ? (bool)(TabWebView?.CoreWebView2.CanGoForward)
-            : (bool)(TabContent?.CanGoForward);
-
-        return ViewModel.CanGoForward;
-    }
-
-    private void GoBack()
-    {
-        if (CanGoBack() && TabContent != null)
+        if (CanNavigate(isBack) && TabContent != null)
         {
-            if (TabContent.Content is WebContent && TabWebView.CoreWebView2.CanGoBack)
+            if (TabContent.Content is WebContent)
             {
-                TabWebView.CoreWebView2.GoBack();
+                if (isBack) TabWebView.CoreWebView2.GoBack();
+                else TabWebView.CoreWebView2.GoForward();
             }
             else
             {
-                TabContent.GoBack();
+                if (isBack) TabContent.GoBack();
+                else TabContent.GoForward();
             }
         }
     }
 
-    private void GoForward()
-    {
-        if (CanGoForward() && TabContent != null)
-        {
-            if (TabContent.Content is WebContent && TabWebView.CoreWebView2.CanGoForward)
-            {
-                TabWebView.CoreWebView2.GoForward();
-            }
-            else
-            {
-                TabContent.GoForward();
-            }
-        }
-    }
-
+    private bool CanGoBack() => CanNavigate(true);
+    private bool CanGoForward() => CanNavigate(false);
+    private void GoBack() => Go(true);
+    private void GoForward() => Go(false);
 
     #endregion
 
@@ -1242,30 +1198,6 @@ public sealed partial class MainWindow : Window
         Commander.ShowAt(Profile, options);
     }
 
-    private List<string> Cats = new List<string>()
-{
-    "Whiskers",
-    "Mittens",
-    "Felix",
-    "Shadow",
-    "Luna",
-    "Simba",
-    "Oreo",
-    "Ginger",
-    "Cleo",
-    "Milo",
-    "Smokey",
-    "Nala",
-    "Leo",
-    "Pumpkin",
-    "Coco",
-    "Chloe",
-    "Oliver",
-    "Lily",
-    "Tiger",
-    "Ziggy"
-};
-
     private void UrlBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
         if (UrlBox.Text.Contains("youtube:"))
@@ -1285,30 +1217,7 @@ public sealed partial class MainWindow : Window
             UrlBox.Text = $"{SettingsService.CoreSettings.SearchUrl}";
             UrlBox.Focus(FocusState.Keyboard);
             NotificationQueue.Show($"Autofill Search Quick {SettingsService.CoreSettings.EngineFriendlyName}", 2500);
-        }
-
-        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-        {
-            var suitableItems = new List<string>();
-            var splitText = sender.Text.ToLower().Split(" ");
-            foreach (var cat in Cats)
-            {
-                var found = splitText.All((key) =>
-                {
-                    return cat.ToLower().Contains(key);
-                });
-                if (found)
-                {
-                    suitableItems.Add(cat);
-                }
-            }
-            if (suitableItems.Count == 0)
-            {
-                suitableItems.Add("No results found");
-            }
-            sender.ItemsSource = suitableItems;
-        }
-
+        }       
     }
 
     private void Secure_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)

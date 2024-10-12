@@ -596,7 +596,7 @@
             CanDragTabs="True"
             CanReorderTabs="True"
             Loaded="Tabs_Loaded"
-            Mode="Modern"
+            Mode="Modern"         
             SelectionChanged="Tabs_SelectionChanged"
             TabCloseRequested="Tabs_TabCloseRequested"
             TabItemsChanged="Tabs_TabItemsChanged">

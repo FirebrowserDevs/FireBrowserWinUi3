@@ -14,7 +14,7 @@
     <ApplicationIcon>Logo.ico</ApplicationIcon>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
@@ -126,11 +126,15 @@
   <ItemGroup>
     <None Remove="Assets\UI\CrimsonUI.xaml" />
     <None Remove="ChangeUsernameCore.xaml" />
+    <None Remove="Controls\CreateBackup.xaml" />
     <None Remove="Controls\PopUpView.xaml" />
     <None Remove="Controls\ProfileCommander.xaml" />
     <None Remove="Controls\ResetCore.xaml" />
+    <None Remove="Controls\RestoreBackUp.xaml" />
     <None Remove="Pages\ApiDash.xaml" />
+    <None Remove="Pages\Patch\BackUpDialog.xaml" />
     <None Remove="Pages\Patch\PatchUpdate.xaml" />
+    <None Remove="Pages\Patch\RestoreBackupDialog.xaml" />
     <None Remove="Pages\Patch\SureReset.xaml" />
     <None Remove="Pages\Pluginss.xaml" />
     <None Remove="Pages\SecureVault.xaml" />
@@ -222,6 +226,21 @@
     <None Update="Assets\setup_image.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="backup.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Page Update="Controls\RestoreBackUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\CreateBackup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\Patch\RestoreBackupDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\Patch\BackUpDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Pages\SplitTabPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -314,6 +333,7 @@
     <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
     <PublishAot>False</PublishAot>
     <PublishTrimmed>False</PublishTrimmed>
+    <PackageCertificateKeyFile>FireBrowserWinUi3_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
 
 

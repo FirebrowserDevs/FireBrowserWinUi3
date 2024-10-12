@@ -14,4 +14,10 @@ public partial class ToolbarViewModel : ObservableObject
     [ObservableProperty] public string securitytext;
     [ObservableProperty] public string securitytype;
     [ObservableProperty] public Visibility homeButtonVisibility;
+
+    public void UpdateNavigationState(bool canGoBack, bool canGoForward)
+    {
+        canGoBack = canGoBack;
+        canGoForward = canGoForward;
+    }
 }

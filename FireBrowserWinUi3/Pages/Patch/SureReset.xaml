@@ -2,20 +2,52 @@
     x:Class="FireBrowserWinUi3.Pages.Patch.SureReset"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Title="Reset Confirmation"
     PrimaryButtonText="Confirm"
     SecondaryButtonText="Cancel"
-     CornerRadius="10"
-   PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    CornerRadius="8"
+    DefaultButton="Secondary">
 
-    <StackPanel Margin="20">
-        <TextBlock Text="Are you sure you want to reset the full browser app? This will remove all users and will remove the core folder too."
-                   Style="{StaticResource SubtitleTextBlockStyle}" 
-                   Margin="0,0,0,20"/>
+    <ContentDialog.Background>
+        <AcrylicBrush
+            TintColor="{ThemeResource SystemAltHighColor}"
+            TintOpacity="0.7"
+            FallbackColor="{ThemeResource SystemChromeMediumLowColor}"/>
+    </ContentDialog.Background>
 
-        <!-- Add any additional content here if needed -->
+    <StackPanel Margin="24">
+        <InfoBar
+            IsOpen="True"
+            Severity="Warning"
+            Title="Warning"
+            Message="This action will remove all users and the core folder."
+            IsClosable="False"
+            Margin="0,0,0,16"/>
 
+        <TextBlock 
+            Text="Are you sure you want to reset the full browser app?"
+            Style="{ThemeResource SubtitleTextBlockStyle}" 
+            TextWrapping="Wrap"
+            Margin="0,0,0,16"/>
+
+        <TextBlock 
+            Text="This action cannot be undone. Please make sure you have backed up any important data before proceeding."
+            Style="{ThemeResource BodyTextBlockStyle}"
+            TextWrapping="Wrap"/>
     </StackPanel>
+
+    <ContentDialog.PrimaryButtonStyle>
+        <Style TargetType="Button">
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
+    </ContentDialog.PrimaryButtonStyle>
+
+    <ContentDialog.SecondaryButtonStyle>
+        <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
+    </ContentDialog.SecondaryButtonStyle>
 </ContentDialog>

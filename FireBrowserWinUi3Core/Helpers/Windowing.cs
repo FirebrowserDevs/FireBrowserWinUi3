@@ -81,7 +81,6 @@ public class Windowing
             appWindow.Move(CenteredPosition);
         }
     }
-
     public static void Center(IntPtr hWnd)
     {
         WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
@@ -156,10 +155,8 @@ public class Windowing
                 currentX += offset;
                 currentY += offset;
             }
-
         }
     }
-
     public static IntPtr[] GetChildWindows(IntPtr hwndParent)
     {
         var childWindows = new List<IntPtr>();
@@ -203,15 +200,12 @@ public class Windowing
 
     public static void CascadeAllWindows(nint win)
     {
-
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(win);
 
         Windowing.RECT rect = new Windowing.RECT { left = 0, top = 0, right = 800, bottom = 600 };
         IntPtr[] childWindows = Windowing.GetChildWindows(hwnd);
 
         Windowing.CascadeWindows(hwnd, 0, ref rect, (uint)childWindows.Length, childWindows);
-
-
     }
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT
@@ -237,60 +231,32 @@ public class Windowing
     public static readonly IntPtr HWND_TOP = new IntPtr(0);
     public static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
     public const uint WM_CLOSE = 0x0010;
-    // Full enum def is at https://github.com/dotnet/pinvoke/blob/main/src/User32/User32+WindowShowStyle.cs
     public enum WindowShowStyle : uint
     {
         SW_HIDE = 0,
-        /// <summary>Activates and displays a window. If the window is minimized
-        /// or maximized, the system restores it to its original size and
-        /// position. An application should specify this flag when displaying
-        /// the window for the first time.</summary>
+
         SW_SHOWNORMAL = 1,
 
-        /// <summary>Activates the window and displays it as a minimized window.</summary>
         SW_SHOWMINIMIZED = 2,
 
-        /// <summary>Activates the window and displays it as a maximized window.</summary>
         SW_SHOWMAXIMIZED = 3,
 
-        /// <summary>Maximizes the specified window.</summary>
         SW_MAXIMIZE = 3,
 
-        /// <summary>Displays a window in its most recent size and position.
-        /// This value is similar to "ShowNormal", except the window is not
-        /// actived.</summary>
         SW_SHOWNOACTIVATE = 4,
 
-        /// <summary>Activates the window and displays it in its current size
-        /// and position.</summary>
         SW_SHOW = 5,
 
-        /// <summary>Minimizes the specified window and activates the next
-        /// top-level window in the Z order.</summary>
         SW_MINIMIZE = 6,
 
-        /// <summary>Displays the window as a minimized window. This value is
-        /// similar to "ShowMinimized", except the window is not activated.</summary>
         SW_SHOWMINNOACTIVE = 7,
 
-        /// <summary>Displays the window in its current size and position. This
-        /// value is similar to "Show", except the window is not activated.</summary>
         SW_SHOWNA = 8,
 
-        /// <summary>Activates and displays the window. If the window is
-        /// minimized or maximized, the system restores it to its original size
-        /// and position. An application should specify this flag when restoring
-        /// a minimized window.</summary>
         SW_RESTORE = 9,
 
-        /// <summary>Sets the show state based on the SW_ value specified in the
-        /// STARTUPINFO structure passed to the CreateProcess function by the
-        /// program that started the application.</summary>
         SW_SHOWDEFAULT = 10,
 
-        /// <summary>Windows 2000/XP: Minimizes a window, even if the thread
-        /// that owns the window is hung. This flag should only be used when
-        /// minimizing windows from a different thread.</summary>
         SW_FORCEMINIMIZE = 11,
     }
 
@@ -335,7 +301,4 @@ public class Windowing
         WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
         return AppWindow.GetFromWindowId(wndId);
     }
-
-    // get dpi for an element
-
 }

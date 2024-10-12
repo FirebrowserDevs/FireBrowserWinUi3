@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ContentDialog
-    x:Class="FireBrowserWinUi3.Pages.Patch.PatchUpdate"
+    x:Class="FireBrowserWinUi3.Pages.Patch.BackUpDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:FireBrowserWinUi3.Pages.Patch"
@@ -7,36 +8,43 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    PrimaryButtonText="Update"
-    SecondaryButtonText="Cancel"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    Title="Backup Confirmation"
+    PrimaryButtonText="Yes"
+    SecondaryButtonText="No"
     DefaultButton="Primary"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     CornerRadius="10">
 
     <ContentDialog.Background>
         <AcrylicBrush
             TintColor="{ThemeResource SystemAltHighColor}"
-            TintOpacity="0.9"
+            TintOpacity="0.7"
             FallbackColor="{ThemeResource SystemChromeMediumLowColor}"/>
     </ContentDialog.Background>
 
     <Grid Padding="24">
         <StackPanel Spacing="16">
+            <InfoBar
+                IsOpen="True"
+                Severity="Informational"
+                Title="Backup"
+                Message="Creating a backup is recommended before updating."
+                IsClosable="False"/>
+
             <TextBlock 
-                Name="DllListTextBlock" 
-                Text="Fetching update details..." 
-                TextWrapping="Wrap"
-                Style="{ThemeResource BodyTextBlockStyle}"/>
-            <muxc:ProgressRing 
-                x:Name="LoadingRing" 
-                IsActive="True" 
-                Width="32" 
-                Height="32"/>
+                Text="Do you want to create a backup before updating?"
+                Style="{ThemeResource SubtitleTextBlockStyle}" 
+                TextWrapping="Wrap"/>
+
+            <TextBlock 
+                Text="A backup ensures you can restore your data if anything goes wrong during the update process."
+                Style="{ThemeResource BodyTextBlockStyle}"
+                TextWrapping="Wrap"/>
         </StackPanel>
     </Grid>
 
     <ContentDialog.PrimaryButtonStyle>
-        <Style TargetType="Button" >
+        <Style TargetType="Button" BasedOn="{StaticResource AccentButtonStyle}">
             <Setter Property="CornerRadius" Value="4" />
         </Style>
     </ContentDialog.PrimaryButtonStyle>

@@ -42,6 +42,8 @@ public static class AppService
             //string patchFilePath = Path.Combine(Path.GetTempPath(), "Patch.ptc");
             string patchFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "patch.core");
             string resetFilePath = Path.Combine(Path.GetTempPath(), "Reset.set");
+            string backupFilePath = Path.Combine(Path.GetTempPath(), "backup.fireback");
+            string restoreFilePath = Path.Combine(Path.GetTempPath(), "restore.fireback");
 
 
             if (IsAppGoingToClose)
@@ -89,6 +91,31 @@ public static class AppService
                 ActiveWindow.Activate();
                 return;
             }
+
+            if (File.Exists(backupFilePath))
+            {
+                AuthService.Logout();
+                ActiveWindow = new CreateBackup();
+                ActiveWindow.Closed += (s, e) =>
+                {
+                    WindowsController(cancellationToken).ConfigureAwait(false);
+                };
+                ActiveWindow.Activate();
+                return;
+            }
+
+            if (File.Exists(restoreFilePath))
+            {
+                AuthService.Logout();
+                ActiveWindow = new RestoreBackUp();
+                ActiveWindow.Closed += (s, e) =>
+                {
+                    WindowsController(cancellationToken).ConfigureAwait(false);
+                };
+                ActiveWindow.Activate();
+                return;
+            }
+
 
             if (File.Exists(resetFilePath))
             {

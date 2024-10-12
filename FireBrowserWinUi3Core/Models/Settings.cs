@@ -2,7 +2,6 @@
 
 public class Settings
 {
-
     public enum UILayout
     {
         Modern,
@@ -21,6 +20,6 @@ public class Settings
     {
         None,
         Featured,
-        Costum, //Bing for now, in the future Unsplash or our own service
+        Costum, 
     }
 }

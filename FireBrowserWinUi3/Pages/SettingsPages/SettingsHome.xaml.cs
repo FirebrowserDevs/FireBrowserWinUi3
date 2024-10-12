@@ -107,4 +107,18 @@ public sealed partial class SettingsHome : Page
         dlg.XamlRoot = this.XamlRoot;
         await dlg.ShowAsync();
     }
+
+    private async void BackUpNow_Click(object sender, RoutedEventArgs e)
+    {
+        BackUpDialog dlg = new BackUpDialog();
+        dlg.XamlRoot = this.XamlRoot;
+        await dlg.ShowAsync();
+    }
+
+    private async void RestoreNow_Click(object sender, RoutedEventArgs e)
+    {
+        RestoreBackupDialog dlg = new RestoreBackupDialog();
+        dlg.XamlRoot = this.XamlRoot;
+        await dlg.ShowAsync();
+    }
 }

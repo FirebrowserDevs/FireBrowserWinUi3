@@ -52,7 +52,6 @@ namespace FireBrowserWinUi3Core.Helpers
             // result Jobject 
             // todo parse and return to HomeViewModel to add to newTab.. 
             //TrendingList = [.. RunQueryAndDisplayResults(null).GetAwaiter().GetResult()];
-
         }
 
         public async Task<string> TrendingListTask(string userQuery)
@@ -80,15 +79,6 @@ namespace FireBrowserWinUi3Core.Helpers
                 var responseContentString = httpResponseMessage.Content.ReadAsStringAsync().Result;
                 JObject responseObjects = JObject.Parse(responseContentString);
 
-                //Handle success and error codes
-                //if (httpResponseMessage.IsSuccessStatusCode)
-                //{
-                //    DisplayAllRankedResults(responseObjects);
-                //}
-                //else
-                //{
-                //    Console.WriteLine($"HTTP error status code: {httpResponseMessage.StatusCode.ToString()}");
-                //}
                 return Task.FromResult(Newtonsoft.Json.JsonConvert.SerializeObject(responseObjects.SelectToken("value").ToList()));
             }
             catch (Exception e)
@@ -163,7 +153,6 @@ namespace FireBrowserWinUi3Core.Helpers
 
                 Console.WriteLine($"- {field}: {item[field]}");
             }
-
         }
     }
 }

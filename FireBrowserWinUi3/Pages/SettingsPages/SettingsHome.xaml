@@ -28,7 +28,10 @@
                 <labs:SettingsCard.Header>
                     Check for internal component updates
                 </labs:SettingsCard.Header>
-                <Button x:Name="PatchBtn" Click="PatchBtn_Click">
+                <labs:SettingsCard.HeaderIcon>
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE777;"/>
+                </labs:SettingsCard.HeaderIcon>
+                <Button x:Name="PatchBtn" IsEnabled="False" Click="PatchBtn_Click">
                     Check For Updates
                 </Button>
             </labs:SettingsCard>
@@ -36,6 +39,9 @@
                 <labs:SettingsCard.Header>
                     Reset App
                 </labs:SettingsCard.Header>
+                <labs:SettingsCard.HeaderIcon>
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEBC4;"/>
+                </labs:SettingsCard.HeaderIcon>
                 <Button x:Name="Reset" Click="Reset_Click">
                     Reset Browser - Settings
                 </Button>
@@ -44,6 +50,9 @@
                 <labs:SettingsCard.Header>
                     FireVault - FireBrowser
                 </labs:SettingsCard.Header>
+                <labs:SettingsCard.HeaderIcon>
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xF540;"/>
+                </labs:SettingsCard.HeaderIcon>
                 <Button
                     x:Name="OpenVault"
                     Width="150"
@@ -57,6 +66,9 @@
                 <labs:SettingsCard.Header>
                     Profiles
                 </labs:SettingsCard.Header>
+                <labs:SettingsCard.HeaderIcon>
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEC25;"/>
+                </labs:SettingsCard.HeaderIcon>
                 <Button
                     x:Name="Add"
                     Click="Add_Click"
@@ -65,6 +77,41 @@
                     Add
                 </Button>
             </labs:SettingsCard>
+            <labs:SettingsExpander VerticalAlignment="Top" Margin="0,2,0,0">
+                <labs:SettingsExpander.Header>
+                    BackUp - Data Or Restore
+                </labs:SettingsExpander.Header>
+                <labs:SettingsExpander.HeaderIcon>
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE7B8;"/>
+                </labs:SettingsExpander.HeaderIcon>
+                <labs:SettingsExpander.Items>
+                    <labs:SettingsCard>
+                        <labs:SettingsCard.Header>
+                            BackUp - Data
+                        </labs:SettingsCard.Header>
+                        <Button
+  x:Name="BackUpNow"
+ Click="BackUpNow_Click"
+  IsEnabled="True"
+>
+                            BackUp Now
+                        </Button>
+                    </labs:SettingsCard>
+                    <labs:SettingsCard>
+                        <labs:SettingsCard.Header>
+                            Restore - Data
+                        </labs:SettingsCard.Header>
+                        <Button
+  x:Name="RestoreNow"
+Click="RestoreNow_Click"
+                            IsEnabled="True"
+>
+                            Restore Now
+                        </Button>
+                    </labs:SettingsCard>
+                </labs:SettingsExpander.Items>
+            </labs:SettingsExpander>
+
             <Grid>
                 <ScrollViewer>
                     <ListView x:Name="UserListView">
@@ -117,9 +164,5 @@
                 </ScrollViewer>
             </Grid>
         </StackPanel>
-        <TextBlock VerticalAlignment="Bottom">
-            ALPHA V3 RELEASE, EXPECT BUGS<LineBreak />
-            V0.0.8.00339ap Build: 101.2358 Framework: WASDK/WinUI3<LineBreak />
-            Contact: firebrowserdevs@gmail.com</TextBlock>
     </Grid>
 </Page>
