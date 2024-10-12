@@ -230,6 +230,9 @@
     <None Update="backup.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="buy.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Page Update="Controls\PaymentWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

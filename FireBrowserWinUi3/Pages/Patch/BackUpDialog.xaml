@@ -49,7 +49,7 @@
                 Text="A backup ensures you can restore your data if anything goes wrong during the update process."
                 Style="{ThemeResource BodyTextBlockStyle}"
                 TextWrapping="Wrap"/>
-            <Button Click="Button_Click"/>
+            <Button Click="Button_Click" Content="Purchases Premium"/>
         </StackPanel>
         
     </Grid>
