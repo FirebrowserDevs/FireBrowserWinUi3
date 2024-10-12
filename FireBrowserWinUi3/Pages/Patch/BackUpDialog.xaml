@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ContentDialog
     x:Class="FireBrowserWinUi3.Pages.Patch.BackUpDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -13,7 +12,8 @@
     SecondaryButtonText="No"
     DefaultButton="Primary"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    CornerRadius="10">
+    CornerRadius="10"
+    IsPrimaryButtonEnabled="{x:Bind IsBackupAllowed, Mode=OneWay}">
 
     <ContentDialog.Background>
         <AcrylicBrush
@@ -25,6 +25,15 @@
     <Grid Padding="24">
         <StackPanel Spacing="16">
             <InfoBar
+                x:Name="InfoBarBackupWarning"
+                IsOpen="False"
+                Severity="Warning"
+                Title="Warning"
+                Message="Max backups created (6). Please delete old backups. Purchases BackUp Premium To Allow (50) BackUps $1,99 One Time"
+                IsClosable="False"/>
+
+            <InfoBar
+                x:Name="DefaultInfo"
                 IsOpen="True"
                 Severity="Informational"
                 Title="Backup"
@@ -40,7 +49,9 @@
                 Text="A backup ensures you can restore your data if anything goes wrong during the update process."
                 Style="{ThemeResource BodyTextBlockStyle}"
                 TextWrapping="Wrap"/>
+            <Button Click="Button_Click"/>
         </StackPanel>
+        
     </Grid>
 
     <ContentDialog.PrimaryButtonStyle>

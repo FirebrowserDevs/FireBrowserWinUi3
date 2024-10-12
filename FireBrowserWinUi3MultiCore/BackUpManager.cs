@@ -10,8 +10,9 @@ namespace FireBrowserWinUi3MultiCore
         {
             try
             {
-                string currentDate = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                string backupFileName = $"firebrowserbackup_{currentDate}.firebackup";
+                string currentDate = DateTime.Now.ToString("yyyyMMdd"); // Only year, month, and day
+                string randomGuid = Guid.NewGuid().ToString("N").Substring(0, 5); // Generate a 5-character substring from GUID
+                string backupFileName = $"firebrowserbackup_{currentDate}_{randomGuid}.firebackup";
                 string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 string fireBrowserUserCorePath = Path.Combine(documentsPath, "FireBrowserUserCore");
                 string backupFilePath = Path.Combine(documentsPath, backupFileName);

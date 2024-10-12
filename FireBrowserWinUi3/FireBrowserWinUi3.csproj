@@ -127,6 +127,7 @@
     <None Remove="Assets\UI\CrimsonUI.xaml" />
     <None Remove="ChangeUsernameCore.xaml" />
     <None Remove="Controls\CreateBackup.xaml" />
+    <None Remove="Controls\PaymentWindow.xaml" />
     <None Remove="Controls\PopUpView.xaml" />
     <None Remove="Controls\ProfileCommander.xaml" />
     <None Remove="Controls\ResetCore.xaml" />
@@ -229,6 +230,9 @@
     <None Update="backup.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\PaymentWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\RestoreBackUp.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
