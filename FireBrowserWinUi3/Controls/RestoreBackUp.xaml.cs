@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.Graphics;
 using Windows.Storage;
 using WinRT.Interop;
+using FireBrowserWinUi3MultiCore;
 
 namespace FireBrowserWinUi3.Controls
 {
@@ -65,8 +66,8 @@ namespace FireBrowserWinUi3.Controls
 
                 // Simulating work being done
                 await Task.Delay(50);
-         // Here you would call your actual BackupManager.RestoreBackup method
                 // and update the progress based on its return value
+                BackupManager.RestoreBackup();
                 string tempPath = Path.GetTempPath();
                 string restoreFilePath = Path.Combine(tempPath, "restore.fireback");
                 File.Delete(restoreFilePath);

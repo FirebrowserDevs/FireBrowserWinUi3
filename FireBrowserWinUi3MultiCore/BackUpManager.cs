@@ -36,52 +36,65 @@ namespace FireBrowserWinUi3MultiCore
                 throw new Exception($"Failed to create backup: {ex.Message}", ex);
             }
         }
+
+        public static string ReadBackupFile()
+        {
+            try
+            {
+                // Set the backup file path (restore.fireback in the temp directory)
+                string restoreFilePath = Path.Combine(Path.GetTempPath(), "restore.fireback");
+
+                // Check if the file exists
+                if (!File.Exists(restoreFilePath))
+                {
+                    Console.WriteLine("Restore file does not exist.");
+                    return null; // Return null if the file does not exist
+                }
+
+                // Read the file's contents and return it as a string
+                string fileContents = File.ReadAllText(restoreFilePath);
+                Console.WriteLine("File read successfully.");
+                return fileContents;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading backup file: {ex.Message}");
+                return null; // Return null if an error occurs
+            }
+        }
+
         public static bool RestoreBackup()
         {
             try
             {
+                // Set the backup file path
                 string restoreFilePath = Path.Combine(Path.GetTempPath(), "restore.fireback");
+                string restorefile = ReadBackupFile();
                 if (!File.Exists(restoreFilePath))
                 {
                     Console.WriteLine("Restore file does not exist.");
                     return false;
                 }
 
+                // Set the target restore directory (FireBrowserUserCore)
                 string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 string restorePath = Path.Combine(documentsPath, "FireBrowserUserCore");
 
-                // Create a temporary directory for extraction
-                string tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-                Directory.CreateDirectory(tempDir);
-
-                try
+                // If FireBrowserUserCore exists, delete it
+                if (Directory.Exists(restorePath))
                 {
-                    // Extract the backup to the temporary directory
-                    ZipFile.ExtractToDirectory(restoreFilePath, tempDir);
-
-                    // If FireBrowserUserCore already exists, rename it
-                    if (Directory.Exists(restorePath))
-                    {
-                        string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-                        string backupDir = $"{restorePath}_backup_{timestamp}";
-                        Directory.Move(restorePath, backupDir);
-                        Console.WriteLine($"Existing FireBrowserUserCore folder backed up to: {backupDir}");
-                    }
-
-                    // Move the extracted contents to FireBrowserUserCore
-                    Directory.Move(tempDir, restorePath);
-
-                    Console.WriteLine($"Backup restored successfully to: {restorePath}");
-                    return true;
+                    Directory.Delete(restorePath, true);
+                    Console.WriteLine("Existing FireBrowserUserCore folder deleted.");
                 }
-                finally
-                {
-                    // Clean up temporary directory if it still exists
-                    if (Directory.Exists(tempDir))
-                    {
-                        Directory.Delete(tempDir, true);
-                    }
-                }
+
+                // Create the FireBrowserUserCore folder
+                Directory.CreateDirectory(restorePath);
+
+                // Extract the backup file to FireBrowserUserCore
+                ZipFile.ExtractToDirectory(restorefile, restorePath);
+
+                Console.WriteLine($"Backup restored successfully to: {restorePath}");
+                return true;
             }
             catch (Exception ex)
             {
@@ -89,5 +102,6 @@ namespace FireBrowserWinUi3MultiCore
                 return false;
             }
         }
+
     }
 }

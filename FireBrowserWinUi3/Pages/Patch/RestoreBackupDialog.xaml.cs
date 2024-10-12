@@ -56,7 +56,7 @@ namespace FireBrowserWinUi3.Pages.Patch
 
         private void BackupListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UpdateRestoreButtonState();
+            UpdateRestoreButtonState();          
         }
 
         private void ConfirmCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
