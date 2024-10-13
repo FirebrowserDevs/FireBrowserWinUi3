@@ -67,6 +67,7 @@
   <ItemGroup>
     <Content Remove="Assets\Google.png" />
     <Content Remove="Assets\Microsoft.png" />
+    <Content Remove="Assets\Prize.png" />
     <Content Remove="Assets\SegoeFluentIcons2.ttf" />
     <Content Remove="Assets\setup_image.png" />
     <Content Remove="Assets\UI\CrimsonUI.xaml" />
@@ -175,16 +176,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Update="Assets\costum.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\default.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\featured.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\fincog.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\Icons\About.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -219,9 +220,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Google.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Microsoft.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Prize.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\setup_image.png">

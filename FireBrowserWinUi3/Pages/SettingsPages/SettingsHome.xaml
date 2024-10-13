@@ -10,11 +10,13 @@
     xmlns:labs="using:CommunityToolkit.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:person="using:FireBrowserWinUi3Core.Helpers"
+    xmlns:asset="using:FireBrowserWinUi3Assets"
     mc:Ignorable="d">
     <Grid>
         <StackPanel Margin="0,5,0,0">
             <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                 <PersonPicture Width="64" ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}" />
+                <ImageIcon Width="32" Height="32" Margin="0,0,-10,0" Source="{asset:ImageLoader ImageName=Prize.png}" ToolTipService.ToolTip="You Have Premium Browser License"  ToolTipService.Placement="Bottom"/>
                 <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
                     <TextBlock
                         Name="User"
@@ -23,6 +25,10 @@
                         Text="FireBrowser User" />
                     <TextBlock FontSize="12" Text="Browser account" />
                 </StackPanel>
+                
+            </StackPanel>
+            <StackPanel VerticalAlignment="Top" Margin="0,-55,0,0" HorizontalAlignment="Right">
+                <Button x:Name="LogOutBtn" Click="LogOutBtn_Click" VerticalAlignment="Center" HorizontalAlignment="Right">Log Out</Button>
             </StackPanel>
             <labs:SettingsCard Margin="0,5,0,0" VerticalAlignment="Bottom">
                 <labs:SettingsCard.Header>

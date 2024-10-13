@@ -7,6 +7,8 @@ using System;
 using System.IO;
 using Windows.Graphics;
 using WinRT.Interop;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace FireBrowserWinUi3.Controls
 {
@@ -30,7 +32,7 @@ namespace FireBrowserWinUi3.Controls
             WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
             appWindow = AppWindow.GetFromWindowId(windowId);
 
-            appWindow.MoveAndResize(new RectInt32(500, 500, 1650, 1000));
+            appWindow.MoveAndResize(new RectInt32(500, 500, 1675, 1025));
             FireBrowserWinUi3Core.Helpers.Windowing.Center(this);
             appWindow.SetPresenter(AppWindowPresenterKind.Default);
             appWindow.MoveInZOrderAtTop();
@@ -58,35 +60,35 @@ namespace FireBrowserWinUi3.Controls
         {
             var currentUrl = sender.Source.ToString();
 
-            if (currentUrl.Contains("payment-success"))
+            // Inject JavaScript to check page content
+            string pageContent = await sender.CoreWebView2.ExecuteScriptAsync("document.body.innerText");
+
+            if (pageContent.Contains("Thanks for your payment", StringComparison.OrdinalIgnoreCase))
             {
+                // Delay for a second asynchronously before unlocking premium
+                await Task.Delay(1000);
+
                 // Payment was successful
                 UnlockPremium();
+                Debug.WriteLine("License creation successful. Premium unlocked.");
+
                 this.Close(); // Close the window after success
-                await new ContentDialog
-                {
-                    Title = "Payment Successful",
-                    Content = "Premium features unlocked. You can now create up to 50 backups.",
-                    CloseButtonText = "OK"
-                }.ShowAsync();
             }
             else if (currentUrl.Contains("payment-failure"))
             {
                 // Handle payment failure
+                Debug.WriteLine("Payment failed. License creation aborted.");
                 this.Close(); // Close the window on failure
-                await new ContentDialog
-                {
-                    Title = "Payment Failed",
-                    Content = "Payment could not be processed. Please try again.",
-                    CloseButtonText = "OK"
-                }.ShowAsync();
             }
         }
 
         private void UnlockPremium()
         {
             // Create a premium license file to unlock premium status
-            using (FileStream fs = File.Create(premiumLicensePath)) ;
+            using (FileStream fs = File.Create(premiumLicensePath))
+            {
+                Debug.WriteLine($"License file created at {premiumLicensePath}");
+            }
         }
     }
 }

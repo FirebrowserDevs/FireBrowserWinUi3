@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireBrowserWinUi3Services",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireBrowserWinUi3Migration", "FireBrowserWinUi3Migration\FireBrowserWinUi3Migration.csproj", "{50A8BEB2-BC84-4CD0-B3D2-D0E2CA22DF6D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireBrowserWinUi3License", "FireBrowserWinUi3License\FireBrowserWinUi3License.csproj", "{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -309,6 +311,22 @@ Global
 		{50A8BEB2-BC84-4CD0-B3D2-D0E2CA22DF6D}.Release|x64.Build.0 = Release|x64
 		{50A8BEB2-BC84-4CD0-B3D2-D0E2CA22DF6D}.Release|x86.ActiveCfg = Release|Any CPU
 		{50A8BEB2-BC84-4CD0-B3D2-D0E2CA22DF6D}.Release|x86.Build.0 = Release|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Debug|x64.Build.0 = Debug|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Debug|x86.Build.0 = Debug|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Release|ARM64.Build.0 = Release|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Release|x64.ActiveCfg = Release|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Release|x64.Build.0 = Release|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Release|x86.ActiveCfg = Release|Any CPU
+		{30E6BB01-E04B-4EE3-8A80-679AEF1D5D62}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

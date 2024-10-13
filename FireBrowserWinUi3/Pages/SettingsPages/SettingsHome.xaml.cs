@@ -13,6 +13,7 @@ public sealed partial class SettingsHome : Page
 {
     SettingsService SettingsService { get; set; }
     public static SettingsHome Instance { get; set; }
+    public bool IsPremium { get; set; }
     public SettingsHome()
     {
         SettingsService = App.GetService<SettingsService>();
@@ -20,6 +21,7 @@ public sealed partial class SettingsHome : Page
         Instance = this;
         LoadUserDataAndSettings();
         LoadUsernames();
+        IsPremium = false;
     }
 
     public void LoadUsernames()
@@ -120,5 +122,11 @@ public sealed partial class SettingsHome : Page
         RestoreBackupDialog dlg = new RestoreBackupDialog();
         dlg.XamlRoot = this.XamlRoot;
         await dlg.ShowAsync();
+    }
+
+    private void LogOutBtn_Click(object sender, RoutedEventArgs e)
+    {
+        AuthService.Logout();
+        Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
     }
 }

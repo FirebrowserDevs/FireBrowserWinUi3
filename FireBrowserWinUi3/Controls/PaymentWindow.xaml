@@ -12,7 +12,7 @@
         <WebView2
             x:Name="PaymentWebView"
             HorizontalAlignment="Stretch"
-            Source="https://buy.stripe.com/test_28o8zvbmL8mc3Xq144"
+            Source="https://donate.stripe.com/test_dR6fZ31m65BTg36aEE"
             VerticalAlignment="Stretch"/>
     </Grid>
 </Window>
