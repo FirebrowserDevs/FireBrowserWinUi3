@@ -85,8 +85,7 @@ namespace FireBrowserWinUi3.Pages.Patch
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            PaymentWindow paymentWindow = new PaymentWindow();
-            paymentWindow.Activate();
+         
         }
     }
 }

@@ -61,22 +61,36 @@ namespace FireBrowserWinUi3.Controls
                     return;
                 }
 
+                // Update the progress bar and text for each step
                 RestoreProgressBar.Value = i;
                 PercentageTextBlock.Text = $"{i}%";
 
-                // Simulating work being done
-                await Task.Delay(50);
-                // and update the progress based on its return value
-                BackupManager.RestoreBackup();
-                string tempPath = Path.GetTempPath();
-                string restoreFilePath = Path.Combine(tempPath, "restore.fireback");
-                File.Delete(restoreFilePath);
-                Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+                // Simulate work being done
+                await Task.Delay(25); // This gives time for the UI to update
+
+                // Instead of updating backup manager in each iteration, you might want to do this after significant milestones
+                if (i % 10 == 0)
+                {
+                    // Perform partial restore work every 10% or some other interval
+                    BackupManager.RestoreBackup();
+                }
             }
 
+            // Delete the restore file once done
+            string tempPath = Path.GetTempPath();
+            string restoreFilePath = Path.Combine(tempPath, "restore.fireback");
+            if (File.Exists(restoreFilePath))
+            {
+                File.Delete(restoreFilePath);
+            }
+
+            // Finalize the process
             StatusTextBlock.Text = "Backup restored successfully!";
             CancelButton.Content = "Close";
+            Microsoft.Windows.AppLifecycle.AppInstance.Restart(""); // Optionally restart the app if needed
         }
+
+      
 
         private void InitializeWindow()
         {
