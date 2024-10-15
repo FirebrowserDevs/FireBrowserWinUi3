@@ -1,16 +1,20 @@
+using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3Core.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
+using WinRT.Interop;
 
 namespace FireBrowserWinUi3.Pages.Patch
 {
     public sealed partial class RestoreBackupDialog : ContentDialog
     {
         public string SelectedBackupPath { get; private set; }
-
+        public bool CancelledByUser { get; set; }
         public RestoreBackupDialog()
         {
             this.InitializeComponent();
@@ -35,6 +39,42 @@ namespace FireBrowserWinUi3.Pages.Patch
             BackupListBox.ItemsSource = fireBackupFiles;
         }
 
+        private async void RestartAndCloseWindows() {
+
+            // close whatever window is open ie: setup, usercentral --> need to give control back to windowscontroller....
+
+            AppService.ActiveWindow?.Close();
+            this.Hide();
+
+            if (CancelledByUser) { return; }
+
+
+            // is main is open give use option on next start up... 
+            if (App.Current.m_window is not null)
+            {
+                
+                IntPtr hWnd = WindowNative.GetWindowHandle(App.Current.m_window);
+                
+                if (hWnd != IntPtr.Zero)
+                {
+                    var dlg = new ContentDialog();
+                    dlg.PrimaryButtonText = "Restart";
+                    dlg.SecondaryButtonText = "Cancel";
+                    dlg.Content = new TextBlock().Text = "You need to restart the application in order to restore your backup.\n\nIf you choose (not) to restart your FireBrowser then the RESTORE will happen automically the next time your start the application";
+                    dlg.PrimaryButtonClick += (s, e) =>
+                    {
+                        Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+                    };
+                    dlg.XamlRoot = this.XamlRoot;
+                    await dlg.ShowAsync(ContentDialogPlacement.Popup); 
+                    
+                }
+                
+            }
+
+            
+           
+        }
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             if (BackupListBox.SelectedItem is BackupFileInfo selectedBackup)
@@ -45,7 +85,9 @@ namespace FireBrowserWinUi3.Pages.Patch
 
                 // Write the selected backup file path to the restore.fireback file
                 await File.WriteAllTextAsync(restoreFilePath, SelectedBackupPath);
-                Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+
+                RestartAndCloseWindows(); 
+
             }
             else
             {
@@ -67,6 +109,12 @@ namespace FireBrowserWinUi3.Pages.Patch
         private void UpdateRestoreButtonState()
         {
             IsPrimaryButtonEnabled = BackupListBox.SelectedItem != null && ConfirmCheckBox.IsChecked == true;
+        }
+
+        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            CancelledByUser = true; 
+            RestartAndCloseWindows(); 
         }
     }
 

@@ -1,11 +1,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FireBrowserWinUi3.Pages.Patch;
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -91,23 +93,72 @@ public sealed partial class UserCentral : Window
         return new List<UserExtend>();
     }
 
-    private void UserListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private  void UserListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        if (e.AddedItems.Count > 0)
         if (UserListView.SelectedItem is UserExtend selectedUser)
         {
+            if (AuthService.users.Count == 0)
+                AuthService.users = AuthService.LoadUsersFromJson(); 
+
             AuthService.Authenticate(selectedUser.FireUser.Username);
-            Close();
+                // close active window if not Usercentral, and then assign it as usercentral and close to give -> windowscontroller notification of close usercentral 
+                AppService.ActiveWindow?.Close();
+                AppService.ActiveWindow = this;
+                AppService.ActiveWindow?.Close(); 
         }
     }
 
     private async void AppBarButton_Click(object sender, RoutedEventArgs e)
     {
         var usr = new AddUserWindow();
+        usr.Closed += (s, e) =>
+        {
+            AppService.ActiveWindow = this; 
+        };
         IntPtr hWnd = WindowNative.GetWindowHandle(this);
         if (hWnd != IntPtr.Zero)
         {
             Windowing.SetWindowPos(hWnd, Windowing.HWND_BOTTOM, 0, 0, 0, 0, Windowing.SWP_NOSIZE);
         }
         await AppService.ConfigureSettingsWindow(usr);
+    }
+
+    private async void RestoreNow_Click(object sender, RoutedEventArgs e)
+    {
+        var win = AppService.ActiveWindow = new Window();
+        win.SystemBackdrop = new MicaBackdrop(); 
+        var present = new ContentPresenter();
+        win.Content = present;
+        IntPtr hWnd = WindowNative.GetWindowHandle(this);
+        if (hWnd != IntPtr.Zero)
+        {
+            Windowing.SetWindowPos(hWnd, Windowing.HWND_BOTTOM, 0, 0, 0, 0, Windowing.SWP_NOSIZE);
+        }
+        
+        await AppService.ConfigureSettingsWindow(win);
+      
+        win.Closed += (s, e) =>
+        {
+            
+            IntPtr ucHwnd = Windowing.FindWindow(null, nameof(UserCentral));
+            if (ucHwnd != IntPtr.Zero)
+            {
+                Windowing.Center(ucHwnd);
+                // close active window if not Usercentral, and then assign it as usercentral and close to give -> windowscontroller notification of close usercentral 
+                AppService.ActiveWindow?.Close();
+                AppService.ActiveWindow = this;
+                AppService.ActiveWindow?.Close();
+            }
+            else
+            {
+                Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+            }
+
+        };
+
+        RestoreBackupDialog dlg = new RestoreBackupDialog();
+        dlg.XamlRoot = present.XamlRoot;
+        await dlg.ShowAsync();
     }
 }

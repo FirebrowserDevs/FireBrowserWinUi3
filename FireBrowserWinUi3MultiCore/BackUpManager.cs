@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Threading.Tasks;
 
 namespace FireBrowserWinUi3MultiCore
 {
@@ -64,7 +65,7 @@ namespace FireBrowserWinUi3MultiCore
             }
         }
 
-        public static bool RestoreBackup()
+        public static Task<bool> RestoreBackup()
         {
             try
             {
@@ -74,7 +75,7 @@ namespace FireBrowserWinUi3MultiCore
                 if (!File.Exists(restoreFilePath))
                 {
                     Console.WriteLine("Restore file does not exist.");
-                    return false;
+                    return Task.FromResult(false);
                 }
 
                 // Set the target restore directory (FireBrowserUserCore)
@@ -95,12 +96,12 @@ namespace FireBrowserWinUi3MultiCore
                 ZipFile.ExtractToDirectory(restorefile, restorePath);
 
                 Console.WriteLine($"Backup restored successfully to: {restorePath}");
-                return true;
+                return Task.FromResult(true);   
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error restoring backup: {ex.Message}");
-                return false;
+                return Task.FromResult(false);
             }
         }
 

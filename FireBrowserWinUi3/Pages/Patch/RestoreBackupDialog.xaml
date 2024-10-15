@@ -14,7 +14,8 @@
     CornerRadius="10"
     Loaded="ContentDialog_Loaded"
     IsPrimaryButtonEnabled="False"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"   >
 
     <ContentDialog.Background>
         <AcrylicBrush

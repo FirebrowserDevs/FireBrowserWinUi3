@@ -17,11 +17,12 @@ namespace FireBrowserWinUi3.Controls
         private bool _isCancelled = false;
         private AppWindow appWindow;
         private AppWindowTitleBar titleBar;
+        
         public RestoreBackUp()
         {
             this.InitializeComponent();
             InitializeWindow();
-            StartRestoreProcess();
+            StartRestoreProcess().ConfigureAwait(false);
         }
 
 
@@ -50,16 +51,13 @@ namespace FireBrowserWinUi3.Controls
 
         private async Task RestoreBackup(string backupFilePath)
         {
+            
+            await Task.Delay(100);
+
+
             StatusTextBlock.Text = "Restoring backup...";
 
-            // Simulating backup restore process
-            for (int i = 0; i <= 100; i++)
-            {
-                if (_isCancelled)
-                {
-                    StatusTextBlock.Text = "Restore cancelled.";
-                    return;
-                }
+            await Task.Delay(100);
 
                 // Update the progress bar and text for each step
                 RestoreProgressBar.Value = i;

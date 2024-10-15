@@ -26,7 +26,7 @@
         CornerRadius="2">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="60" />
+            <RowDefinition Height="100" />
             <RowDefinition Height="*" />
             <RowDefinition Height="48" />
         </Grid.RowDefinitions>
@@ -38,14 +38,21 @@
                 FontWeight="SemiBold"
                 Foreground="{ThemeResource ApplicationHeaderForegroundThemeBrush}"
                 Text="Select a User" />
-
-            <AppBarButton
-                HorizontalAlignment="Left"
-                Click="AppBarButton_Click"
-                Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
-                Icon="OtherUser"
-                IsEnabled="True"
-                Label="Add User" />
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <AppBarButton
+                    Click="AppBarButton_Click"
+                    Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
+                    Icon="OtherUser"
+                    IsEnabled="True"
+                    Label="Add User" />
+                <AppBarButton
+                    Click="RestoreNow_Click"
+                    Foreground="{ThemeResource AccentAAFillColorDefaultBrush}"
+                    Icon="Refresh"
+                    IsEnabled="True"
+                    Label="Restore Backup"
+                    LabelPosition="Default" />
+            </StackPanel>
 
             <AppBarButton
                 x:Name="CloseBtn"

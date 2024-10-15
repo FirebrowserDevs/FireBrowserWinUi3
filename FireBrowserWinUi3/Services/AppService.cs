@@ -59,6 +59,20 @@ public static class AppService
                 return;
             }
 
+            // check for restore first. 
+
+            if (File.Exists(restoreFilePath))
+            {
+                AuthService.Logout();
+                ActiveWindow = new RestoreBackUp();
+                ActiveWindow.Closed += (s, e) =>
+                {
+                    WindowsController(cancellationToken).ConfigureAwait(false);
+                };
+                ActiveWindow.Activate();
+                return;
+            }
+
             if (!Directory.Exists(UserDataManager.CoreFolderPath))
             {
                 AppSettings = new Settings(true).Self;
@@ -96,18 +110,6 @@ public static class AppService
             {
                 AuthService.Logout();
                 ActiveWindow = new CreateBackup();
-                ActiveWindow.Closed += (s, e) =>
-                {
-                    WindowsController(cancellationToken).ConfigureAwait(false);
-                };
-                ActiveWindow.Activate();
-                return;
-            }
-
-            if (File.Exists(restoreFilePath))
-            {
-                AuthService.Logout();
-                ActiveWindow = new RestoreBackUp();
                 ActiveWindow.Closed += (s, e) =>
                 {
                     WindowsController(cancellationToken).ConfigureAwait(false);
@@ -233,10 +235,11 @@ public static class AppService
 
         if (appWindow != null)
         {
-            appWindow.MoveAndResize(new RectInt32(600, 600, 420, 800));
+            appWindow.MoveAndResize(new RectInt32(600, 600, 800, 800));
             appWindow.MoveInZOrderAtTop();
             appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-            appWindow.Title = "Choose Your User";
+            // need this for inquires down line for window placement. 
+            appWindow.Title = "UserCentral";
             var titleBar = appWindow.TitleBar;
             var btnColor = Colors.Transparent;
             titleBar.BackgroundColor = btnColor;

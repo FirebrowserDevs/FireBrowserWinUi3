@@ -3,6 +3,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -24,11 +25,16 @@ public class Windowing
     }
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
-    static extern bool AnimateWindow(IntPtr hwnd, int dwTime, int dwFlags);
+    public static extern bool AnimateWindow(IntPtr hwnd, int dwTime, int dwFlags);
 
+
+    public const int AW_HOR_POSITIVE = 0x0001;
+    public const int AW_HOR_NEGATIVE = 0x0002;
     public const int AW_SLIDE = 0x00040000;
     public const int AW_ACTIVATE = 0x20000;
     public const int AW_BLEND = 0x80000;
+    
+
 
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]

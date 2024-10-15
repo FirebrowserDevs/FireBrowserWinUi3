@@ -1,3 +1,4 @@
+using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3Core.Helpers;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -28,6 +29,7 @@ namespace FireBrowserWinUi3
             appWindow.SetIcon("LogoSetup.ico");
             Windowing.Center(this);
 
+
             if (!AppWindowTitleBar.IsCustomizationSupported())
             {
                 // Why? Because I don't care
@@ -44,6 +46,7 @@ namespace FireBrowserWinUi3
                 titleBar.ButtonInactiveBackgroundColor = btnColor;
 
             }
+
         }
 
         private void setup_Loaded(object sender, RoutedEventArgs e)
