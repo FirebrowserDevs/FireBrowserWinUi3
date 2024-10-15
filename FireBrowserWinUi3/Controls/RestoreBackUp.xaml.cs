@@ -59,21 +59,9 @@ namespace FireBrowserWinUi3.Controls
 
             await Task.Delay(100);
 
-                // Update the progress bar and text for each step
-                RestoreProgressBar.Value = i;
-                PercentageTextBlock.Text = $"{i}%";
-
-                // Simulate work being done
-                await Task.Delay(25); // This gives time for the UI to update
-
-                // Instead of updating backup manager in each iteration, you might want to do this after significant milestones
-                if (i % 10 == 0)
-                {
-                    // Perform partial restore work every 10% or some other interval
-                    BackupManager.RestoreBackup();
-                }
-            }
-
+            await BackupManager.RestoreBackup();
+                
+            
             // Delete the restore file once done
             string tempPath = Path.GetTempPath();
             string restoreFilePath = Path.Combine(tempPath, "restore.fireback");
@@ -84,7 +72,8 @@ namespace FireBrowserWinUi3.Controls
 
             // Finalize the process
             StatusTextBlock.Text = "Backup restored successfully!";
-            CancelButton.Content = "Close";
+            await Task.Delay(100);
+
             Microsoft.Windows.AppLifecycle.AppInstance.Restart(""); // Optionally restart the app if needed
         }
 
@@ -118,21 +107,10 @@ namespace FireBrowserWinUi3.Controls
                 titleBar.ButtonInactiveBackgroundColor = btnColor;
             }
         }
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (RestoreProgressBar.Value < 100)
-            {
-                _isCancelled = true;
-            }
-            else
-            {
-                this.Close();
-            }
-        }
-
+        
         private async Task ShowErrorMessage(string message)
         {
-            ContentDialog errorDialog = new ContentDialog
+            ContentDialog errorDialog = new()
             {
                 Title = "Error",
                 Content = message,

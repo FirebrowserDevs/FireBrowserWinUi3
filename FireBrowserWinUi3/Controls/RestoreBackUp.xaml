@@ -40,12 +40,5 @@
 
         </StackPanel>
 
-        <Button
-            x:Name="CancelButton"
-            Grid.Row="2"
-            HorizontalAlignment="Center"
-            Click="CancelButton_Click"
-            Content="Cancel"
-            Style="{StaticResource AccentButtonStyle}" />
     </Grid>
 </Window>
