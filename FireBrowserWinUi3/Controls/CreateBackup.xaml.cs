@@ -63,9 +63,11 @@ namespace FireBrowserWinUi3.Controls
             try
             {
                 StatusTextBlock.Text = "Creating backup...";
+                await Task.Delay(100);
+
                 _backupFilePath = await Task.Run(() => BackupManager.CreateBackup());
 
-                UpdateProgress(100);
+                await Task.Delay(100);
                 StatusTextBlock.Text = $"Backup created successfully at:\n{_backupFilePath}";
 
                 string tempPath = Path.GetTempPath();
@@ -78,15 +80,6 @@ namespace FireBrowserWinUi3.Controls
             {
                 Debug.WriteLine(ex);
             }
-        }
-
-        private void UpdateProgress(int value)
-        {
-            DispatcherQueue.TryEnqueue(() =>
-            {
-                BackupProgressBar.Value = value;
-                PercentageTextBlock.Text = $"{value}%";
-            });
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
