@@ -39,9 +39,26 @@ public partial class MainWindowViewModel : ObservableRecipient
             case EnumMessageStatus.Settings:
                 MainView.LoadUserSettings();
                 break;
+            case EnumMessageStatus.Removed:
+                ShowRemovedNotification(); 
+                break;
+
+                
         }
     }
 
+    private void ShowRemovedNotification()
+    {
+        var note = new Notification
+        {
+            Title = "FireBrowserWinUi3 \n",
+            Message = $"User has been removed from FireBrowser !",
+            Severity = InfoBarSeverity.Warning,
+            IsIconVisible = true,
+            Duration = TimeSpan.FromSeconds(3)
+        };
+        MainView.NotificationQueue.Show(note);
+    }
     private void ShowLoginNotification()
     {
         var note = new Notification

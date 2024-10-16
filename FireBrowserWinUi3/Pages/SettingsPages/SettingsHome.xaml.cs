@@ -1,5 +1,7 @@
+using CommunityToolkit.Mvvm.Messaging;
 using FireBrowserWinUi3.Pages.Patch;
 using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3Core.Models;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
@@ -7,16 +9,20 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FireBrowserWinUi3.Pages.SettingsPages;
 public sealed partial class SettingsHome : Page
 {
     SettingsService SettingsService { get; set; }
     public static SettingsHome Instance { get; set; }
+
+    IMessenger Messenger { get; set; }  
     public bool IsPremium { get; set; }
     public SettingsHome()
     {
         SettingsService = App.GetService<SettingsService>();
+        Messenger = App.GetService<IMessenger>();   
         this.InitializeComponent();
         Instance = this;
         LoadUserDataAndSettings();
@@ -24,12 +30,12 @@ public sealed partial class SettingsHome : Page
         IsPremium = false;
     }
 
-    public void LoadUsernames()
+    public Task LoadUsernames()
     {
         List<string> usernames = AuthService.GetAllUsernames();
         string currentUsername = AuthService.CurrentUser?.Username;
         // reset first...
-        UserListView.Items.Clear();
+        //UserListView.Items.Clear();
 
         if (currentUsername != null && currentUsername.Contains("Private"))
         {
@@ -42,11 +48,10 @@ public sealed partial class SettingsHome : Page
 
             Add.IsEnabled = true;
 
-            foreach (string username in usernames.Where(username => username != currentUsername && !username.Contains("Private")))
-            {
-                UserListView.Items.Add(username);
-            }
+            UserListView.ItemsSource = usernames.Where(username => username != currentUsername && !username.Contains("Private")).ToList(); 
+
         }
+        return Task.CompletedTask;
     }
 
     private FireBrowserWinUi3MultiCore.User GetUser() =>
@@ -82,15 +87,18 @@ public sealed partial class SettingsHome : Page
         }
     }
 
-    private void Delete_Click(object sender, RoutedEventArgs e)
+    private async void Delete_Click(object sender, RoutedEventArgs e)
     {
 
         if (sender is Button switchButton && switchButton.DataContext is string clickedUserName)
         {
             UserDataManager.DeleteUser(clickedUserName);
 
-            UserListView.Items.Clear();
-            LoadUsernames();
+            UserListView.ItemsSource = null;
+            // allow ui to updated
+            await LoadUsernames();
+            
+            Messenger?.Send(new Message_Settings_Actions($"User:  {clickedUserName} has been removed from FireBrowser", EnumMessageStatus.Removed));
             // var window = (Application.Current as App)?.m_window as MainWindow;
         }
     }
