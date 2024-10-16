@@ -16,8 +16,6 @@ using System.Collections.Generic;
 using FireBrowserWinUi3Exceptions;
 
 
-
-
 public class UserEntity : ITableEntity
 {
     public string PartitionKey { get; set; }
@@ -32,7 +30,7 @@ public class UserEntity : ITableEntity
 
 namespace FireBrowserWinUi3.Services
 {
-    public  class AzBackupService : ObservableRecipient
+    internal class AzBackupService 
     {
         private string AzureStorageConnectionString { get; set; }
         
@@ -46,18 +44,20 @@ namespace FireBrowserWinUi3.Services
         protected internal string ContainerName { get; set; }
         protected internal User UserWindows { get; set; } 
 
+        protected FireBrowserWinUi3MultiCore.User FireUser { get;set; }
 
 
-        public AzBackupService( ) { 
-        
+        private AzBackupService(string fireUser, string _storageName, string _containerName) {
+
+            UserWindows = User.GetDefault();
+            StoragAccountName = _storageName; 
+            ContainerName = _containerName ?? string.Empty;
+            FireUser.Username = fireUser;   
+
         }
-        private AzBackupService(string connString, string storagAccountName, string containerName)
+        protected AzBackupService(string connString, string storageAccountName, string containerName, string fireUser) : this (fireUser, storageAccountName, containerName)
         {
-            
-            ConnString = connString;
-            StoragAccountName = storagAccountName;
-            ContainerName = containerName;
-            UserWindows = User.FindAllAsync(UserType.SystemManaged).GetAwaiter().GetResult().FirstOrDefault();
+            SET_AZConnectionsString(connString);
         }
 
         public AzBackupService(string connString, string storagAccountName, string containerName, FireBrowserWinUi3MultiCore.User user) : this(connString, storagAccountName, containerName)
