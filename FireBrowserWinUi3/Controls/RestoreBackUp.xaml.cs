@@ -61,7 +61,6 @@ namespace FireBrowserWinUi3.Controls
             await Task.Delay(100);
 
             await BackupManager.RestoreBackup();
-                
             
             // Delete the restore file once done
             string tempPath = Path.GetTempPath();

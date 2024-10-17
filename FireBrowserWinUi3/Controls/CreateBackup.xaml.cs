@@ -15,6 +15,8 @@ using Windows.Storage.Streams;
 using Windows.Storage;
 using FireBrowserWinUi3Exceptions;
 using Newtonsoft.Json;
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.Xaml.Interactivity;
 
 namespace FireBrowserWinUi3.Controls
 {
@@ -31,13 +33,12 @@ namespace FireBrowserWinUi3.Controls
             InitializeWindow();
         }
 
-      private async void UpdateBack()
+        private async void UpdateBack()
         {
             await StartBackupProcess();
-
+          
         }
-
-        private void InitializeWindow()
+            private void InitializeWindow()
         {
             var hWnd = WindowNative.GetWindowHandle(this);
             WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
@@ -81,6 +82,10 @@ namespace FireBrowserWinUi3.Controls
                         StatusTextBlock.Text = $"Backup is being uploaded to the cloud";
                     });
                     var json = await UploadFileToAzure(fileName);
+                    this.DispatcherQueue.TryEnqueue(() =>
+                    {
+                        StatusTextBlock.Text = $"Successfully saved to the cloud Azure\\u2122\")";
+                    });
                     return json;
                 });
 
