@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using FireBrowserWinUi3Exceptions;
 
 
+
 public class UserEntity : ITableEntity
 {
     public string PartitionKey { get; set; }
@@ -42,25 +43,19 @@ namespace FireBrowserWinUi3.Services
         protected internal string ConnString { get; } = Windows.Storage.ApplicationData.Current.LocalSettings.Values[nameof(AzureStorageConnectionString)] as string;
         protected internal string StoragAccountName { get; set; }
         protected internal string ContainerName { get; set; }
-        protected internal User UserWindows { get; set; } 
+        protected internal object UserWindows { get; set; } 
 
         protected FireBrowserWinUi3MultiCore.User FireUser { get;set; }
 
 
-        private AzBackupService(string fireUser, string _storageName, string _containerName) {
+        private AzBackupService(FireBrowserWinUi3MultiCore.User fireUser, string _storageName, string _containerName) {
 
-            UserWindows = User.GetDefault();
             StoragAccountName = _storageName; 
             ContainerName = _containerName ?? string.Empty;
-            FireUser.Username = fireUser;   
+            FireUser = fireUser;   
 
         }
-        protected AzBackupService(string connString, string storageAccountName, string containerName, string fireUser) : this (fireUser, storageAccountName, containerName)
-        {
-            SET_AZConnectionsString(connString);
-        }
-
-        public AzBackupService(string connString, string storagAccountName, string containerName, FireBrowserWinUi3MultiCore.User user) : this(connString, storagAccountName, containerName)
+        public AzBackupService(string connString, string storagAccountName, string containerName, FireBrowserWinUi3MultiCore.User user) : this(user, storagAccountName, containerName)
         {
             SET_AZConnectionsString(connString); 
         }

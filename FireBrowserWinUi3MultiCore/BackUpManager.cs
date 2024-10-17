@@ -24,7 +24,7 @@ namespace FireBrowserWinUi3MultiCore
                 }
 
                 // Create zip file directly from the FireBrowserUserCore folder
-                ZipFile.CreateFromDirectory(fireBrowserUserCorePath, backupFilePath);
+                ZipFile.CreateFromDirectory(fireBrowserUserCorePath, backupFilePath, CompressionLevel.Optimal, false);
 
                 if (!File.Exists(backupFilePath))
                 {

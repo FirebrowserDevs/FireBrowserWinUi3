@@ -13,13 +13,15 @@ using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3.Services;
 using Windows.Storage.Streams;
 using Windows.Storage;
+using FireBrowserWinUi3Exceptions;
+using Newtonsoft.Json;
 
 namespace FireBrowserWinUi3.Controls
 {
     public sealed partial class CreateBackup : Window
     {
-        //private object _backupFilePath;
-        private string _backupPath;
+       private object _backupFilePath;
+        //private string _backupPath;
         private AppWindow appWindow;
         private AppWindowTitleBar titleBar;
         public CreateBackup()
@@ -70,13 +72,23 @@ namespace FireBrowserWinUi3.Controls
             {
                 StatusTextBlock.Text = "Creating backup...";
                 await Task.Delay(100);
-                _backupPath = await Task.Run(() => BackupManager.CreateBackup()); 
-                //_backupFilePath = await Task.Run(async () => {
-                //    var fileName = BackupManager.CreateBackup();
-                //    var json =  await UploadFileToAzure(fileName);
-                //    return json;
-                //});
-                
+                //_backupFilePath = await Task.Run(() => BackupManager.CreateBackup());
+                _backupFilePath = await Task.Run(async () =>
+                {
+                    var fileName = BackupManager.CreateBackup();
+                    this.DispatcherQueue.TryEnqueue(() =>
+                    {
+                        StatusTextBlock.Text = $"Backup is being uploaded to the cloud";
+                    });
+                    var json = await UploadFileToAzure(fileName);
+                    return json;
+                });
+
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values["FireCoreBackups"] += JsonConvert.SerializeObject(_backupFilePath);
+
+
+                ExceptionLogger.LogInformation("File path is : " + JsonConvert.SerializeObject(_backupFilePath) + "\n"); 
+
                 await Task.Delay(100);
                 StatusTextBlock.Text = $"Backup created successfully at:\n{_backupFilePath}";
 
