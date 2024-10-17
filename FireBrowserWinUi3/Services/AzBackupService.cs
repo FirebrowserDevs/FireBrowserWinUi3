@@ -9,6 +9,11 @@ using Azure;
 using Azure.Data.Tables;
 using Windows.System;
 using Windows.System.UserProfile;
+using System.Linq;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage;
+using System.Collections.Generic;
+using FireBrowserWinUi3Exceptions;
 
 
 
@@ -27,7 +32,7 @@ public class UserEntity : ITableEntity
 
 namespace FireBrowserWinUi3.Services
 {
-    internal class AzBackupService : ObservableRecipient
+    public  class AzBackupService : ObservableRecipient
     {
         private string AzureStorageConnectionString { get; set; }
         
@@ -46,10 +51,18 @@ namespace FireBrowserWinUi3.Services
         public AzBackupService( ) { 
         
         }
-        public AzBackupService(string connString, string storagAccountName, string containerName, User user)
+        private AzBackupService(string connString, string storagAccountName, string containerName)
+        {
+            
+            ConnString = connString;
+            StoragAccountName = storagAccountName;
+            ContainerName = containerName;
+            UserWindows = User.FindAllAsync(UserType.SystemManaged).GetAwaiter().GetResult().FirstOrDefault();
+        }
+
+        public AzBackupService(string connString, string storagAccountName, string containerName, FireBrowserWinUi3MultiCore.User user) : this(connString, storagAccountName, containerName)
         {
             SET_AZConnectionsString(connString); 
-
         }
 
         public async Task<System.Collections.Generic.IReadOnlyList<User>> GetUserInformationAsync()
@@ -94,7 +107,6 @@ namespace FireBrowserWinUi3.Services
         private async void UploadAndStoreFile(string _blobName)
         {
             
-            
             var tableName = "FireBatchBackups";
             var email = User.GetDefault().GetPropertyAsync(KnownUserProperties.AccountName).GetResults() as string; 
             var blobName = _blobName;
@@ -106,24 +118,48 @@ namespace FireBrowserWinUi3.Services
             if (file != null)
             {
                 var fileStream = await file.OpenReadAsync();
-                await UploadFileToBlobAsync(ConnString, ContainerName,  blobName, fileStream);
+                await UploadFileToBlobAsync(blobName, fileStream);
                 var blobUrl = $"https://your-storage-account-url.blob.core.windows.net/{ContainerName}/{blobName}";
 
                 await InsertOrUpdateEntityAsync(tableName, email, blobUrl);
             }
         }
-
-        private async Task UploadFileToBlobAsync(string connectionString, string containerName, string blobName, IRandomAccessStream fileStream)
+              
+        public async Task<object> UploadFileToBlobAsync(string blobName, IRandomAccessStream fileStream)
         {
-            var blobServiceClient = new BlobServiceClient(connectionString);
-            var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
-            var blobClient = containerClient.GetBlobClient(blobName);
+            try
+            {
+                var storageAccount = CloudStorageAccount.Parse(ConnString);
+                var blobClient = storageAccount.CreateCloudBlobClient();
+                var container = blobClient.GetContainerReference("firebackups");
+                var response = new object();
+                var fileName = Guid.NewGuid().ToString() + "_" + blobName;
+                // Upload the file to Azure Blob Storage
+                var blockBlob = container.GetBlockBlobReference(fileName);
 
-            await blobClient.UploadAsync(fileStream.AsStream(), true);
+                await blockBlob.UploadFromStreamAsync(fileStream.AsStream());
+                var blob = container.GetBlockBlobReference(fileName);
+
+                var sasToken = blob.GetSharedAccessSignature(new SharedAccessBlobPolicy
+                {
+                    Permissions = SharedAccessBlobPermissions.Read,
+                    SharedAccessExpiryTime = DateTime.UtcNow.AddHours(1) // Token valid for 1 hour
+                });
+
+                var sasUrl = blockBlob.Uri.AbsoluteUri + sasToken; //blockBlob.Uri.AbsoluteUri
+
+                return response = new
+                {
+                    FileName = blobName,
+                    Url = sasUrl.ToString()
+                };
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                return Task.FromException(ex);  
+            }
+                
         }
-
     }
-
-
-
 }

@@ -10,12 +10,16 @@ using Windows.Graphics;
 using WinRT.Interop;
 using System.Diagnostics;
 using FireBrowserWinUi3Core.Helpers;
+using FireBrowserWinUi3.Services;
+using Windows.Storage.Streams;
+using Windows.Storage;
 
 namespace FireBrowserWinUi3.Controls
 {
     public sealed partial class CreateBackup : Window
     {
-        private string _backupFilePath;
+        //private object _backupFilePath;
+        private string _backupPath;
         private AppWindow appWindow;
         private AppWindowTitleBar titleBar;
         public CreateBackup()
@@ -66,9 +70,13 @@ namespace FireBrowserWinUi3.Controls
             {
                 StatusTextBlock.Text = "Creating backup...";
                 await Task.Delay(100);
-
-                _backupFilePath = await Task.Run(() => BackupManager.CreateBackup());
-
+                _backupPath = await Task.Run(() => BackupManager.CreateBackup()); 
+                //_backupFilePath = await Task.Run(async () => {
+                //    var fileName = BackupManager.CreateBackup();
+                //    var json =  await UploadFileToAzure(fileName);
+                //    return json;
+                //});
+                
                 await Task.Delay(100);
                 StatusTextBlock.Text = $"Backup created successfully at:\n{_backupFilePath}";
 
@@ -82,6 +90,15 @@ namespace FireBrowserWinUi3.Controls
             {
                 Debug.WriteLine(ex);
             }
+        }
+        private async Task<object> UploadFileToAzure(string fileName) {
+
+            var connString = Windows.Storage.ApplicationData.Current.LocalSettings.Values["AzureStorageConnectionString"] as string;
+            var az = new AzBackupService(connString, "storelean", "firebackups", AuthService.CurrentUser ?? new() { Id = Guid.NewGuid(), Username = "Admin", IsFirstLaunch = false});
+
+            StorageFile file = await StorageFile.GetFileFromPathAsync(fileName); 
+            IRandomAccessStream randomAccessStream = await file.OpenAsync(FileAccessMode.Read);
+            return await az.UploadFileToBlobAsync(file.Name, randomAccessStream); 
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
