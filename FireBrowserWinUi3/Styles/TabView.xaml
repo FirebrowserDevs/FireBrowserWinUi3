@@ -469,36 +469,48 @@
 
                                 <VisualState x:Name="DataPlaceholder" />
                             </VisualStateGroup>
-                            
+
                             <VisualStateGroup x:Name="ReorderHintStates">
                                 <VisualState x:Name="NoReorderHint" />
 
-                                <!-- Reorder Hints -->
+                                <!--  Reorder Hints  -->
                                 <VisualState x:Name="BottomReorderHint">
                                     <Storyboard>
-                                        <DragOverThemeAnimation Direction="Bottom" ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" TargetName="LayoutRoot" />
+                                        <DragOverThemeAnimation
+                                            Direction="Bottom"
+                                            ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                                            TargetName="LayoutRoot" />
                                     </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="TopReorderHint">
                                     <Storyboard>
-                                        <DragOverThemeAnimation Direction="Top" ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" TargetName="LayoutRoot" />
+                                        <DragOverThemeAnimation
+                                            Direction="Top"
+                                            ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                                            TargetName="LayoutRoot" />
                                     </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="RightReorderHint">
                                     <Storyboard>
-                                        <DragOverThemeAnimation Direction="Right" ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" TargetName="LayoutRoot" />
+                                        <DragOverThemeAnimation
+                                            Direction="Right"
+                                            ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                                            TargetName="LayoutRoot" />
                                     </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="LeftReorderHint">
                                     <Storyboard>
-                                        <DragOverThemeAnimation Direction="Left" ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" TargetName="LayoutRoot" />
+                                        <DragOverThemeAnimation
+                                            Direction="Left"
+                                            ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                                            TargetName="LayoutRoot" />
                                     </Storyboard>
                                 </VisualState>
 
-                                <!-- Transition -->
+                                <!--  Transition  -->
                                 <VisualStateGroup.Transitions>
                                     <VisualTransition GeneratedDuration="0:0:0.2" To="NoReorderHint" />
                                 </VisualStateGroup.Transitions>

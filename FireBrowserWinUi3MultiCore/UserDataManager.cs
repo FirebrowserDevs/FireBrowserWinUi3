@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using Windows.Media.Protection.PlayReady;
 
 namespace FireBrowserWinUi3MultiCore;
 public static class UserDataManager
@@ -42,8 +43,12 @@ public static class UserDataManager
 
             userData.Users.Remove(userToDelete);
             SaveUsers(userData.Users);
-            // never was updating settings timeline because user existed in AuthService.  DELETE. 
-            AuthService.users.Remove(userToDelete);
+            //// never was updating settings timeline because user existed in AuthService.  DELETE. 
+            //AuthService.users.Remove(userToDelete);
+            // above doesn't work cause it's a different object in memory. C++ pointers would work.  
+            // You created an object abover userToDelete from another read.  
+            AuthService.users = AuthService.LoadUsersFromJson(); // works now. 
+            
         }
     }
 }

@@ -9,6 +9,7 @@ using Windows.Graphics;
 using Windows.Storage;
 using WinRT.Interop;
 using FireBrowserWinUi3MultiCore;
+using FireBrowserWinUi3Core.Helpers;
 
 namespace FireBrowserWinUi3.Controls
 {
@@ -60,7 +61,6 @@ namespace FireBrowserWinUi3.Controls
             await Task.Delay(100);
 
             await BackupManager.RestoreBackup();
-                
             
             // Delete the restore file once done
             string tempPath = Path.GetTempPath();
@@ -89,8 +89,10 @@ namespace FireBrowserWinUi3.Controls
             FireBrowserWinUi3Core.Helpers.Windowing.Center(this);
             appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
             appWindow.MoveInZOrderAtTop();
-            appWindow.ShowOnceWithRequestedStartupState();
             appWindow.SetIcon("backup.ico");
+            appWindow.ShowOnceWithRequestedStartupState();
+            Windowing.Center(this);
+            
 
             if (!AppWindowTitleBar.IsCustomizationSupported())
             {

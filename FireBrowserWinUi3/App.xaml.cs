@@ -88,6 +88,10 @@ public partial class App : Application
         return null;
     }
 
+
+
+    private string AzureStorage { get; } = "DefaultEndpointsProtocol=https;AccountName=strorelearn;AccountKey=0pt8CYqrqXUluQE3/60q8wobkmYznb9ovHIzztGVOzNxlSa+U8NlY74uwfggd5DfTmGORBLtXpeKEvDYh2ynfQ==;EndpointSuffix=core.windows.net";
+    
     protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
         AppService.CancellationToken = CancellationToken.None;
@@ -103,6 +107,11 @@ public partial class App : Application
             base.Exit();
         else
             base.OnLaunched(args);
+
+        Windows.Storage.ApplicationData.Current.LocalSettings.Values["AzureStorageConnectionString"] = AzureStorage;
+        
+        //var az = new AzBackupService(AzureStorage, "storelean", "FireBackups", new() { Id = Guid.NewGuid(), Username = "Admin", IsFirstLaunch = false});
+
     }
 
     public Window m_window;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -30,6 +31,9 @@ public class Windowing
 
     public const int AW_HOR_POSITIVE = 0x0001;
     public const int AW_HOR_NEGATIVE = 0x0002;
+    public const int AW_VER_POSITIVE = 0x0004;
+    public const int AW_VER_NEGATIVE = 0x0008;
+    public const int AW_CENTER = 0x0010;
     public const int AW_SLIDE = 0x00040000;
     public const int AW_ACTIVATE = 0x20000;
     public const int AW_BLEND = 0x80000;

@@ -34,6 +34,8 @@ public static class AppService
     public static bool IsAppNewUser { get; set; }
     public static bool IsAppUserAuthenicated { get; set; }
 
+    
+
     public static async Task WindowsController(CancellationToken cancellationToken)
     {
         try
