@@ -155,7 +155,6 @@ public static class AppService
 
     public static Task CloseCancelToken(CancellationToken cancellationToken)
     {
-
         var cancel = new CancellationTokenSource();
         cancellationToken = cancel.Token;
         cancel.Cancel();
@@ -235,7 +234,7 @@ public static class AppService
 
         if (appWindow != null)
         {
-            appWindow.MoveAndResize(new RectInt32(600, 600, 800, 800));
+            appWindow.MoveAndResize(new RectInt32(600, 600, 900, 900));
             appWindow.MoveInZOrderAtTop();
             appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
             // need this for inquires down line for window placement. 

@@ -341,6 +341,7 @@
     <PublishAot>False</PublishAot>
     <PublishTrimmed>False</PublishTrimmed>
     <PackageCertificateKeyFile>FireBrowserWinUi3_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
 

@@ -68,13 +68,66 @@
                     </StackPanel>
                 </Button>
             </labs:SettingsCard>
-            <labs:SettingsCard>
-                <labs:SettingsCard.Header>
+            <labs:SettingsExpander>
+                <labs:SettingsExpander.Header>
                     Profiles
-                </labs:SettingsCard.Header>
-                <labs:SettingsCard.HeaderIcon>
+                </labs:SettingsExpander.Header>
+                <labs:SettingsExpander.HeaderIcon>
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEC25;"/>
-                </labs:SettingsCard.HeaderIcon>
+                </labs:SettingsExpander.HeaderIcon>
+                <labs:SettingsExpander.Items>
+                    <Grid>
+                        <ScrollViewer>
+                            <ListView x:Name="UserListView">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiary}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <!--  For the profile picture  -->
+                                                <ColumnDefinition Width="*" />
+                                                <!--  For the username  -->
+                                                <ColumnDefinition Width="Auto" />
+                                                <!--  For the "Switch" button  -->
+                                            </Grid.ColumnDefinitions>
+
+                                            <PersonPicture
+                              Width="32"
+                              Height="32"
+                              Margin="10" />
+                                            <!--  Username  -->
+                                            <TextBlock
+                              x:Name="userName"
+                              Grid.Column="1"
+                              Margin="10,0,10,0"
+                              VerticalAlignment="Center"
+                              x:FieldModifier="Public"
+                              Text="{Binding}" />
+                                            <!--  "Switch" button  -->
+                                            <Button
+                              x:Name="Switch"
+                              Grid.Column="2"
+                              Margin="-20"
+                              Click="Switch_Click"
+                              Content="{firebrowser:FluentIcon Glyph=&#xE748;}"
+                              IsEnabled="True"
+                              Style="{ThemeResource QuietButtonStyle}" />
+
+                                            <Button
+                              x:Name="Delete"
+                              Grid.Column="2"
+                              Margin="10"
+                              Click="Delete_Click"
+                              Content="{firebrowser:FluentIcon Glyph=&#xE74D;}"
+                              IsEnabled="True"
+                              Style="{ThemeResource QuietButtonStyle}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </ScrollViewer>
+                    </Grid>
+                </labs:SettingsExpander.Items>
                 <Button
                     x:Name="Add"
                     Click="Add_Click"
@@ -82,7 +135,7 @@
                     ToolTipService.ToolTip="Add User ( Temp Disabled Reworking Feature )">
                     Add
                 </Button>
-            </labs:SettingsCard>
+            </labs:SettingsExpander>
             <labs:SettingsExpander VerticalAlignment="Top" Margin="0,2,0,0">
                 <labs:SettingsExpander.Header>
                     BackUp - Data Or Restore
@@ -107,68 +160,14 @@
                         <labs:SettingsCard.Header>
                             Restore - Data
                         </labs:SettingsCard.Header>
-                        <Button
-  x:Name="RestoreNow"
-Click="RestoreNow_Click"
-                            IsEnabled="True"
->
+                        <Button x:Name="RestoreNow" Click="RestoreNow_Click" IsEnabled="True">
                             Restore Now
                         </Button>
                     </labs:SettingsCard>
                 </labs:SettingsExpander.Items>
             </labs:SettingsExpander>
 
-            <Grid>
-                <ScrollViewer>
-                    <ListView x:Name="UserListView">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiary}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <!--  For the profile picture  -->
-                                        <ColumnDefinition Width="*" />
-                                        <!--  For the username  -->
-                                        <ColumnDefinition Width="Auto" />
-                                        <!--  For the "Switch" button  -->
-                                    </Grid.ColumnDefinitions>
-
-                                    <PersonPicture
-                                        Width="32"
-                                        Height="32"
-                                        Margin="10" />
-                                    <!--  Username  -->
-                                    <TextBlock
-                                        x:Name="userName"
-                                        Grid.Column="1"
-                                        Margin="10,0,10,0"
-                                        VerticalAlignment="Center"
-                                        x:FieldModifier="Public"
-                                        Text="{Binding}" />
-                                    <!--  "Switch" button  -->
-                                    <Button
-                                        x:Name="Switch"
-                                        Grid.Column="2"
-                                        Margin="-20"
-                                        Click="Switch_Click"
-                                        Content="{firebrowser:FluentIcon Glyph=&#xE748;}"
-                                        IsEnabled="True"
-                                        Style="{ThemeResource QuietButtonStyle}" />
-
-                                    <Button
-                                        x:Name="Delete"
-                                        Grid.Column="2"
-                                        Margin="10"
-                                        Click="Delete_Click"
-                                        Content="{firebrowser:FluentIcon Glyph=&#xE74D;}"
-                                        IsEnabled="True"
-                                        Style="{ThemeResource QuietButtonStyle}" />
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </ScrollViewer>
-            </Grid>
+          
         </StackPanel>
     </Grid>
 </Page>
