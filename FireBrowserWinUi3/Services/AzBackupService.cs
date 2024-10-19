@@ -1,24 +1,16 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Threading.Tasks;
-using Azure.Storage.Blobs;
-using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
-using System.IO;
-using Azure;
+﻿using Azure;
 using Azure.Data.Tables;
-using Windows.System;
-using Windows.System.UserProfile;
-using System.Linq;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Microsoft.WindowsAzure.Storage;
-using System.Collections.Generic;
 using FireBrowserWinUi3Exceptions;
-using static FireBrowserWinUi3Services.PluginCore.IPluginCore;
+using FireBrowserWinUi3MultiCore;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
+using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using FireBrowserWinUi3MultiCore;
+using System.Threading.Tasks;
+using Windows.Storage.Streams;
 
 
 
@@ -36,10 +28,10 @@ public class UserEntity : ITableEntity
 
 namespace FireBrowserWinUi3.Services
 {
-    internal class AzBackupService 
+    internal class AzBackupService
     {
         private string AzureStorageConnectionString { get; set; }
-        
+
         protected private void SET_AZConnectionsString(string connString)
         {
             Windows.Storage.ApplicationData.Current.LocalSettings.Values[nameof(AzureStorageConnectionString)] = AzureStorageConnectionString = connString;
@@ -48,25 +40,26 @@ namespace FireBrowserWinUi3.Services
         protected internal string ConnString { get; } = Windows.Storage.ApplicationData.Current.LocalSettings.Values[nameof(AzureStorageConnectionString)] as string;
         protected internal string StoragAccountName { get; set; }
         protected internal string ContainerName { get; set; }
-        protected internal object UserWindows { get; set; } 
+        protected internal object UserWindows { get; set; }
 
-        protected FireBrowserWinUi3MultiCore.User FireUser { get;set; }
+        protected FireBrowserWinUi3MultiCore.User FireUser { get; set; }
 
 
-        private AzBackupService(FireBrowserWinUi3MultiCore.User fireUser, string _storageName, string _containerName) {
+        private AzBackupService(FireBrowserWinUi3MultiCore.User fireUser, string _storageName, string _containerName)
+        {
 
-            StoragAccountName = _storageName; 
+            StoragAccountName = _storageName;
             ContainerName = _containerName ?? string.Empty;
-            FireUser = fireUser;   
+            FireUser = fireUser;
 
         }
         public AzBackupService(string connString, string storagAccountName, string containerName, FireBrowserWinUi3MultiCore.User user) : this(user, storagAccountName, containerName)
         {
-            SET_AZConnectionsString(connString); 
+            SET_AZConnectionsString(connString);
         }
 
         #region WindowsGetUserBetaClasses
-        
+
         [DllImport("secur32.dll", CharSet = CharSet.Auto)]
         private static extern bool GetUserNameEx(int nameFormat, StringBuilder userName, ref uint userNameSize);
 
@@ -146,14 +139,14 @@ namespace FireBrowserWinUi3.Services
                 {
                     user.Email = name.ToString();
                 }
-                return Task.FromResult(user); 
+                return Task.FromResult(user);
             }
             catch (Exception)
             {
 
                 throw;
             }
-            
+
         }
 
         public class ResponseAZFILE(string blobName, object sasUrl)
@@ -163,10 +156,10 @@ namespace FireBrowserWinUi3.Services
 
             public override string ToString()
             {
-                return JsonConvert.SerializeObject(this); 
+                return JsonConvert.SerializeObject(this);
             }
         }
-        
+
         public async Task InsertOrUpdateEntityAsync(string tableName, string email, string blobUrl)
         {
             try
@@ -192,7 +185,7 @@ namespace FireBrowserWinUi3.Services
                 ExceptionLogger.LogException(ex);
                 throw;
             }
-            
+
         }
         public async Task<ResponseAZFILE> UploadAndStoreFile(string blobName, IRandomAccessStream fileStream)
         {
@@ -200,22 +193,22 @@ namespace FireBrowserWinUi3.Services
             {
                 var email = await GetUserInformationAsync();
                 var result = await UploadFileToBlobAsync(blobName, fileStream);
-                
-                if(result is not null)
+
+                if (result is not null)
                     await InsertOrUpdateEntityAsync("TrackerBackups", email.WindowsUserName, result.Url.ToString());
-                return result; 
+                return result;
             }
             catch (Exception ex)
             {
                 ExceptionLogger.LogException(ex);
-                return new ResponseAZFILE(ex.StackTrace, ex.Message!);    
-             
+                return new ResponseAZFILE(ex.StackTrace, ex.Message!);
+
             }
-            
-            
-         
+
+
+
         }
-              
+
         public async Task<ResponseAZFILE> UploadFileToBlobAsync(string blobName, IRandomAccessStream fileStream)
         {
             try
@@ -245,9 +238,9 @@ namespace FireBrowserWinUi3.Services
             catch (Exception ex)
             {
                 ExceptionLogger.LogException(ex);
-                throw; 
+                throw;
             }
-                
+
         }
     }
 }

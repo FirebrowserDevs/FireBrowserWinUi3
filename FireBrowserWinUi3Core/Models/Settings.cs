@@ -20,6 +20,6 @@ public class Settings
     {
         None,
         Featured,
-        Costum, 
+        Costum,
     }
 }

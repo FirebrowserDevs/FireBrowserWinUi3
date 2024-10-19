@@ -1,10 +1,8 @@
 ﻿using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -37,7 +35,7 @@ public class Windowing
     public const int AW_SLIDE = 0x00040000;
     public const int AW_ACTIVATE = 0x20000;
     public const int AW_BLEND = 0x80000;
-    
+
 
 
     [DllImport("user32.dll")]

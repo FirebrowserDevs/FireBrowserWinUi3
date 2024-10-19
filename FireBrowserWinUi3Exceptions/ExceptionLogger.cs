@@ -7,7 +7,8 @@ public static class ExceptionLogger
     private static readonly string LogFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "firebrowserwinui.flog");
     private static readonly string InformationFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "fire_logger.log");
 
-    public static void LogInformation(string message) {
+    public static void LogInformation(string message)
+    {
 
         try
         {

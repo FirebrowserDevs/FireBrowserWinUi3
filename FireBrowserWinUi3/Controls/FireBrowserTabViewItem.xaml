@@ -12,23 +12,19 @@
             CornerRadius="1."
             IsEnabled="{x:Bind ViewModel.IsTooltipEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <ToolTip.Content>
-                <Grid>
-                    <controls:HeaderedContentControl
-                        x:Name="ImgTabViewHeader"
-                        Width="320"
-                        Height="256"
-                        Margin="2"
-                        CanBeScrollAnchor="False"
-                        CornerRadius=".5"
-                        Foreground="LimeGreen">
-                        <Image
-                            x:Name="ImgTabViewItem"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Stretch="Fill"
-                            UseLayoutRounding="True" />
-                    </controls:HeaderedContentControl>
-                </Grid>
+                <controls:HeaderedContentControl
+        x:Name="ImgTabViewHeader"
+        Width="300"
+        Height="240"
+        CornerRadius="8"
+        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+        BorderThickness="1">
+                    <Image
+            x:Name="ImgTabViewItem"
+            Stretch="UniformToFill"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center" />
+                </controls:HeaderedContentControl>
             </ToolTip.Content>
         </ToolTip>
     </ToolTipService.ToolTip>

@@ -1,120 +1,55 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="FireBrowserWinUi3.Pages.TimeLinePages.FavoritesTimeLine"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:firebrowserfavorites="using:FireBrowserWinUi3Favorites"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    mc:Ignorable="d">
+    xmlns:firebrowserfavorites="using:FireBrowserWinUi3Favorites"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <CommandBarFlyout
-            x:Name="FavoritesContextMenu"
-            AlwaysExpanded="True"
-            Placement="BottomEdgeAlignedLeft">
-            <AppBarButton
-                Click="FavContextItem_Click"
-                Tag="OpenLnkInNewWindow"
-                ToolTipService.ToolTip="Open link in new window">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE17C;" />
-                </AppBarButton.Icon>
+        <CommandBarFlyout x:Name="FavoritesContextMenu" AlwaysExpanded="True" Placement="BottomEdgeAlignedLeft">
+            <AppBarButton Click="FavContextItem_Click" Tag="OpenLnkInNewWindow" ToolTipService.ToolTip="Open link in new window">
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE17C;" />
             </AppBarButton>
-            <AppBarButton
-                Click="FavContextItem_Click"
-                Tag="Copy"
-                ToolTipService.ToolTip="Copy link">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE16F;" />
-                </AppBarButton.Icon>
+            <AppBarButton Click="FavContextItem_Click" Tag="Copy" ToolTipService.ToolTip="Copy link">
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE16F;" />
             </AppBarButton>
-            <AppBarButton
-                Click="FavContextItem_Click"
-                Tag="DeleteSingleRecord"
-                ToolTipService.ToolTip="Delete Record">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE74D;" />
-                </AppBarButton.Icon>
+            <AppBarButton Click="FavContextItem_Click" Tag="DeleteSingleRecord" ToolTipService.ToolTip="Delete Record">
+                <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE74D;" />
             </AppBarButton>
             <CommandBarFlyout.SecondaryCommands>
-                <AppBarButton
-                    Click="FavContextItem_Click"
-                    Label="Copy Text"
-                    Tag="CopyText">
-                    <AppBarButton.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE16F;" />
-                    </AppBarButton.Icon>
+                <AppBarButton Click="FavContextItem_Click" Label="Copy Text" Tag="CopyText">
+                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE16F;" />
                 </AppBarButton>
             </CommandBarFlyout.SecondaryCommands>
         </CommandBarFlyout>
     </Page.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="340" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <StackPanel
-            Grid.Column="0"
-            BorderBrush="DarkGray"
-            BorderThickness="0,0,1,0">
-            <TextBlock Margin="50,30,0,0" FontSize="25">
-                Favorites
-            </TextBlock>
-            <TextBox
-                Width="250"
-                Margin="50,15,0,0"
-                HorizontalAlignment="Left"
-                KeyDown="TextBox_KeyDown"
-                PlaceholderText="Search Favorites" />
+
+    <Grid ColumnDefinitions="340,*">
+        <StackPanel BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,0,1,0">
+            <TextBlock Margin="24,24,0,16" Style="{ThemeResource TitleTextBlockStyle}">Favorites</TextBlock>
+            <TextBox Width="250" Margin="24,0,0,0" KeyDown="TextBox_KeyDown" PlaceholderText="Search Favorites" />
         </StackPanel>
-        <Grid Grid.Column="1" Margin="30,30,30,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Button
-                Grid.Row="0"
-                HorizontalAlignment="Right"
-                Background="Transparent"
-                Click="Button_Click">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE107;" />
-                        <TextBlock Margin="10,0,0,0">Delete all favorites</TextBlock>
-                    </StackPanel>
-                </Button.Content>
+
+        <Grid Grid.Column="1" Margin="24,24,24,0" RowDefinitions="Auto,*">
+            <Button HorizontalAlignment="Right" Style="{ThemeResource TextBlockButtonStyle}" Click="Button_Click">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE107;" />
+                    <TextBlock>Delete all favorites</TextBlock>
+                </StackPanel>
             </Button>
-            <ListView
-                x:Name="FavoritesListView"
-                Grid.Row="1"
-                RightTapped="FavoritesListView_RightTapped">
+
+            <ListView x:Name="FavoritesListView" Grid.Row="1" RightTapped="FavoritesListView_RightTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="firebrowserfavorites:FavItem">
-                        <StackPanel Orientation="Horizontal">
-                            <Image
-                                Height="24"
-                                HorizontalAlignment="Left"
-                                Source="{Binding IconUrlPath, Mode=OneWay}"
-                                Stretch="UniformToFill" />
-                            <AppBarSeparator />
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <TextBlock
-                                    Grid.Row="0"
-                                    FontSize="20"
-                                    Text="{Binding Title}"
-                                    TextWrapping="WrapWholeWords"
-                                    ToolTipService.ToolTip="{Binding Title, Mode=OneWay}" />
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Foreground="DeepSkyBlue"
-                                    Text="{Binding Url}" />
-                            </Grid>
-                        </StackPanel>
+                        <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="12">
+                            <Image Height="24" Source="{Binding IconUrlPath, Mode=OneWay}" Stretch="UniformToFill" />
+                            <Rectangle Grid.Column="1" Width="1" Fill="{ThemeResource CardStrokeColorDefaultBrush}" />
+                            <StackPanel Grid.Column="2" Spacing="4">
+                                <TextBlock Text="{Binding Title}" Style="{ThemeResource BodyStrongTextBlockStyle}" 
+                                           TextWrapping="WrapWholeWords" ToolTipService.ToolTip="{Binding Title, Mode=OneWay}" />
+                                <TextBlock Text="{Binding Url}" Foreground="{ThemeResource SystemAccentColor}" Style="{ThemeResource CaptionTextBlockStyle}" />
+                            </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

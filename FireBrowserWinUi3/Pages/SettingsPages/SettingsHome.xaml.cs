@@ -14,8 +14,6 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.Services.Store;
 
 namespace FireBrowserWinUi3.Pages.SettingsPages;
 public sealed partial class SettingsHome : Page
@@ -23,12 +21,12 @@ public sealed partial class SettingsHome : Page
     SettingsService SettingsService { get; set; }
     public static SettingsHome Instance { get; set; }
 
-    IMessenger Messenger { get; set; }  
+    IMessenger Messenger { get; set; }
     public bool IsPremium { get; set; }
     public SettingsHome()
     {
         SettingsService = App.GetService<SettingsService>();
-        Messenger = App.GetService<IMessenger>();   
+        Messenger = App.GetService<IMessenger>();
         this.InitializeComponent();
         Instance = this;
         LoadUserDataAndSettings();
@@ -54,7 +52,7 @@ public sealed partial class SettingsHome : Page
 
             Add.IsEnabled = true;
 
-            UserListView.ItemsSource = usernames.Where(username => username != currentUsername && !username.Contains("Private")).ToList(); 
+            UserListView.ItemsSource = usernames.Where(username => username != currentUsername && !username.Contains("Private")).ToList();
 
         }
         return Task.CompletedTask;
@@ -116,7 +114,7 @@ public sealed partial class SettingsHome : Page
             Messenger?.Send(new Message_Settings_Actions($"You may not remove a User that has an Active Session !", EnumMessageStatus.XorError));
 
         }
-        
+
     }
 
     private void UpdateApp()
@@ -137,7 +135,7 @@ public sealed partial class SettingsHome : Page
                 using (StreamReader reader = process.StandardOutput)
                 {
                     string result = reader.ReadToEnd();
-                    string msg2 = Regex.Replace(result, @"[\r*\-\\]", ""); 
+                    string msg2 = Regex.Replace(result, @"[\r*\-\\]", "");
                     Messenger?.Send(new Message_Settings_Actions($"Application update status\n\n{msg2.Trim()} !", EnumMessageStatus.Informational));
                 }
             }
@@ -148,7 +146,7 @@ public sealed partial class SettingsHome : Page
             Messenger?.Send(new Message_Settings_Actions($"Application update failed !", EnumMessageStatus.XorError));
 
         }
-        
+
 
     }
     private async void PatchBtn_Click(object sender, RoutedEventArgs e)

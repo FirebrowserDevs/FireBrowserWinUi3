@@ -2,13 +2,13 @@
 public enum EnumMessageStatus
 {
     Added,
-    Informational, 
+    Informational,
     Login,
     Logout,
     Removed,
     Settings,
     Updated,
-    XorError, 
+    XorError,
 
 };
 public record class Message_Settings_Actions(string _payload, EnumMessageStatus _status)

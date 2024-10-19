@@ -3,7 +3,6 @@ using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3.Services.ViewModels;
 using FireBrowserWinUi3Core.CoreUi;
-using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3MultiCore;
 using FireBrowserWinUi3MultiCore.Helper;
 using Microsoft.UI.Xaml;
@@ -13,7 +12,6 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
-using WinRT.Interop;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -134,8 +132,8 @@ namespace FireBrowserWinUi3.Controls
         {
             string site = "google"; // Default site
             var win = new QuickSign(site);
-            win.Activate(); 
-            
+            win.Activate();
+
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

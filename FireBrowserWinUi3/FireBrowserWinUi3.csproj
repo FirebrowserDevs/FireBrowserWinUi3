@@ -138,7 +138,6 @@
     <None Remove="Controls\RestoreBackUp.xaml" />
     <None Remove="Pages\ApiDash.xaml" />
     <None Remove="Pages\Patch\BackUpDialog.xaml" />
-    <None Remove="Pages\Patch\PatchUpdate.xaml" />
     <None Remove="Pages\Patch\RestoreBackupDialog.xaml" />
     <None Remove="Pages\Patch\SureReset.xaml" />
     <None Remove="Pages\Pluginss.xaml" />
@@ -284,10 +283,6 @@
     </Page>
     <Page Update="Setup\AddUserWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Pages\Patch\PatchUpdate.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\Pluginss.xaml">
       <Generator>MSBuild:Compile</Generator>

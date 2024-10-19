@@ -1,9 +1,7 @@
-using System;
-using System.IO;
-using FireBrowserWinUi3.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.Web.WebView2.Core;  // WebView2 namespace
+using System;
+using System.IO;
 
 namespace FireBrowserWinUi3.Pages.Patch
 {
@@ -66,7 +64,7 @@ namespace FireBrowserWinUi3.Pages.Patch
             }
         }
 
-        private  void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             if (!IsBackupAllowed)
             {
@@ -85,7 +83,7 @@ namespace FireBrowserWinUi3.Pages.Patch
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-         
+
         }
     }
 }

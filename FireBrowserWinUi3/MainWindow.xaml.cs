@@ -1217,7 +1217,7 @@ public sealed partial class MainWindow : Window
             UrlBox.Text = $"{SettingsService.CoreSettings.SearchUrl}";
             UrlBox.Focus(FocusState.Keyboard);
             NotificationQueue.Show($"Autofill Search Quick {SettingsService.CoreSettings.EngineFriendlyName}", 2500);
-        }       
+        }
     }
 
     private void Secure_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)

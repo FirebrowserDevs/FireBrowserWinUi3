@@ -24,7 +24,6 @@
         x:Name="MainView"
         Padding="{ThemeResource ContentDialogBorderWidth}"
         Background="Transparent"
-        BorderBrush="{ThemeResource AccentFillColorSecondaryBrush}"
         BorderThickness=".4"
         CornerRadius="4">
         <Grid.Resources>
@@ -329,7 +328,6 @@
                     </StackPanel>
                 </StackPanel>
             </Flyout>
-
             <Flyout x:Name="HistoryFly" Placement="Bottom">
                 <MenuFlyoutItem x:Name="HistoryMenuItem" Text="History">
                     <MenuFlyoutItem.Icon>
@@ -338,10 +336,10 @@
                     <MenuFlyoutItem.ContextFlyout>
                         <Flyout x:Name="HistoryFlyoutMenu" Placement="Bottom">
                             <Grid
-                                Width="300"
-                                Height="500"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch">
+                    Width="300"
+                    Height="500"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="35" />
                                     <RowDefinition />
@@ -352,62 +350,62 @@
                                 </Grid.ColumnDefinitions>
                                 <!--  Buttons  -->
                                 <TextBlock
-                                    x:Name="HistorySmallTitle"
-                                    Margin="10,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    FontSize="16"
-                                    FontWeight="Bold"
-                                    Text="History" />
+                        x:Name="HistorySmallTitle"
+                        Margin="10,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Text="History" />
                                 <TextBox
-                                    x:Name="HistorySearchMenuItem"
-                                    Height="35"
-                                    TextChanged="HistorySearchMenuItem_TextChanged"
-                                    Visibility="Collapsed" />
+                        x:Name="HistorySearchMenuItem"
+                        Height="35"
+                        TextChanged="HistorySearchMenuItem_TextChanged"
+                        Visibility="Collapsed" />
                                 <StackPanel
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Orientation="Horizontal">
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
                                     <Button
-                                        x:Name="SearchHistoryMenuFlyout"
-                                        Width="32"
-                                        Height="32"
-                                        Margin="0,0,10,0"
-                                        Padding="0"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Click="SearchHistoryMenuFlyout_Click">
+                            x:Name="SearchHistoryMenuFlyout"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,10,0"
+                            Padding="0"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Click="SearchHistoryMenuFlyout_Click">
                                         <Viewbox
-                                            Width="20"
-                                            Height="20"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                Width="20"
+                                Height="20"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
                                             <SymbolIcon Symbol="Find" />
                                         </Viewbox>
                                     </Button>
                                     <Button
-                                        x:Name="MenuHistoryMenuFlyout"
-                                        Width="32"
-                                        Height="32"
-                                        Padding="0"
-                                        Background="Transparent"
-                                        BorderThickness="0">
+                            x:Name="MenuHistoryMenuFlyout"
+                            Width="32"
+                            Height="32"
+                            Padding="0"
+                            Background="Transparent"
+                            BorderThickness="0">
                                         <Button.Flyout>
                                             <MenuFlyout Placement="Bottom">
                                                 <MenuFlyoutItem
-                                                    x:Name="ClearHistoryDataMenuItem"
-                                                    Click="ClearHistoryDataMenuItem_Click"
-                                                    Tag="ClearAll"
-                                                    Text="Clear History Data">
+                                        x:Name="ClearHistoryDataMenuItem"
+                                        Click="ClearHistoryDataMenuItem_Click"
+                                        Tag="ClearAll"
+                                        Text="Clear History Data">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE74D;" />
                                                     </MenuFlyoutItem.Icon>
                                                 </MenuFlyoutItem>
                                                 <MenuFlyoutItem
-                                                    x:Name="OpenHistoryMenuItem"
-                                                    Click="OpenHistoryMenuItem_Click"
-                                                    Text="Open History Page">
+                                        x:Name="OpenHistoryMenuItem"
+                                        Click="OpenHistoryMenuItem_Click"
+                                        Text="Open History Page">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8A7;" />
                                                     </MenuFlyoutItem.Icon>
@@ -415,23 +413,23 @@
                                             </MenuFlyout>
                                         </Button.Flyout>
                                         <Viewbox
-                                            Width="20"
-                                            Height="20"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                Width="20"
+                                Height="20"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
                                             <SymbolIcon Symbol="More" />
                                         </Viewbox>
                                     </Button>
                                 </StackPanel>
                                 <ListView
-                                    x:Name="HistoryTemp"
-                                    Grid.Row="1"
-                                    Grid.ColumnSpan="2"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Stretch"
-                                    CanDragItems="True"
-                                    CanReorderItems="True"
-                                    SelectionChanged="HistoryTemp_SelectionChanged">
+                        x:Name="HistoryTemp"
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        CanDragItems="True"
+                        CanReorderItems="True"
+                        SelectionChanged="HistoryTemp_SelectionChanged">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" RightTapped="Grid_RightTapped">
@@ -440,15 +438,15 @@
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
                                                 <Image
-                                                    Grid.Column="0"
-                                                    Width="32"
-                                                    Height="32"
-                                                    Source="{Binding ImageSource}" />
+                                        Grid.Column="0"
+                                        Width="32"
+                                        Height="32"
+                                        Source="{Binding ImageSource}" />
                                                 <StackPanel Grid.Column="1">
                                                     <TextBlock
-                                                        Margin="5,0,0,0"
-                                                        FontWeight="Bold"
-                                                        Text="{Binding Title}" />
+                                            Margin="5,0,0,0"
+                                            FontWeight="Bold"
+                                            Text="{Binding Title}" />
                                                     <TextBlock Margin="5,0,0,0" Text="{Binding Url}" />
                                                 </StackPanel>
                                             </Grid>
@@ -461,127 +459,76 @@
                 </MenuFlyoutItem>
             </Flyout>
             <Flyout x:Name="FavoritesFly" Placement="Bottom">
-                <Grid Width="300" Height="400">
+                <Flyout.FlyoutPresenterStyle>
+                    <Style TargetType="FlyoutPresenter">
+                        <Setter Property="MinWidth" Value="300" />
+                        <Setter Property="MaxHeight" Value="400" />
+                        <Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+                    </Style>
+                </Flyout.FlyoutPresenterStyle>
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock
-                        x:Name="FavoritesSmallTitle"
-                        Margin="10,0"
-                        FontSize="16"
-                        FontWeight="Bold"
-                        Text="Favorites" />
-                    <Button
-                        Grid.Column="1"
-                        Width="32"
-                        Height="32"
-                        Padding="0"
-                        BorderThickness="0"
-                        Style="{ThemeResource QuietButtonStyle}">
-                        <Button.Flyout>
-                            <MenuFlyout Placement="Bottom">
-                                <MenuFlyoutItem
-                                    x:Name="OpenFavoritesMenu"
-                                    Click="OpenFavoritesMenu_Click"
-                                    Text="Open Favorites Page">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8A7;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </Button.Flyout>
-                        <Viewbox
-                            Width="20"
-                            Height="20"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                            <SymbolIcon Symbol="More" />
-                        </Viewbox>
-                    </Button>
-                    <ListView
-                        x:Name="FavoritesListView"
-                        Grid.Row="1"
-                        Grid.ColumnSpan="2"
-                        Margin="0,7,0,0"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Stretch"
-                        SelectionChanged="FavoritesListView_SelectionChanged">
+                    <Grid Margin="16,12">
+                        <TextBlock Text="Favorites" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <Button HorizontalAlignment="Right" Style="{ThemeResource QuietButtonStyle}">
+                            <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE712;" />
+                            <Button.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem x:Name="OpenFavoritesMenu" Text="Open Favorites Page" Click="OpenFavoritesMenu_Click">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8A7;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout>
+                            </Button.Flyout>
+                        </Button>
+                    </Grid>
+                    <ListView x:Name="FavoritesListView" Grid.Row="1" 
+                  SelectionChanged="FavoritesListView_SelectionChanged"
+                  ItemContainerStyle="{StaticResource DefaultListViewItemStyle}">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="firebrowserfavorites:FavItem">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image
-                                        Height="24"
-                                        HorizontalAlignment="Left"
-                                        Source="{Binding IconUrlPath, Mode=OneWay}"
-                                        Stretch="UniformToFill" />
-                                    <AppBarSeparator />
-                                    <TextBlock
-                                        FontSize="20"
-                                        Text="{Binding Title}"
-                                        TextWrapping="WrapWholeWords"
-                                        ToolTipService.ToolTip="{Binding Title, Mode=OneWay}" />
-                                </StackPanel>
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Height="24" Width="24" Source="{Binding IconUrlPath, Mode=OneWay}" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Title}" 
+                                   Style="{ThemeResource BodyTextBlockStyle}"
+                                   TextTrimming="CharacterEllipsis"
+                                   ToolTipService.ToolTip="{Binding Title}" />
+                                </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
             </Flyout>
             <Flyout x:Name="QRCodeFlyout" Placement="Bottom">
-                <StackPanel CornerRadius="{StaticResource ControlCornerRadius}">
-                    <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="QR code generator" />
-                    <Image
-                        x:Name="QRCodeImage"
-                        Width="160"
-                        Height="160"
-                        Margin="0,5,0,0" />
+                <Flyout.FlyoutPresenterStyle>
+                    <Style TargetType="FlyoutPresenter">
+                        <Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+                        <Setter Property="Padding" Value="16" />
+                    </Style>
+                </Flyout.FlyoutPresenterStyle>
+                <StackPanel Width="240" Spacing="16">
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="QR Code Generator" />
+                    <Image x:Name="QRCodeImage" Width="200" Height="200" HorizontalAlignment="Center" />
                     <Grid>
-                        <Button
-                            HorizontalAlignment="Left"
-                            Content="{firebrowser:FluentIcon Glyph=&#xE946;}"
-                            Style="{ThemeResource QuietButtonStyle}">
+                        <Button HorizontalAlignment="Left" ToolTipService.ToolTip="How to use QR code">
+                            <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE946;" />
                             <Button.Flyout>
-                                <Flyout Placement="Bottom">
-                                    <TextBlock
-                                        LineStackingStrategy="MaxHeight"
-                                        MaxLines="50"
-                                        Text="Use a camera or a special app to continue browsing on new device."
-                                        TextLineBounds="Full"
-                                        TextWrapping="Wrap" />
+                                <Flyout>
+                                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="Use a camera or a special app to continue browsing on a new device." TextWrapping="Wrap" />
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
-                        <StackPanel
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal"
-                            Spacing="4">
-                            <Button
-                                x:Name="SaveQrImage"
-                                Width="Auto"
-                                Margin="0,5,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:FieldModifier="Public"
-                                Click="SaveQrImage_Click"
-                                Content="{firebrowser:FluentIcon Glyph=&#xE78C;}"
-                                Style="{ThemeResource QuietButtonStyle}">
-                                <Button.Flyout>
-                                    <Flyout Placement="Bottom">
-                                        <TextBlock
-                                            LineStackingStrategy="MaxHeight"
-                                            MaxLines="50"
-                                            TextLineBounds="Full"
-                                            TextWrapping="Wrap">
-                                            Save Qr Code
-                                        </TextBlock>
-                                    </Flyout>
-                                </Button.Flyout>
-                            </Button>
-                        </StackPanel>
+                        <Button x:Name="SaveQrImage" HorizontalAlignment="Right" Click="SaveQrImage_Click" ToolTipService.ToolTip="Save QR Code">
+                            <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE78C;" />
+                        </Button>
                     </Grid>
                 </StackPanel>
             </Flyout>
@@ -685,14 +632,20 @@
                         Glyph="{x:Bind ViewModel.SecurityIcon, Mode=OneWay}" />
                     <Button.Flyout>
                         <MenuFlyout Placement="Bottom">
-                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Text="Open 2Fa Tool">
+                            <MenuFlyout.MenuFlyoutPresenterStyle>
+                                <Style TargetType="MenuFlyoutPresenter">
+                                    <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+                                    <Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+                                </Style>
+                            </MenuFlyout.MenuFlyoutPresenterStyle>
+                            <MenuFlyoutItem Text="Open 2FA Tool" Click="MenuFlyoutItem_Click">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE192;" />
+                                    <FontIcon Glyph="&#xE192;" FontFamily="{StaticResource FluentIcons}" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem Click="MenuFlyoutItem_Click_1" Text="WebSite Certificate">
+                            <MenuFlyoutItem Text="Website Certificate" Click="MenuFlyoutItem_Click_1">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE72E;" />
+                                    <FontIcon Glyph="&#xE72E;" FontFamily="{StaticResource FluentIcons}" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout>
@@ -706,39 +659,17 @@
                     Style="{StaticResource QuietButtonStyle}">
                     <Button.Flyout>
                         <Flyout Placement="Bottom">
-                            <StackPanel Orientation="Horizontal">
-                                <Button
-                                    x:Name="ReadBtn"
-                                    Width="32"
-                                    Click="ToolbarButtonClick"
-                                    Content="{firebrowser:FluentIcon Glyph=&#xE736;}"
-                                    Style="{StaticResource QuietButtonStyle}"
-                                    Tag="ReadingMode"
-                                    ToolTipService.ToolTip="Reading Mode" />
-                                <Button
-                                    x:Name="AdBlock"
-                                    Width="32"
-                                    Click="ToolbarButtonClick"
-                                    Content="{firebrowser:FluentIcon Glyph=&#xEA18;}"
-                                    Style="{StaticResource QuietButtonStyle}"
-                                    Tag="AdBlock"
-                                    ToolTipService.ToolTip="Basic AdBlock" />
-                                <Button
-                                    x:Name="BtnTrans"
-                                    Width="32"
-                                    Click="ToolbarButtonClick"
-                                    Content="{firebrowser:FluentIcon Glyph=&#xE87E;}"
-                                    Style="{StaticResource QuietButtonStyle}"
-                                    Tag="Translate"
-                                    ToolTipService.ToolTip="Translate" />
-                                <Button
-                                    x:Name="BtnDark"
-                                    Width="32"
-                                    Click="ToolbarButtonClick"
-                                    Content="{firebrowser:FluentIcon Glyph=&#xE790;}"
-                                    Style="{StaticResource QuietButtonStyle}"
-                                    Tag="DarkMode"
-                                    ToolTipService.ToolTip="DarkMode Website" />
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+                                    <Setter Property="Padding" Value="8" />
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <Button x:Name="ReadBtn" Click="ToolbarButtonClick" Content="{firebrowser:FluentIcon Glyph=&#xE736;}" Style="{StaticResource QuietButtonStyle}" Tag="ReadingMode" ToolTipService.ToolTip="Reading Mode" />
+                                <Button x:Name="AdBlock" Click="ToolbarButtonClick" Content="{firebrowser:FluentIcon Glyph=&#xEA18;}" Style="{StaticResource QuietButtonStyle}" Tag="AdBlock" ToolTipService.ToolTip="Basic AdBlock" />
+                                <Button x:Name="BtnTrans" Click="ToolbarButtonClick" Content="{firebrowser:FluentIcon Glyph=&#xE87E;}" Style="{StaticResource QuietButtonStyle}" Tag="Translate" ToolTipService.ToolTip="Translate" />
+                                <Button x:Name="BtnDark" Click="ToolbarButtonClick" Content="{firebrowser:FluentIcon Glyph=&#xE790;}" Style="{StaticResource QuietButtonStyle}" Tag="DarkMode" ToolTipService.ToolTip="DarkMode Website" />
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
@@ -752,38 +683,20 @@
                     Visibility="Visible">
                     <Button.Flyout>
                         <Flyout>
-                            <Grid MaxWidth="325">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <TextBlock
-                                    Grid.Row="0"
-                                    MinWidth="300"
-                                    FontSize="20"
-                                    Text="Add favorite" />
-                                <TextBox
-                                    x:Name="FavoriteTitle"
-                                    Grid.Row="2"
-                                    Margin="0,5,0,0"
-                                    PlaceholderText="Title Website" />
-                                <TextBox
-                                    x:Name="FavoriteUrl"
-                                    Grid.Row="4"
-                                    Margin="0,5,0,0"
-                                    PlaceholderText="Url Site" />
-                                <Button
-                                    Grid.Row="5"
-                                    Width="Auto"
-                                    Margin="0,8,0,0"
-                                    Click="ToolbarButtonClick"
-                                    Content="Add Favorite"
-                                    Tag="AddFavorite" />
-                            </Grid>
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="MinWidth" Value="300" />
+                                    <Setter Property="MaxWidth" Value="325" />
+                                    <Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+                                    <Setter Property="Padding" Value="16" />
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <StackPanel Spacing="16">
+                                <TextBlock Text="Add favorite" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                                <TextBox x:Name="FavoriteTitle" PlaceholderText="Title Website" />
+                                <TextBox x:Name="FavoriteUrl" PlaceholderText="Url Site" />
+                                <Button Content="Add Favorite" Click="ToolbarButtonClick" Tag="AddFavorite" HorizontalAlignment="Stretch" />
+                            </StackPanel>
                         </Flyout>
                     </Button.Flyout>
                 </Button>

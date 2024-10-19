@@ -1,28 +1,25 @@
+using FireBrowserWinUi3.Services;
+using FireBrowserWinUi3Core.Helpers;
+using FireBrowserWinUi3Exceptions;
+using FireBrowserWinUi3MultiCore;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using FireBrowserWinUi3MultiCore;
-using Microsoft.UI.Windowing;
-using Microsoft.UI;
 using Windows.Graphics;
-using WinRT.Interop;
-using System.Diagnostics;
-using FireBrowserWinUi3Core.Helpers;
-using FireBrowserWinUi3.Services;
-using Windows.Storage.Streams;
 using Windows.Storage;
-using FireBrowserWinUi3Exceptions;
-using Newtonsoft.Json;
-using Microsoft.UI.Xaml.Media.Animation;
-using Microsoft.Xaml.Interactivity;
+using Windows.Storage.Streams;
+using WinRT.Interop;
 
 namespace FireBrowserWinUi3.Controls
 {
     public sealed partial class CreateBackup : Window
     {
-       private object _backupFilePath;
+        private object _backupFilePath;
         //private string _backupPath;
         private AppWindow appWindow;
         private AppWindowTitleBar titleBar;
@@ -36,9 +33,9 @@ namespace FireBrowserWinUi3.Controls
         private async void UpdateBack()
         {
             await StartBackupProcess();
-          
+
         }
-            private void InitializeWindow()
+        private void InitializeWindow()
         {
             var hWnd = WindowNative.GetWindowHandle(this);
             WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
@@ -82,24 +79,24 @@ namespace FireBrowserWinUi3.Controls
                         StatusTextBlock.Text = $"Backup is being uploaded to the cloud";
                     });
                     var json = await UploadFileToAzure(fileName);
-                    
-                    this.DispatcherQueue.TryEnqueue(async() =>
+
+                    this.DispatcherQueue.TryEnqueue(async () =>
                     {
                         StatusTextBlock.Text = $"Successfully saved to the cloud of (FireBrowserDevs)";
-                        
+
                         await Task.Delay(100);
 
                         StatusTextBlock.Text = $"Backup created successfully in your Document folder as:\n{fileName}";
 
                     });
-                    
+
                     return json;
                 });
 
                 ExceptionLogger.LogInformation("File path is : " + JsonConvert.SerializeObject(_backupFilePath) + "\n");
 
-                await Task.Delay(2000); 
-                
+                await Task.Delay(2000);
+
 
                 string tempPath = Path.GetTempPath();
                 string backupFilePath = Path.Combine(tempPath, "backup.fireback");
@@ -112,15 +109,16 @@ namespace FireBrowserWinUi3.Controls
                 Debug.WriteLine(ex);
             }
         }
-        private async Task<object> UploadFileToAzure(string fileName) {
+        private async Task<object> UploadFileToAzure(string fileName)
+        {
 
             var connString = Windows.Storage.ApplicationData.Current.LocalSettings.Values["AzureStorageConnectionString"] as string;
-            var az = new AzBackupService(connString, "storelean", "firebackups", AuthService.CurrentUser ?? new() { Id = Guid.NewGuid(), Username = "Admin", IsFirstLaunch = false});
+            var az = new AzBackupService(connString, "storelean", "firebackups", AuthService.CurrentUser ?? new() { Id = Guid.NewGuid(), Username = "Admin", IsFirstLaunch = false });
 
-            StorageFile file = await StorageFile.GetFileFromPathAsync(fileName); 
+            StorageFile file = await StorageFile.GetFileFromPathAsync(fileName);
             IRandomAccessStream randomAccessStream = await file.OpenAsync(FileAccessMode.Read);
-            return await az.UploadAndStoreFile(file.Name, randomAccessStream);  
-            
+            return await az.UploadAndStoreFile(file.Name, randomAccessStream);
+
             //return await az.UploadFileToBlobAsync(file.Name, randomAccessStream); 
         }
 

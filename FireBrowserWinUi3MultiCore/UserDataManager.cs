@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using Windows.Media.Protection.PlayReady;
 
 namespace FireBrowserWinUi3MultiCore;
 public static class UserDataManager
@@ -58,6 +57,6 @@ public static class UserDataManager
         {
             throw;
         }
-        
+
     }
 }

@@ -1,11 +1,9 @@
 using FireBrowserWinUi3.Services;
-using FireBrowserWinUi3Core.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 using WinRT.Interop;
 
@@ -39,7 +37,8 @@ namespace FireBrowserWinUi3.Pages.Patch
             BackupListBox.ItemsSource = fireBackupFiles;
         }
 
-        private async void RestartAndCloseWindows() {
+        private async void RestartAndCloseWindows()
+        {
 
             // close whatever window is open ie: setup, usercentral --> need to give control back to windowscontroller....
 
@@ -52,9 +51,9 @@ namespace FireBrowserWinUi3.Pages.Patch
             // is main is open give use option on next start up... 
             if (App.Current.m_window is not null)
             {
-                
+
                 IntPtr hWnd = WindowNative.GetWindowHandle(App.Current.m_window);
-                
+
                 if (hWnd != IntPtr.Zero)
                 {
                     var dlg = new ContentDialog();
@@ -66,14 +65,14 @@ namespace FireBrowserWinUi3.Pages.Patch
                         Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
                     };
                     dlg.XamlRoot = this.XamlRoot;
-                    await dlg.ShowAsync(ContentDialogPlacement.Popup); 
-                    
+                    await dlg.ShowAsync(ContentDialogPlacement.Popup);
+
                 }
-                
+
             }
 
-            
-           
+
+
         }
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
@@ -86,7 +85,7 @@ namespace FireBrowserWinUi3.Pages.Patch
                 // Write the selected backup file path to the restore.fireback file
                 await File.WriteAllTextAsync(restoreFilePath, SelectedBackupPath);
 
-                RestartAndCloseWindows(); 
+                RestartAndCloseWindows();
 
             }
             else
@@ -98,7 +97,7 @@ namespace FireBrowserWinUi3.Pages.Patch
 
         private void BackupListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UpdateRestoreButtonState();          
+            UpdateRestoreButtonState();
         }
 
         private void ConfirmCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
@@ -113,8 +112,8 @@ namespace FireBrowserWinUi3.Pages.Patch
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            CancelledByUser = true; 
-            RestartAndCloseWindows(); 
+            CancelledByUser = true;
+            RestartAndCloseWindows();
         }
     }
 

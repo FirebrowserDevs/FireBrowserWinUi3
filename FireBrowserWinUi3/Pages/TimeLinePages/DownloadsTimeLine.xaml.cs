@@ -13,4 +13,8 @@ public sealed partial class DownloadsTimeLine : Page
         ViewModel.GetDownloadItems().GetAwaiter();
     }
 
+    private void Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+
+    }
 }

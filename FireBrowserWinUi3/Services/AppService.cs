@@ -34,15 +34,13 @@ public static class AppService
     public static bool IsAppNewUser { get; set; }
     public static bool IsAppUserAuthenicated { get; set; }
 
-    
+
 
     public static async Task WindowsController(CancellationToken cancellationToken)
     {
         try
         {
             string changeUsernameFilePath = Path.Combine(Path.GetTempPath(), "changeusername.json");
-            //string patchFilePath = Path.Combine(Path.GetTempPath(), "Patch.ptc");
-            string patchFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "patch.core");
             string resetFilePath = Path.Combine(Path.GetTempPath(), "Reset.set");
             string backupFilePath = Path.Combine(Path.GetTempPath(), "backup.fireback");
             string restoreFilePath = Path.Combine(Path.GetTempPath(), "restore.fireback");
@@ -87,18 +85,6 @@ public static class AppService
             if (File.Exists(changeUsernameFilePath))
             {
                 ActiveWindow = new ChangeUsernameCore();
-                ActiveWindow.Closed += (s, e) =>
-                {
-                    AuthService.IsUserNameChanging = false;
-                    WindowsController(cancellationToken).ConfigureAwait(false);
-                };
-                ActiveWindow.Activate();
-                return;
-            }
-
-            if (File.Exists(patchFilePath))
-            {
-                ActiveWindow = new Patcher();
                 ActiveWindow.Closed += (s, e) =>
                 {
                     AuthService.IsUserNameChanging = false;
@@ -228,7 +214,7 @@ public static class AppService
         return urlParts.FirstOrDefault();
     }
 
-    public static  void ConfigureWindowAppearance()
+    public static void ConfigureWindowAppearance()
     {
         if (ActiveWindow is null) return;
 

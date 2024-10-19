@@ -12,42 +12,24 @@
     DefaultButton="Secondary">
 
     <ContentDialog.Background>
-        <AcrylicBrush
-            TintColor="{ThemeResource SystemAltHighColor}"
-            TintOpacity="0.7"
-            FallbackColor="{ThemeResource SystemChromeMediumLowColor}"/>
+        <AcrylicBrush TintColor="{ThemeResource SystemAltHighColor}" TintOpacity="0.7" FallbackColor="{ThemeResource SystemChromeMediumLowColor}"/>
     </ContentDialog.Background>
 
-    <StackPanel Margin="24">
-        <InfoBar
-            IsOpen="True"
-            Severity="Warning"
-            Title="Warning"
-            Message="This action will remove all users and the core folder."
-            IsClosable="False"
-            Margin="0,0,0,16"/>
-
-        <TextBlock 
-            Text="Are you sure you want to reset the full browser app?"
-            Style="{ThemeResource SubtitleTextBlockStyle}" 
-            TextWrapping="Wrap"
-            Margin="0,0,0,16"/>
-
-        <TextBlock 
-            Text="This action cannot be undone. Please make sure you have backed up any important data before proceeding."
-            Style="{ThemeResource BodyTextBlockStyle}"
-            TextWrapping="Wrap"/>
+    <StackPanel Margin="24" Spacing="16">
+        <InfoBar IsOpen="True" Severity="Warning" Title="Warning" Message="This action will remove all users and the core folder." IsClosable="False"/>
+        <TextBlock Text="Are you sure you want to reset the full browser app?" Style="{ThemeResource SubtitleTextBlockStyle}" TextWrapping="Wrap"/>
+        <TextBlock Text="This action cannot be undone. Please make sure you have backed up any important data before proceeding." Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
     </StackPanel>
 
     <ContentDialog.PrimaryButtonStyle>
         <Style TargetType="Button">
-            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="CornerRadius" Value="4"/>
         </Style>
     </ContentDialog.PrimaryButtonStyle>
 
     <ContentDialog.SecondaryButtonStyle>
         <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
-            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="CornerRadius" Value="4"/>
         </Style>
     </ContentDialog.SecondaryButtonStyle>
 </ContentDialog>

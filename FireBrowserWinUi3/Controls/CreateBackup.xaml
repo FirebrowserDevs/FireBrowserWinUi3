@@ -12,7 +12,9 @@
     Title="Creating Backup"
     mc:Ignorable="d">
 
-
+    <Window.SystemBackdrop>
+        <MicaBackdrop Kind="BaseAlt" />
+    </Window.SystemBackdrop>
 
     <Grid Padding="20" >
         <Grid.RowDefinitions>

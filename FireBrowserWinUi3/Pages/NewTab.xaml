@@ -15,8 +15,8 @@
     xmlns:button="using:FireBrowserWinUi3.Services" 
     Loaded="NewTab_Loaded"
     mc:Ignorable="d">
-    
-   <Grid
+
+    <Grid
         x:Name="GridMain"
         x:FieldModifier="Public"
         Background="{x:Bind local:NewTab.GetGridBackgroundAsync(ViewModel.BackgroundType, userSettings), Mode=OneWay}">
@@ -249,54 +249,64 @@
         </Button>
 
         <Grid
-            x:Name="GridTrending"
-            Height="Auto"
-            Margin="2,32,2,32"
-            Padding="4,2,4,2"
-            HorizontalAlignment="Left"
-            Visibility="{x:Bind ViewModel.IsTrendingVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+    x:Name="GridTrending"
+    Width="150"
+    Height="Auto"
+    Margin="8"
+    Padding="8"
+    HorizontalAlignment="Left"
+    VerticalAlignment="Top"
+    CornerRadius="6"
+    Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
+    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+    BorderThickness="1"
+    Translation="0,0,32"
+    Visibility="{x:Bind ViewModel.IsTrendingVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+
             <TextBlock
-                Grid.Row="0"
-                HorizontalAlignment="Center"
-                FontFamily="Impact"
-                FontSize="24"
-                FontStyle="Italic"
-                Foreground="CornflowerBlue">
-                Trending Now
+        Grid.Row="0"
+        Margin="0,0,0,8"
+        HorizontalAlignment="Left"
+        Style="{ThemeResource SubtitleTextBlockStyle}"
+        FontWeight="SemiBold"
+        Foreground="Black">
+        Trending Now
             </TextBlock>
+
             <ListView
-                x:Name="ItemTrending"
-                Grid.Row="1"
-                Width="124"
-                Padding="2,5,2,5"
-                ItemsSource="{x:Bind trendings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                SelectionChanged="TrendingSelectionChanged">
+        x:Name="ItemTrending"
+        Grid.Row="1"
+        Width="150"
+        Padding="-10,0,0,0"
+        ItemsSource="{x:Bind trendings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        SelectionChanged="TrendingSelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel
-                            Margin="0,2,0,2"
-                            Padding="2.5"
-                            BorderBrush="{ThemeResource LayerOnMicaBaseAltFillColorSecondary}"
-                            BorderThickness=".5"
-                            CornerRadius="4"
-                            Orientation="Vertical">
+                    Margin="0,2,0,2"
+                    Padding="2.5"
+                    BorderBrush="{ThemeResource LayerOnMicaBaseAltFillColorSecondary}"
+                    BorderThickness=".5"
+                    CornerRadius="4"
+                    Orientation="Vertical">
                             <TextBlock
-                                Margin="0,2,0,2"
-                                Padding="4"
-                                FontStyle="Oblique"
-                                Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
-                                MaxLines="3"
-                                Text="{Binding name}"
-                                TextWrapping="WrapWholeWords" />
+                        Margin="0,2,0,2"
+                        Padding="4"
+                        FontStyle="Oblique"
+                        Foreground="Black"
+                        MaxLines="3"
+                        Text="{Binding name}"
+                        TextWrapping="WrapWholeWords" />
                             <Image
-                                Width="100"
-                                Height="100"
-                                HorizontalAlignment="Center"
-                                Source="{Binding url, Mode=OneWay}" />
+                        Width="100"
+                        Height="100"
+                        HorizontalAlignment="Center"
+                        Source="{Binding url, Mode=OneWay}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -518,26 +528,20 @@
                     </labs:SettingsExpander.Items>
                 </labs:SettingsExpander>
             </StackPanel>
-            <StackPanel
-         Grid.Row="4"
-         HorizontalAlignment="Center"
-         VerticalAlignment="Bottom"
-         Orientation="Horizontal"
-         >
-                <Button
-             Margin="4"
-             Padding="0"
-             Background="Transparent"
-             BorderBrush="Transparent">
-                    <Image
-                 Width="20"
-                 Height="20"
-                 Source="{dllimg:ImageLoader ImageName=LogoApp.png}" />
-                </Button>
+            <StackPanel 
+    Grid.Row="4"
+    Orientation="Horizontal"
+    HorizontalAlignment="Center"
+    VerticalAlignment="Bottom"
+    Spacing="8">
+                <Image 
+        Width="24" 
+        Height="24" 
+        Source="{dllimg:ImageLoader ImageName=LogoApp.png}"/>
                 <TextBlock
-             x:Uid="AppName"
-             VerticalAlignment="Center"
-             Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+        x:Uid="AppName"
+        VerticalAlignment="Center"
+        Style="{ThemeResource BodyStrongTextBlockStyle}"/>
             </StackPanel>
         </Grid>
 

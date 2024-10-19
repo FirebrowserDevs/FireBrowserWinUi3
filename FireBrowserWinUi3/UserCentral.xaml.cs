@@ -104,20 +104,20 @@ public sealed partial class UserCentral : Window
         return new List<UserExtend>();
     }
 
-    private  void UserListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void UserListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (e.AddedItems.Count > 0)
-        if (UserListView.SelectedItem is UserExtend selectedUser)
-        {
-            if (AuthService.users.Count == 0)
-                AuthService.users = AuthService.LoadUsersFromJson(); 
+            if (UserListView.SelectedItem is UserExtend selectedUser)
+            {
+                if (AuthService.users.Count == 0)
+                    AuthService.users = AuthService.LoadUsersFromJson();
 
-            AuthService.Authenticate(selectedUser.FireUser.Username);
+                AuthService.Authenticate(selectedUser.FireUser.Username);
                 // close active window if not Usercentral, and then assign it as usercentral and close to give -> windowscontroller notification of close usercentral 
                 AppService.ActiveWindow?.Close();
                 AppService.ActiveWindow = this;
-                AppService.ActiveWindow?.Close(); 
-        }
+                AppService.ActiveWindow?.Close();
+            }
     }
 
     private async void AppBarButton_Click(object sender, RoutedEventArgs e)
@@ -125,7 +125,7 @@ public sealed partial class UserCentral : Window
         var usr = new AddUserWindow();
         usr.Closed += (s, e) =>
         {
-            AppService.ActiveWindow = this; 
+            AppService.ActiveWindow = this;
         };
         IntPtr hWnd = WindowNative.GetWindowHandle(this);
         if (hWnd != IntPtr.Zero)
@@ -138,7 +138,7 @@ public sealed partial class UserCentral : Window
     private async void RestoreNow_Click(object sender, RoutedEventArgs e)
     {
         var win = AppService.ActiveWindow = new Window();
-        win.SystemBackdrop = new MicaBackdrop(); 
+        win.SystemBackdrop = new MicaBackdrop();
         var present = new ContentPresenter();
         win.Content = present;
         IntPtr hWnd = WindowNative.GetWindowHandle(this);
@@ -146,12 +146,12 @@ public sealed partial class UserCentral : Window
         {
             Windowing.SetWindowPos(hWnd, Windowing.HWND_BOTTOM, 0, 0, 0, 0, Windowing.SWP_NOSIZE);
         }
-        
+
         await AppService.ConfigureSettingsWindow(win);
-      
+
         win.Closed += (s, e) =>
         {
-            
+
             IntPtr ucHwnd = Windowing.FindWindow(null, nameof(UserCentral));
             if (ucHwnd != IntPtr.Zero)
             {

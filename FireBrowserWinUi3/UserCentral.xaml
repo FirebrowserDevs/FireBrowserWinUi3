@@ -11,148 +11,143 @@
     mc:Ignorable="d">
 
     <Window.SystemBackdrop>
-        <DesktopAcrylicBackdrop />
+        <MicaBackdrop Kind="BaseAlt" />
     </Window.SystemBackdrop>
 
-    <Window.Title>
-        FireBrowser User Central
-    </Window.Title>
+    <Window.Title>FireBrowser User Central</Window.Title>
 
     <Grid
         x:Name="GridUserCentral"
-        Height="Auto"
         Margin="0,32,0,0"
         Background="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}"
-        BorderBrush="{ThemeResource AccentFillColorSecondaryBrush}"
-        BorderThickness=".4"
-        CornerRadius="2">
+        BorderThickness="1"
+        CornerRadius="8">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="75" />
-            <RowDefinition Height="64" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
 
         <Grid
             Grid.Row="0"
+            Padding="6"
             Background="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}"
             BorderBrush="{ThemeResource AccentFillColorSecondaryBrush}"
-            BorderThickness=".4">
+            BorderThickness="0,0,0,1">
 
-            <VariableSizedWrapGrid HorizontalAlignment="Stretch" Orientation="Horizontal">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
                 <AppBarButton
-                    VerticalAlignment="Stretch"
+                    VerticalAlignment="Center"
                     Click="AppBarButton_Click"
                     Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
                     Icon="OtherUser"
-                    IsEnabled="True"
                     Label="Add User" />
                 <AppBarButton
-                    VerticalAlignment="Stretch"
+                    Width="Auto"
+                    VerticalAlignment="Center"
                     Click="RestoreNow_Click"
                     Foreground="{ThemeResource AccentAAFillColorDefaultBrush}"
                     Icon="Refresh"
-                    IsEnabled="True"
-                    Label="Restore Backup"
-                    LabelPosition="Default" />
-            </VariableSizedWrapGrid>
+                    Label="Restore Backup" />
+            </StackPanel>
 
             <AppBarButton
                 x:Name="CloseBtn"
-                HorizontalAlignment="Right"
+                Grid.Column="2"
                 Command="{x:Bind ViewModel.ExitWindow, Mode=OneWay}"
                 Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
                 Icon="Cancel"
                 Label="Close App"
                 ToolTipService.ToolTip="Exit Application" />
         </Grid>
-        <Grid
-            x:Name="ToolBarUC"
+
+        <TextBlock
             Grid.Row="1"
-            Margin="2">
-            <TextBlock
-                Margin="{ThemeResource AutoSuggestBoxTopHeaderMargin}"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="36"
-                FontWeight="SemiBold"
-                Foreground="{ThemeResource ApplicationHeaderForegroundThemeBrush}"
-                Text="Select a User" />
-        </Grid>
-        <ScrollViewer Grid.Row="2">
+            Margin="0,16"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="24"
+            FontWeight="SemiBold"
+            Foreground="{ThemeResource ApplicationHeaderForegroundThemeBrush}"
+            Text="Select a User" />
+
+        <ScrollViewer
+            Grid.Row="2"
+            HorizontalScrollMode="Disabled"
+            VerticalScrollBarVisibility="Auto">
             <ListView
                 x:Name="UserListView"
-                Padding="4"
                 x:FieldModifier="Public"
+                Padding="6"
                 Background="{ThemeResource AccentControlElevationBorderBrush}"
                 ItemsSource="{x:Bind ViewModel.Users, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 SelectedItem="{x:Bind ViewModel.User, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 SelectionChanged="UserListView_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="firebrowserwinui3:UserExtend">
-                        <Grid>
+                        <Grid Padding="8" ColumnSpacing="12">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
                             <PersonPicture
-                                Width="24"
-                                Height="24"
-                                Margin="6"
+                                Width="40"
+                                Height="40"
                                 ProfilePicture="{Binding PicturePath, Mode=OneTime}" />
-                            <!--  Username  -->
                             <TextBlock
                                 Grid.Column="1"
-                                Margin="5,0,5,0"
                                 VerticalAlignment="Center"
+                                FontSize="16"
                                 Text="{Binding FireUser.Username, Mode=OneTime}" />
-                            <!--  "Switch" button  -->
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </ScrollViewer>
+
         <Grid
-            Grid.Row="2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Bottom"
-            Background="{ThemeResource AppBarBackgroundThemeBrush}">
-            <StackPanel
-                Padding="2"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                Background="{ThemeResource AppBarBackgroundThemeBrush}"
-                Orientation="Horizontal">
-                <Button
-                    Margin="4"
-                    Padding="0"
-                    Background="Transparent"
-                    BorderBrush="Transparent">
-                    <Image
-                        Width="24"
-                        Height="24"
-                        Source="{dllimg:ImageLoader ImageName=LogoApp.png}" />
-                </Button>
+            Grid.Row="3"
+            Padding="4"
+            Background="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource AccentFillColorSecondaryBrush}"
+            BorderThickness="0,1,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Image
+                    Width="24"
+                    Height="24"
+                    Source="{dllimg:ImageLoader ImageName=LogoApp.png}" />
                 <TextBlock
                     x:Uid="AppName"
                     VerticalAlignment="Center"
                     Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
             </StackPanel>
+
             <Button
                 x:Name="WeatherWinapp"
-                Height="24"
-                Margin="{StaticResource ButtonPadding}"
-                Padding="{StaticResource ButtonPadding}"
-                HorizontalAlignment="Right"
+                Grid.Column="2"
+                Padding="8"
+                Background="Transparent"
+                BorderBrush="Transparent"
                 Command="{x:Bind ViewModel.OpenWindowsWeatherCommand, Mode=OneWay}">
-                <Button.Content>
-                    <ImageIcon
-                        Width="24"
-                        Height="24"
-                        Source="ms-appx:///Assets/weatherpic.png" />
-                </Button.Content>
+                <ImageIcon
+                    Width="24"
+                    Height="24"
+                    Source="ms-appx:///Assets/weatherpic.png" />
             </Button>
         </Grid>
     </Grid>

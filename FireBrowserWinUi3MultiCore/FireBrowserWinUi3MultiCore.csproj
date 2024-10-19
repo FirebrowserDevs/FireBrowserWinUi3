@@ -9,6 +9,7 @@
     <UseWinUI>true</UseWinUI>
     <Platforms>AnyCPU;x64</Platforms>
     <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="AddUserWindow.xaml" />

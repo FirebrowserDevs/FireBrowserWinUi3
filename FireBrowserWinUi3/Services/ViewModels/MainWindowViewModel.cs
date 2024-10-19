@@ -43,12 +43,12 @@ public partial class MainWindowViewModel : ObservableRecipient
                 ShowRemovedNotification();
                 break;
             case EnumMessageStatus.XorError:
-                ShowErrorNotification(message.Payload!); 
+                ShowErrorNotification(message.Payload!);
                 break;
             default:
                 ShowNotifyNotification(message.Payload!);
-                break; 
-                
+                break;
+
         }
     }
 

@@ -132,7 +132,7 @@ namespace FireBrowserWinUi3MultiCore
                 ZipFile.ExtractToDirectory(restorefile, restorePath);
 
                 Console.WriteLine($"Backup restored successfully to: {restorePath}");
-                return Task.FromResult(true);   
+                return Task.FromResult(true);
             }
             catch (Exception ex)
             {

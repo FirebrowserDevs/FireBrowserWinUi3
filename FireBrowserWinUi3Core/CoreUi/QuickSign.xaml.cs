@@ -1,17 +1,13 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Messaging;
 using FireBrowserWinUi3Core.Helpers;
-using FireBrowserWinUi3MultiCore;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.Web.WebView2.Core;
 using System;
 using System.Threading.Tasks;
 using Windows.Graphics;
-using Windows.UI.Notifications;
 using WinRT.Interop;
 
 namespace FireBrowserWinUi3Core.CoreUi;
@@ -19,23 +15,23 @@ public sealed partial class QuickSign : Window
 {
     private AppWindow appWindow;
     private AppWindowTitleBar titleBar;
-    private bool IsLoadSite {  get; set; }  
-    private IMessenger   Messenger { get; set; }    
+    private bool IsLoadSite { get; set; }
+    private IMessenger Messenger { get; set; }
     public QuickSign(string site)
     {
-        
+
         this.InitializeComponent();
-        
+
         webView.NavigationCompleted += (sender, e) =>
         {
             IsLoadSite = true;
         };
-        
+
         InitializeWindow().ConfigureAwait(false);
         NavigateToSite(site);
         LoadWeb();
-        
-        
+
+
     }
 
     private Task InitializeWindow()
@@ -60,7 +56,7 @@ public sealed partial class QuickSign : Window
             titleBar.ExtendsContentIntoTitleBar = false;
         }
 
-        return Task.CompletedTask; 
+        return Task.CompletedTask;
     }
 
     public async void LoadWeb()
@@ -102,11 +98,11 @@ public sealed partial class QuickSign : Window
 
         while (!IsLoadSite)
         {
-            await Task.Delay(100); 
+            await Task.Delay(100);
         }
 
         Windowing.ShowWindow(WindowNative.GetWindowHandle(this), Windowing.WindowShowStyle.SW_SHOWNOACTIVATE | Windowing.WindowShowStyle.SW_RESTORE);
-        
+
     }
 
     private void ContextMenuItem_Click(object sender, RoutedEventArgs e)

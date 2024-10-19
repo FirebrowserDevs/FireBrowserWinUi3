@@ -1,4 +1,3 @@
-using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3Core.Helpers;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;

@@ -1,11 +1,7 @@
 using FireBrowserWinUi3.Pages.Patch;
-using FireBrowserWinUi3.Services;
-using FireBrowserWinUi3Core.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using System;
-using WinRT.Interop;
 
 namespace FireBrowserWinUi3;
 

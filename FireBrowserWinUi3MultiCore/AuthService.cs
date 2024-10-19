@@ -9,7 +9,7 @@ public class AuthService
 {
     private static readonly string UserDataFileName = "UsrCore.json";
     private static readonly string UserDataFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FireBrowserUserCore", UserDataFileName);
-    public static List<User> users { get; set; } = LoadUsersFromJson(); 
+    public static List<User> users { get; set; } = LoadUsersFromJson();
 
     public static List<User> LoadUsersFromJson()
     {

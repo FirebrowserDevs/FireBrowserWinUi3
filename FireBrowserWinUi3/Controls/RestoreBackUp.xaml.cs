@@ -1,15 +1,14 @@
-using Microsoft.UI.Windowing;
+using FireBrowserWinUi3Core.Helpers;
+using FireBrowserWinUi3MultiCore;
 using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Graphics;
-using Windows.Storage;
 using WinRT.Interop;
-using FireBrowserWinUi3MultiCore;
-using FireBrowserWinUi3Core.Helpers;
 
 namespace FireBrowserWinUi3.Controls
 {
@@ -18,7 +17,7 @@ namespace FireBrowserWinUi3.Controls
         private bool _isCancelled = false;
         private AppWindow appWindow;
         private AppWindowTitleBar titleBar;
-        
+
         public RestoreBackUp()
         {
             this.InitializeComponent();
@@ -52,7 +51,7 @@ namespace FireBrowserWinUi3.Controls
 
         private async Task RestoreBackup(string backupFilePath)
         {
-            
+
             await Task.Delay(100);
 
 
@@ -61,7 +60,7 @@ namespace FireBrowserWinUi3.Controls
             await Task.Delay(100);
 
             await BackupManager.RestoreBackup();
-            
+
             // Delete the restore file once done
             string tempPath = Path.GetTempPath();
             string restoreFilePath = Path.Combine(tempPath, "restore.fireback");
@@ -77,7 +76,7 @@ namespace FireBrowserWinUi3.Controls
             Microsoft.Windows.AppLifecycle.AppInstance.Restart(""); // Optionally restart the app if needed
         }
 
-      
+
 
         private void InitializeWindow()
         {
@@ -92,7 +91,7 @@ namespace FireBrowserWinUi3.Controls
             appWindow.SetIcon("backup.ico");
             appWindow.ShowOnceWithRequestedStartupState();
             Windowing.Center(this);
-            
+
 
             if (!AppWindowTitleBar.IsCustomizationSupported())
             {
@@ -109,7 +108,7 @@ namespace FireBrowserWinUi3.Controls
                 titleBar.ButtonInactiveBackgroundColor = btnColor;
             }
         }
-        
+
         private async Task ShowErrorMessage(string message)
         {
             ContentDialog errorDialog = new()
