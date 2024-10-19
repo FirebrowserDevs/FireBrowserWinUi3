@@ -9,7 +9,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
@@ -116,14 +119,50 @@ public sealed partial class SettingsHome : Page
         
     }
 
+    private void UpdateApp()
+    {
+        try
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = "winget",
+                Arguments = $"upgrade --name \"FireBrowserWinUi\"",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
 
+            using (Process process = Process.Start(startInfo))
+            {
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    string result = reader.ReadToEnd();
+                    string msg2 = Regex.Replace(result, @"[\r*\-\\]", ""); 
+                    Messenger?.Send(new Message_Settings_Actions($"Application update status\n\n{msg2.Trim()} !", EnumMessageStatus.Informational));
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ExceptionLogger.LogException(ex!);
+            Messenger?.Send(new Message_Settings_Actions($"Application update failed !", EnumMessageStatus.XorError));
+
+        }
+        
+
+    }
     private async void PatchBtn_Click(object sender, RoutedEventArgs e)
     {
         //https://www.microsoft.com/en-us/videoplayer/embed/RE3i5DH
-       
-        PatchUpdate dlg = new PatchUpdate();
-        dlg.XamlRoot = this.XamlRoot;
-        await dlg.ShowAsync();
+        //StoreContext storeContext = StoreContext.GetDefault();"9PCN40XXVCVB"
+        //StoreProductResult result = await storeContext.GetStoreProductForCurrentAppAsync();
+
+        // here is how we were discussing winget for updates. 
+        UpdateApp();
+
+        //PatchUpdate dlg = new PatchUpdate();
+        //dlg.XamlRoot = this.XamlRoot;
+        //await dlg.ShowAsync();
     }
 
     private async void Reset_Click(object sender, RoutedEventArgs e)

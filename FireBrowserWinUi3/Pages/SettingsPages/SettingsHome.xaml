@@ -55,7 +55,7 @@
                 <Button
                     x:Name="PatchBtn"
                     Click="PatchBtn_Click"
-                    IsEnabled="False">
+                    IsEnabled="True">
                     Check For Updates
                 </Button>
             </labs:SettingsCard>
