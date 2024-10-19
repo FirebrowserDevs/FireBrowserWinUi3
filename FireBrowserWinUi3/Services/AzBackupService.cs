@@ -65,6 +65,8 @@ namespace FireBrowserWinUi3.Services
             SET_AZConnectionsString(connString); 
         }
 
+        #region WindowsGetUserBetaClasses
+        
         [DllImport("secur32.dll", CharSet = CharSet.Auto)]
         private static extern bool GetUserNameEx(int nameFormat, StringBuilder userName, ref uint userNameSize);
 
@@ -127,7 +129,8 @@ namespace FireBrowserWinUi3.Services
                 return $"Error: {Marshal.GetLastWin32Error()}";
             }
         }
-        public  Task<FireBrowserWinUi3MultiCore.User> GetUserInformationAsync()
+        #endregion
+        public Task<FireBrowserWinUi3MultiCore.User> GetUserInformationAsync()
         {
             uint size = 1024;
             StringBuilder name = new StringBuilder((int)size);
@@ -151,27 +154,6 @@ namespace FireBrowserWinUi3.Services
                 throw;
             }
             
-            // Get the current user
-            //var users = await  User.FindAllAsync(UserType.SystemManaged);
-            //User user = default; 
-            //// Assuming we're interested in the first user
-            //if (users.Count > 0)
-            //{
-            //    user = users[0];
-
-            //    // Get the display name
-            //    var displayName = await user.GetPropertyAsync(KnownUserProperties.DisplayName) as string;
-            //    Console.WriteLine("Display Name: " + displayName);
-
-            //    // Get the email address (Note: This might require enterprise policy permissions)
-            //    var email = await user.GetPropertyAsync(KnownUserProperties.AccountName) as string;
-            //    Console.WriteLine("Email: " + email);
-
-                
-            //}
-
-            //return user; 
-
         }
 
         public class ResponseAZFILE(string blobName, object sasUrl)
@@ -184,13 +166,7 @@ namespace FireBrowserWinUi3.Services
                 return JsonConvert.SerializeObject(this); 
             }
         }
-        /*
-         *       response = new
-                {
-                    FileName = blobName,
-                    Url = sasUrl.ToString()
-                };
-         */
+        
         public async Task InsertOrUpdateEntityAsync(string tableName, string email, string blobUrl)
         {
             try
@@ -211,8 +187,9 @@ namespace FireBrowserWinUi3.Services
 
                 await tableClient.UpsertEntityAsync(entity);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ExceptionLogger.LogException(ex);
                 throw;
             }
             
@@ -222,17 +199,15 @@ namespace FireBrowserWinUi3.Services
             try
             {
                 var email = await GetUserInformationAsync();
-                //var email = await user.GetPropertyAsync(KnownUserProperties.AccountName) as string;
-
                 var result = await UploadFileToBlobAsync(blobName, fileStream);
                 
                 if(result is not null)
                     await InsertOrUpdateEntityAsync("TrackerBackups", email.WindowsUserName, result.Url.ToString());
-
                 return result; 
             }
             catch (Exception ex)
             {
+                ExceptionLogger.LogException(ex);
                 return new ResponseAZFILE(ex.StackTrace, ex.Message!);    
              
             }
