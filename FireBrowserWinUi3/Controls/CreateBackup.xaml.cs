@@ -98,7 +98,7 @@ namespace FireBrowserWinUi3.Controls
 
                 ExceptionLogger.LogInformation("File path is : " + JsonConvert.SerializeObject(_backupFilePath) + "\n");
 
-                await Task.Delay(1000); 
+                await Task.Delay(2000); 
                 
 
                 string tempPath = Path.GetTempPath();
