@@ -11,7 +11,7 @@
     mc:Ignorable="d">
 
     <Window.SystemBackdrop>
-        <MicaBackdrop Kind="BaseAlt" />
+        <DesktopAcrylicBackdrop />
     </Window.SystemBackdrop>
 
     <Window.Title>
@@ -19,6 +19,8 @@
     </Window.Title>
 
     <Grid
+        x:Name="GridUserCentral"
+        Height="Auto"
         Margin="0,32,0,0"
         Background="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}"
         BorderBrush="{ThemeResource AccentFillColorSecondaryBrush}"
@@ -26,33 +28,35 @@
         CornerRadius="2">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="100" />
+            <RowDefinition Height="75" />
+            <RowDefinition Height="64" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="48" />
         </Grid.RowDefinitions>
-        <Grid x:Name="ToolBarUC" Grid.Row="0">
-            <TextBlock
-                Margin="5"
-                HorizontalAlignment="Center"
-                FontSize="32"
-                FontWeight="SemiBold"
-                Foreground="{ThemeResource ApplicationHeaderForegroundThemeBrush}"
-                Text="Select a User" />
-            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+
+
+        <Grid
+            Grid.Row="0"
+            Background="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource AccentFillColorSecondaryBrush}"
+            BorderThickness=".4">
+
+            <VariableSizedWrapGrid HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <AppBarButton
+                    VerticalAlignment="Stretch"
                     Click="AppBarButton_Click"
                     Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
                     Icon="OtherUser"
                     IsEnabled="True"
                     Label="Add User" />
                 <AppBarButton
+                    VerticalAlignment="Stretch"
                     Click="RestoreNow_Click"
                     Foreground="{ThemeResource AccentAAFillColorDefaultBrush}"
                     Icon="Refresh"
                     IsEnabled="True"
                     Label="Restore Backup"
                     LabelPosition="Default" />
-            </StackPanel>
+            </VariableSizedWrapGrid>
 
             <AppBarButton
                 x:Name="CloseBtn"
@@ -63,11 +67,22 @@
                 Label="Close App"
                 ToolTipService.ToolTip="Exit Application" />
         </Grid>
-
-        <ScrollViewer Grid.Row="1">
+        <Grid
+            x:Name="ToolBarUC"
+            Grid.Row="1"
+            Margin="2">
+            <TextBlock
+                Margin="{ThemeResource AutoSuggestBoxTopHeaderMargin}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="36"
+                FontWeight="SemiBold"
+                Foreground="{ThemeResource ApplicationHeaderForegroundThemeBrush}"
+                Text="Select a User" />
+        </Grid>
+        <ScrollViewer Grid.Row="2">
             <ListView
                 x:Name="UserListView"
-                MinHeight="350"
                 Padding="4"
                 x:FieldModifier="Public"
                 Background="{ThemeResource AccentControlElevationBorderBrush}"
@@ -102,6 +117,7 @@
 
         <StackPanel
             Grid.Row="2"
+            Margin="{ThemeResource HubSectionHeaderThemeMargin}"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
             Orientation="Horizontal">

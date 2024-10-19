@@ -14,6 +14,11 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage;
 using System.Collections.Generic;
 using FireBrowserWinUi3Exceptions;
+using static FireBrowserWinUi3Services.PluginCore.IPluginCore;
+using Newtonsoft.Json;
+using System.Runtime.InteropServices;
+using System.Text;
+using FireBrowserWinUi3MultiCore;
 
 
 
@@ -60,67 +65,183 @@ namespace FireBrowserWinUi3.Services
             SET_AZConnectionsString(connString); 
         }
 
-        public async Task<System.Collections.Generic.IReadOnlyList<User>> GetUserInformationAsync()
+        [DllImport("secur32.dll", CharSet = CharSet.Auto)]
+        private static extern bool GetUserNameEx(int nameFormat, StringBuilder userName, ref uint userNameSize);
+
+        public class UserNames
         {
-            // Get the current user
-            var users = await  User.FindAllAsync();
+            public string Unknown { get; set; }
+            public string FullyQualifiedDN { get; set; }
+            public string SamCompatible { get; set; }
+            public string Display { get; set; }
+            public string UniqueId { get; set; }
+            public string Canonical { get; set; }
+            public string UserPrincipal { get; set; }
+            public string CanonicalEx { get; set; }
+            public string ServicePrincipal { get; set; }
+            public string DnsDomain { get; set; }
+        }
+        public static class NameFormats
+        {
+            public const int NameUnknown = 0;
+            public const int NameFullyQualifiedDN = 1;
+            public const int NameSamCompatible = 2;
+            public const int NameDisplay = 3;
+            public const int NameUniqueId = 6;
+            public const int NameCanonical = 7;
+            public const int NameUserPrincipal = 8;
+            public const int NameCanonicalEx = 9;
+            public const int NameServicePrincipal = 10;
+            public const int NameDnsDomain = 12;
+        }
+        public static UserNames GetAllUserNames()
+        {
+            var userNames = new UserNames();
+            uint size = 1024;
+            StringBuilder name = new StringBuilder((int)size);
 
-            // Assuming we're interested in the first user
-            if (users.Count > 0)
-            {
-                var user = users[0];
+            userNames.Unknown = GetUserName(NameFormats.NameUnknown, name, ref size);
+            userNames.FullyQualifiedDN = GetUserName(NameFormats.NameFullyQualifiedDN, name, ref size);
+            userNames.SamCompatible = GetUserName(NameFormats.NameSamCompatible, name, ref size);
+            userNames.Display = GetUserName(NameFormats.NameDisplay, name, ref size);
+            userNames.UniqueId = GetUserName(NameFormats.NameUniqueId, name, ref size);
+            userNames.Canonical = GetUserName(NameFormats.NameCanonical, name, ref size);
+            userNames.UserPrincipal = GetUserName(NameFormats.NameUserPrincipal, name, ref size);
+            userNames.CanonicalEx = GetUserName(NameFormats.NameCanonicalEx, name, ref size);
+            userNames.ServicePrincipal = GetUserName(NameFormats.NameServicePrincipal, name, ref size);
+            userNames.DnsDomain = GetUserName(NameFormats.NameDnsDomain, name, ref size);
 
-                // Get the display name
-                var displayName = await user.GetPropertyAsync(KnownUserProperties.DisplayName) as string;
-                Console.WriteLine("Display Name: " + displayName);
-
-                // Get the email address (Note: This might require enterprise policy permissions)
-                var email = await user.GetPropertyAsync(KnownUserProperties.AccountName) as string;
-                Console.WriteLine("Email: " + email);
-            }
-            return users;
+            return userNames;
         }
 
+        private static string GetUserName(int nameFormat, StringBuilder name, ref uint size)
+        {
+            name.Clear();
+            size = 1024;
+            if (GetUserNameEx(nameFormat, name, ref size))
+            {
+                return name.ToString();
+            }
+            else
+            {
+                return $"Error: {Marshal.GetLastWin32Error()}";
+            }
+        }
+        public  Task<FireBrowserWinUi3MultiCore.User> GetUserInformationAsync()
+        {
+            uint size = 1024;
+            StringBuilder name = new StringBuilder((int)size);
+            var user = AuthService.CurrentUser ?? new FireBrowserWinUi3MultiCore.User();
+
+            try
+            {
+                if (GetUserNameEx(NameFormats.NameDisplay, name, ref size))
+                {
+                    user.WindowsUserName = name.ToString();
+                }
+                if (GetUserNameEx(NameFormats.NameUserPrincipal, name, ref size))
+                {
+                    user.Email = name.ToString();
+                }
+                return Task.FromResult(user); 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+            // Get the current user
+            //var users = await  User.FindAllAsync(UserType.SystemManaged);
+            //User user = default; 
+            //// Assuming we're interested in the first user
+            //if (users.Count > 0)
+            //{
+            //    user = users[0];
+
+            //    // Get the display name
+            //    var displayName = await user.GetPropertyAsync(KnownUserProperties.DisplayName) as string;
+            //    Console.WriteLine("Display Name: " + displayName);
+
+            //    // Get the email address (Note: This might require enterprise policy permissions)
+            //    var email = await user.GetPropertyAsync(KnownUserProperties.AccountName) as string;
+            //    Console.WriteLine("Email: " + email);
+
+                
+            //}
+
+            //return user; 
+
+        }
+
+        public class ResponseAZFILE(string blobName, object sasUrl)
+        {
+            public string FileName => blobName;
+            public object Url => sasUrl.ToString();
+
+            public override string ToString()
+            {
+                return JsonConvert.SerializeObject(this); 
+            }
+        }
+        /*
+         *       response = new
+                {
+                    FileName = blobName,
+                    Url = sasUrl.ToString()
+                };
+         */
         public async Task InsertOrUpdateEntityAsync(string tableName, string email, string blobUrl)
         {
-            var serviceClient = new TableServiceClient(ConnString);
-            var tableClient = serviceClient.GetTableClient(tableName);
-
-            // Create the table if it doesn't exist
-            await tableClient.CreateIfNotExistsAsync();
-
-            var entity = new UserEntity
+            try
             {
-                PartitionKey = "Users",
-                RowKey = Guid.NewGuid().ToString(),
-                Email = email,
-                BlobUrl = blobUrl
-            };
+                var serviceClient = new TableServiceClient(ConnString);
+                var tableClient = serviceClient.GetTableClient(tableName);
 
-            await tableClient.UpsertEntityAsync(entity);
-        }
-        private async void UploadAndStoreFile(string _blobName)
-        {
-            
-            var tableName = "FireBatchBackups";
-            var email = User.GetDefault().GetPropertyAsync(KnownUserProperties.AccountName).GetResults() as string; 
-            var blobName = _blobName;
+                // Create the table if it doesn't exist
+                await tableClient.CreateIfNotExistsAsync();
 
-            var picker = new FileOpenPicker();
-            picker.FileTypeFilter.Add(".png");
-            var file = await picker.PickSingleFileAsync();
+                var entity = new UserEntity
+                {
+                    PartitionKey = "Users",
+                    RowKey = Guid.NewGuid().ToString(),
+                    Email = email,
+                    BlobUrl = blobUrl
+                };
 
-            if (file != null)
-            {
-                var fileStream = await file.OpenReadAsync();
-                await UploadFileToBlobAsync(blobName, fileStream);
-                var blobUrl = $"https://your-storage-account-url.blob.core.windows.net/{ContainerName}/{blobName}";
-
-                await InsertOrUpdateEntityAsync(tableName, email, blobUrl);
+                await tableClient.UpsertEntityAsync(entity);
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            
+        }
+        public async Task<ResponseAZFILE> UploadAndStoreFile(string blobName, IRandomAccessStream fileStream)
+        {
+            try
+            {
+                var email = await GetUserInformationAsync();
+                //var email = await user.GetPropertyAsync(KnownUserProperties.AccountName) as string;
+
+                var result = await UploadFileToBlobAsync(blobName, fileStream);
+                
+                if(result is not null)
+                    await InsertOrUpdateEntityAsync("TrackerBackups", email.WindowsUserName, result.Url.ToString());
+
+                return result; 
+            }
+            catch (Exception ex)
+            {
+                return new ResponseAZFILE(ex.StackTrace, ex.Message!);    
+             
+            }
+            
+            
+         
         }
               
-        public async Task<object> UploadFileToBlobAsync(string blobName, IRandomAccessStream fileStream)
+        public async Task<ResponseAZFILE> UploadFileToBlobAsync(string blobName, IRandomAccessStream fileStream)
         {
             try
             {
@@ -143,16 +264,13 @@ namespace FireBrowserWinUi3.Services
 
                 var sasUrl = blockBlob.Uri.AbsoluteUri + sasToken; //blockBlob.Uri.AbsoluteUri
 
-                return response = new
-                {
-                    FileName = blobName,
-                    Url = sasUrl.ToString()
-                };
+                return new ResponseAZFILE(blobName, sasUrl);
+
             }
             catch (Exception ex)
             {
                 ExceptionLogger.LogException(ex);
-                return Task.FromException(ex);  
+                throw; 
             }
                 
         }

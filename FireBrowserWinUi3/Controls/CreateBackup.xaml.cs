@@ -82,20 +82,20 @@ namespace FireBrowserWinUi3.Controls
                         StatusTextBlock.Text = $"Backup is being uploaded to the cloud";
                     });
                     var json = await UploadFileToAzure(fileName);
+                    
                     this.DispatcherQueue.TryEnqueue(() =>
                     {
-                        StatusTextBlock.Text = $"Successfully saved to the cloud Azure\\u2122\")";
+                        StatusTextBlock.Text = $"Successfully saved to the cloud of (FireBrowserDevs)";
                     });
+                    
+                    await Task.Delay(100);
                     return json;
                 });
 
-                Windows.Storage.ApplicationData.Current.LocalSettings.Values["FireCoreBackups"] += JsonConvert.SerializeObject(_backupFilePath);
-
-
                 ExceptionLogger.LogInformation("File path is : " + JsonConvert.SerializeObject(_backupFilePath) + "\n"); 
 
-                await Task.Delay(100);
                 StatusTextBlock.Text = $"Backup created successfully at:\n{_backupFilePath}";
+                await Task.Delay(100);
 
                 string tempPath = Path.GetTempPath();
                 string backupFilePath = Path.Combine(tempPath, "backup.fireback");
@@ -115,7 +115,9 @@ namespace FireBrowserWinUi3.Controls
 
             StorageFile file = await StorageFile.GetFileFromPathAsync(fileName); 
             IRandomAccessStream randomAccessStream = await file.OpenAsync(FileAccessMode.Read);
-            return await az.UploadFileToBlobAsync(file.Name, randomAccessStream); 
+            return await az.UploadAndStoreFile(file.Name, randomAccessStream);  
+            
+            //return await az.UploadFileToBlobAsync(file.Name, randomAccessStream); 
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

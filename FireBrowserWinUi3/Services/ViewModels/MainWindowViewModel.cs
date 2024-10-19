@@ -40,11 +40,27 @@ public partial class MainWindowViewModel : ObservableRecipient
                 MainView.LoadUserSettings();
                 break;
             case EnumMessageStatus.Removed:
-                ShowRemovedNotification(); 
+                ShowRemovedNotification();
+                break;
+            case EnumMessageStatus.XorError:
+                ShowErrorNotification(message.Payload); 
                 break;
 
                 
         }
+    }
+
+    private void ShowErrorNotification(string _payload)
+    {
+        var note = new Notification
+        {
+            Title = "FireBrowserWinUi3 Error \n",
+            Message = $"{_payload}",
+            Severity = InfoBarSeverity.Error,
+            IsIconVisible = true,
+            Duration = TimeSpan.FromSeconds(5)
+        };
+        MainView.NotificationQueue.Show(note);
     }
 
     private void ShowRemovedNotification()

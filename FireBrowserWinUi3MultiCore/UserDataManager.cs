@@ -31,24 +31,33 @@ public static class UserDataManager
 
     public static void DeleteUser(string username)
     {
-        var userData = LoadUsers();
-        var userToDelete = userData.Users.FirstOrDefault(u => u.Username == username);
-
-        if (userToDelete != null)
+        // because if 2 sessions open and one wants to delete other user that has a session open . 
+        try
         {
-            string userFolderPath = Path.Combine(CoreFolderPath, UsersFolderPath, username);
+            var userData = LoadUsers();
+            var userToDelete = userData.Users.FirstOrDefault(u => u.Username == username);
 
-            if (Directory.Exists(userFolderPath))
-                Directory.Delete(userFolderPath, true);
+            if (userToDelete != null)
+            {
+                string userFolderPath = Path.Combine(CoreFolderPath, UsersFolderPath, username);
 
-            userData.Users.Remove(userToDelete);
-            SaveUsers(userData.Users);
-            //// never was updating settings timeline because user existed in AuthService.  DELETE. 
-            //AuthService.users.Remove(userToDelete);
-            // above doesn't work cause it's a different object in memory. C++ pointers would work.  
-            // You created an object abover userToDelete from another read.  
-            AuthService.users = AuthService.LoadUsersFromJson(); // works now. 
-            
+                if (Directory.Exists(userFolderPath))
+                    Directory.Delete(userFolderPath, true);
+
+                userData.Users.Remove(userToDelete);
+                SaveUsers(userData.Users);
+                //// never was updating settings timeline because user existed in AuthService.  DELETE. 
+                //AuthService.users.Remove(userToDelete);
+                // above doesn't work cause it's a different object in memory. C++ pointers would work.  
+                // You created an object abover userToDelete from another read.  
+                AuthService.users = AuthService.LoadUsersFromJson(); // works now. 
+
+            }
         }
+        catch (Exception)
+        {
+            throw;
+        }
+        
     }
 }

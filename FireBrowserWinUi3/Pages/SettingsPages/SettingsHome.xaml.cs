@@ -3,6 +3,7 @@ using FireBrowserWinUi3.Pages.Patch;
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3Core.Models;
+using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -90,17 +91,27 @@ public sealed partial class SettingsHome : Page
     private async void Delete_Click(object sender, RoutedEventArgs e)
     {
 
-        if (sender is Button switchButton && switchButton.DataContext is string clickedUserName)
+        try
         {
-            UserDataManager.DeleteUser(clickedUserName);
+            if (sender is Button switchButton && switchButton.DataContext is string clickedUserName)
+            {
+                UserDataManager.DeleteUser(clickedUserName);
 
-            UserListView.ItemsSource = null;
-            // allow ui to updated
-            await LoadUsernames();
-            
-            Messenger?.Send(new Message_Settings_Actions($"User:  {clickedUserName} has been removed from FireBrowser", EnumMessageStatus.Removed));
-            // var window = (Application.Current as App)?.m_window as MainWindow;
+                UserListView.ItemsSource = null;
+                // allow ui to updated
+                await LoadUsernames();
+
+                Messenger?.Send(new Message_Settings_Actions($"User:  {clickedUserName} has been removed from FireBrowser", EnumMessageStatus.Removed));
+                // var window = (Application.Current as App)?.m_window as MainWindow;
+            }
         }
+        catch (Exception ex)
+        {
+            ExceptionLogger.LogException(ex!);
+            Messenger?.Send(new Message_Settings_Actions($"You may not remove a User that has an Active Session !", EnumMessageStatus.XorError));
+
+        }
+        
     }
 
 

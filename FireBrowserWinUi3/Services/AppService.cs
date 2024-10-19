@@ -228,15 +228,17 @@ public static class AppService
         return urlParts.FirstOrDefault();
     }
 
-    private static void ConfigureWindowAppearance()
+    public static  void ConfigureWindowAppearance()
     {
+        if (ActiveWindow is null) return;
+
         IntPtr hWnd = WindowNative.GetWindowHandle(ActiveWindow);
         WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
         AppWindow appWindow = AppWindow.GetFromWindowId(wndId);
 
         if (appWindow != null)
         {
-            appWindow.MoveAndResize(new RectInt32(600, 600, 900, 900));
+            appWindow.MoveAndResize(new RectInt32(600, 600, 900, 600));
             appWindow.MoveInZOrderAtTop();
             appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
             // need this for inquires down line for window placement. 
@@ -247,7 +249,7 @@ public static class AppService
             titleBar.ForegroundColor = Colors.LimeGreen;
             titleBar.ButtonBackgroundColor = btnColor;
             titleBar.ButtonInactiveBackgroundColor = btnColor;
-            appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+            appWindow.SetPresenter(AppWindowPresenterKind.Overlapped);
             appWindow.SetIcon("logo.ico");
         }
     }

@@ -6,7 +6,8 @@ public enum EnumMessageStatus
     Logout,
     Removed,
     Settings,
-    Updated
+    Updated,
+    XorError
 };
 public record class Message_Settings_Actions(string _payload, EnumMessageStatus _status)
 {
