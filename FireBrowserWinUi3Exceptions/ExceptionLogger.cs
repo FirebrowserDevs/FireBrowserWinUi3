@@ -5,12 +5,13 @@ namespace FireBrowserWinUi3Exceptions;
 public static class ExceptionLogger
 {
     private static readonly string LogFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "firebrowserwinui.flog");
+    private static readonly string InformationFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "fire_logger.log");
 
     public static void LogInformation(string message) {
 
         try
         {
-            using (StreamWriter writer = new StreamWriter(LogFilePath, true))
+            using (StreamWriter writer = new StreamWriter(InformationFilePath, true))
             {
                 writer.WriteLine($"Ilogger {DateTime.Now}:");
                 writer.WriteLine(message);
