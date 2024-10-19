@@ -32,7 +32,7 @@ public class UserExtend : User
     }
 }
 
-public class UC_Viewmodel : ObservableRecipient
+public partial class UC_Viewmodel : ObservableRecipient
 {
     public UC_Viewmodel() => Users = new List<UserExtend>();
     public List<UserExtend> Users { get; set; }
@@ -46,6 +46,17 @@ public class UC_Viewmodel : ObservableRecipient
         ParentWindow?.Close();
     });
 
+    [RelayCommand]
+    private void OpenWindowsWeather()
+    {
+
+        var options = new Windows.System.LauncherOptions();
+        options.DesiredRemainingView = Windows.UI.ViewManagement.ViewSizePreference.UseMinimum;
+
+        // Launch the URI
+        Windows.System.Launcher.LaunchUriAsync(new("msnweather://forecast"), options).GetAwaiter().GetResult();
+
+    }
     public void RaisePropertyChanges([CallerMemberName] string propertyName = null) => OnPropertyChanged(propertyName);
 }
 

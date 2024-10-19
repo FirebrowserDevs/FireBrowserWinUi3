@@ -25,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FireBrowserWinUi3Exceptions\FireBrowserWinUi3Exceptions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Update="AddUserWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

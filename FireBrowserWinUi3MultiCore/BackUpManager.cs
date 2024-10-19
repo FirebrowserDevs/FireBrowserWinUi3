@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
@@ -24,7 +25,8 @@ namespace FireBrowserWinUi3MultiCore
                 }
 
                 // Create zip file directly from the FireBrowserUserCore folder
-                ZipFile.CreateFromDirectory(fireBrowserUserCorePath, backupFilePath, CompressionLevel.Optimal, false);
+                //ZipFile.CreateFromDirectory(fireBrowserUserCorePath, backupFilePath, CompressionLevel.Optimal, false);
+                ZipDirectoryExcludingSubfolder(fireBrowserUserCorePath, backupFilePath, @"\EBWebView");
 
                 if (!File.Exists(backupFilePath))
                 {
@@ -39,6 +41,40 @@ namespace FireBrowserWinUi3MultiCore
             }
         }
 
+        static void ZipDirectoryExcludingSubfolder(string sourceDirectory, string destinationZipFile, string subfolderToExclude)
+        {
+            using (FileStream zipToOpen = new FileStream(destinationZipFile, FileMode.Create))
+            {
+                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
+                {
+                    var files = EnumerateFilesExcludingSubfolder(sourceDirectory, subfolderToExclude);
+
+                    foreach (var file in files)
+                    {
+                        string entryName = Path.GetRelativePath(sourceDirectory, file);
+                        archive.CreateEntryFromFile(file, entryName);
+                    }
+                }
+            }
+        }
+
+        static IEnumerable<string> EnumerateFilesExcludingSubfolder(string sourceDirectory, string subfolderToExclude)
+        {
+            var files = new List<string>();
+
+            foreach (var directory in Directory.EnumerateDirectories(sourceDirectory, "*", SearchOption.AllDirectories))
+            {
+                if (!directory.Contains(subfolderToExclude, StringComparison.OrdinalIgnoreCase))
+                {
+                    files.AddRange(Directory.EnumerateFiles(directory, "*", SearchOption.TopDirectoryOnly));
+                }
+            }
+
+            // Include files in the root of the source directory
+            files.AddRange(Directory.EnumerateFiles(sourceDirectory, "*", SearchOption.TopDirectoryOnly));
+
+            return files;
+        }
         public static string ReadBackupFile()
         {
             try

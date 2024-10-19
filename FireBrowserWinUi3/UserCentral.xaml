@@ -114,27 +114,46 @@
                 </ListView.ItemTemplate>
             </ListView>
         </ScrollViewer>
-
-        <StackPanel
+        <Grid
             Grid.Row="2"
-            Margin="{ThemeResource HubSectionHeaderThemeMargin}"
-            HorizontalAlignment="Center"
+            HorizontalAlignment="Stretch"
             VerticalAlignment="Bottom"
-            Orientation="Horizontal">
+            Background="{ThemeResource AppBarBackgroundThemeBrush}">
+            <StackPanel
+                Padding="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Background="{ThemeResource AppBarBackgroundThemeBrush}"
+                Orientation="Horizontal">
+                <Button
+                    Margin="4"
+                    Padding="0"
+                    Background="Transparent"
+                    BorderBrush="Transparent">
+                    <Image
+                        Width="24"
+                        Height="24"
+                        Source="{dllimg:ImageLoader ImageName=LogoApp.png}" />
+                </Button>
+                <TextBlock
+                    x:Uid="AppName"
+                    VerticalAlignment="Center"
+                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+            </StackPanel>
             <Button
-                Margin="4"
-                Padding="0"
-                Background="Transparent"
-                BorderBrush="Transparent">
-                <Image
-                    Width="20"
-                    Height="20"
-                    Source="{dllimg:ImageLoader ImageName=LogoApp.png}" />
+                x:Name="WeatherWinapp"
+                Height="24"
+                Margin="{StaticResource ButtonPadding}"
+                Padding="{StaticResource ButtonPadding}"
+                HorizontalAlignment="Right"
+                Command="{x:Bind ViewModel.OpenWindowsWeatherCommand, Mode=OneWay}">
+                <Button.Content>
+                    <ImageIcon
+                        Width="24"
+                        Height="24"
+                        Source="ms-appx:///Assets/weatherpic.png" />
+                </Button.Content>
             </Button>
-            <TextBlock
-                x:Uid="AppName"
-                VerticalAlignment="Center"
-                Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
-        </StackPanel>
+        </Grid>
     </Grid>
 </Window>
