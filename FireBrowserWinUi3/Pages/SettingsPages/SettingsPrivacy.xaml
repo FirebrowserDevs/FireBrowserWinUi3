@@ -2,58 +2,55 @@
     x:Class="FireBrowserWinUi3.Pages.SettingsPages.SettingsPrivacy"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
     xmlns:labs="using:CommunityToolkit.WinUI.Controls">
 
-    <StackPanel>
+    <StackPanel Spacing="1">
         <labs:SettingsCard Header="Privacy Level" Description="See your Privacy Level here" Margin="0,10,0,0">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEA18;" />
             </labs:SettingsCard.HeaderIcon>
         </labs:SettingsCard>
 
-        <labs:SettingsCard Header="Disable JavaScript" Description="This improves your privacy by blocking trackers but it can also break a lot of sites" Margin="0,5,0,0">
+        <labs:SettingsCard Header="Disable JavaScript" Description="This improves your privacy by blocking trackers but it can also break a lot of sites">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE943;" />
             </labs:SettingsCard.HeaderIcon>
-            <ToggleSwitch  x:Name="DisableJavaScriptToggle" Toggled="ToggleSetting_Toggled" Tag="DisableJavaScriptToggle"/>
+            <ToggleSwitch x:Name="DisableJavaScriptToggle" Toggled="ToggleSetting_Toggled" Tag="DisableJavaScriptToggle"/>
         </labs:SettingsCard>
 
-        <labs:SettingsCard Header="Disable Genaral AutoFill" Description="This will disable autofilling in browser ( Text fields will not be filled automatically )" Margin="0,1,0,0">
+        <labs:SettingsCard Header="Disable Genaral AutoFill" Description="This will disable autofilling in browser ( Text fields will not be filled automatically )">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8DA;" />
             </labs:SettingsCard.HeaderIcon>
-            <ToggleSwitch  x:Name="DisableGenaralAutoFillToggle" Toggled="ToggleSetting_Toggled" Tag="DisableGenaralAutoFillToggle"/>
+            <ToggleSwitch x:Name="DisableGenaralAutoFillToggle" Toggled="ToggleSetting_Toggled" Tag="DisableGenaralAutoFillToggle"/>
         </labs:SettingsCard>
 
-        <labs:SettingsCard Header="Disable Web Messages" Description="This will disable Web Messages in the browser" Margin="0,1,0,0">
+        <labs:SettingsCard Header="Disable Web Messages" Description="This will disable Web Messages in the browser">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8BD;" />
             </labs:SettingsCard.HeaderIcon>
-            <ToggleSwitch  x:Name="DisablWebMessFillToggle" Toggled="ToggleSetting_Toggled" Tag="DisablWebMessFillToggle"/>
+            <ToggleSwitch x:Name="DisablWebMessFillToggle" Toggled="ToggleSetting_Toggled" Tag="DisablWebMessFillToggle"/>
         </labs:SettingsCard>
 
-        <labs:SettingsCard Header="Disable automatic password saving" Description="This will disable password autosave" Margin="0,1,0,0">
+        <labs:SettingsCard Header="Disable automatic password saving" Description="This will disable password autosave">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xF427;" />
             </labs:SettingsCard.HeaderIcon>
-            <ToggleSwitch  x:Name="PasswordWebMessFillToggle" Toggled="ToggleSetting_Toggled" Tag="PasswordWebMessFillToggle"/>
+            <ToggleSwitch x:Name="PasswordWebMessFillToggle" Toggled="ToggleSetting_Toggled" Tag="PasswordWebMessFillToggle"/>
         </labs:SettingsCard>
 
-        <labs:SettingsExpander Header="App Permissions" Description="See the app's permissions" Margin="0,10,0,0" IsEnabled="True">
+        <labs:SettingsExpander Header="App Permissions" Description="See the app's permissions" IsEnabled="True">
             <labs:SettingsExpander.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEA18;" />
             </labs:SettingsExpander.HeaderIcon>
             <labs:SettingsExpander.Items>
-                <labs:SettingsCard Header="Microphone Access" Description="Microphone Access" Margin="0,1,0,0">
+                <labs:SettingsCard Header="Microphone Access" Description="Microphone Access">
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE720;" />
                     </labs:SettingsCard.HeaderIcon>
-                    <ToggleSwitch  />
+                    <ToggleSwitch />
                 </labs:SettingsCard>
-                <labs:SettingsCard Header="Camera Access" Description="Camera Access" Margin="0,1,0,0">
+                <labs:SettingsCard Header="Camera Access" Description="Camera Access">
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE722;" />
                     </labs:SettingsCard.HeaderIcon>

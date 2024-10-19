@@ -4,52 +4,14 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace FireBrowserWinUi3.Pages.SettingsPages;
-public sealed partial class SettingsNewTab : Page
+namespace FireBrowserWinUi3.Pages.SettingsPages
 {
-    SettingsService SettingsService { get; set; }
-    public SettingsNewTab()
+    public sealed partial class SettingsNewTab : Page
     {
-        SettingsService = App.GetService<SettingsService>();
-        this.InitializeComponent();
-        loadsets();
-    }
-
-    public void loadsets()
-    {
-        SearchengineSelection.SelectedItem = SettingsService.CoreSettings.EngineFriendlyName;
-
-        OpenNew.IsOn = SettingsService.CoreSettings.OpenTabHandel;
-        Trbl.IsOn = SettingsService.CoreSettings.Translate;
-        Adbl.IsOn = SettingsService.CoreSettings.AdblockBtn;
-        Drbl.IsOn = SettingsService.CoreSettings.DarkIcon;
-        Read.IsOn = SettingsService.CoreSettings.ReadButton;
-        Dwbl.IsOn = SettingsService.CoreSettings.Downloads;
-        Frbl.IsOn = SettingsService.CoreSettings.FavoritesL;
-        FlAd.IsOn = SettingsService.CoreSettings.Favorites;
-        Hsbl.IsOn = SettingsService.CoreSettings.Historybtn;
-        Qrbl.IsOn = SettingsService.CoreSettings.QrCode;
-        Tlbl.IsOn = SettingsService.CoreSettings.ToolIcon;
-        TrendingHome.IsOn = SettingsService.CoreSettings.IsTrendingVisible;
-        FavoritesHome.IsOn = SettingsService.CoreSettings.IsFavoritesVisible;
-        SearchHome.IsOn = SettingsService.CoreSettings.IsSearchVisible;
-        HistoryHome.IsOn = SettingsService.CoreSettings.IsHistoryVisible;
-        BackSettings.IsOn = SettingsService.CoreSettings.BackButton;
-        ForwardSettings.IsOn = SettingsService.CoreSettings.ForwardButton;
-        ReloadSettings.IsOn = SettingsService.CoreSettings.RefreshButton;
-        HomeSettings.IsOn = SettingsService.CoreSettings.HomeButton;
-        Confirm.IsOn = SettingsService.CoreSettings.ConfirmCloseDlg;
-    }
-
-    private async void SearchengineSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        try
-        {
-            string selection = e.AddedItems[0].ToString();
-
-            // Dictionary to map search engine names to their respective URLs
-            Dictionary<string, string> searchEngines = new Dictionary<string, string>
+        private SettingsService SettingsService { get; }
+        private static readonly Dictionary<string, string> SearchEngines = new()
         {
             { "Ask", "https://www.ask.com/web?q=" },
             { "Baidu", "https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=" },
@@ -71,140 +33,96 @@ public sealed partial class SettingsNewTab : Page
             { "Metacrawler", "https://www.metacrawler.com/serp?q=" },
             { "Mojeek", "https://www.mojeek.com/search?q=" },
             { "BraveSearch", "https://search.brave.com/search?q=" },
-            // Add other cases for different search engines.
         };
 
-            string url = searchEngines.ContainsKey(selection) ? searchEngines[selection] : "https://www.google.com/search?q=";
+        public SettingsNewTab()
+        {
+            SettingsService = App.GetService<SettingsService>();
+            InitializeComponent();
+            LoadSettings();
+        }
 
-            if (!string.IsNullOrEmpty(url))
+        private void LoadSettings()
+        {
+            SearchengineSelection.SelectedItem = SettingsService.CoreSettings.EngineFriendlyName;
+
+            SetToggleSwitches();
+        }
+
+        private void SetToggleSwitches()
+        {
+            OpenNew.IsOn = SettingsService.CoreSettings.OpenTabHandel;
+            Trbl.IsOn = SettingsService.CoreSettings.Translate;
+            Adbl.IsOn = SettingsService.CoreSettings.AdblockBtn;
+            Drbl.IsOn = SettingsService.CoreSettings.DarkIcon;
+            Read.IsOn = SettingsService.CoreSettings.ReadButton;
+            Dwbl.IsOn = SettingsService.CoreSettings.Downloads;
+            Frbl.IsOn = SettingsService.CoreSettings.FavoritesL;
+            FlAd.IsOn = SettingsService.CoreSettings.Favorites;
+            Hsbl.IsOn = SettingsService.CoreSettings.Historybtn;
+            Qrbl.IsOn = SettingsService.CoreSettings.QrCode;
+            Tlbl.IsOn = SettingsService.CoreSettings.ToolIcon;
+            TrendingHome.IsOn = SettingsService.CoreSettings.IsTrendingVisible;
+            FavoritesHome.IsOn = SettingsService.CoreSettings.IsFavoritesVisible;
+            SearchHome.IsOn = SettingsService.CoreSettings.IsSearchVisible;
+            HistoryHome.IsOn = SettingsService.CoreSettings.IsHistoryVisible;
+            BackSettings.IsOn = SettingsService.CoreSettings.BackButton;
+            ForwardSettings.IsOn = SettingsService.CoreSettings.ForwardButton;
+            ReloadSettings.IsOn = SettingsService.CoreSettings.RefreshButton;
+            HomeSettings.IsOn = SettingsService.CoreSettings.HomeButton;
+            Confirm.IsOn = SettingsService.CoreSettings.ConfirmCloseDlg;
+        }
+
+        private async void SearchengineSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0 && e.AddedItems[0] is string selection)
             {
-                SettingsService.CoreSettings.EngineFriendlyName = selection;
-                SettingsService.CoreSettings.SearchUrl = url;
-
-                await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+                if (SearchEngines.TryGetValue(selection, out string url))
+                {
+                    SettingsService.CoreSettings.EngineFriendlyName = selection;
+                    SettingsService.CoreSettings.SearchUrl = url;
+                    await SaveSettingsAsync();
+                }
             }
         }
-        catch (Exception ex)
+
+        private async void ToggleSetting_Toggled(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("An error occurred: " + ex.Message);
-        }
-    }
-
-
-    private async void ToggleSetting(string settingName, bool value)
-    {
-        // Set the specified setting
-        switch (settingName)
-        {
-            case "OpenTabHandel":
-                SettingsService.CoreSettings.OpenTabHandel = value;
-                break;
-            case "DarkIcon":
-                SettingsService.CoreSettings.DarkIcon = value;
-                break;
-            case "Translate":
-                SettingsService.CoreSettings.Translate = value;
-                break;
-            case "ReadButton":
-                SettingsService.CoreSettings.ReadButton = value;
-                break;
-            case "AdblockBtn":
-                SettingsService.CoreSettings.AdblockBtn = value;
-                break;
-            case "Downloads":
-                SettingsService.CoreSettings.Downloads = value;
-                break;
-            case "FavoritesL":
-                SettingsService.CoreSettings.FavoritesL = value;
-                break;
-            case "Favorites":
-                SettingsService.CoreSettings.Favorites = value;
-                break;
-            case "Historybtn":
-                SettingsService.CoreSettings.Historybtn = value;
-                break;
-            case "QrCode":
-                SettingsService.CoreSettings.QrCode = value;
-                break;
-            case "ToolIcon":
-                SettingsService.CoreSettings.ToolIcon = value;
-                break;
-            case "ConfirmCloseDlg":
-                SettingsService.CoreSettings.ConfirmCloseDlg = value;
-                break;
-            case "BackButton":
-                SettingsService.CoreSettings.BackButton = value;
-                break;
-            case "ForwardButton":
-                SettingsService.CoreSettings.ForwardButton = value;
-                break;
-            case "HomeButton":
-                SettingsService.CoreSettings.HomeButton = value;
-                break;
-            case "RefreshButton":
-                SettingsService.CoreSettings.RefreshButton = value;
-                break;
-
-            // Add other cases for different settings.
-            default:
-                throw new ArgumentException("Invalid setting name");
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                var settingName = toggleSwitch.Tag as string;
+                await ToggleSettingAsync(settingName, toggleSwitch.IsOn);
+            }
         }
 
-        // Save the modified settings back to the user's settings file
-        await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-    }
-
-    private async void ToggleSetting_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
+        private async Task ToggleSettingAsync(string settingName, bool value)
         {
-            var autoSettingValue = toggleSwitch.IsOn;
-            var settingName = toggleSwitch.Tag as string;
-            ToggleSetting(settingName, autoSettingValue);
+            var property = SettingsService.CoreSettings.GetType().GetProperty(settingName);
+            if (property != null)
+            {
+                property.SetValue(SettingsService.CoreSettings, value);
+                await SaveSettingsAsync();
+            }
         }
-    }
 
-    private void TrendingHome_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
+        private void UpdateAppSetting(ToggleSwitch toggleSwitch, Action<bool> setter)
         {
-            // Assuming 'url' and 'selection' have been defined earlier
-            var autoSettingValue = toggleSwitch.IsOn;
-            AppService.AppSettings.IsTrendingVisible = autoSettingValue;
-
+            setter(toggleSwitch.IsOn);
         }
-    }
 
-    private void FavoritesHome_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            // Assuming 'url' and 'selection' have been defined earlier
-            var autoSettingValue = toggleSwitch.IsOn;
-            AppService.AppSettings.IsFavoritesVisible = autoSettingValue;
+        private void TrendingHome_Toggled(object sender, RoutedEventArgs e) =>
+            UpdateAppSetting((ToggleSwitch)sender, value => AppService.AppSettings.IsTrendingVisible = value);
 
-        }
-    }
+        private void FavoritesHome_Toggled(object sender, RoutedEventArgs e) =>
+            UpdateAppSetting((ToggleSwitch)sender, value => AppService.AppSettings.IsFavoritesVisible = value);
 
-    private void HistoryHome_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            // Assuming 'url' and 'selection' have been defined earlier
-            var autoSettingValue = toggleSwitch.IsOn;
-            AppService.AppSettings.IsHistoryVisible = autoSettingValue;
+        private void HistoryHome_Toggled(object sender, RoutedEventArgs e) =>
+            UpdateAppSetting((ToggleSwitch)sender, value => AppService.AppSettings.IsHistoryVisible = value);
 
-        }
-    }
+        private void SearchHome_Toggled(object sender, RoutedEventArgs e) =>
+            UpdateAppSetting((ToggleSwitch)sender, value => AppService.AppSettings.IsSearchVisible = value);
 
-    private void SearchHome_Toggled(object sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleSwitch toggleSwitch)
-        {
-            // Assuming 'url' and 'selection' have been defined earlier
-            var autoSettingValue = toggleSwitch.IsOn;
-            AppService.AppSettings.IsSearchVisible = autoSettingValue;
-
-        }
+        private Task SaveSettingsAsync() =>
+            SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
     }
 }

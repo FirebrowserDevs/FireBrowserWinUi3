@@ -3,6 +3,7 @@ using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,139 +11,62 @@ using Windows.ApplicationModel;
 using Windows.Media.SpeechSynthesis;
 
 namespace FireBrowserWinUi3.Pages.SettingsPages;
+
 public sealed partial class SettingsAccess : Page
 {
-    bool isMode;
-
-    SettingsService SettingsService { get; set; }
+    private bool _isMode;
+    private SettingsService SettingsService { get; }
 
     public SettingsAccess()
     {
-        this.InitializeComponent();
+        InitializeComponent();
         SettingsService = App.GetService<SettingsService>();
         LoadUserDataAndSettings();
-        id();
+        InitializeStartupToggle();
         ShowSupportedLanguagesAndGenders();
     }
 
     private void ShowSupportedLanguagesAndGenders()
     {
-        var synthesizer = new SpeechSynthesizer();
         var allVoices = SpeechSynthesizer.AllVoices;
 
-        // Populate language ComboBox
-        var distinctLanguages = allVoices
-            .Select(voice => voice.Language)
-            .Distinct()
-            .ToList();
-
-        Langue.Items.Clear();
-        foreach (var language in distinctLanguages)
-        {
-            Langue.Items.Add(language);
-        }
-
-        string storedLanguage = SettingsService.CoreSettings.Lang;
-        if (!string.IsNullOrEmpty(storedLanguage) && distinctLanguages.Contains(storedLanguage))
-        {
-            Langue.SelectedItem = storedLanguage;
-        }
-        else if (Langue.Items.Count > 0)
-        {
-            Langue.SelectedIndex = 0;
-        }
-
-        // Populate gender ComboBox
-        var distinctGenders = allVoices
-            .Select(voice => voice.Gender.ToString())
-            .Distinct()
-            .ToList();
-
-        Gender.Items.Clear();
-        foreach (var gender in distinctGenders)
-        {
-            Gender.Items.Add(gender);
-        }
-
-        string storedGender = SettingsService.CoreSettings.Gender;
-        if (!string.IsNullOrEmpty(storedGender) && distinctGenders.Contains(storedGender))
-        {
-            Gender.SelectedItem = storedGender;
-        }
-        else if (Gender.Items.Count > 0)
-        {
-            Gender.SelectedIndex = 0;
-        }
-
-        // Debug output of available voices
-        foreach (var voice in allVoices)
-        {
-            var language = voice.Language;
-            var displayName = voice.DisplayName;
-            var gender = voice.Gender;
-
-            Debug.WriteLine($"Voice: {displayName}, Language: {language}, Gender: {gender}{Environment.NewLine}");
-        }
+        PopulateComboBox(Langue, allVoices.Select(v => v.Language).Distinct(), SettingsService.CoreSettings.Lang);
+        PopulateComboBox(Gender, allVoices.Select(v => v.Gender.ToString()).Distinct(), SettingsService.CoreSettings.Gender);
     }
 
+    private void PopulateComboBox(ComboBox comboBox, IEnumerable<string> items, string storedValue)
+    {
+        comboBox.ItemsSource = items.ToList();
+        comboBox.SelectedItem = items.Contains(storedValue) ? storedValue : comboBox.Items.FirstOrDefault();
+    }
 
     private void LoadUserDataAndSettings()
     {
         Langue.SelectedValue = SettingsService.CoreSettings.Lang;
         Logger.SelectedValue = SettingsService.CoreSettings.ExceptionLog;
-        bool isMode = (bool)SettingsService.CoreSettings.LightMode;
-        LiteMode.IsOn = isMode;
+        LiteMode.IsOn = SettingsService.CoreSettings.LightMode;
     }
+
     private async void LiteMode_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {
-            isMode = toggleSwitch.IsOn;
-            var autoValue = isMode;
-
-
-            if (AuthService.CurrentUser != null)
-            {
-                // Update the "Auto" setting for the current user
-                SettingsService.CoreSettings.LightMode = autoValue;
-
-                // Save the modified settings back to the user's settings file
-                await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-            }
-            else
-            {
-                // Handle the case when there is no authenticated user.
-            }
+            _isMode = toggleSwitch.IsOn;
+            SettingsService.CoreSettings.LightMode = _isMode;
+            await SaveSettingsAsync();
         }
     }
 
     private async void Langue_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        // Check if there is a valid selection (protect against nulls)
-        if (e.AddedItems.Count == 0 || e.AddedItems[0] == null) return;
-
-        // Get the selected language from the ComboBox
-        string selectedLanguage = e.AddedItems[0].ToString();
-
-        // Since known languages come from the system, we don't need to hard-code the switch, just assign the selection
-        SettingsService.CoreSettings.Lang = selectedLanguage;
-
-        try
+        if (e.AddedItems.FirstOrDefault() is string selectedLanguage)
         {
-            // Save the modified settings back to the user's settings file
-            await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-
-            // Optionally, notify the user that the language has been successfully updated
-            Debug.WriteLine($"Language setting updated to: {selectedLanguage}");
-        }
-        catch (Exception ex)
-        {
-            // Handle any errors that might occur during the settings save
-            Debug.WriteLine($"Error updating language setting: {ex.Message}");
+            SettingsService.CoreSettings.Lang = selectedLanguage;
+            await SaveSettingsAsync($"Language setting updated to: {selectedLanguage}");
         }
     }
 
-    private async void id()
+    private async void InitializeStartupToggle()
     {
         var startup = await StartupTask.GetAsync("FireBrowserWinUiStartUp");
         UpdateToggleState(startup.State);
@@ -150,15 +74,10 @@ public sealed partial class SettingsAccess : Page
 
     private void UpdateToggleState(StartupTaskState state)
     {
-        LaunchOnStartupToggle.IsEnabled = true;
-        LaunchOnStartupToggle.IsChecked = state switch
-        {
-            StartupTaskState.Enabled => true,
-            StartupTaskState.Disabled => false,
-            StartupTaskState.DisabledByUser => false,
-            _ => LaunchOnStartupToggle.IsEnabled = false
-        };
+        LaunchOnStartupToggle.IsEnabled = state != StartupTaskState.DisabledByPolicy;
+        LaunchOnStartupToggle.IsChecked = state == StartupTaskState.Enabled;
     }
+
     private async Task ToggleLaunchOnStartup(bool enable)
     {
         var startup = await StartupTask.GetAsync("FireBrowserWinUiStartUp");
@@ -173,19 +92,23 @@ public sealed partial class SettingsAccess : Page
                 UpdateToggleState(updatedState);
                 break;
             case StartupTaskState.DisabledByUser when enable:
-                ContentDialog cs = new ContentDialog();
-                cs.Title = "Unable to change state of startup task via the application";
-                cs.Content = "Enable via Startup tab on Task Manager (Ctrl+Shift+Esc)";
-                cs.PrimaryButtonText = "OK";
-                await cs.ShowAsync();
+                await ShowContentDialogAsync("Unable to change state of startup task via the application", "Enable via Startup tab on Task Manager (Ctrl+Shift+Esc)");
                 break;
             default:
-                ContentDialog cs2 = new ContentDialog();
-                cs2.Title = "Unable to change state of startup task";
-                cs2.PrimaryButtonText = "OK";
-                await cs2.ShowAsync();
+                await ShowContentDialogAsync("Unable to change state of startup task");
                 break;
         }
+    }
+
+    private async Task ShowContentDialogAsync(string title, string content = null)
+    {
+        var dialog = new ContentDialog
+        {
+            Title = title,
+            Content = content,
+            PrimaryButtonText = "OK"
+        };
+        await dialog.ShowAsync();
     }
 
     private async void LaunchOnStartupToggle_Click(object sender, RoutedEventArgs e)
@@ -195,49 +118,42 @@ public sealed partial class SettingsAccess : Page
 
     private async void Logger_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        string selection = e.AddedItems[0].ToString();
-        string langSetting = selection switch
+        if (e.AddedItems.FirstOrDefault() is string selection)
         {
-            "Low" => "Low",
-            "High" => "High",
-            _ => throw new ArgumentException("Invalid selection")
-        };
-
-        // Update the "Auto" setting for the current user
-        SettingsService.CoreSettings.ExceptionLog = langSetting;
-
-        // Save the modified settings back to the user's settings file
-        await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
+            SettingsService.CoreSettings.ExceptionLog = selection switch
+            {
+                "Low" => "Low",
+                "High" => "High",
+                _ => throw new ArgumentException("Invalid selection")
+            };
+            await SaveSettingsAsync();
+        }
     }
 
     private void WelcomeMesg_Toggled(object sender, RoutedEventArgs e)
     {
-
+        // Implement welcome message toggle logic here
     }
 
     private async void Gender_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        // Check if there is a valid selection (protect against nulls)
-        if (e.AddedItems.Count == 0 || e.AddedItems[0] == null) return;
+        if (e.AddedItems.FirstOrDefault() is string selectedGender)
+        {
+            SettingsService.CoreSettings.Gender = selectedGender;
+            await SaveSettingsAsync($"Gender setting updated to: {selectedGender}");
+        }
+    }
 
-        // Get the selected gender from the ComboBox
-        string selectedGender = e.AddedItems[0].ToString();
-
-        // Save the selected gender in the settings
-        SettingsService.CoreSettings.Gender = selectedGender;
-
+    private async Task SaveSettingsAsync(string debugMessage = null)
+    {
         try
         {
-            // Save the modified settings back to the user's settings file
             await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
-
-            // Optionally notify the user that the gender has been updated
-            Debug.WriteLine($"Gender setting updated to: {selectedGender}");
+            if (debugMessage != null) Debug.WriteLine(debugMessage);
         }
         catch (Exception ex)
         {
-            // Handle any errors during the settings save
-            Debug.WriteLine($"Error updating gender setting: {ex.Message}");
+            Debug.WriteLine($"Error updating setting: {ex.Message}");
         }
     }
 }

@@ -1,193 +1,86 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="FireBrowserWinUi3.Pages.SettingsPages.SettingsHome"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:asset="using:FireBrowserWinUi3Assets"
-    xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:firebrowser="using:FireBrowserWinUi3.Controls"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:labs="using:CommunityToolkit.WinUI.Controls"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:person="using:FireBrowserWinUi3Core.Helpers"
-    mc:Ignorable="d">
-    <Grid>
-        <StackPanel Margin="0,5,0,0">
-            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                <PersonPicture Width="64" ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}" />
-                <ImageIcon
-                    Width="32"
-                    Height="32"
-                    Margin="0,0,-10,0"
-                    Source="{asset:ImageLoader ImageName=Prize.png}"
-                    ToolTipService.Placement="Bottom"
-                    ToolTipService.ToolTip="You Have Premium Browser License" />
-                <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
-                    <TextBlock
-                        Name="User"
-                        FontSize="15"
-                        Style="{ThemeResource SubtitleTextBlockStyle}"
-                        Text="FireBrowser User" />
-                    <TextBlock FontSize="12" Text="Browser account" />
-                </StackPanel>
+    xmlns:labs="using:CommunityToolkit.WinUI.Controls">
 
-            </StackPanel>
-            <StackPanel
-                Margin="0,-55,0,0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top">
-                <Button
-                    x:Name="LogOutBtn"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Click="LogOutBtn_Click">
-                    Log Out
-                </Button>
-            </StackPanel>
-            <labs:SettingsCard Margin="0,5,0,0" VerticalAlignment="Bottom">
-                <labs:SettingsCard.Header>
-                    Check for internal component updates
-                </labs:SettingsCard.Header>
+    <ScrollViewer>
+        <StackPanel Margin="10,10,10,10" Spacing="2">
+            <Grid>
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <PersonPicture Width="64" ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}" />
+                    <ImageIcon Width="32" Height="32" Source="{asset:ImageLoader ImageName=Prize.png}" 
+                               ToolTipService.ToolTip="You Have Premium Browser License" />
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock x:Name="User" Style="{ThemeResource SubtitleTextBlockStyle}" Text="FireBrowser User" />
+                        <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Text="Browser account" />
+                    </StackPanel>
+                </StackPanel>
+                <Button x:Name="LogOutBtn" HorizontalAlignment="Right" VerticalAlignment="Top" Click="LogOutBtn_Click" Content="Log Out" />
+            </Grid>
+
+            <labs:SettingsCard Header="Check for internal component updates">
                 <labs:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE777;" />
                 </labs:SettingsCard.HeaderIcon>
-                <Button
-                    x:Name="PatchBtn"
-                    Click="PatchBtn_Click"
-                    IsEnabled="True">
-                    Check For Updates
-                </Button>
+                <Button x:Name="PatchBtn" Click="PatchBtn_Click" Content="Check For Updates" />
             </labs:SettingsCard>
-            <labs:SettingsCard Margin="0,5,0,0" VerticalAlignment="Bottom">
-                <labs:SettingsCard.Header>
-                    Reset App
-                </labs:SettingsCard.Header>
+
+            <labs:SettingsCard Header="Reset App">
                 <labs:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEBC4;" />
                 </labs:SettingsCard.HeaderIcon>
-                <Button x:Name="Reset" Click="Reset_Click">
-                    Reset Browser - Settings
-                </Button>
+                <Button x:Name="Reset" Click="Reset_Click" Content="Reset Browser - Settings" />
             </labs:SettingsCard>
-            <labs:SettingsCard>
-                <labs:SettingsCard.Header>
-                    FireVault - FireBrowser
-                </labs:SettingsCard.Header>
+
+            <labs:SettingsCard Header="FireVault - FireBrowser">
                 <labs:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xF540;" />
                 </labs:SettingsCard.HeaderIcon>
-                <Button
-                    x:Name="OpenVault"
-                    Width="150"
-                    IsEnabled="False">
-                    <StackPanel>
-                        <TextBlock x:Name="TextOpen" Text="Open Vault" />
-                    </StackPanel>
-                </Button>
+                <Button x:Name="OpenVault" IsEnabled="False" Content="Open Vault" />
             </labs:SettingsCard>
-            <labs:SettingsExpander>
-                <labs:SettingsExpander.Header>
-                    Profiles
-                </labs:SettingsExpander.Header>
+
+            <labs:SettingsExpander Header="Profiles">
                 <labs:SettingsExpander.HeaderIcon>
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEC25;" />
                 </labs:SettingsExpander.HeaderIcon>
                 <labs:SettingsExpander.Items>
-                    <Grid>
-                        <ScrollViewer>
-                            <ListView x:Name="UserListView">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiary}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <!--  For the profile picture  -->
-                                                <ColumnDefinition Width="*" />
-                                                <!--  For the username  -->
-                                                <ColumnDefinition Width="Auto" />
-                                                <!--  For the "Switch" button  -->
-                                            </Grid.ColumnDefinitions>
-
-                                            <PersonPicture
-                                                Width="32"
-                                                Height="32"
-                                                Margin="10" />
-                                            <!--  Username  -->
-                                            <TextBlock
-                                                x:Name="userName"
-                                                Grid.Column="1"
-                                                Margin="10,0,10,0"
-                                                VerticalAlignment="Center"
-                                                x:FieldModifier="Public"
-                                                Text="{Binding}" />
-                                            <!--  "Switch" button  -->
-                                            <Button
-                                                x:Name="Switch"
-                                                Grid.Column="2"
-                                                Margin="-20"
-                                                Click="Switch_Click"
-                                                Content="{firebrowser:FluentIcon Glyph=&#xE748;}"
-                                                IsEnabled="True"
-                                                Style="{ThemeResource QuietButtonStyle}" />
-
-                                            <Button
-                                                x:Name="Delete"
-                                                Grid.Column="2"
-                                                Margin="10"
-                                                Click="Delete_Click"
-                                                Content="{firebrowser:FluentIcon Glyph=&#xE74D;}"
-                                                IsEnabled="True"
-                                                Style="{ThemeResource QuietButtonStyle}" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </ScrollViewer>
-                    </Grid>
+                    <ListView x:Name="UserListView">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="Auto,*,Auto,Auto" Padding="8" Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiary}">
+                                    <PersonPicture Width="32" Height="32" />
+                                    <TextBlock x:Name="userName" Grid.Column="1" VerticalAlignment="Center" Text="{Binding}" Margin="12,0" />
+                                    <Button x:Name="Switch" Grid.Column="2" Click="Switch_Click" Style="{ThemeResource QuietButtonStyle}">
+                                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE748;" />
+                                    </Button>
+                                    <Button x:Name="Delete" Grid.Column="3" Click="Delete_Click" Style="{ThemeResource QuietButtonStyle}">
+                                        <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE74D;" />
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </labs:SettingsExpander.Items>
-                <Button
-                    x:Name="Add"
-                    Click="Add_Click"
-                    IsEnabled="True"
-                    ToolTipService.ToolTip="Add User ( Temp Disabled Reworking Feature )">
-                    Add
-                </Button>
+                <Button x:Name="Add" Click="Add_Click" Content="Add" ToolTipService.ToolTip="Add User ( Temp Disabled Reworking Feature )" />
             </labs:SettingsExpander>
-            <labs:SettingsExpander Margin="0,2,0,0" VerticalAlignment="Top">
-                <labs:SettingsExpander.Header>
-                    BackUp - Data Or Restore
-                </labs:SettingsExpander.Header>
+
+            <labs:SettingsExpander Header="BackUp - Data Or Restore">
                 <labs:SettingsExpander.HeaderIcon>
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE7B8;" />
                 </labs:SettingsExpander.HeaderIcon>
                 <labs:SettingsExpander.Items>
-                    <labs:SettingsCard>
-                        <labs:SettingsCard.Header>
-                            BackUp - Data
-                        </labs:SettingsCard.Header>
-                        <Button
-                            x:Name="BackUpNow"
-                            Click="BackUpNow_Click"
-                            IsEnabled="True">
-                            BackUp Now
-                        </Button>
+                    <labs:SettingsCard Header="BackUp - Data">
+                        <Button x:Name="BackUpNow" Click="BackUpNow_Click" Content="BackUp Now" />
                     </labs:SettingsCard>
-                    <labs:SettingsCard>
-                        <labs:SettingsCard.Header>
-                            Restore - Data
-                        </labs:SettingsCard.Header>
-                        <Button
-                            x:Name="RestoreNow"
-                            Click="RestoreNow_Click"
-                            IsEnabled="True">
-                            Restore Now
-                        </Button>
+                    <labs:SettingsCard Header="Restore - Data">
+                        <Button x:Name="RestoreNow" Click="RestoreNow_Click" Content="Restore Now" />
                     </labs:SettingsCard>
                 </labs:SettingsExpander.Items>
             </labs:SettingsExpander>
-
-
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </Page>

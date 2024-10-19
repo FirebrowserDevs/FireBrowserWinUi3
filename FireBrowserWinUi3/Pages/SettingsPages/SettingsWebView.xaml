@@ -1,14 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="FireBrowserWinUi3.Pages.SettingsPages.SettingsWebView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
     xmlns:labs="using:CommunityToolkit.WinUI.Controls">
 
-    <StackPanel>
+    <StackPanel Spacing="2">
         <labs:SettingsExpander Header="WebView2 Tools" Description="You can set WebView2 preferences here">
             <labs:SettingsExpander.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEC7A;"/>
@@ -20,14 +16,12 @@
                     </labs:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="StatusTog" Toggled="StatusTog_Toggled"/>
                 </labs:SettingsCard>
-
                 <labs:SettingsCard Header="WebView2 Browser Accelerator Keys" Description="Turn the default BrowserAcceleratorKeys on or off">
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE9A9;"/>
                     </labs:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="BrowserKeys" Toggled="BrowserKeys_Toggled"/>
                 </labs:SettingsCard>
-
                 <labs:SettingsCard Header="WebView2 Script Dialogs" Description="Turn the default Script Dialogs on or off">
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xED0E;"/>
@@ -44,7 +38,6 @@
             <ToggleSwitch x:Name="PipModeTg" Toggled="PipModeTg_Toggled"/>
         </labs:SettingsCard>
 
-
         <labs:SettingsCard Header="WebView2 Useragent" Description="WebView2 user agent settings">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xEE57;"/>
@@ -56,7 +49,7 @@
             <labs:SettingsExpander.HeaderIcon>
                 <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE7EF;"/>
             </labs:SettingsExpander.HeaderIcon>
-            <ComboBox  x:Name="PreventionLevel" SelectionChanged="PreventionLevel_SelectionChanged">
+            <ComboBox x:Name="PreventionLevel" SelectionChanged="PreventionLevel_SelectionChanged">
                 <x:String>None</x:String>
                 <x:String>Basic</x:String>
                 <x:String>Balanced</x:String>
@@ -80,7 +73,6 @@
                     </labs:SettingsCard.HeaderIcon>
                     <Button x:Name="ClearCookies" Content="Clear Cookies" Click="ClearCookies_Click"/>
                 </labs:SettingsCard>
-
                 <labs:SettingsCard Header="WebView2 Cache" Description="Clear cache">
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE8B7;"/>

@@ -32,7 +32,7 @@
 
         <Grid
             Grid.Row="0"
-            Padding="6"
+            Padding="2"
             Background="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}"
             BorderBrush="{ThemeResource AccentFillColorSecondaryBrush}"
             BorderThickness="0,0,0,1">
