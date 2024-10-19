@@ -43,9 +43,11 @@ public partial class MainWindowViewModel : ObservableRecipient
                 ShowRemovedNotification();
                 break;
             case EnumMessageStatus.XorError:
-                ShowErrorNotification(message.Payload); 
+                ShowErrorNotification(message.Payload!); 
                 break;
-
+            default:
+                ShowNotifyNotification(message.Payload!);
+                break; 
                 
         }
     }
@@ -63,6 +65,18 @@ public partial class MainWindowViewModel : ObservableRecipient
         MainView.NotificationQueue.Show(note);
     }
 
+    private void ShowNotifyNotification(string _payload)
+    {
+        var note = new Notification
+        {
+            Title = "FireBrowserWinUi3 Information \n",
+            Message = $"{_payload}",
+            Severity = InfoBarSeverity.Informational,
+            IsIconVisible = true,
+            Duration = TimeSpan.FromSeconds(5)
+        };
+        MainView.NotificationQueue.Show(note);
+    }
     private void ShowRemovedNotification()
     {
         var note = new Notification

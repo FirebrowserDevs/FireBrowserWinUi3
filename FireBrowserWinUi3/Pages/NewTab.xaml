@@ -12,7 +12,7 @@
     xmlns:local="using:FireBrowserWinUi3.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    xmlns:button="using:FireBrowserWinUi3.Services"
+    xmlns:button="using:FireBrowserWinUi3.Services" 
     Loaded="NewTab_Loaded"
     mc:Ignorable="d">
     

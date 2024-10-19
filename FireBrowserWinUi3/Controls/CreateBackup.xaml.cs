@@ -93,13 +93,14 @@ namespace FireBrowserWinUi3.Controls
 
                     });
                     
-                    await Task.Delay(1000);
                     return json;
                 });
 
-                ExceptionLogger.LogInformation("File path is : " + JsonConvert.SerializeObject(_backupFilePath) + "\n"); 
+                ExceptionLogger.LogInformation("File path is : " + JsonConvert.SerializeObject(_backupFilePath) + "\n");
 
+                await Task.Delay(1000); 
                 
+
                 string tempPath = Path.GetTempPath();
                 string backupFilePath = Path.Combine(tempPath, "backup.fireback");
 

@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.Services.Store;
 
 namespace FireBrowserWinUi3.Pages.SettingsPages;
 public sealed partial class SettingsHome : Page
@@ -117,6 +119,8 @@ public sealed partial class SettingsHome : Page
 
     private async void PatchBtn_Click(object sender, RoutedEventArgs e)
     {
+        //https://www.microsoft.com/en-us/videoplayer/embed/RE3i5DH
+       
         PatchUpdate dlg = new PatchUpdate();
         dlg.XamlRoot = this.XamlRoot;
         await dlg.ShowAsync();
