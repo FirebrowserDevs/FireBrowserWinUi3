@@ -83,20 +83,23 @@ namespace FireBrowserWinUi3.Controls
                     });
                     var json = await UploadFileToAzure(fileName);
                     
-                    this.DispatcherQueue.TryEnqueue(() =>
+                    this.DispatcherQueue.TryEnqueue(async() =>
                     {
                         StatusTextBlock.Text = $"Successfully saved to the cloud of (FireBrowserDevs)";
+                        
+                        await Task.Delay(100);
+
+                        StatusTextBlock.Text = $"Backup created successfully in your Document folder as:\n{fileName}";
+
                     });
                     
-                    await Task.Delay(100);
+                    await Task.Delay(1000);
                     return json;
                 });
 
                 ExceptionLogger.LogInformation("File path is : " + JsonConvert.SerializeObject(_backupFilePath) + "\n"); 
 
-                StatusTextBlock.Text = $"Backup created successfully at:\n{_backupFilePath}";
-                await Task.Delay(100);
-
+                
                 string tempPath = Path.GetTempPath();
                 string backupFilePath = Path.Combine(tempPath, "backup.fireback");
 
