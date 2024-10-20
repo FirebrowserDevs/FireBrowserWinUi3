@@ -25,7 +25,7 @@ public sealed partial class FavoritesTimeLine : Page
     string ctmtext;
     string ctmurl;
 
-    public async void LoadFavs()
+    public void LoadFavs()
     {
         List<FavItem> favorites = fs.LoadFav();
         FavoritesListView.ItemsSource = favorites;

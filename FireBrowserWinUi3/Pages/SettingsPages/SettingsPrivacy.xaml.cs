@@ -50,7 +50,7 @@ public sealed partial class SettingsPrivacy : Page
         await SettingsService.SaveChangesToSettings(AuthService.CurrentUser, SettingsService.CoreSettings);
     }
 
-    private async void ToggleSetting_Toggled(object sender, RoutedEventArgs e)
+    private void ToggleSetting_Toggled(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleSwitch toggleSwitch)
         {

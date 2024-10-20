@@ -11,7 +11,7 @@ namespace FireBrowserWinUi3.Pages.Patch
             this.InitializeComponent();
         }
 
-        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             string resetFilePath = Path.Combine(Path.GetTempPath(), "Reset.set");
             // Write some content to the file (or leave it empty)

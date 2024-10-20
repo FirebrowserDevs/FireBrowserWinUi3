@@ -150,18 +150,9 @@ public sealed partial class SettingsHome : Page
 
 
     }
-    private async void PatchBtn_Click(object sender, RoutedEventArgs e)
+    private void PatchBtn_Click(object sender, RoutedEventArgs e)
     {
-        //https://www.microsoft.com/en-us/videoplayer/embed/RE3i5DH
-        //StoreContext storeContext = StoreContext.GetDefault();"9PCN40XXVCVB"
-        //StoreProductResult result = await storeContext.GetStoreProductForCurrentAppAsync();
-
-        // here is how we were discussing winget for updates. 
         UpdateApp();
-
-        //PatchUpdate dlg = new PatchUpdate();
-        //dlg.XamlRoot = this.XamlRoot;
-        //await dlg.ShowAsync();
     }
 
     private async void Reset_Click(object sender, RoutedEventArgs e)
