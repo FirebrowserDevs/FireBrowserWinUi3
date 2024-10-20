@@ -17,7 +17,6 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Graphics;
-using WinRT;
 using WinRT.Interop;
 
 namespace FireBrowserWinUi3
@@ -92,8 +91,7 @@ namespace FireBrowserWinUi3
 
                 // Set window size
                 var size = new SizeInt32(700, 500);
-                appWindow.Resize(size);
-          
+                appWindow.Resize(size);          
 
                 // Remove default window chrome
                 var presenter = appWindow.Presenter as OverlappedPresenter;

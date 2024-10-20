@@ -337,7 +337,6 @@
   </ItemGroup>
   <PropertyGroup>
     <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
-    <PublishAot>False</PublishAot>
     <PublishTrimmed>False</PublishTrimmed>
     <PackageCertificateKeyFile>FireBrowserWinUi3_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
