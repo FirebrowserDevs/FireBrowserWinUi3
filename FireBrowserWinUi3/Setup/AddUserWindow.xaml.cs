@@ -15,15 +15,10 @@ using Windows.Graphics;
 using Windows.Storage;
 using WinRT.Interop;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace FireBrowserWinUi3
 {
-
     public sealed partial class AddUserWindow : Window
     {
-
         public AddUserWindow()
         {
             this.InitializeComponent();
@@ -31,13 +26,11 @@ namespace FireBrowserWinUi3
             this.Activated += (s, e) => { Userbox.Focus(FocusState.Programmatic); };
             this.Closed += async (s, e) =>
             {
-
                 await Task.Delay(420);
 
                 IntPtr ucHwnd = Windowing.FindWindow(null, nameof(UserCentral));
                 if (ucHwnd != IntPtr.Zero)
                 {
-
                     Windowing.Center(ucHwnd);
                     Windowing.UpdateWindow(ucHwnd);
                 }
@@ -45,7 +38,6 @@ namespace FireBrowserWinUi3
                 {
                     Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
                 }
-
             };
         }
 
@@ -56,7 +48,18 @@ namespace FireBrowserWinUi3
             AppWindow appWindow = AppWindow.GetFromWindowId(wndId);
             if (appWindow != null)
             {
-                appWindow.MoveAndResize(new RectInt32(600, 600, 700, 680));
+                // Set the maximum size to 430 width and 612 height
+                appWindow.SetPresenter(AppWindowPresenterKind.Default);
+                var presenter = appWindow.Presenter as OverlappedPresenter;
+                if (presenter != null)
+                {
+                    presenter.IsResizable = true;
+                    presenter.IsMaximizable = false;
+                    presenter.IsModal = false;
+                }
+                appWindow.MoveAndResize(new RectInt32(600, 600, 430, 612));
+                appWindow.SetPresenter(AppWindowPresenterKind.Default);
+
                 appWindow.MoveInZOrderAtTop();
                 appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
                 appWindow.Title = "Create New User";
@@ -68,7 +71,6 @@ namespace FireBrowserWinUi3
                 titleBar.ButtonBackgroundColor = btnColor;
                 titleBar.BackgroundColor = btnColor;
                 titleBar.ButtonInactiveBackgroundColor = btnColor;
-                appWindow.SetPresenter(AppWindowPresenterKind.Default);
             }
         }
 
@@ -86,20 +88,16 @@ namespace FireBrowserWinUi3
 
             Console.WriteLine("Image copied successfully!");
         }
+
         private void ProfileImage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ProfileImage.SelectedItem != null)
-            { // Assuming 'userImageName' contains the name of the user's image file
-                string userImageName = ProfileImage.SelectedItem.ToString() + ".png"; // Replace this with the actual user's image name
+            {
+                string userImageName = ProfileImage.SelectedItem.ToString() + ".png";
 
                 iImage = userImageName;
-                // Instantiate ImageLoader
                 ImageHelper imgLoader = new ImageHelper();
-
-                // Use the LoadImage method to get the image
                 var userProfilePicture = imgLoader.LoadImage(userImageName);
-
-                // Assign the retrieved image to the ProfileImageControl
                 Pimg.ProfilePicture = userProfilePicture;
             }
         }
@@ -107,9 +105,7 @@ namespace FireBrowserWinUi3
         private void Userbox_TextChanged(object sender, TextChangedEventArgs e)
         {
             UsrBox.Text = Userbox.Text;
-
         }
-
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -122,7 +118,7 @@ namespace FireBrowserWinUi3
                 Id = Guid.NewGuid(),
                 Username = enteredUsername,
                 IsFirstLaunch = false,
-                UserSettings = null // You might want to initialize UserSettings based on your application logic
+                UserSettings = null
             };
 
             List<FireBrowserWinUi3MultiCore.User> users = new List<FireBrowserWinUi3MultiCore.User>();
@@ -136,13 +132,8 @@ namespace FireBrowserWinUi3
 
             await CopyImageAsync(iImage.ToString(), destinationFolderPath);
 
-            // use this down the line in AppService. 
             AuthService.NewCreatedUser = newUser;
 
-            ////// can't switch because user is sigin, and creating a new user. 
-            ////AuthService.Authenticate(newUser.ToString());
-
-            // load data to time line before doing settings and User Centeral is loaded. 
             if (SettingsHome.Instance is not null)
                 SettingsHome.Instance?.LoadUsernames();
             if (UserCentral.Instance is not null)

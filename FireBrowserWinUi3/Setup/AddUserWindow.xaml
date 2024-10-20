@@ -1,79 +1,51 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <Window
     x:Class="FireBrowserWinUi3.AddUserWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Helper="using:FireBrowserWinUi3MultiCore.Helper"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:FireBrowserWinUi3"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Add User"
-    SystemBackdrop="{ThemeResource AcrylicBackgroundFillColorDefaultBackdrop}"
-    mc:Ignorable="d">
+    >
 
+    <Window.SystemBackdrop>
+        <MicaBackdrop Kind="BaseAlt"/>
+    </Window.SystemBackdrop>
+    
+    <Grid Padding="24">
+        <StackPanel MaxWidth="400" VerticalAlignment="Center" Spacing="16">
+            <PersonPicture
+                x:Name="Pimg"
+                Width="80"
+                Height="80"
+                ProfilePicture="{Helper:ImageHelper ImageName=clippy.png}"
+                HorizontalAlignment="Center" />
 
-    <Grid Margin="16">
-        <StackPanel
-            Width="400"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            <!--  User Picture and Info  -->
-            <Button
-                Margin="0,0,0,12"
-                HorizontalAlignment="Stretch"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                IsEnabled="True">
-                <StackPanel Orientation="Horizontal">
-                    <PersonPicture
-                        x:Name="Pimg"
-                        Width="50"
-                        ProfilePicture="{Helper:ImageHelper ImageName=clippy.png}" />
-                    <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
-                        <TextBlock
-                            x:Name="UsrBox"
-                            FontSize="16"
-                            Style="{ThemeResource SubtitleTextBlockStyle}"
-                            Text="{Binding Username}" />
-                        <TextBlock FontSize="13" Text="Local Account" />
-                    </StackPanel>
-                </StackPanel>
-            </Button>
-
-
-            <!--  Username TextBox  -->
             <TextBlock
-                Margin="0,0,0,6"
-                FontSize="14"
-                Text="Username" />
+                x:Name="UsrBox"
+                Text="{Binding Username}"
+                Style="{ThemeResource SubtitleTextBlockStyle}"
+                HorizontalAlignment="Center" />
+
+            <TextBlock
+                Text="Local Account"
+                Style="{ThemeResource CaptionTextBlockStyle}"
+                HorizontalAlignment="Center" />
+
             <TextBox
                 x:Name="Userbox"
-                Margin="0,0,0,12"
+                Header="Username"
                 PlaceholderText="Enter your username"
                 TextChanged="Userbox_TextChanged" />
 
-            <!--  Password TextBox  -->
-            <TextBlock
-                Margin="0,0,0,6"
-                FontSize="14"
-                Text="Password" />
-            <TextBox
+            <PasswordBox
                 x:Name="PasswordBox"
-                Margin="0,0,0,16"
-                IsEnabled="False"
-                IsReadOnly="True"
-                Text="Enter password" />
-            <!--  Profile Image Selector  -->
-            <TextBlock
-                Margin="0,0,0,6"
-                FontSize="14"
-                Text="Profile Image" />
-
+                Header="Password"
+                PlaceholderText="Enter password"
+                IsEnabled="False" />
 
             <ComboBox
                 x:Name="ProfileImage"
-                Width="Auto"
-                Margin="0,4,0,4"
+                Header="Profile Image"
+                PlaceholderText="Select an image"
                 HorizontalAlignment="Stretch"
                 SelectedItem="clippy"
                 SelectionChanged="ProfileImage_SelectionChanged">
@@ -86,19 +58,13 @@
                 <x:String>bot</x:String>
                 <x:String>starfish</x:String>
             </ComboBox>
-            <!--  Action Buttons  -->
-            <StackPanel
-                Margin="0,10,0,0"
-                HorizontalAlignment="Center"
-                Orientation="Horizontal">
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8">
                 <Button
-                    Width="160"
-                    Margin="5"
+                    Content="Confirm"
                     Click="Button_Click"
-                    Content="Confirm" />
+                    Style="{ThemeResource AccentButtonStyle}" />
                 <Button
-                    Width="160"
-                    Margin="5"
                     Content="Cancel" />
             </StackPanel>
         </StackPanel>
