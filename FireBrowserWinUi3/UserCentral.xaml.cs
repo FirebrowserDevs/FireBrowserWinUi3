@@ -93,11 +93,13 @@ namespace FireBrowserWinUi3
                 // Set window size
                 var size = new SizeInt32(800, 600);
                 appWindow.Resize(size);
+          
 
                 // Remove default window chrome
                 var presenter = appWindow.Presenter as OverlappedPresenter;
                 if (presenter != null)
                 {
+                    presenter.IsResizable = false;
                     presenter.SetBorderAndTitleBar(true, false);
                 }
             }
@@ -197,6 +199,18 @@ namespace FireBrowserWinUi3
             RestoreBackupDialog dlg = new RestoreBackupDialog();
             dlg.XamlRoot = present.XamlRoot;
             await dlg.ShowAsync();
-        }    
+        }
+
+        private void MinimizeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (appWindow != null)
+            {
+                var presenter = appWindow.Presenter as OverlappedPresenter;
+                if (presenter != null)
+                {
+                    presenter.Minimize();
+                }
+            }
+        }
     }
 }

@@ -54,15 +54,23 @@
                         Icon="Refresh"
                         Label="Restore Backup" />
                 </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <AppBarButton
+                    x:Name="MinimizeBtn"
+                    Click="MinimizeBtn_Click"
+                    Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
+                    Icon="Remove"
+                    Label="Minimize"
+                    ToolTipService.ToolTip="Minimize Application" />
 
-                <AppBarButton
+                    <AppBarButton
                     x:Name="CloseBtn"
-                    Grid.Column="2"
                     Command="{x:Bind ViewModel.ExitWindow, Mode=OneWay}"
                     Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
                     Icon="Cancel"
                     Label="Close App"
                     ToolTipService.ToolTip="Exit Application" />
+                </StackPanel>
             </Grid>
 
             <TextBlock
