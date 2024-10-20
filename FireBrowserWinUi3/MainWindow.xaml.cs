@@ -45,6 +45,7 @@ namespace FireBrowserWinUi3;
 
 public sealed partial class MainWindow : Window
 {
+
     private AppWindow appWindow;
     public DownloadFlyout DownloadFlyout { get; set; } = new DownloadFlyout();
     public ProfileCommander Commander { get; set; }

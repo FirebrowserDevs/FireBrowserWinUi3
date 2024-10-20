@@ -19,15 +19,9 @@ public sealed partial class DownloadItem : ListViewItem
 {
     private CoreWebView2DownloadOperation _downloadOperation;
     private string _filePath;
-    private string _databaseFilePath;
 
-    public event EventHandler<DownloadItemStatusEventArgs> Handler_DownloadItem_Status;
     private int Progress { get; set; } = 0;
     private string EstimatedEnd { get; set; } = string.Empty;
-    /*  
-     * this is set when items are created by pages or by the service
-     * controls that don't inherit from UiElement like flyouts need extra creation steps because x:bind doesn't work.
-    */
     public DownloadService ServiceDownloads { get; set; }
 
     public DownloadItem(string filepath)
@@ -35,7 +29,7 @@ public sealed partial class DownloadItem : ListViewItem
         this.InitializeComponent();
 
         _filePath = filepath;
-        fileName.Text = _filePath.Substring(_filePath.LastIndexOf("\\") + 1);
+        fileName.Text = Path.GetFileName(_filePath);
 
         progressRing.Visibility = Visibility.Collapsed;
         ResourceLoader resourceLoader = new();
@@ -43,7 +37,6 @@ public sealed partial class DownloadItem : ListViewItem
 
         SetIcon();
     }
-
 
     public DownloadItem(CoreWebView2DownloadOperation downloadOperation)
     {
@@ -55,10 +48,9 @@ public sealed partial class DownloadItem : ListViewItem
         _downloadOperation.StateChanged += _downloadOperation_StateChanged;
         _downloadOperation.EstimatedEndTimeChanged += _downloadOperation_EstimatedEndTimeChanged;
 
-        fileName.Text = _downloadOperation.ResultFilePath.Substring(_filePath.LastIndexOf("\\") + 1);
+        fileName.Text = Path.GetFileName(_filePath);
 
         SetIcon();
-
     }
 
     private void _downloadOperation_EstimatedEndTimeChanged(CoreWebView2DownloadOperation sender, object args)
@@ -74,20 +66,16 @@ public sealed partial class DownloadItem : ListViewItem
                 progressRing.Visibility = Visibility.Collapsed;
                 ResourceLoader resourceLoader = new();
                 subtitle.Text = resourceLoader.GetString("OpenDownload");
-
                 SetIcon();
-
                 break;
 
-            case CoreWebView2DownloadState.Interrupted: //[TODO] 
+            case CoreWebView2DownloadState.Interrupted:
+                // TODO: Handle interrupted state
                 break;
 
             case CoreWebView2DownloadState.InProgress:
                 progressRing.Visibility = Visibility.Visible;
                 break;
-
-
-
         }
     }
 
@@ -96,7 +84,7 @@ public sealed partial class DownloadItem : ListViewItem
         try
         {
             long progress = 100 * sender.BytesReceived / sender.TotalBytesToReceive;
-            subtitle.Text = ((int)progress).ToString() + "%";
+            subtitle.Text = $"{(int)progress}%";
             progressRing.Value = (int)progress;
 
             if (progress >= 100)
@@ -106,34 +94,27 @@ public sealed partial class DownloadItem : ListViewItem
                 ResourceLoader resourceLoader = new();
                 subtitle.Text = resourceLoader.GetString("OpenDownload");
 
-                // Simulate the download completion state
                 SimulateDownloadCompletion(sender);
             }
-
         }
-        catch { }
+        catch
+        {
+            // TODO: Handle exceptions
+        }
     }
 
     private async void SimulateDownloadCompletion(CoreWebView2DownloadOperation downloadOperation)
     {
-        // Simulate completion by delaying and changing the state
-        await Task.Delay(1000); // Adjust the delay as needed
+        await Task.Delay(1000);
 
-        // Change the state to Completed
         downloadOperation.GetType().GetMethod("OnDownloadStateChange", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
             ?.Invoke(downloadOperation, new object[] { CoreWebView2DownloadState.Completed });
 
-        // add after completion to the database use dataCore; only if file exist on disk.
-        if (ServiceDownloads is not DownloadService db && File.Exists(_filePath))
+        if (File.Exists(_filePath))
         {
-            ServiceDownloads = App.GetService<DownloadService>();
-            await ServiceDownloads.InsertAsync(_filePath, _downloadOperation.EstimatedEndTime.ToString(), DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+            ServiceDownloads ??= App.GetService<DownloadService>();
+            await ServiceDownloads.InsertAsync(_filePath, downloadOperation.EstimatedEndTime.ToString(), DateTimeOffset.UtcNow.ToUnixTimeSeconds());
         }
-        else
-        {
-            await ServiceDownloads.InsertAsync(_filePath, _downloadOperation.EstimatedEndTime.ToString(), DateTimeOffset.UtcNow.ToUnixTimeSeconds());
-        }
-
     }
 
     private void SetIcon()
@@ -144,25 +125,20 @@ public sealed partial class DownloadItem : ListViewItem
 
             if (icon != null)
             {
-                var image = new Microsoft.UI.Xaml.Controls.Image();
+                using MemoryStream stream = new MemoryStream();
+                icon.Save(stream);
+                stream.Position = 0;
 
                 BitmapImage bitmapImage = new BitmapImage();
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    icon.Save(stream);
-                    stream.Position = 0;
-                    bitmapImage.SetSource(stream.AsRandomAccessStream());
-                }
-
+                bitmapImage.SetSource(stream.AsRandomAccessStream());
                 iconImage.Source = bitmapImage;
             }
-
         }
         catch (FileNotFoundException)
-        { }
+        {
+            // TODO: Handle file not found
+        }
     }
-
-
 
     private Icon GetSmallFileIcon(string filePath)
     {
@@ -179,7 +155,19 @@ public sealed partial class DownloadItem : ListViewItem
         return null;
     }
 
-    class Win32
+    private void ListViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+    {
+        if (_downloadOperation?.State == CoreWebView2DownloadState.Completed || _downloadOperation == null)
+        {
+            FlyoutShowOptions flyoutShowOptions = new FlyoutShowOptions
+            {
+                Position = e.GetPosition(this)
+            };
+            contextMenu.ShowAt(this, flyoutShowOptions);
+        }
+    }
+
+    private static class Win32
     {
         public const uint SHGFI_ICON = 0x100;
         public const uint SHGFI_SMALLICON = 0x1;
@@ -189,11 +177,10 @@ public sealed partial class DownloadItem : ListViewItem
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool DestroyIcon(IntPtr hIcon);
-
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    struct SHFILEINFO
+    private struct SHFILEINFO
     {
         public IntPtr hIcon;
         public int iIcon;
@@ -203,24 +190,4 @@ public sealed partial class DownloadItem : ListViewItem
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
         public string szTypeName;
     }
-
-    private void ListViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
-    {
-        if (_downloadOperation != null)
-        {
-            if (_downloadOperation.State == CoreWebView2DownloadState.Completed)
-            {
-                FlyoutShowOptions flyoutShowOptions = new FlyoutShowOptions();
-                flyoutShowOptions.Position = e.GetPosition(this);
-                contextMenu.ShowAt(this, flyoutShowOptions);
-            }
-        }
-        else
-        {
-            FlyoutShowOptions flyoutShowOptions = new FlyoutShowOptions();
-            flyoutShowOptions.Position = e.GetPosition(this);
-            contextMenu.ShowAt(this, flyoutShowOptions);
-        }
-    }
-
 }

@@ -10,8 +10,6 @@ namespace FireBrowserWinUi3;
 
 public sealed partial class SetupFinish : Page
 {
-    private int countdownSeconds = 5;
-    private DispatcherTimer timer;
     public SetupFinish()
     {
         this.InitializeComponent();
@@ -20,12 +18,10 @@ public sealed partial class SetupFinish : Page
 
     private async void SetupFinish_Loaded(object sender, RoutedEventArgs e)
     {
-
         await Task.Delay(2400);
 
         if (App.Current.m_window is not null)
         {
-
             IntPtr hWnd = WindowNative.GetWindowHandle(App.Current.m_window);
             if (hWnd == IntPtr.Zero)
             {
@@ -41,7 +37,6 @@ public sealed partial class SetupFinish : Page
         }
         else
         {
-
             AppService.ActiveWindow?.Close();
 
             IntPtr ucHwnd = Windowing.FindWindow(null, nameof(UserCentral));
@@ -53,9 +48,6 @@ public sealed partial class SetupFinish : Page
             {
                 Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
             }
-
         }
-
     }
-
 }
