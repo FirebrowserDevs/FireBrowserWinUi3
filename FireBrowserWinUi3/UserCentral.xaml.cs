@@ -91,7 +91,7 @@ namespace FireBrowserWinUi3
                 appWindow.TitleBar.ButtonInactiveForegroundColor = Colors.Gray;
 
                 // Set window size
-                var size = new SizeInt32(800, 600);
+                var size = new SizeInt32(700, 500);
                 appWindow.Resize(size);
           
 
