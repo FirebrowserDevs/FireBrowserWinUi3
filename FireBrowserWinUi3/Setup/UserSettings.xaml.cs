@@ -3,62 +3,62 @@ using FireBrowserWinUi3MultiCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using System;
+using System.Linq;
 
 namespace FireBrowserWinUi3.Setup
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class UserSettings : Window
     {
-        public string UserName { get; internal set; } = AuthService.NewCreatedUser?.Username ?? AuthService.CurrentUser?.Username ?? "User Settings";
+        public string UserName { get; } = AuthService.NewCreatedUser?.Username
+                                       ?? AuthService.CurrentUser?.Username
+                                       ?? "User Settings";
+
+        private int previousSelectedIndex;
+
         public UserSettings()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             AppService.AppSettings = new FireBrowserWinUi3MultiCore.Settings(true).Self;
-
+            NavView.SelectedItem = NavView.MenuItems[0]; // Select the first item by default
         }
 
-        public int previousSelectedIndex { get; private set; }
-
-        private void SelectorBar2_SelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
+        private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            SelectorBarItem selectedItem = sender.SelectedItem;
-            int currentSelectedIndex = sender.Items.IndexOf(selectedItem);
-
-            System.Type pageType;
-
-            switch (currentSelectedIndex)
+            if (args.SelectedItem is NavigationViewItem selectedItem)
             {
+                int currentSelectedIndex = NavView.MenuItems.IndexOf(selectedItem);
+                Type pageType = GetPageType(selectedItem.Tag as string);
 
-                case 0:
-                    pageType = typeof(SetupUi);
-                    break;
-                case 1:
-                    pageType = typeof(SetupAlgemeen);
-                    break;
-                case 2:
-                    pageType = typeof(SetupPrivacy);
-                    break;
-                case 3:
-                    pageType = typeof(SetupAccess);
-                    break;
-                case 4:
-                    pageType = typeof(SetupWebView);
-                    break;
-                default:
-                    pageType = typeof(SetupFinish);
-                    break;
+                var slideEffect = currentSelectedIndex > previousSelectedIndex
+                    ? SlideNavigationTransitionEffect.FromRight
+                    : SlideNavigationTransitionEffect.FromLeft;
+
+                ContentFrame.Navigate(pageType, null, new SlideNavigationTransitionInfo { Effect = slideEffect });
+
+                previousSelectedIndex = currentSelectedIndex;
             }
+        }
 
-            var slideNavigationTransitionEffect = currentSelectedIndex - previousSelectedIndex > 0 ? SlideNavigationTransitionEffect.FromRight : SlideNavigationTransitionEffect.FromLeft;
+        private static Type GetPageType(string tag) => tag switch
+        {
+            "SetupUi" => typeof(SetupUi),
+            "SetupAlgemeen" => typeof(SetupAlgemeen),
+            "SetupPrivacy" => typeof(SetupPrivacy),
+            "SetupAccess" => typeof(SetupAccess),
+            "SetupWebView" => typeof(SetupWebView),
+            "SetupFinish" => typeof(SetupFinish),
+            _ => throw new ArgumentException($"Unknown tag: {tag}", nameof(tag))
+        };
 
-            ContentFrame.Navigate(pageType, null, new SlideNavigationTransitionInfo() { Effect = slideNavigationTransitionEffect });
-
-            previousSelectedIndex = currentSelectedIndex;
+        public void NavigateToPage(string pageName)
+        {
+            var item = NavView.MenuItems.OfType<NavigationViewItem>()
+                             .FirstOrDefault(item => item.Tag.ToString() == pageName);
+            if (item != null)
+            {
+                NavView.SelectedItem = item;
+            }
         }
     }
 }

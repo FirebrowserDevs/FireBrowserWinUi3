@@ -10,48 +10,32 @@ using Windows.Storage;
 
 namespace FireBrowserWinUi3
 {
-
     public sealed partial class SetupUser : Page
     {
-        public SetupUser()
-        {
-            this.InitializeComponent();
-        }
+        private string selectedImageName = "clippy.png";
 
+        public SetupUser() => InitializeComponent();
 
         private void ProfileImage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ProfileImage.SelectedItem != null)
+            if (ProfileImage.SelectedItem is string selectedItem)
             {
-                string userImageName = ProfileImage.SelectedItem.ToString() + ".png";
-                iImage = userImageName;
-                ImageLoader imgLoader = new ImageLoader();
-                var userProfilePicture = imgLoader.LoadImage(userImageName);
-                Pimg.ProfilePicture = userProfilePicture;
+                selectedImageName = $"{selectedItem}.png";
+                Pimg.ProfilePicture = new ImageLoader().LoadImage(selectedImageName);
             }
         }
 
-        private void UserName_TextChanged(object sender, TextChangedEventArgs e)
-        {
+        private void UserName_TextChanged(object sender, TextChangedEventArgs e) => 
             UsrBox.Text = UserName.Text;
-        }
 
-        private async void Create_Click(object sender, RoutedEventArgs e)
+        private async void Create_Click(object sender, RoutedEventArgs e) => 
+            await CreateUserAndNavigate();
+
+        private async Task CreateUserAndNavigate()
         {
-            await ShowBrowserSelectionDialog();
-        }
-
-
-
-        private async Task ShowBrowserSelectionDialog()
-        {
-
             await CreateUserOnStartup();
             Frame.Navigate(typeof(SetupUi));
-
         }
-
-
 
         private async Task CreateUserOnStartup()
         {
@@ -60,44 +44,28 @@ namespace FireBrowserWinUi3
                 Username = UserName.Text,
             };
 
-            List<FireBrowserWinUi3MultiCore.User> users = new List<FireBrowserWinUi3MultiCore.User> { newUser };
-            UserFolderManager.CreateUserFolders(newUser);
+            List<FireBrowserWinUi3MultiCore.User> users = new List<FireBrowserWinUi3MultiCore.User> { newUser }; UserFolderManager.CreateUserFolders(newUser);
             UserDataManager.SaveUsers(users);
             AuthService.AddUser(newUser);
             AuthService.Authenticate(newUser.Username);
-            // add settings for new user...
 
             await CopyImageToUserDirectory();
         }
 
-        string iImage = "";
-
-
         private async Task CopyImageToUserDirectory()
         {
-            string imageName = $"{iImage}";
-            string destinationFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username);
-
             try
             {
-                StorageFolder destinationFolder = await StorageFolder.GetFolderFromPathAsync(destinationFolderPath);
-                StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///FireBrowserWinUi3Assets/Assets/{imageName}"));
+                var destinationFolder = await StorageFolder.GetFolderFromPathAsync(
+                    Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username));
+                var imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///FireBrowserWinUi3Assets/Assets/{selectedImageName}"));
                 await imageFile.CopyAsync(destinationFolder, "profile_image.jpg", NameCollisionOption.ReplaceExisting);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error copying image: {ex.Message}");
+                // Consider using a logging framework instead of Console.WriteLine
+                System.Diagnostics.Debug.WriteLine($"Error copying image: {ex.Message}");
             }
-        }
-
-        private void BrowserSelectionDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            // Handle primary button click if needed
-        }
-
-        private void BrowserSelectionDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            // Handle secondary button click if needed
         }
     }
 }

@@ -2,17 +2,13 @@ using FireBrowserWinUi3.Pages.Patch;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Threading.Tasks;
 
 namespace FireBrowserWinUi3;
 
 public sealed partial class SetupInit : Page
 {
-    public SetupInit()
-    {
-        this.InitializeComponent();
-    }
-
-    private string _introMessage = @"
+    private const string IntroMessage = @"
 • Seamless browsing experience.
 
 • One-click access to favorite websites and a built-in favorites organizer.
@@ -21,18 +17,25 @@ public sealed partial class SetupInit : Page
 
 • Prioritizes user convenience.
 
-• Caters to users seeking a user-friendly web browser with advanced features.
-";
+• Caters to users seeking a user-friendly web browser with advanced features. ";
 
-    private void Setup_Click(object sender, RoutedEventArgs e)
+    public SetupInit()
     {
-        Frame.Navigate(typeof(SetupUser));
+        InitializeComponent();
+        DataContext = this;
     }
 
-    private async void RestoreNow_Click(object sender, RoutedEventArgs e)
+    public string IntroMessageProperty => IntroMessage;
+
+    private void Setup_Click(object sender, RoutedEventArgs e) =>
+        Frame.Navigate(typeof(SetupUser));
+
+    private async void RestoreNow_Click(object sender, RoutedEventArgs e) =>
+        await ShowRestoreBackupDialogAsync();
+
+    private async Task ShowRestoreBackupDialogAsync()
     {
-        RestoreBackupDialog dlg = new RestoreBackupDialog();
-        dlg.XamlRoot = this.XamlRoot;
+        var dlg = new RestoreBackupDialog { XamlRoot = XamlRoot };
         await dlg.ShowAsync();
     }
 }
