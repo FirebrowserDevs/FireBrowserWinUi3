@@ -135,7 +135,8 @@ public sealed partial class SettingsHome : Page
                 using (StreamReader reader = process.StandardOutput)
                 {
                     string result = reader.ReadToEnd();
-                    string msg2 = Regex.Replace(result, @"[\r*\-\\]", "");
+                    string msg = Regex.Replace(result, @"[^a-zA-Z0-9]", "");
+                    string msg2 = Regex.Replace(msg, @"[\r*\-\\]", "");
                     Messenger?.Send(new Message_Settings_Actions($"Application update status\n\n{msg2.Trim()} !", EnumMessageStatus.Informational));
                 }
             }
