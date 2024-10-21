@@ -24,9 +24,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\Easylist.txt" />
-    <Content Remove="Assets\Easyprivacy.txt" />
-    <Content Remove="Assets\MalwaresList.txt" />
-    <Content Remove="Assets\Whitelist.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,15 +40,6 @@
 
   <ItemGroup>
     <None Update="Assets\Easylist.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\Easyprivacy.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\MalwaresList.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\Whitelist.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -23,7 +23,8 @@
         <TextBlock Text="Do you want to create a backup before updating?" Style="{ThemeResource SubtitleTextBlockStyle}" TextWrapping="Wrap"/>
         <TextBlock Text="A backup ensures you can restore your data if anything goes wrong during the update process." 
                    Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
-        <Button Click="Button_Click" Content="Purchases Premium"/>
+        <!-- hide premuim icon until premium is available browser-->
+        <Button Visibility="Collapsed" Click="Button_Click" Content="Purchases Premium"/>
     </StackPanel>
 
     <ContentDialog.PrimaryButtonStyle>

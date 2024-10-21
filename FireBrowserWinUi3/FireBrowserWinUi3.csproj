@@ -69,6 +69,9 @@
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\arc_logo.png" />
+    <Content Remove="Assets\brave_logo.png" />
+    <Content Remove="Assets\firefox_logo.png" />
     <Content Remove="Assets\Google.png" />
     <Content Remove="Assets\Microsoft.png" />
     <Content Remove="Assets\Prize.png" />
@@ -177,10 +180,16 @@
     <ProjectReference Include="..\FireBrowserWinUi3Services\FireBrowserWinUi3Services.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="Assets\chrome_logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\costum.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\default.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\edge_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\featured.png">
@@ -219,6 +228,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="Accounts.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\arc_logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\brave_logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\firefox_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Google.png">

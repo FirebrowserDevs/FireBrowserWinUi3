@@ -181,4 +181,11 @@ public sealed partial class SettingsHome : Page
         AuthService.Logout();
         Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
     }
+
+    private async void ImportBookmarksItem_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new FireBrowserWinUi3Favorites.ImportBookMarks();
+        dialog.XamlRoot = this.XamlRoot;
+        await dialog.ShowAsync();
+    }
 }

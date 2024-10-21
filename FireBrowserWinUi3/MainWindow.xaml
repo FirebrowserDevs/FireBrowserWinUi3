@@ -461,9 +461,12 @@
             <Flyout x:Name="FavoritesFly" Placement="Bottom">
                 <Flyout.FlyoutPresenterStyle>
                     <Style TargetType="FlyoutPresenter">
-                        <Setter Property="MinWidth" Value="300" />
-                        <Setter Property="MaxHeight" Value="400" />
+                        <Setter Property="MinWidth" Value="350" />
+                        <Setter Property="MaxWidth" Value="350" />
+                        <Setter Property="MaxHeight" Value="350" />
                         <Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+                        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
                     </Style>
                 </Flyout.FlyoutPresenterStyle>
                 <Grid>
@@ -472,8 +475,12 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Margin="16,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
                         <TextBlock Text="Favorites" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        <Button HorizontalAlignment="Right" Style="{ThemeResource QuietButtonStyle}">
+                        <Button Grid.Column="1" Style="{ThemeResource QuietButtonStyle}">
                             <FontIcon FontFamily="{StaticResource FluentIcons}" Glyph="&#xE712;" />
                             <Button.Flyout>
                                 <MenuFlyout>
@@ -486,9 +493,14 @@
                             </Button.Flyout>
                         </Button>
                     </Grid>
-                    <ListView x:Name="FavoritesListView" Grid.Row="1" 
+                    <ListView x:Name="FavoritesListView"
+                  Grid.Row="1"
                   SelectionChanged="FavoritesListView_SelectionChanged"
-                  ItemContainerStyle="{StaticResource DefaultListViewItemStyle}">
+                  ItemContainerStyle="{StaticResource DefaultListViewItemStyle}"
+                  ScrollViewer.VerticalScrollMode="Auto"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollMode="Disabled"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="firebrowserfavorites:FavItem">
                                 <Grid ColumnSpacing="12">

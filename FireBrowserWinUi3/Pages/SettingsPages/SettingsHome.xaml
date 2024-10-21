@@ -12,11 +12,13 @@
             <Grid>
                 <StackPanel Orientation="Horizontal" Spacing="12">
                     <PersonPicture Width="64" ProfilePicture="{person:ProfileImage ImageName=profile_image.jpg}" />
+                    <!-- hide premuim icon until premium is available browser-->
                     <ImageIcon
                         Width="32"
                         Height="32"
                         Source="{asset:ImageLoader ImageName=Prize.png}"
-                        ToolTipService.ToolTip="You Have Premium Browser License" />
+                        ToolTipService.ToolTip="You Have Premium Browser License" 
+                        Visibility="Collapsed"/>
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock
                             x:Name="User"
@@ -26,11 +28,29 @@
                     </StackPanel>
                 </StackPanel>
                 <Button
-                    x:Name="LogOutBtn"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Click="LogOutBtn_Click"
-                    Content="Log Out" />
+    x:Name="UserActionBtn"
+    HorizontalAlignment="Right"
+    VerticalAlignment="Top">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE712;" FontFamily="{StaticResource SymbolThemeFontFamily}"/>
+                        </StackPanel>
+                    </Button.Content>
+                    <Button.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem x:Name="ImportBookmarksItem" Text="Import Bookmarks" Click="ImportBookmarksItem_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE8B7;" FontFamily="{StaticResource SymbolThemeFontFamily}"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem x:Name="LogOutItem" Text="Log Out" Click="LogOutBtn_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE7E8;" FontFamily="{StaticResource SymbolThemeFontFamily}"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
             </Grid>
 
             <labs:SettingsCard Header="Check for internal component updates">
