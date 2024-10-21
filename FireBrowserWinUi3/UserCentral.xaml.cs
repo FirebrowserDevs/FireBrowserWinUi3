@@ -67,13 +67,21 @@ namespace FireBrowserWinUi3
         public static UserCentral Instance { get; private set; }
         public UC_Viewmodel ViewModel { get; set; }
         public static bool IsOpen { get; private set; }
+        private bool _isDataLoaded = false;
 
         public UserCentral()
         {
             InitializeComponent();
             ViewModel = new UC_Viewmodel { ParentWindow = this };
             Instance = this;
-            Activated += async (_, _) => await LoadDataGlobally();
+            Activated += async (_, _) =>
+            {
+                if (!_isDataLoaded)
+                {
+                    await LoadDataGlobally();
+                    _isDataLoaded = true;
+                }
+            };
 
             // Get the AppWindow for this window
             IntPtr hWnd = WindowNative.GetWindowHandle(this);
@@ -91,7 +99,7 @@ namespace FireBrowserWinUi3
 
                 // Set window size
                 var size = new SizeInt32(700, 500);
-                appWindow.Resize(size);          
+                appWindow.Resize(size);
 
                 // Remove default window chrome
                 var presenter = appWindow.Presenter as OverlappedPresenter;
@@ -103,13 +111,16 @@ namespace FireBrowserWinUi3
             }
         }
 
-
         public async Task LoadDataGlobally()
         {
-            string coreFolderPath = UserDataManager.CoreFolderPath;
-            ViewModel.Users = await GetUsernameFromCoreFolderPath(coreFolderPath);
-            UserListView.ItemsSource = ViewModel.Users;
-            ViewModel.RaisePropertyChanges(nameof(ViewModel.Users));
+            if (!_isDataLoaded)
+            {
+                string coreFolderPath = UserDataManager.CoreFolderPath;
+                ViewModel.Users = await GetUsernameFromCoreFolderPath(coreFolderPath);
+                UserListView.ItemsSource = ViewModel.Users;
+                ViewModel.RaisePropertyChanges(nameof(ViewModel.Users));
+                _isDataLoaded = true;
+            }
         }
 
         private async Task<List<UserExtend>> GetUsernameFromCoreFolderPath(string coreFolderPath, string userName = null)
@@ -134,18 +145,20 @@ namespace FireBrowserWinUi3
 
         private void UserListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count > 0)
-                if (UserListView.SelectedItem is UserExtend selectedUser)
-                {
-                    if (AuthService.users.Count == 0)
-                        AuthService.users = AuthService.LoadUsersFromJson();
+            if (e.AddedItems.Count > 0 && UserListView.SelectedItem is UserExtend selectedUser)
+            {
+                ViewModel.User = selectedUser;
+                ViewModel.RaisePropertyChanges(nameof(ViewModel.User));
 
-                    AuthService.Authenticate(selectedUser.FireUser.Username);
-                    // close active window if not Usercentral, and then assign it as usercentral and close to give -> windowscontroller notification of close usercentral 
-                    AppService.ActiveWindow?.Close();
-                    AppService.ActiveWindow = this;
-                    AppService.ActiveWindow?.Close();
-                }
+                if (AuthService.users.Count == 0)
+                    AuthService.users = AuthService.LoadUsersFromJson();
+
+                AuthService.Authenticate(selectedUser.FireUser.Username);
+                // close active window if not Usercentral, and then assign it as usercentral and close to give -> windowscontroller notification of close usercentral 
+                AppService.ActiveWindow?.Close();
+                AppService.ActiveWindow = this;
+                AppService.ActiveWindow?.Close();
+            }
         }
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
