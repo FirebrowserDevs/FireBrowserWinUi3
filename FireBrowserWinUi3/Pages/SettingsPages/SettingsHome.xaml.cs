@@ -135,7 +135,7 @@ public sealed partial class SettingsHome : Page
                 using (StreamReader reader = process.StandardOutput)
                 {
                     string result = reader.ReadToEnd();
-                    string msg = Regex.Replace(result, @"[^a-zA-Z0-9]", "");
+                    string msg = Regex.Replace(result, @"[^a-zA-Z0-9\s]+", "");
                     string msg2 = Regex.Replace(msg, @"[\r*\-\\]", "");
                     Messenger?.Send(new Message_Settings_Actions($"Application update status\n\n{msg2.Trim()} !", EnumMessageStatus.Informational));
                 }
@@ -152,7 +152,21 @@ public sealed partial class SettingsHome : Page
     }
     private void PatchBtn_Click(object sender, RoutedEventArgs e)
     {
+        //https://www.microsoft.com/en-us/videoplayer/embed/RE3i5DH
+        //StoreContext storeContext = StoreContext.GetDefault();"9PCN40XXVCVB"
+        //StoreProductResult result = await storeContext.GetStoreProductForCurrentAppAsync();
+
+        // here is how we were discussing winget for updates. 
+        (sender as Button).Visibility = Visibility.Collapsed;
+        (sender as Button).Opacity = .5;
+
         UpdateApp();
+
+        (sender as Button).Visibility = Visibility.Visible;
+        (sender as Button).Opacity = 1;
+        //PatchUpdate dlg = new PatchUpdate();
+        //dlg.XamlRoot = this.XamlRoot;
+        //await dlg.ShowAsync();
     }
 
     private async void Reset_Click(object sender, RoutedEventArgs e)
