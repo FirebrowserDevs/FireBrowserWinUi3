@@ -176,39 +176,19 @@ namespace FireBrowserWinUi3
             await AppService.ConfigureSettingsWindow(usr);
         }
 
+        private async void BackUp_Click(object sender, RoutedEventArgs e) {
+
+            BackUpDialog dlg = new BackUpDialog();
+            dlg.XamlRoot = GridUserCentral.XamlRoot;
+            await dlg.ShowAsync();
+
+        }
+
         private async void RestoreNow_Click(object sender, RoutedEventArgs e)
         {
-            var win = AppService.ActiveWindow = new Window();
-            win.SystemBackdrop = new MicaBackdrop();
-            var present = new ContentPresenter();
-            win.Content = present;
-            IntPtr hWnd = WindowNative.GetWindowHandle(this);
-            if (hWnd != IntPtr.Zero)
-            {
-                Windowing.SetWindowPos(hWnd, Windowing.HWND_BOTTOM, 0, 0, 0, 0, Windowing.SWP_NOSIZE);
-            }
-
-            await AppService.ConfigureSettingsWindow(win);
-
-            win.Closed += (s, e) =>
-            {
-                IntPtr ucHwnd = Windowing.FindWindow(null, nameof(UserCentral));
-                if (ucHwnd != IntPtr.Zero)
-                {
-                    Windowing.Center(ucHwnd);
-                    // close active window if not Usercentral, and then assign it as usercentral and close to give -> windowscontroller notification of close usercentral 
-                    AppService.ActiveWindow?.Close();
-                    AppService.ActiveWindow = this;
-                    AppService.ActiveWindow?.Close();
-                }
-                else
-                {
-                    Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
-                }
-            };
-
+            //usercentral is big enough now. 
             RestoreBackupDialog dlg = new RestoreBackupDialog();
-            dlg.XamlRoot = present.XamlRoot;
+            dlg.XamlRoot = GridUserCentral.XamlRoot;
             await dlg.ShowAsync();
         }
 

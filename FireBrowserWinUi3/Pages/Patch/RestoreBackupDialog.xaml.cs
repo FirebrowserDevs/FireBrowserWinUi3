@@ -42,11 +42,12 @@ namespace FireBrowserWinUi3.Pages.Patch
 
             // close whatever window is open ie: setup, usercentral --> need to give control back to windowscontroller....
 
-            AppService.ActiveWindow?.Close();
+            
             this.Hide();
 
             if (CancelledByUser) { return; }
 
+            AppService.ActiveWindow?.Close();
 
             // is main is open give use option on next start up... 
             if (App.Current.m_window is not null)

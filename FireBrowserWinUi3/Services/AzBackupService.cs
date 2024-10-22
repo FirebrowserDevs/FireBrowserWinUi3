@@ -427,7 +427,7 @@ namespace FireBrowserWinUi3.Services
         {
             uint size = 1024;
             StringBuilder name = new StringBuilder((int)size);
-            var user = AuthService.CurrentUser ?? new FireBrowserWinUi3MultiCore.User();
+            FireBrowserWinUi3MultiCore.User user;
 
             try
             {
@@ -441,32 +441,35 @@ namespace FireBrowserWinUi3.Services
 
                 if (azGraphUser is AuthenticationResult auth)
                 {
+                    user = AuthService.CurrentUser ?? new();
                     user.Email = auth.Account.Username;
+
                     try
                     {
                         await GetUserProfilePicture(auth);
                     }
                     catch {; } // do nothing is a error is thrown.  move on maybe do something later. 
 
+                    if (GetUserNameEx(NameFormats.NameDisplay, name, ref size))
+                    {
+                        user.WindowsUserName = name.ToString();
+                    }
+
+                    return user;
                 }
 
-
-                if (GetUserNameEx(NameFormats.NameDisplay, name, ref size))
-                {
-                    user.WindowsUserName = name.ToString();
-                }
-                if (GetUserNameEx(NameFormats.NameUserPrincipal, name, ref size))
-                {
-                    user.Email = name.ToString();
-                }
-                return user;
             }
-            catch (Exception)
+            catch (MsalClientException ex)
             {
-
+                return null;
+                throw; 
+            }
+            catch (Exception) {
+                return null;
                 throw;
             }
 
+            return null;
         }
 
         public class ResponseAZFILE(string blobName, object sasUrl)
@@ -509,15 +512,14 @@ namespace FireBrowserWinUi3.Services
             }
 
         }
-        public async Task<ResponseAZFILE> UploadAndStoreFile(string blobName, IRandomAccessStream fileStream)
+        public async Task<ResponseAZFILE> UploadAndStoreFile(string blobName, IRandomAccessStream fileStream, FireBrowserWinUi3MultiCore.User fireUser)
         {
             try
             {
-                var email = await GetUserInformationAsync();
                 var result = await UploadFileToBlobAsync(blobName, fileStream);
 
                 if (result is not null)
-                    await InsertOrUpdateEntityAsync("TrackerBackups", email.Email ?? email.WindowsUserName, result.Url.ToString(), blobName, email.WindowsUserName);
+                    await InsertOrUpdateEntityAsync("TrackerBackups", fireUser.Email ?? fireUser.WindowsUserName, result.Url.ToString(), blobName, fireUser.WindowsUserName);
                 return result;
             }
             catch (Exception ex)
