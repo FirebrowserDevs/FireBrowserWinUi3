@@ -45,21 +45,21 @@
                     Spacing="8">
                     <AppBarButton
                         VerticalAlignment="Center"
-                        Click="AppBarButton_Click"
+                        Command="{x:Bind ViewModel.AddNewUserCommand}"
                         Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
                         Icon="OtherUser"
                         Label="Add User" />
                     <AppBarButton
                         Width="Auto"
                         VerticalAlignment="Center"
-                        Click="RestoreNow_Click"
+                        Command="{x:Bind ViewModel.RestoreCoreCommand}"
                         Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
                         Icon="Refresh"
                         Label="Restore Backup" />
                     <AppBarButton
                         Width="Auto"
                         VerticalAlignment="Center"
-                        Click="BackUp_Click"
+                        Command="{x:Bind ViewModel.BackUpCoreCommand}"
                         Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
                         Icon="Calendar"
                         Label="Backup" />
