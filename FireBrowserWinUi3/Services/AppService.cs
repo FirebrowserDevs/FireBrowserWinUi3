@@ -8,6 +8,7 @@ using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System;
@@ -34,6 +35,7 @@ public static class AppService
     public static bool IsAppNewUser { get; set; }
     public static bool IsAppUserAuthenicated { get; set; }
 
+    public static DispatcherQueue Dispatcher { get; set; }
 
 
     public static async Task WindowsController(CancellationToken cancellationToken)

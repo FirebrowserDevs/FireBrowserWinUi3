@@ -27,6 +27,8 @@ public class Windowing
     public static extern bool AnimateWindow(IntPtr hwnd, int dwTime, int dwFlags);
 
 
+
+
     public const int AW_HOR_POSITIVE = 0x0001;
     public const int AW_HOR_NEGATIVE = 0x0002;
     public const int AW_VER_POSITIVE = 0x0004;
@@ -224,7 +226,7 @@ public class Windowing
         public int bottom;
     }
     public const int GWLP_WNDPROC = -4;
-    public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
+
     public static uint SWP_NOSIZE = 0x0001;
     public static uint SWP_NOMOVE = 0x0002;
     public static uint SWP_NOZORDER = 0x0004;
@@ -238,6 +240,7 @@ public class Windowing
     public static uint SWP_NOSENDCHANGING = 0x0400;
     public static readonly IntPtr HWND_TOP = new IntPtr(0);
     public static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+    public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
     public const uint WM_CLOSE = 0x0010;
     public enum WindowShowStyle : uint
     {

@@ -28,6 +28,7 @@ namespace FireBrowserWinUi3.Controls
             this.InitializeComponent();
             UpdateBack();
             InitializeWindow();
+            AppService.Dispatcher = this.DispatcherQueue;
         }
 
         private async void UpdateBack()
@@ -40,14 +41,25 @@ namespace FireBrowserWinUi3.Controls
             var hWnd = WindowNative.GetWindowHandle(this);
             WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
             appWindow = AppWindow.GetFromWindowId(windowId);
-
+            appWindow.Title = "CreateBackup";
             appWindow.MoveAndResize(new RectInt32(500, 500, 850, 500));
             FireBrowserWinUi3Core.Helpers.Windowing.Center(this);
             appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
             appWindow.MoveInZOrderAtTop();
             appWindow.SetIcon("backup.ico");
             appWindow.ShowOnceWithRequestedStartupState();
-            Windowing.Center(this);
+            //            Windowing.Center(this);
+
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                IntPtr hWnd = Windowing.FindWindow(null, nameof(CreateBackup));
+                if (hWnd != IntPtr.Zero)
+                {
+                    Windowing.SetWindowPos(hWnd, Windowing.HWND_BOTTOM, 0, 0, 0, 0, Windowing.SWP_NOSIZE | Windowing.SWP_NOMOVE | Windowing.SWP_SHOWWINDOW);
+                }
+            });
+
+
 
             if (!AppWindowTitleBar.IsCustomizationSupported())
             {
