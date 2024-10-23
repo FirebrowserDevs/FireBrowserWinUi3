@@ -145,6 +145,7 @@
                     </labs:SettingsCard>
                 </labs:SettingsExpander.Items>
             </labs:SettingsExpander>
+            <TextBlock x:Name="Version"/>
         </StackPanel>
     </ScrollViewer>
 </Page>

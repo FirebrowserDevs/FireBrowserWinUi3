@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.WinUI;
 using FireBrowserWinUi3.Pages.Patch;
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.Services.Messages;
@@ -14,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 
 namespace FireBrowserWinUi3.Pages.SettingsPages;
 public sealed partial class SettingsHome : Page
@@ -32,9 +34,20 @@ public sealed partial class SettingsHome : Page
         LoadUserDataAndSettings();
         LoadUsernames();
         IsPremium = false;
+        Version.Text = "App version:" + GetVersionDescription();
     }
 
-    public Task LoadUsernames()
+    private string GetVersionDescription()
+    {
+        var appName = "AppDisplayName".GetLocalized();
+        var package = Package.Current;
+        var packageId = package.Id;
+        var version = packageId.Version;
+
+        return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+    }
+
+        public Task LoadUsernames()
     {
         List<string> usernames = AuthService.GetAllUsernames();
         string currentUsername = AuthService.CurrentUser?.Username;

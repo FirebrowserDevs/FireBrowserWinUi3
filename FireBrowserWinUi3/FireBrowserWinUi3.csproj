@@ -364,6 +364,8 @@
     <PackageCertificateKeyFile>FireBrowserWinUi3_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
 
 
 </Project>
