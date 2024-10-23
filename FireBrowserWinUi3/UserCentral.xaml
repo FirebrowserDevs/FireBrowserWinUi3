@@ -45,7 +45,7 @@
                     Spacing="8">
                     <AppBarButton
                         VerticalAlignment="Center"
-                        Command="{x:Bind ViewModel.AddNewUserCommand}"
+                      Click="AppBarButton_Click"
                         Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
                         Icon="OtherUser"
                         Label="Add User" />

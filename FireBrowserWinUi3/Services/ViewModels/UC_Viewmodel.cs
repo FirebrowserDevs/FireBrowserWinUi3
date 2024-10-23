@@ -79,21 +79,6 @@ namespace FireBrowserWinUi3
             await dlg.ShowAsync();
         }
 
-        [RelayCommand]
-        private async Task AddNewUser() {
-
-            var usr = new AddUserWindow();
-            usr.Closed += (s, e) =>
-            {
-                AppService.ActiveWindow = ParentWindow!;
-            };
-            IntPtr hWnd = WindowNative.GetWindowHandle(this);
-            if (hWnd != IntPtr.Zero)
-            {
-                Windowing.SetWindowPos(hWnd, Windowing.HWND_BOTTOM, 0, 0, 0, 0, Windowing.SWP_NOSIZE);
-            }
-            await AppService.ConfigureSettingsWindow(usr);
-        }
         public void RaisePropertyChanges([CallerMemberName] string propertyName = null) => OnPropertyChanged(propertyName);
     }
 }

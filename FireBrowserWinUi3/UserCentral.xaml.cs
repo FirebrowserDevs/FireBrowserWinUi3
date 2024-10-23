@@ -1,5 +1,6 @@
 using FireBrowserWinUi3.Services;
 using FireBrowserWinUi3.Services.Models;
+using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -119,7 +120,17 @@ namespace FireBrowserWinUi3
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            var usr = new AddUserWindow();
+            usr.Closed += (s, e) =>
+            {
+                AppService.ActiveWindow = this;
+            };
+            IntPtr hWnd = WindowNative.GetWindowHandle(this);
+            if (hWnd != IntPtr.Zero)
+            {
+                Windowing.SetWindowPos(hWnd, Windowing.HWND_BOTTOM, 0, 0, 0, 0, Windowing.SWP_NOSIZE);
+            }
+            await AppService.ConfigureSettingsWindow(usr);
         }
 
         private void MinimizeBtn_Click(object sender, RoutedEventArgs e)
@@ -133,5 +144,7 @@ namespace FireBrowserWinUi3
                 }
             }
         }
+
+       
     }
 }
