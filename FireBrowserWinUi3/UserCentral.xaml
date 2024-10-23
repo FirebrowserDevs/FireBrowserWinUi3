@@ -5,8 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dllimg="using:FireBrowserWinUi3Assets"
     xmlns:firebrowser="using:FireBrowserWinUi3.Controls"
-    xmlns:firebrowserwinui3="using:FireBrowserWinUi3"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:FireBrowserWinUi3.Services.Models"
     mc:Ignorable="d">
 
     <Window.SystemBackdrop>
@@ -106,7 +106,7 @@
                     SelectedItem="{x:Bind ViewModel.User, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     SelectionChanged="UserListView_SelectionChanged">
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="firebrowserwinui3:UserExtend">
+                        <DataTemplate x:DataType="models:UserExtend">
                             <Grid Padding="8" ColumnSpacing="12">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
