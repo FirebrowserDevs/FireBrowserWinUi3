@@ -13,134 +13,109 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
-namespace FireBrowserWinUi3.Controls
+namespace FireBrowserWinUi3.Controls;
+public sealed partial class ProfileCommander : Flyout
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    /// 
+    private SettingsService SettingsService { get; set; }
+    private MainWindowViewModel MainWindowViewModel { get; set; }
+    private IMessenger Messenger { get; set; }
 
-    //TODO: look at this auth through google.  Need our own google develpor app registration. but how do we like set a cookie in webview.chrome.cookies ?? webview2.corewebview2.cookiemanager add (google auth) ??
-    // https://github.com/googlesamples/oauth-apps-for-windows.git
-    public sealed partial class ProfileCommander : Flyout
+    public ProfileCommander(MainWindowViewModel mainWindowViewModel)
     {
-        private SettingsService SettingsService { get; set; }
-        private MainWindowViewModel MainWindowViewModel { get; set; }
-        private IMessenger Messenger { get; set; }
+        MainWindowViewModel = mainWindowViewModel;
+        SettingsService = App.GetService<SettingsService>();
+        Messenger = App.GetService<IMessenger>();
 
-        public ProfileCommander(MainWindowViewModel mainWindowViewModel)
+        this.InitializeComponent();
+        LoadUserDataAndSettings();
+    }
+
+    private void LoadUserDataAndSettings()
+    {
+        if (!AuthService.IsUserAuthenticated)
+            return;
+
+        UsernameDisplay.Text = SettingsService.CurrentUser.Username ?? "DefaultUser";
+    }
+
+    string iImage = "";
+
+    private async void pfpchanged_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (pfpchanged.SelectedItem != null)
         {
-            MainWindowViewModel = mainWindowViewModel;
-            SettingsService = App.GetService<SettingsService>();
-            Messenger = App.GetService<IMessenger>();
+            // Assuming 'userImageName' contains the name of the user's image file
+            string userImageName = pfpchanged.SelectedItem.ToString() + ".png"; // Replace this with the actual user's image name
 
-            this.InitializeComponent();
-            LoadUserDataAndSettings();
-
-        }
-
-
-        private void LoadUserDataAndSettings()
-        {
-            if (!AuthService.IsUserAuthenticated)
-                return;
-
-            UsernameDisplay.Text = SettingsService.CurrentUser.Username ?? "DefaultUser";
-
-        }
-
-        string iImage = "";
-
-        private async void pfpchanged_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (pfpchanged.SelectedItem != null)
-            {
-                // Assuming 'userImageName' contains the name of the user's image file
-                string userImageName = pfpchanged.SelectedItem.ToString() + ".png"; // Replace this with the actual user's image name
-
-                iImage = userImageName;
-                // Instantiate ImageLoader
-                ImageHelper imgLoader = new ImageHelper();
-
-                // Use the LoadImage method to get the image
-                var userProfilePicture = imgLoader.LoadImage(userImageName);
-
-                MainWindowViewModel.ProfileImage = userProfilePicture;
-
-                // Assign the retrieved image to the ProfileImageControl
-                RootImage.ProfilePicture = userProfilePicture;
-
-                string destinationFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username);
-
-                await CopyImageAsync(iImage.ToString(), destinationFolderPath);
-
-                var pip = MainWindowViewModel.MainView?.TabViewContainer.TabStripHeader as PersonPicture;
-                //var pipUser = MainWindowViewModel.MainView?.MainUserPicture as PersonPicture;
-
-                if (pip is PersonPicture person)
-                {
-                    person.ProfilePicture = userProfilePicture;
-                }
-
-
-                //if (pipUser is PersonPicture person1) {
-                //    person1.ProfilePicture = userProfilePicture;
-                //}
-
-
-
-            }
-
-        }
-
-        public async Task CopyImageAsync(string iImage, string destinationFolderPath)
-        {
+            iImage = userImageName;
+            // Instantiate ImageLoader
             ImageHelper imgLoader = new ImageHelper();
-            imgLoader.ImageName = iImage;
-            imgLoader.LoadImage($"{iImage}");
 
-            StorageFolder destinationFolder = await StorageFolder.GetFolderFromPathAsync(destinationFolderPath);
+            // Use the LoadImage method to get the image
+            var userProfilePicture = imgLoader.LoadImage(userImageName);
 
-            StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///FireBrowserWinUi3MultiCore/Assets/{iImage}"));
-            StorageFile destinationFile = await imageFile.CopyAsync(destinationFolder, "profile_image.jpg", NameCollisionOption.ReplaceExisting);
+            MainWindowViewModel.ProfileImage = userProfilePicture;
 
-            Console.WriteLine("Image copied successfully!");
+            // Assign the retrieved image to the ProfileImageControl
+            RootImage.ProfilePicture = userProfilePicture;
+
+            string destinationFolderPath = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, AuthService.CurrentUser.Username);
+
+            await CopyImageAsync(iImage.ToString(), destinationFolderPath);
+
+            var pip = MainWindowViewModel.MainView?.TabViewContainer.TabStripHeader as PersonPicture;
+
+            if (pip is PersonPicture person)
+            {
+                person.ProfilePicture = userProfilePicture;
+            }
         }
+    }
+
+    public async Task CopyImageAsync(string iImage, string destinationFolderPath)
+    {
+        ImageHelper imgLoader = new ImageHelper();
+        imgLoader.ImageName = iImage;
+        imgLoader.LoadImage($"{iImage}");
+
+        StorageFolder destinationFolder = await StorageFolder.GetFolderFromPathAsync(destinationFolderPath);
+
+        StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///FireBrowserWinUi3MultiCore/Assets/{iImage}"));
+        StorageFile destinationFile = await imageFile.CopyAsync(destinationFolder, "profile_image.jpg", NameCollisionOption.ReplaceExisting);
+
+        Console.WriteLine("Image copied successfully!");
+    }
 
 
-        private async void ChangeUsername_Click(object sender, RoutedEventArgs e)
-        {
+    private async void ChangeUsername_Click(object sender, RoutedEventArgs e)
+    {
 
-            Messenger.Send(new Message_Settings_Actions(EnumMessageStatus.Settings));
+        Messenger.Send(new Message_Settings_Actions(EnumMessageStatus.Settings));
 
-            string olduser = UsernameDisplay.Text;
+        string olduser = UsernameDisplay.Text;
 
-            AuthService.ChangeUsername(olduser, username_box.Text.ToString());
-            string tempFolderPath = Path.GetTempPath();
-            string jsonFilePath = Path.Combine(tempFolderPath, "changeusername.json");
-            await File.WriteAllTextAsync(jsonFilePath, JsonConvert.SerializeObject(AuthService.UserWhomIsChanging));
+        AuthService.ChangeUsername(olduser, username_box.Text.ToString());
+        string tempFolderPath = Path.GetTempPath();
+        string jsonFilePath = Path.Combine(tempFolderPath, "changeusername.json");
+        await File.WriteAllTextAsync(jsonFilePath, JsonConvert.SerializeObject(AuthService.UserWhomIsChanging));
 
-            // must restart due to file locking allocation old user file are in use by webview, and dbservices.
-            Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+        // must restart due to file locking allocation old user file are in use by webview, and dbservices.
+        Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
 
-        }
+    }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            string site = "google"; // Default site
-            var win = new QuickSign(site);
-            win.Activate();
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        string site = "google"; // Default site
+        var win = new QuickSign(site);
+        win.Activate();
 
-        }
+    }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            string site = "microsoft"; // Default site
-            var win = new QuickSign(site);
-            win.Activate();
-        }
+    private void Button_Click_1(object sender, RoutedEventArgs e)
+    {
+        string site = "microsoft"; // Default site
+        var win = new QuickSign(site);
+        win.Activate();
     }
 }

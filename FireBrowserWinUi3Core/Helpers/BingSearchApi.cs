@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using FireBrowserWinUi3Exceptions;
-using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
@@ -89,69 +88,113 @@ namespace FireBrowserWinUi3Core.Helpers
 
             return Task.FromResult<string>(null);
         }
-        static void DisplayAllRankedResults(Newtonsoft.Json.Linq.JObject responseObjects)
+        static void DisplayAllRankedResults(JsonElement responseObjects)
         {
             string[] rankingGroups = new string[] { "pole", "mainline", "sidebar", "_type", "TrendingTopics" };
 
             // Loop through the ranking groups in priority order
             foreach (string rankingName in rankingGroups)
             {
-                Newtonsoft.Json.Linq.JToken rankingResponseItems = responseObjects.SelectToken($"rankingResponse.{rankingName}.items");
-                if (rankingResponseItems != null)
+                if (responseObjects.TryGetProperty("rankingResponse", out JsonElement rankingResponse) &&
+                    rankingResponse.TryGetProperty(rankingName, out JsonElement rankingGroup) &&
+                    rankingGroup.TryGetProperty("items", out JsonElement rankingResponseItems))
                 {
-                    foreach (Newtonsoft.Json.Linq.JObject rankingResponseItem in rankingResponseItems)
+                    foreach (JsonElement rankingResponseItem in rankingResponseItems.EnumerateArray())
                     {
-                        Newtonsoft.Json.Linq.JToken resultIndex;
-                        rankingResponseItem.TryGetValue("resultIndex", out resultIndex);
-                        var answerType = rankingResponseItem.Value<string>("answerType");
-                        switch (answerType)
+                        if (rankingResponseItem.TryGetProperty("resultIndex", out JsonElement resultIndex) &&
+                            rankingResponseItem.TryGetProperty("answerType", out JsonElement answerTypeElement))
                         {
-                            case "WebPages":
-                                DisplaySpecificResults(resultIndex, responseObjects.SelectToken("webPages.value"), "WebPage", "name", "url", "displayUrl", "snippet");
-                                break;
-                            case "News":
-                                DisplaySpecificResults(resultIndex, responseObjects.SelectToken("news.value"), "News", "name", "url", "description");
-                                break;
-                            case "Images":
-                                DisplaySpecificResults(resultIndex, responseObjects.SelectToken("images.value"), "Image", "thumbnailUrl");
-                                break;
-                            case "Videos":
-                                DisplaySpecificResults(resultIndex, responseObjects.SelectToken("videos.value"), "Video", "embedHtml");
-                                break;
-                            case "RelatedSearches":
-                                DisplaySpecificResults(resultIndex, responseObjects.SelectToken("relatedSearches.value"), "RelatedSearch", "displayText", "webSearchUrl");
-                                break;
+                            string answerType = answerTypeElement.GetString();
+                            switch (answerType)
+                            {
+                                case "WebPages":
+                                    if (responseObjects.TryGetProperty("webPages", out JsonElement webPages) &&
+                                        webPages.TryGetProperty("value", out JsonElement webPagesValue))
+                                    {
+                                        DisplaySpecificResults(resultIndex, webPagesValue, "WebPage", "name", "url", "displayUrl", "snippet");
+                                    }
+                                    break;
+                                case "News":
+                                    if (responseObjects.TryGetProperty("news", out JsonElement news) &&
+                                        news.TryGetProperty("value", out JsonElement newsValue))
+                                    {
+                                        DisplaySpecificResults(resultIndex, newsValue, "News", "name", "url", "description");
+                                    }
+                                    break;
+                                case "Images":
+                                    if (responseObjects.TryGetProperty("images", out JsonElement images) &&
+                                        images.TryGetProperty("value", out JsonElement imagesValue))
+                                    {
+                                        DisplaySpecificResults(resultIndex, imagesValue, "Image", "thumbnailUrl");
+                                    }
+                                    break;
+                                case "Videos":
+                                    if (responseObjects.TryGetProperty("videos", out JsonElement videos) &&
+                                        videos.TryGetProperty("value", out JsonElement videosValue))
+                                    {
+                                        DisplaySpecificResults(resultIndex, videosValue, "Video", "embedHtml");
+                                    }
+                                    break;
+                                case "RelatedSearches":
+                                    if (responseObjects.TryGetProperty("relatedSearches", out JsonElement relatedSearches) &&
+                                        relatedSearches.TryGetProperty("value", out JsonElement relatedSearchesValue))
+                                    {
+                                        DisplaySpecificResults(resultIndex, relatedSearchesValue, "RelatedSearch", "displayText", "webSearchUrl");
+                                    }
+                                    break;
+                            }
                         }
                     }
                 }
             }
         }
-        static void DisplaySpecificResults(Newtonsoft.Json.Linq.JToken resultIndex, Newtonsoft.Json.Linq.JToken items, string title, params string[] fields)
+
+        static void DisplaySpecificResults(JsonElement resultIndex, JsonElement items, string title, params string[] fields)
         {
-            if (resultIndex == null)
+            if (resultIndex.ValueKind == JsonValueKind.Undefined)
             {
-                foreach (Newtonsoft.Json.Linq.JToken item in items)
+                foreach (JsonElement item in items.EnumerateArray())
                 {
                     DisplayItem(item, title, fields);
                 }
             }
             else
             {
-                DisplayItem(items.ElementAt((int)resultIndex), title, fields);
+                int index = resultIndex.GetInt32();
+                if (items.ValueKind == JsonValueKind.Array && index >= 0 && index < items.GetArrayLength())
+                {
+                    DisplayItem(items[index], title, fields);
+                }
+                else
+                {
+                    Console.WriteLine($"Invalid index {index} for {title}");
+                }
             }
         }
-
-        static void DisplayItem(Newtonsoft.Json.Linq.JToken item, string title, string[] fields)
+        static void DisplayItem(JsonElement item, string title, string[] fields)
         {
-            var doc = SpecialDirectories.MyDocuments.ToString() + "bingSearch.txt";
-            var file = File.Create(doc);
+            var doc = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "bingSearch.txt");
 
-            foreach (string field in fields)
+            try
             {
-                if (File.Exists(doc))
-                    File.WriteAllText(SpecialDirectories.MyDocuments.ToString() + "bingSearch.txt", JsonSerializer.Serialize(field, new JsonSerializerOptions { WriteIndented = true }));
-
-                Console.WriteLine($"- {field}: {item[field]}");
+                using (StreamWriter writer = new StreamWriter(doc, append: true))
+                {
+                    writer.WriteLine($"--- {title} ---");
+                    foreach (string field in fields)
+                    {
+                        if (item.TryGetProperty(field, out JsonElement fieldValue))
+                        {
+                            string content = $"- {field}: {fieldValue}";
+                            writer.WriteLine(content);
+                            Console.WriteLine(content);
+                        }
+                    }
+                    writer.WriteLine(); // Add a blank line between items
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing to file: {ex.Message}");
             }
         }
     }

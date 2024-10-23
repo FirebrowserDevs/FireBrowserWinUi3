@@ -1,5 +1,4 @@
 using Microsoft.UI.Xaml.Controls;
-using System;
 using System.IO;
 
 namespace FireBrowserWinUi3.Pages.Patch

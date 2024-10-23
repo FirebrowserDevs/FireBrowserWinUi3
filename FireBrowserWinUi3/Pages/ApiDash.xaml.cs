@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.ServiceProcess;
 
 namespace FireBrowserWinUi3.Pages
@@ -121,6 +122,7 @@ namespace FireBrowserWinUi3.Pages
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
             }
         }
     }

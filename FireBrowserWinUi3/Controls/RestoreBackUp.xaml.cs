@@ -10,116 +10,110 @@ using System.Threading.Tasks;
 using Windows.Graphics;
 using WinRT.Interop;
 
-namespace FireBrowserWinUi3.Controls
+namespace FireBrowserWinUi3.Controls;
+public sealed partial class RestoreBackUp : Window
 {
-    public sealed partial class RestoreBackUp : Window
+    private bool _isCancelled = false;
+    private AppWindow appWindow;
+    private AppWindowTitleBar titleBar;
+
+    public RestoreBackUp()
     {
-        private bool _isCancelled = false;
-        private AppWindow appWindow;
-        private AppWindowTitleBar titleBar;
+        this.InitializeComponent();
+        InitializeWindow();
+        StartRestoreProcess().ConfigureAwait(false);
+    }
 
-        public RestoreBackUp()
+
+    private async Task StartRestoreProcess()
+    {
+        try
         {
-            this.InitializeComponent();
-            InitializeWindow();
-            StartRestoreProcess().ConfigureAwait(false);
-        }
-
-
-        private async Task StartRestoreProcess()
-        {
-            try
-            {
-                string tempPath = Path.GetTempPath();
-                string restoreFilePath = Path.Combine(tempPath, "restore.fireback");
-
-                if (File.Exists(restoreFilePath))
-                {
-                    string backupFilePath = await File.ReadAllTextAsync(restoreFilePath);
-                    await RestoreBackup(backupFilePath);
-                }
-                else
-                {
-                    await ShowErrorMessage("Restore file not found.");
-                }
-            }
-            catch (Exception ex)
-            {
-                await ShowErrorMessage($"An error occurred: {ex.Message}");
-            }
-        }
-
-        private async Task RestoreBackup(string backupFilePath)
-        {
-
-            await Task.Delay(100);
-
-
-            StatusTextBlock.Text = "Restoring backup...";
-
-            await Task.Delay(100);
-
-            await BackupManager.RestoreBackup();
-
-            // Delete the restore file once done
             string tempPath = Path.GetTempPath();
             string restoreFilePath = Path.Combine(tempPath, "restore.fireback");
+
             if (File.Exists(restoreFilePath))
             {
-                File.Delete(restoreFilePath);
-            }
-
-            // Finalize the process
-            StatusTextBlock.Text = "Backup restored successfully!";
-            await Task.Delay(100);
-
-            Microsoft.Windows.AppLifecycle.AppInstance.Restart(""); // Optionally restart the app if needed
-        }
-
-
-
-        private void InitializeWindow()
-        {
-            var hWnd = WindowNative.GetWindowHandle(this);
-            WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
-            appWindow = AppWindow.GetFromWindowId(windowId);
-
-            appWindow.MoveAndResize(new RectInt32(500, 500, 850, 500));
-            FireBrowserWinUi3Core.Helpers.Windowing.Center(this);
-            appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
-            appWindow.MoveInZOrderAtTop();
-            appWindow.SetIcon("backup.ico");
-            appWindow.ShowOnceWithRequestedStartupState();
-            Windowing.Center(this);
-
-
-            if (!AppWindowTitleBar.IsCustomizationSupported())
-            {
-                throw new Exception("Unsupported OS version.");
+                string backupFilePath = await File.ReadAllTextAsync(restoreFilePath);
+                await RestoreBackup(backupFilePath);
             }
             else
             {
-                titleBar = appWindow.TitleBar;
-                titleBar.ExtendsContentIntoTitleBar = true;
-                var btnColor = Colors.Transparent;
-                titleBar.BackgroundColor = btnColor;
-                titleBar.ButtonBackgroundColor = btnColor;
-                titleBar.InactiveBackgroundColor = btnColor;
-                titleBar.ButtonInactiveBackgroundColor = btnColor;
+                await ShowErrorMessage("Restore file not found.");
             }
         }
-
-        private async Task ShowErrorMessage(string message)
+        catch (Exception ex)
         {
-            ContentDialog errorDialog = new()
-            {
-                Title = "Error",
-                Content = message,
-                CloseButtonText = "OK"
-            };
-
-            await errorDialog.ShowAsync();
-            this.Close();
+            await ShowErrorMessage($"An error occurred: {ex.Message}");
         }
+    }
+
+    private async Task RestoreBackup(string backupFilePath)
+    {
+        await Task.Delay(100);
+        StatusTextBlock.Text = "Restoring backup...";
+        await Task.Delay(100);
+
+        await BackupManager.RestoreBackup();
+
+        // Delete the restore file once done
+        string tempPath = Path.GetTempPath();
+        string restoreFilePath = Path.Combine(tempPath, "restore.fireback");
+        if (File.Exists(restoreFilePath))
+        {
+            File.Delete(restoreFilePath);
+        }
+
+        // Finalize the process
+        StatusTextBlock.Text = "Backup restored successfully!";
+        await Task.Delay(100);
+
+        Microsoft.Windows.AppLifecycle.AppInstance.Restart(""); // Optionally restart the app if needed
+    }
+
+
+
+    private void InitializeWindow()
+    {
+        var hWnd = WindowNative.GetWindowHandle(this);
+        WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
+        appWindow = AppWindow.GetFromWindowId(windowId);
+
+        appWindow.MoveAndResize(new RectInt32(500, 500, 850, 500));
+        FireBrowserWinUi3Core.Helpers.Windowing.Center(this);
+        appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+        appWindow.MoveInZOrderAtTop();
+        appWindow.SetIcon("backup.ico");
+        appWindow.ShowOnceWithRequestedStartupState();
+        Windowing.Center(this);
+
+
+        if (!AppWindowTitleBar.IsCustomizationSupported())
+        {
+            throw new Exception("Unsupported OS version.");
+        }
+        else
+        {
+            titleBar = appWindow.TitleBar;
+            titleBar.ExtendsContentIntoTitleBar = true;
+            var btnColor = Colors.Transparent;
+            titleBar.BackgroundColor = btnColor;
+            titleBar.ButtonBackgroundColor = btnColor;
+            titleBar.InactiveBackgroundColor = btnColor;
+            titleBar.ButtonInactiveBackgroundColor = btnColor;
+        }
+    }
+
+    private async Task ShowErrorMessage(string message)
+    {
+        ContentDialog errorDialog = new()
+        {
+            Title = "Error",
+            Content = message,
+            CloseButtonText = "OK"
+        };
+
+        await errorDialog.ShowAsync();
+        this.Close();
     }
 }

@@ -25,10 +25,10 @@ namespace FireBrowserWinUi3
             }
         }
 
-        private void UserName_TextChanged(object sender, TextChangedEventArgs e) => 
+        private void UserName_TextChanged(object sender, TextChangedEventArgs e) =>
             UsrBox.Text = UserName.Text;
 
-        private async void Create_Click(object sender, RoutedEventArgs e) => 
+        private async void Create_Click(object sender, RoutedEventArgs e) =>
             await CreateUserAndNavigate();
 
         private async Task CreateUserAndNavigate()
