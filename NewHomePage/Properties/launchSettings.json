@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "NewHomePage (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "NewHomePage (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
