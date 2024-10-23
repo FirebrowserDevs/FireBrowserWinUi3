@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.Xaml.Interactivity;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -29,8 +30,10 @@ using Settings = FireBrowserWinUi3Core.Models.Settings;
 
 namespace FireBrowserWinUi3.Pages;
 
+
 public sealed partial class NewTab : Page
 {
+    
     bool isAuto;
 
     public List<TrendingItem> trendings = new List<TrendingItem>();

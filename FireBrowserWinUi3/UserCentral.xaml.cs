@@ -1,8 +1,5 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using FireBrowserWinUi3.Pages.Patch;
 using FireBrowserWinUi3.Services;
-using FireBrowserWinUi3Core.Helpers;
+using FireBrowserWinUi3.Services.Models;
 using FireBrowserWinUi3MultiCore;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -12,54 +9,13 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.Graphics;
 using WinRT.Interop;
 
 namespace FireBrowserWinUi3
 {
-    public class UserExtend : User
-    {
-        public string PicturePath { get; }
-        public User FireUser { get; }
-
-        public UserExtend(User user) : base(user)
-        {
-            FireUser = user;
-            string path = Path.Combine(UserDataManager.CoreFolderPath, UserDataManager.UsersFolderPath, user.Username, "profile_image.jpg");
-            PicturePath = File.Exists(path) ? path : "ms-appx:///FireBrowserWinUi3Assets/Assets/user.png";
-        }
-    }
-
-    public partial class UC_Viewmodel : ObservableRecipient
-    {
-        public UC_Viewmodel() => Users = new List<UserExtend>();
-        public List<UserExtend> Users { get; set; }
-        public UserExtend User { get; set; }
-        public Window ParentWindow { get; set; }
-
-        private ICommand _exitWindow;
-        public ICommand ExitWindow => _exitWindow ??= new RelayCommand(() =>
-        {
-            AppService.IsAppGoingToClose = true;
-            ParentWindow?.Close();
-        });
-
-        [RelayCommand]
-        private void OpenWindowsWeather()
-        {
-            var options = new Windows.System.LauncherOptions();
-            options.DesiredRemainingView = Windows.UI.ViewManagement.ViewSizePreference.UseMinimum;
-
-            // Launch the URI
-            Windows.System.Launcher.LaunchUriAsync(new("msnweather://forecast"), options).GetAwaiter().GetResult();
-        }
-
-        public void RaisePropertyChanges([CallerMemberName] string propertyName = null) => OnPropertyChanged(propertyName);
-    }
 
     public sealed partial class UserCentral : Window
     {
@@ -72,7 +28,7 @@ namespace FireBrowserWinUi3
         public UserCentral()
         {
             InitializeComponent();
-            ViewModel = new UC_Viewmodel { ParentWindow = this };
+            ViewModel = new UC_Viewmodel { ParentWindow = this, ParentGrid = GridUserCentral };
             Instance = this;
             Activated += async (_, _) =>
             {
@@ -163,53 +119,7 @@ namespace FireBrowserWinUi3
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            var usr = new AddUserWindow();
-            usr.Closed += (s, e) =>
-            {
-                AppService.ActiveWindow = this;
-            };
-            IntPtr hWnd = WindowNative.GetWindowHandle(this);
-            if (hWnd != IntPtr.Zero)
-            {
-                Windowing.SetWindowPos(hWnd, Windowing.HWND_BOTTOM, 0, 0, 0, 0, Windowing.SWP_NOSIZE);
-            }
-            await AppService.ConfigureSettingsWindow(usr);
-        }
-
-        private async void RestoreNow_Click(object sender, RoutedEventArgs e)
-        {
-            var win = AppService.ActiveWindow = new Window();
-            win.SystemBackdrop = new MicaBackdrop();
-            var present = new ContentPresenter();
-            win.Content = present;
-            IntPtr hWnd = WindowNative.GetWindowHandle(this);
-            if (hWnd != IntPtr.Zero)
-            {
-                Windowing.SetWindowPos(hWnd, Windowing.HWND_BOTTOM, 0, 0, 0, 0, Windowing.SWP_NOSIZE);
-            }
-
-            await AppService.ConfigureSettingsWindow(win);
-
-            win.Closed += (s, e) =>
-            {
-                IntPtr ucHwnd = Windowing.FindWindow(null, nameof(UserCentral));
-                if (ucHwnd != IntPtr.Zero)
-                {
-                    Windowing.Center(ucHwnd);
-                    // close active window if not Usercentral, and then assign it as usercentral and close to give -> windowscontroller notification of close usercentral 
-                    AppService.ActiveWindow?.Close();
-                    AppService.ActiveWindow = this;
-                    AppService.ActiveWindow?.Close();
-                }
-                else
-                {
-                    Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
-                }
-            };
-
-            RestoreBackupDialog dlg = new RestoreBackupDialog();
-            dlg.XamlRoot = present.XamlRoot;
-            await dlg.ShowAsync();
+            
         }
 
         private void MinimizeBtn_Click(object sender, RoutedEventArgs e)

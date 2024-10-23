@@ -91,6 +91,7 @@
     <Capability Name="internetClient"/>
     <Capability Name="internetClientServer"/>
     <uap3:Capability Name="backgroundMediaPlayback"/>
+    <uap:Capability Name="userAccountInformation"/>
     <DeviceCapability Name="bluetooth"/>
   </Capabilities>
 </Package>

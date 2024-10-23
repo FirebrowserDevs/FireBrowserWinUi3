@@ -4,38 +4,66 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Title="Backup Confirmation"
-    PrimaryButtonText="Yes"
-    SecondaryButtonText="No"
-    DefaultButton="Primary"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     CornerRadius="10"
-    IsPrimaryButtonEnabled="{x:Bind IsBackupAllowed, Mode=OneWay}">
+    DefaultButton="Primary"
+    IsPrimaryButtonEnabled="{x:Bind IsBackupAllowed, Mode=OneWay}"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    PrimaryButtonText="Yes"
+    SecondaryButtonText="No">
 
     <ContentDialog.Background>
-        <AcrylicBrush TintColor="{ThemeResource SystemAltHighColor}" TintOpacity="0.7" FallbackColor="{ThemeResource SystemChromeMediumLowColor}"/>
+        <AcrylicBrush
+            FallbackColor="{ThemeResource SystemChromeMediumLowColor}"
+            TintColor="{ThemeResource SystemAltHighColor}"
+            TintOpacity="0.7" />
     </ContentDialog.Background>
 
-    <StackPanel Spacing="16" Padding="24">
-        <InfoBar x:Name="InfoBarBackupWarning" IsOpen="False" Severity="Warning" Title="Warning"
-                 Message="Max backups created (6). Please delete old backups. Purchases BackUp Premium To Allow (50) BackUps $1,99 One Time" IsClosable="False"/>
-        <InfoBar x:Name="DefaultInfo" IsOpen="True" Severity="Informational" Title="Backup"
-                 Message="Creating a backup is recommended before updating." IsClosable="False"/>
-        <TextBlock Text="Do you want to create a backup before updating?" Style="{ThemeResource SubtitleTextBlockStyle}" TextWrapping="Wrap"/>
-        <TextBlock Text="A backup ensures you can restore your data if anything goes wrong during the update process." 
-                   Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
-        <!-- hide premuim icon until premium is available browser-->
-        <Button Visibility="Collapsed" Click="Button_Click" Content="Purchases Premium"/>
+    <StackPanel Padding="24" Spacing="16">
+        <InfoBar
+            x:Name="InfoBarBackupWarning"
+            Title="Warning"
+            IsClosable="False"
+            IsOpen="False"
+            Message="Max backups created (6). Please delete old backups. Purchases BackUp Premium To Allow (50) BackUps $1,99 One Time"
+            Severity="Warning" />
+        <InfoBar
+            x:Name="DefaultInfo"
+            Title="Backup"
+            IsClosable="False"
+            IsOpen="True"
+            Message="Creating a backup is recommended before updating."
+            Severity="Informational" />
+        <TextBlock
+            Style="{ThemeResource SubtitleTextBlockStyle}"
+            Text="Do you want to create a backup before updating?"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Style="{ThemeResource BodyTextBlockStyle}"
+            Text="A backup ensures you can restore your data if anything goes wrong during the update process."
+            TextWrapping="Wrap" />
+        <InfoBar
+            x:Name="EntraInfo"
+            Title="Login Required"
+            IsClosable="False"
+            IsOpen="True"
+            Message="FireBrowser is able to store you backups to the cloud now. Please log in with a Microsoft Account when prompted."
+            Severity="Warning" />
+        <!--  hide premuim icon until premium is available browser  -->
+        <Button
+            Click="Button_Click"
+            Content="Purchases Premium"
+            Visibility="Collapsed" />
     </StackPanel>
 
     <ContentDialog.PrimaryButtonStyle>
-        <Style TargetType="Button" BasedOn="{StaticResource AccentButtonStyle}">
-            <Setter Property="CornerRadius" Value="4"/>
+        <Style BasedOn="{StaticResource AccentButtonStyle}" TargetType="Button">
+            <Setter Property="CornerRadius" Value="4" />
         </Style>
     </ContentDialog.PrimaryButtonStyle>
 
     <ContentDialog.SecondaryButtonStyle>
-        <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
-            <Setter Property="CornerRadius" Value="4"/>
+        <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
+            <Setter Property="CornerRadius" Value="4" />
         </Style>
     </ContentDialog.SecondaryButtonStyle>
 </ContentDialog>

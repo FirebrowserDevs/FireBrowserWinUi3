@@ -5,8 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dllimg="using:FireBrowserWinUi3Assets"
     xmlns:firebrowser="using:FireBrowserWinUi3.Controls"
-    xmlns:firebrowserwinui3="using:FireBrowserWinUi3"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:FireBrowserWinUi3.Services.Models"
     mc:Ignorable="d">
 
     <Window.SystemBackdrop>
@@ -39,37 +39,47 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                <StackPanel
+                    Grid.Column="0"
+                    Orientation="Horizontal"
+                    Spacing="8">
                     <AppBarButton
                         VerticalAlignment="Center"
-                        Click="AppBarButton_Click"
+                        Command="{x:Bind ViewModel.AddNewUserCommand}"
                         Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
                         Icon="OtherUser"
                         Label="Add User" />
                     <AppBarButton
                         Width="Auto"
                         VerticalAlignment="Center"
-                        Click="RestoreNow_Click"
-                        Foreground="{ThemeResource AccentAAFillColorDefaultBrush}"
+                        Command="{x:Bind ViewModel.RestoreCoreCommand}"
+                        Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
                         Icon="Refresh"
                         Label="Restore Backup" />
+                    <AppBarButton
+                        Width="Auto"
+                        VerticalAlignment="Center"
+                        Command="{x:Bind ViewModel.BackUpCoreCommand}"
+                        Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
+                        Icon="Calendar"
+                        Label="Backup" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
                     <AppBarButton
-                    x:Name="MinimizeBtn"
-                    Click="MinimizeBtn_Click"
-                    Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
-                    Icon="Remove"
-                    Label="Minimize"
-                    ToolTipService.ToolTip="Minimize Application" />
+                        x:Name="MinimizeBtn"
+                        Click="MinimizeBtn_Click"
+                        Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
+                        Icon="Remove"
+                        Label="Minimize"
+                        ToolTipService.ToolTip="Minimize Application" />
 
                     <AppBarButton
-                    x:Name="CloseBtn"
-                    Command="{x:Bind ViewModel.ExitWindow, Mode=OneWay}"
-                    Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
-                    Icon="Cancel"
-                    Label="Close App"
-                    ToolTipService.ToolTip="Exit Application" />
+                        x:Name="CloseBtn"
+                        Command="{x:Bind ViewModel.ExitWindow, Mode=OneWay}"
+                        Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
+                        Icon="Cancel"
+                        Label="Close App"
+                        ToolTipService.ToolTip="Exit Application" />
                 </StackPanel>
             </Grid>
 
@@ -89,14 +99,14 @@
                 VerticalScrollBarVisibility="Auto">
                 <ListView
                     x:Name="UserListView"
-                    x:FieldModifier="Public"
                     Padding="6"
+                    x:FieldModifier="Public"
                     Background="{ThemeResource AccentControlElevationBorderBrush}"
                     ItemsSource="{x:Bind ViewModel.Users, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     SelectedItem="{x:Bind ViewModel.User, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     SelectionChanged="UserListView_SelectionChanged">
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="firebrowserwinui3:UserExtend">
+                        <DataTemplate x:DataType="models:UserExtend">
                             <Grid Padding="8" ColumnSpacing="12">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />

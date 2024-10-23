@@ -23,11 +23,16 @@ namespace FireBrowserWinUi3.Controls
         //private string _backupPath;
         private AppWindow appWindow;
         private AppWindowTitleBar titleBar;
+        private AzBackupService AzBackup { get; }  
         public CreateBackup()
         {
             this.InitializeComponent();
             UpdateBack();
             InitializeWindow();
+            AppService.Dispatcher = this.DispatcherQueue;
+            var connString = Windows.Storage.ApplicationData.Current.LocalSettings.Values["AzureStorageConnectionString"] as string;
+            AzBackup = new AzBackupService(connString, "storelean", "firebackups", AuthService.CurrentUser ?? new() { Id = Guid.NewGuid(), Username = "Admin", IsFirstLaunch = false });
+
         }
 
         private async void UpdateBack()
@@ -40,7 +45,7 @@ namespace FireBrowserWinUi3.Controls
             var hWnd = WindowNative.GetWindowHandle(this);
             WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
             appWindow = AppWindow.GetFromWindowId(windowId);
-
+            appWindow.Title = "CreateBackup";
             appWindow.MoveAndResize(new RectInt32(500, 500, 850, 500));
             FireBrowserWinUi3Core.Helpers.Windowing.Center(this);
             appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
@@ -48,6 +53,9 @@ namespace FireBrowserWinUi3.Controls
             appWindow.SetIcon("backup.ico");
             appWindow.ShowOnceWithRequestedStartupState();
             Windowing.Center(this);
+            
+            
+
 
             if (!AppWindowTitleBar.IsCustomizationSupported())
             {
@@ -69,29 +77,58 @@ namespace FireBrowserWinUi3.Controls
             try
             {
                 StatusTextBlock.Text = "Creating backup...";
-                await Task.Delay(100);
+                await Task.Delay(500);
+                var json = new object() ; 
                 //_backupFilePath = await Task.Run(() => BackupManager.CreateBackup());
                 _backupFilePath = await Task.Run(async () =>
                 {
                     var fileName = BackupManager.CreateBackup();
-                    this.DispatcherQueue.TryEnqueue(() =>
-                    {
-                        StatusTextBlock.Text = $"Backup is being uploaded to the cloud";
-                    });
-                    var json = await UploadFileToAzure(fileName);
 
-                    this.DispatcherQueue.TryEnqueue(async () =>
+                    DispatcherQueue.TryEnqueue(() =>
                     {
-                        StatusTextBlock.Text = $"Successfully saved to the cloud of (FireBrowserDevs)";
+                        IntPtr hWnd = Windowing.FindWindow(null, nameof(CreateBackup));
+                        if (hWnd != IntPtr.Zero)
+                        {
+                            Windowing.SetWindowPos(hWnd, Windowing.HWND_BOTTOM, 0, 0, 0, 0, Windowing.SWP_NOSIZE | Windowing.SWP_NOMOVE | Windowing.SWP_SHOWWINDOW);
+                        }
+                    });
+
+                    var fireUser = await AzBackup.GetUserInformationAsync();
+
+                    if (fireUser is FireBrowserWinUi3MultiCore.User user) {
+                        
+                        this.DispatcherQueue.TryEnqueue(async() =>
+                        {
+                            StatusTextBlock.Text = $"Backup is being uploaded to the cloud";
+                            await Task.Delay(100);
+                        });
 
                         await Task.Delay(100);
 
+                        json = await UploadFileToAzure(fileName, user);
+                        
+                        if (json  is not null)
+                        {
+                            this.DispatcherQueue.TryEnqueue(async () =>
+                            {
+                                StatusTextBlock.Text = $"Successfully saved to the cloud of (FireBrowserDevs)";
+                                await Task.Delay(100);
+
+                            });
+                        }
+                    }
+
+                    this.DispatcherQueue.TryEnqueue(async () =>
+                    {
+                        await Task.Delay(100);
                         StatusTextBlock.Text = $"Backup created successfully in your Document folder as:\n{fileName}";
 
                     });
 
                     return json;
                 });
+
+                Windowing.Center(this);
 
                 ExceptionLogger.LogInformation("File path is : " + JsonConvert.SerializeObject(_backupFilePath) + "\n");
 
@@ -102,6 +139,7 @@ namespace FireBrowserWinUi3.Controls
                 string backupFilePath = Path.Combine(tempPath, "backup.fireback");
 
                 File.Delete(backupFilePath);
+
                 Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
             }
             catch (Exception ex)
@@ -109,17 +147,13 @@ namespace FireBrowserWinUi3.Controls
                 Debug.WriteLine(ex);
             }
         }
-        private async Task<object> UploadFileToAzure(string fileName)
+        private async Task<object> UploadFileToAzure(string fileName, FireBrowserWinUi3MultiCore.User fireUser)
         {
-
-            var connString = Windows.Storage.ApplicationData.Current.LocalSettings.Values["AzureStorageConnectionString"] as string;
-            var az = new AzBackupService(connString, "storelean", "firebackups", AuthService.CurrentUser ?? new() { Id = Guid.NewGuid(), Username = "Admin", IsFirstLaunch = false });
 
             StorageFile file = await StorageFile.GetFileFromPathAsync(fileName);
             IRandomAccessStream randomAccessStream = await file.OpenAsync(FileAccessMode.Read);
-            return await az.UploadAndStoreFile(file.Name, randomAccessStream);
-
-            //return await az.UploadFileToBlobAsync(file.Name, randomAccessStream); 
+            return await AzBackup.UploadAndStoreFile(file.Name, randomAccessStream, fireUser);
+            
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
