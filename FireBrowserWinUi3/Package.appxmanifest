@@ -14,10 +14,10 @@
 
   <Identity
     Name="57443TechFireX.FireBrowserWinUi"
-    Publisher="CN=temp"
+    Publisher="CN=787233D4-4D29-47D2-B29A-AD3E99C44FE7"
     Version="1.3.1.0" />
 
-  <mp:PhoneIdentity PhoneProductId="d8467731-97ab-4db5-9bd6-9ad5ccdae22a" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="43147b3a-2c1f-4d38-b141-57a3821c43db" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>FireBrowserWinUi</DisplayName>
