@@ -177,6 +177,7 @@
     <ProjectReference Include="..\FireBrowserWinUi3DataCore\FireBrowserWinUi3DataCore.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Exceptions\FireBrowserWinUi3Exceptions.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Favorites\FireBrowserWinUi3Favorites.csproj" />
+    <ProjectReference Include="..\FireBrowserWinUi3License\FireBrowserWinUi3License.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Migration\FireBrowserWinUi3Migration.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3Modules\FireBrowserWinUi3Modules.csproj" />
     <ProjectReference Include="..\FireBrowserWinUi3MultiCore\FireBrowserWinUi3MultiCore.csproj" />

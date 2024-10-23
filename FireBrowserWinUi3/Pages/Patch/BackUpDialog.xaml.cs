@@ -1,3 +1,4 @@
+using FireBrowserWinUi3License;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -13,14 +14,35 @@ namespace FireBrowserWinUi3.Pages.Patch
         public bool IsPremiumUser { get; set; } = false;
         private string premiumLicensePath;
 
+        private FireBrowserWinUi3License.AddonManager _addonManager;
+
+
         public BackUpDialog()
         {
             this.InitializeComponent();
             premiumLicensePath = Path.Combine(AppContext.BaseDirectory, "premium.license"); // Application startup path
             IsPremiumUser = CheckPremiumStatus();
             CheckBackupLimit();
+            _addonManager = new AddonManager();
+            CheckSubscriptionStatus();
         }
 
+        private async void CheckSubscriptionStatus()
+        {
+            bool isActive = await _addonManager.IsSubscriptionActiveAsync();
+            if (isActive)
+            {
+               
+                DateTimeOffset? expirationDate = await _addonManager.GetSubscriptionExpirationDateAsync();
+                if (expirationDate.HasValue)
+                {
+                }
+            }
+            else
+            {
+                
+            }
+        }
         // Method to check if the premium license file exists
         private bool CheckPremiumStatus()
         {
@@ -64,6 +86,7 @@ namespace FireBrowserWinUi3.Pages.Patch
             }
         }
 
+
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             if (!IsBackupAllowed)
@@ -83,7 +106,22 @@ namespace FireBrowserWinUi3.Pages.Patch
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            bool purchased = await _addonManager.PurchaseSubscriptionAsync();
+            if (purchased)
+            {
+                CheckSubscriptionStatus();
+            }
+            else
+            {
+                ContentDialog dialog = new ContentDialog
+                {
+                    Title = "Purchase Failed",
+                    Content = "Unable to complete the purchase. Please try again.",
+                    CloseButtonText = "OK"
+                };
 
+                await dialog.ShowAsync();
+            }
         }
     }
 }

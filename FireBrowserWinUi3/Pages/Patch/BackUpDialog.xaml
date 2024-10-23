@@ -52,7 +52,7 @@
         <Button
             Click="Button_Click"
             Content="Purchases Premium"
-            Visibility="Collapsed" />
+            Visibility="Visible" />
     </StackPanel>
 
     <ContentDialog.PrimaryButtonStyle>
