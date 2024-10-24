@@ -399,6 +399,7 @@ public sealed partial class MainWindow : Window
     }
 
     #endregion
+
     public FireBrowserTabViewItem CreateNewTab(Type? page = null, object param = null, int index = -1)
     {
         index = Tabs.TabItems.Count;
@@ -632,7 +633,7 @@ public sealed partial class MainWindow : Window
         // Update the view model with the navigation states
         ViewModel.UpdateNavigationState(
             canNavigate,
-            isBack ? ViewModel.canGoForward : ViewModel.canGoBack
+            isBack ? ViewModel.CanGoForward : ViewModel.CanGoBack
         );
 
         return canNavigate;

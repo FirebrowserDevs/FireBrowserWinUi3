@@ -51,6 +51,7 @@ public partial class App : Application
 
         services.AddTransient<HomeViewModel>();
         services.AddTransient<MainWindowViewModel>();
+        services.AddTransient<UploadBackupViewModel>(); 
 
         return services.BuildServiceProvider();
     }

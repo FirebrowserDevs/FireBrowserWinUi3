@@ -188,7 +188,7 @@ public sealed partial class WebContent : Page
         };
 
 
-        s.CoreWebView2.NavigationStarting += async (sender, args) =>
+        s.CoreWebView2.NavigationStarting +=  (sender, args) =>
         {
             ProgressLoading.IsIndeterminate = true;
             ProgressLoading.Visibility = Visibility.Visible;

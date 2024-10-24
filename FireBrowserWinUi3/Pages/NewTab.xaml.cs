@@ -33,8 +33,7 @@ namespace FireBrowserWinUi3.Pages;
 
 public sealed partial class NewTab : Page
 {
-    
-    bool isAuto;
+
 
     public List<TrendingItem> trendings = new List<TrendingItem>();
     public HomeViewModel ViewModel { get; set; }
@@ -43,6 +42,8 @@ public sealed partial class NewTab : Page
     SettingsService SettingsService { get; }
 
     Passer param;
+    private bool isAuto = default;
+
     public NewTab()
     {
         ViewModel = App.GetService<HomeViewModel>();
@@ -387,7 +388,7 @@ public sealed partial class NewTab : Page
         UpdateUserSettings(userSettings => userSettings.NtpTextColor = newColor);
         ViewModel.BrushNtp = new SolidColorBrush(NtpColorPicker.Color);
     }
-    private void Download_Click(object sender, RoutedEventArgs e) => DownloadImage();
+    private void Download_Click(object sender, RoutedEventArgs e) => DownloadImage().ConfigureAwait(false);
 
     private void NewTabSearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {

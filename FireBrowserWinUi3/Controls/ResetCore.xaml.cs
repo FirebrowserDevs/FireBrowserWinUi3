@@ -19,7 +19,7 @@ public sealed partial class ResetCore : Window
         this.InitializeComponent();
         InitializeWindow();
         Thread.Sleep(1000);
-        HandleDeletion();
+        HandleDeletion().ConfigureAwait(false);
     }
 
     private void InitializeWindow()
@@ -71,8 +71,9 @@ public sealed partial class ResetCore : Window
         await RestartApplication();
     }
 
-    private async Task RestartApplication()
+    private  Task RestartApplication()
     {
         Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
+        return Task.CompletedTask; 
     }
 }

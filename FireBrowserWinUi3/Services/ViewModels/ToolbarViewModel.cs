@@ -17,7 +17,7 @@ public partial class ToolbarViewModel : ObservableObject
 
     public void UpdateNavigationState(bool canGoBack, bool canGoForward)
     {
-        canGoBack = canGoBack;
-        canGoForward = canGoForward;
+        CanGoBack = canGoBack;
+        CanGoForward = canGoForward;
     }
 }

@@ -98,7 +98,7 @@ namespace FireBrowserWinUi3.Pages.Patch
             // Backup creation logic
             string tempPath = Path.GetTempPath();
             string backupFilePath = Path.Combine(tempPath, "backup.fireback");
-            using (FileStream fs = File.Create(backupFilePath)) ;
+            using (FileStream fs = File.Create(backupFilePath)) 
 
             Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
         }

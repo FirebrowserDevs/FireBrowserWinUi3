@@ -81,8 +81,8 @@ public partial class HomeViewModel : ObservableRecipient
         IsSearchVisible = SettingsService.CoreSettings.IsSearchVisible ? Visibility.Visible : Visibility.Collapsed;
         IsSearchBoxEnabled = SettingsService.CoreSettings.IsSearchVisible;
         IsTrendingVisible = SettingsService.CoreSettings.IsTrendingVisible ? Visibility.Visible : Visibility.Collapsed;
-        islogoEnabled = SettingsService.CoreSettings.IsLogoVisible;
-        _IsLogoVisible = SettingsService.CoreSettings.IsLogoVisible ? Visibility.Visible : Visibility.Collapsed;
+        IslogoEnabled = SettingsService.CoreSettings.IsLogoVisible;
+        IsLogoVisible = SettingsService.CoreSettings.IsLogoVisible ? Visibility.Visible : Visibility.Collapsed;
 
 
         IsFavoriteExpanded = SettingsService.CoreSettings.IsFavoritesToggled;
@@ -102,8 +102,8 @@ public partial class HomeViewModel : ObservableRecipient
         OnPropertyChanged(nameof(IsTrendingVisible));
         OnPropertyChanged(nameof(IstrendingEnabled));
 
-        OnPropertyChanged(nameof(islogoEnabled));
-        OnPropertyChanged(nameof(_IsLogoVisible));
+        OnPropertyChanged(nameof(IslogoEnabled));
+        OnPropertyChanged(nameof(IsLogoVisible));
 
         OnPropertyChanged(nameof(IsSearchBoxEnabled));
         OnPropertyChanged(nameof(IsFavoriteCardEnabled));
@@ -126,8 +126,8 @@ public partial class HomeViewModel : ObservableRecipient
         IsHistoryVisible = IsHistoryCardEnabled ? Visibility.Visible : Visibility.Collapsed;
         IsSearchVisible = IsSearchBoxEnabled ? Visibility.Visible : Visibility.Collapsed;
         IsTrendingVisible = IstrendingEnabled ? Visibility.Visible : Visibility.Collapsed;
-        islogoEnabled = SettingsService.CoreSettings.IsLogoVisible;
-        _IsLogoVisible = islogoEnabled ? Visibility.Visible : Visibility.Collapsed;
+        IslogoEnabled = SettingsService.CoreSettings.IsLogoVisible;
+        IsLogoVisible = IslogoEnabled ? Visibility.Visible : Visibility.Collapsed;
 
         IsFavoriteExpanded = SettingsService.CoreSettings.IsFavoritesToggled;
         IsHistoryExpanded = SettingsService.CoreSettings.IsHistoryToggled;

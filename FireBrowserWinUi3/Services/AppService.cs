@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FireBrowserWinUi3.Controls;
+using FireBrowserWinUi3.Pages.Patch;
 using FireBrowserWinUi3.Services.Messages;
 using FireBrowserWinUi3.Setup;
 using FireBrowserWinUi3Core.Helpers;
@@ -191,7 +192,8 @@ public static class AppService
             }
             else
             {
-                ActiveWindow = new UserCentral();
+                
+                ActiveWindow = new UserCentral(); 
                 ActiveWindow.Closed += (s, e) => WindowsController(cancellationToken).ConfigureAwait(false);
                 ConfigureWindowAppearance();
                 ActiveWindow.Activate();

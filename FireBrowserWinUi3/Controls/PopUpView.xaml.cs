@@ -9,6 +9,8 @@ namespace FireBrowserWinUi3.Controls;
 public sealed partial class PopUpView : UserControl
 {
     private bool isDragging;
+
+    //private bool isDragging;
     private Point clickPosition;
     private double originalWidth;
     private double originalHeight;

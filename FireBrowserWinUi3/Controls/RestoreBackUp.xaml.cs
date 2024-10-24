@@ -13,7 +13,7 @@ using WinRT.Interop;
 namespace FireBrowserWinUi3.Controls;
 public sealed partial class RestoreBackUp : Window
 {
-    private bool _isCancelled = false;
+    
     private AppWindow appWindow;
     private AppWindowTitleBar titleBar;
 

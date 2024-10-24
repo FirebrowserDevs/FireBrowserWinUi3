@@ -459,7 +459,7 @@ namespace FireBrowserWinUi3.Services
                 }
 
             }
-            catch (MsalClientException ex)
+            catch (MsalClientException)
             {
                 return null;
                 throw; 
