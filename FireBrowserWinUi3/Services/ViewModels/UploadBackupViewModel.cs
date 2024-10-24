@@ -1,7 +1,11 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure.Data.Tables;
+using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FireBrowserWinUi3.Services.Models;
+using FireBrowserWinUi3Core.Helpers;
+using FireBrowserWinUi3MultiCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,8 +23,11 @@ namespace FireBrowserWinUi3.Services.ViewModels
     public partial class UploadBackupViewModel : ObservableRecipient
     {
         public ObservableCollection<EmailUser> Users { get; set; }
+        public ObservableCollection<UserEntity> FilesUpload { get; set; }
         public EmailUser SelectedUser { get; set; }
 
+        [ObservableProperty]
+        private UserEntity _FileSelected;
         public UploadBackupViewModel()
         {
             Users = new ObservableCollection<EmailUser>
@@ -29,26 +36,28 @@ namespace FireBrowserWinUi3.Services.ViewModels
                 new EmailUser { Name = "User2", Email = "user2@example.com" }
             };
 
+            var connString = Windows.Storage.ApplicationData.Current.LocalSettings.Values["AzureStorageConnectionString"] as string;
+            var AzBackup = new AzBackupService(connString, "storelean", "firebackups", AuthService.CurrentUser ?? new() { Id = Guid.NewGuid(), Username = "Admin", IsFirstLaunch = false });
+
+            var list = AzBackup.GetUploadFileByUser("fizzledbydizzle@live.com").ConfigureAwait(false);
+            FilesUpload = [.. list.GetAwaiter().GetResult()];
         }
+
 
         [RelayCommand]
         private void SelectFile()
         {
-            // Logic to select file
+
         }
         private async Task SendEmailAsync(string toEmail, string sasUrl)
         {
             var email = new EmailMessage();
             email.Subject = "Bug Report";
-            email.To.Add(new EmailRecipient("firebrowserdevs@gmail.com"));
+            email.To.Add(new EmailRecipient("toEmail"));
             email.Body = "Any Extra Info Can Help Find The Bug.\nPlease find attached file for the bug report above.";
-            var fileStream = await file.OpenReadAsync();
-            var contentType = file.ContentType;
-            var streamRef = RandomAccessStreamReference.CreateFromStream(fileStream);
-            email.Attachments.Add(new EmailAttachment(file.Name, streamRef, contentType));
             await EmailManager.ShowComposeNewEmailAsync(email);
         }
-        
+
         [RelayCommand]
         private void GenerateAndSend()
         {
@@ -73,15 +82,15 @@ namespace FireBrowserWinUi3.Services.ViewModels
             SendEmailAsync(SelectedUser.Email, sasUri.ToString());
         }
 
-        
+
     }
-         
-     
-        public class EmailUser
-        {
-            public string Name { get; set; }
-            public string Email { get; set; }
-        }
-    
-    
+
+
+    public class EmailUser
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+    }
+
+
 }

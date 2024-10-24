@@ -28,7 +28,7 @@ namespace FireBrowserWinUi3.Pages.Patch
         public UploadBackupViewModel ViewModel { get; }
         public UpLoadBackup()
         {
-            ViewModel = new();    
+            ViewModel = new();
 
             this.InitializeComponent();
 

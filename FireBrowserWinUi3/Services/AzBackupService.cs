@@ -4,6 +4,7 @@ using Azure.Data.Tables;
 using Azure.Identity;
 using FireBrowserWinUi3.Controls;
 using FireBrowserWinUi3.Services.Contracts;
+using FireBrowserWinUi3.Services.Models;
 using FireBrowserWinUi3Core.Helpers;
 using FireBrowserWinUi3Exceptions;
 using FireBrowserWinUi3MultiCore;
@@ -21,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
@@ -34,21 +36,6 @@ using System.Threading.Tasks;
 using Windows.Storage.Streams;
 using WinRT.Interop;
 
-
-
-public class UserEntity : ITableEntity
-{
-    public string PartitionKey { get; set; }
-    public string RowKey { get; set; }
-    public string Email { get; set; }
-    public string BlobUrl { get; set; }
-
-    public string WindowUserName { get; set; }
-    public string BlobName { get; set; }
-
-    public ETag ETag { get; set; }
-    public DateTimeOffset? Timestamp { get; set; }
-}
 
 
 namespace FireBrowserWinUi3.Services
@@ -65,6 +52,8 @@ namespace FireBrowserWinUi3.Services
         protected internal string ConnString { get; } = Windows.Storage.ApplicationData.Current.LocalSettings.Values[nameof(AzureStorageConnectionString)] as string;
         protected internal string StoragAccountName { get; set; }
         protected internal string ContainerName { get; set; }
+
+        protected internal string TableName { get; set; } = "TrackerBackups";
         protected internal object UserWindows { get; set; }
 
         protected FireBrowserWinUi3MultiCore.User FireUser { get; set; }
@@ -230,8 +219,8 @@ namespace FireBrowserWinUi3.Services
 
                 //var tenantId = "f0d59e50-f344-4cbc-b58a-37a7ffc5a17f";
                 //var clientId = "edfc73e2-cac9-4c47-a84c-dedd3561e8b5";
-              
-              
+
+
                 //var options = new DeviceCodeCredentialOptions
                 //{
                 //    ClientId = clientId,
@@ -462,9 +451,10 @@ namespace FireBrowserWinUi3.Services
             catch (MsalClientException)
             {
                 return null;
-                throw; 
+                throw;
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 return null;
                 throw;
             }
@@ -510,6 +500,30 @@ namespace FireBrowserWinUi3.Services
                 ExceptionLogger.LogException(ex);
                 throw;
             }
+        }
+
+        public async Task<List<UserEntity>> GetUploadFileByUser(string email)
+        {
+            try
+            {
+                var serviceClient = new TableServiceClient(ConnString);
+                var tableClient = serviceClient.GetTableClient(TableName);
+                // Create the table if it doesn't exist
+                var files = new List<UserEntity>();
+
+                foreach (var page in tableClient.Query<UserEntity>().Where(item => item.Email == email).ToList())
+                {
+                    files.Add(page);
+                }
+
+                return files;
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                throw;
+            }
 
         }
         public async Task<ResponseAZFILE> UploadAndStoreFile(string blobName, IRandomAccessStream fileStream, FireBrowserWinUi3MultiCore.User fireUser)
@@ -519,7 +533,7 @@ namespace FireBrowserWinUi3.Services
                 var result = await UploadFileToBlobAsync(blobName, fileStream);
 
                 if (result is not null)
-                    await InsertOrUpdateEntityAsync("TrackerBackups", fireUser.Email ?? fireUser.WindowsUserName, result.Url.ToString(), blobName, fireUser.WindowsUserName);
+                    await InsertOrUpdateEntityAsync(TableName, fireUser.Email ?? fireUser.WindowsUserName, result.Url.ToString(), blobName, fireUser.WindowsUserName);
                 return result;
             }
             catch (Exception ex)

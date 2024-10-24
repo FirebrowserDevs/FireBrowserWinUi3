@@ -41,31 +41,7 @@ namespace FireBrowserWinUi3
             };
 
             // Get the AppWindow for this window
-            IntPtr hWnd = WindowNative.GetWindowHandle(this);
-            WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
-            appWindow = AppWindow.GetFromWindowId(windowId);
-
-            if (appWindow != null)
-            {
-                // Remove default title bar
-                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-                appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                appWindow.TitleBar.ButtonForegroundColor = Colors.White;
-                appWindow.TitleBar.ButtonInactiveForegroundColor = Colors.Gray;
-
-                // Set window size
-                var size = new SizeInt32(700, 500);
-                appWindow.Resize(size);
-
-                // Remove default window chrome
-                var presenter = appWindow.Presenter as OverlappedPresenter;
-                if (presenter != null)
-                {
-                    presenter.IsResizable = false;
-                    presenter.SetBorderAndTitleBar(true, false);
-                }
-            }
+            Windowing.DialogWindow(this).ConfigureAwait(false);
         }
 
         public async Task LoadDataGlobally()
@@ -145,6 +121,6 @@ namespace FireBrowserWinUi3
             }
         }
 
-      
+
     }
 }

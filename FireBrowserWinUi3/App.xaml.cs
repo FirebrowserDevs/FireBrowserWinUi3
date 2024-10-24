@@ -18,6 +18,7 @@ public partial class App : Application
 {
     string changeUsernameFilePath = Path.Combine(Path.GetTempPath(), "changeusername.json");
     public new static App Current => (App)Application.Current;
+    private string AzureStorage { get; } = "DefaultEndpointsProtocol=https;AccountName=strorelearn;AccountKey=0pt8CYqrqXUluQE3/60q8wobkmYznb9ovHIzztGVOzNxlSa+U8NlY74uwfggd5DfTmGORBLtXpeKEvDYh2ynfQ==;EndpointSuffix=core.windows.net";
 
     #region DependencyInjection
 
@@ -51,7 +52,7 @@ public partial class App : Application
 
         services.AddTransient<HomeViewModel>();
         services.AddTransient<MainWindowViewModel>();
-        services.AddTransient<UploadBackupViewModel>(); 
+        services.AddTransient<UploadBackupViewModel>();
 
         return services.BuildServiceProvider();
     }
@@ -70,7 +71,7 @@ public partial class App : Application
 
         Environment.SetEnvironmentVariable("WEBVIEW2_CHANNEL_SEARCH_KIND", "1");
         Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--window-size=0,0 --window-position=40000,40000");
-
+        Windows.Storage.ApplicationData.Current.LocalSettings.Values["AzureStorageConnectionString"] = AzureStorage;
     }
 
     private void Current_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -97,7 +98,6 @@ public partial class App : Application
 
 
 
-    private string AzureStorage { get; } = "DefaultEndpointsProtocol=https;AccountName=strorelearn;AccountKey=0pt8CYqrqXUluQE3/60q8wobkmYznb9ovHIzztGVOzNxlSa+U8NlY74uwfggd5DfTmGORBLtXpeKEvDYh2ynfQ==;EndpointSuffix=core.windows.net";
 
     protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
@@ -115,7 +115,7 @@ public partial class App : Application
         else
             base.OnLaunched(args);
 
-        Windows.Storage.ApplicationData.Current.LocalSettings.Values["AzureStorageConnectionString"] = AzureStorage;
+
 
         //var az = new AzBackupService(AzureStorage, "storelean", "FireBackups", new() { Id = Guid.NewGuid(), Username = "Admin", IsFirstLaunch = false});
 

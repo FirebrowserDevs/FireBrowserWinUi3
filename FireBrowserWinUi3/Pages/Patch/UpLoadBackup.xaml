@@ -4,19 +4,99 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:data="using:FireBrowserWinUi3.Services.Models"
+    xmlns:dllimg="using:FireBrowserWinUi3Assets"
     xmlns:local="using:FireBrowserWinUi3.Pages.Patch"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
+    <Window.SystemBackdrop>
+        <MicaBackdrop Kind="Base" />
+    </Window.SystemBackdrop>
     <Grid>
-        <StackPanel>
-            <ComboBox
-                x:Name="UserComboBox"
-                DisplayMemberPath="Name"
-                ItemsSource="{x:Bind ViewModel.Users, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                SelectedItem="{x:Bind ViewModel.SelectedUser, Mode=OneWay}" />
-            <Button Command="{x:Bind ViewModel.SelectFileCommand}" Content="Select File" />
-            <Button Command="{x:Bind ViewModel.GenerateAndSendCommand}" Content="Generate SAS Token and Send Email" />
-        </StackPanel>
+        <TextBlock
+            Margin="4"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+            Text="Backup Request" />
+        <ContentPresenter Margin="2,32,2,2" Background="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}">
+            <Grid
+                x:Name="MainGrid"
+                Margin="{ThemeResource ContentDialogBorderWidth}"
+                Padding="10">
+                <StackPanel
+                    Padding="2"
+                    Orientation="Vertical"
+                    Spacing="8">
+                    <TextBox
+                        x:Name="OutFile"
+                        FontSize="14"
+                        FontStyle="Italic"
+                        IsEnabled="False"
+                        PlaceholderText="File Selected..."
+                        Text="{x:Bind ViewModel.FileSelected.BlobName, Mode=OneWay}" />
+                    <ComboBox
+                        x:Name="UserComboBox"
+                        Margin="0,10,0,10"
+                        CompositeMode="Inherit"
+                        DisplayMemberPath="Name"
+                        Foreground="AntiqueWhite"
+                        ItemsSource="{x:Bind ViewModel.Users, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        PlaceholderText="Receiver Name"
+                        SelectedItem="{x:Bind ViewModel.SelectedUser, Mode=OneWay}" />
+                    <ListView
+                        x:Name="FileUploaded"
+                        MaxHeight="135"
+                        Margin="4,0,0,4"
+                        Background="{ThemeResource AccentAcrylicBackgroundFillColorBaseBrush}"
+                        BorderBrush="{ThemeResource AccentAAFillColorTertiaryBrush}"
+                        BorderThickness=".5"
+                        CornerRadius="4"
+                        ItemsSource="{x:Bind ViewModel.FilesUpload, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedItem="{x:Bind ViewModel.FileSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="data:UserEntity">
+                                <Grid>
+                                    <StackPanel
+                                        Padding="2"
+                                        BorderBrush="{ThemeResource AccentAAFillColorTertiaryBrush}"
+                                        BorderThickness=".5"
+                                        Orientation="Vertical"
+                                        Spacing="4">
+                                        <TextBlock Foreground="PaleVioletRed" Text="{Binding Timestamp}" />
+                                        <TextBlock Foreground="LimeGreen" Text="{Binding BlobName}" />
+                                        <TextBlock Text="{Binding WindowUserName}" />
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Button
+                            Command="{x:Bind ViewModel.SelectFileCommand}"
+                            Content="Select File"
+                            RequestedTheme="Light" />
+                        <Button
+                            Command="{x:Bind ViewModel.GenerateAndSendCommand}"
+                            Content="Generate SAS Token and Send Email"
+                            RequestedTheme="Light" />
+                    </StackPanel>
+
+                </StackPanel>
+                <StackPanel
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <Image
+                        Width="24"
+                        Height="24"
+                        Source="{dllimg:ImageLoader ImageName=LogoApp.png}" />
+                    <TextBlock x:Uid="AppName" Style="{ThemeResource NavigationViewItemHeaderTextStyle}" />
+
+                </StackPanel>
+
+            </Grid>
+        </ContentPresenter>
     </Grid>
+
 </Window>

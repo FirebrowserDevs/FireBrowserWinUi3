@@ -45,7 +45,7 @@
                     Spacing="8">
                     <AppBarButton
                         VerticalAlignment="Center"
-                      Click="AppBarButton_Click"
+                        Click="AppBarButton_Click"
                         Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
                         Icon="OtherUser"
                         Label="Add User" />
@@ -63,6 +63,13 @@
                         Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
                         Icon="Calendar"
                         Label="Backup" />
+                    <AppBarButton
+                        Width="Auto"
+                        VerticalAlignment="Center"
+                        Command="{x:Bind ViewModel.AdminCenterCommand}"
+                        Foreground="{ThemeResource AccentAAFillColorSecondaryBrush}"
+                        Icon="Admin"
+                        Label="Admin" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
                     <AppBarButton

@@ -306,6 +306,43 @@ public class Windowing
         return winSize;
     }
 
+    static public Task DialogWindow(Window window)
+    {
+        try
+        {
+            IntPtr hWnd = WindowNative.GetWindowHandle(window);
+            WindowId windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
+            var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+
+            if (appWindow != null)
+            {
+                // Remove default title bar
+                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                appWindow.TitleBar.ButtonForegroundColor = Colors.White;
+                appWindow.TitleBar.ButtonInactiveForegroundColor = Colors.Gray;
+
+                // Set window size
+                var size = new SizeInt32(700, 500);
+                appWindow.Resize(size);
+
+                // Remove default window chrome
+                var presenter = appWindow.Presenter as OverlappedPresenter;
+                if (presenter != null)
+                {
+                    presenter.IsResizable = false;
+                    presenter.SetBorderAndTitleBar(true, false);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            return Task.FromException(ex);
+        }
+
+        return Task.CompletedTask;
+    }
     static public AppWindow GetAppWindow(Window window)
     {
         IntPtr hWnd = WindowNative.GetWindowHandle(window);

@@ -23,7 +23,8 @@ namespace FireBrowserWinUi3
         public Window ParentWindow { get; set; }
         public UIElement ParentGrid { get; set; }
 
-        private Func<bool> _IsCoreFolder = () => {
+        private Func<bool> _IsCoreFolder = () =>
+        {
             // Your condition here
             string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string backupDirectory = Path.Combine(documentsFolder);
@@ -39,16 +40,27 @@ namespace FireBrowserWinUi3
             return false;
         };
 
-        public bool IsCoreFolder { get {  return _IsCoreFolder(); } }   
-        
+        public bool IsCoreFolder { get { return _IsCoreFolder(); } }
+
 
         private ICommand _exitWindow;
         public ICommand ExitWindow => _exitWindow ??= new RelayCommand(() =>
         {
             AppService.IsAppGoingToClose = true;
             ParentWindow?.Close();
-           
+
         });
+
+        [RelayCommand]
+        private void AdminCenter()
+        {
+
+            var win = new UpLoadBackup();
+            win.AppWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
+            Windowing.DialogWindow(win);
+            win.Activate();
+
+        }
 
         [RelayCommand]
         private void OpenWindowsWeather()
@@ -67,9 +79,9 @@ namespace FireBrowserWinUi3
             BackUpDialog dlg = new BackUpDialog();
             dlg.XamlRoot = ParentGrid?.XamlRoot;
             await dlg.ShowAsync();
-            
+
         }
-        
+
         [RelayCommand(CanExecute = nameof(IsCoreFolder))]
         private async Task RestoreCore()
         {
